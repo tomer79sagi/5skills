@@ -1,0 +1,190 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+<% content_for :title do %>
+	Job seeker
+<% end %>
+
+<div style="width:1024px;margin:0px auto;height:1000px;border-bottom:1px solid #DCDCDC;">
+		
+	<!-- Header information -->
+	
+	<div style="height:1000px;border-left:1px solid #DCDCDC;width:800px;float:left;">
+		
+		<div style="width:800px;height:410px;border-bottom:2px solid #DCDCDC;">
+			
+			<div style="width:800px;height:300px;">
+			
+				<div style="opacity:1;margin:0;padding:0;height:300px;width:800px;">
+					<div id="background" style="position:absolute;z-index:-1;background-size: 800px auto;background-position: 0px -150px;background-repeat: no-repeat;margin-left:10px;opacity:1;margin:0;padding:0;height:300px;width:800px;background-image: url(../images/customers/wix/1.jpg);"></div>	
+					<div style="padding:7px 0px 0px 10px;float:left;">
+						<image src="../images/logos/WixLogowhite.jpg" style="width:auto;height:50px;border:1px solid #DCDCDC;">
+					</div>
+					<div style="float:left;padding:7px 0px 0px 5px;">
+						<span style="font-size:16px;color:white;font-weight:bold;">Wix</span>
+						<br/>
+						<span style="font-size:12px;font-style:italic;color:white;">Tel Aviv</span>
+					</div>
+				</div>
+			
+			</div>
+			
+			<div style="width:800px;height:110px;background-color:white;">
+				
+				<div style="width:770px;height:50px;margin-left:15px;">
+					
+					<div style="width:775px;padding-top:10px;height:40px;">
+						<div style="width:645px;float:left;height:40px;">
+							<div style="font-weight:bold;font-size:30px;">Leading Client Developer</div>
+						</div>
+						<div style="width:120px;float:left;padding-top:2px;text-align:right;">
+							<span style="font-style:italic;color:gray;">Published:</span>
+							<span style="font-size:12px;color:black;">2 days ago</span>
+						</div>
+					</div>
+					
+				</div>
+				
+				<div style="margin-top:10px;padding:0px 5px 0px 15px;width:785px;height:50px;font-size:14px;">
+					Wix is looking for a brilliant, experienced client developer for a leading position in a cutting edge web & mobile development team and in a challenging and creative environment.
+				</div>
+				
+			</div>
+		
+		</div>
+		
+		<div style="width:800;">
+		
+			<%= render :partial => '/js/html_template/_messages' %>
+			
+			<!-- 5skills profile and selection -->
+			
+			<div style="margin-top:20px;">
+				
+				<% if @sorted_skills && @match_info.nil? %>
+				
+					<div id="_add_skills" class="" style="width:250px;float:left;display:none;">
+						
+						<%= render :partial => '/js/html_template/__fs_profile/_fs_profile_choose_skills' %>
+						
+					</div>
+				
+				<% end %>
+				
+				<div style="width:300px;float:left;margin-left:10px;">
+					
+					<%= render :partial => '/js/html_template/__fs_profile/_fs_profile' %>
+					
+				</div>
+				
+				<div style="width:170px;margin-top:83px;padding-left:60px;text-align:right;float:left;">
+					
+					<% if @job_application %>
+					
+						<div style="border:1px solid #00923D;padding-top:10px;margin-left:180px;background-color:#39B54A;width:210px;height:70px;text-align:center;">
+							<span style="font-weight:bold;font-size:30px;color:white;">Applied!</span>
+							<br/>
+							<span style="font-style:italic;color:white;"><%= format_time(@job_application.updated_at, FsBaseController::TIME_FORMAT_TYPES[:time_ago]) %></span>
+						</div>
+					
+					<% else %>
+					
+						<button id="btn_check_match" style="background-color:green;width:170px;height:70px;">
+							<span style="font-weight:bold;font-size:30px;color:white;">Apply</span>
+							<br/>
+							<span style="font-style:italic;color:white;">NOW!</span>
+						</button>
+					
+					<% end %>
+					
+				</div>
+			</div>
+			
+		</div>
+				
+	</div>
+	
+	
+	<!-- Company and job information -->
+	
+	<div style="width:220px;height:1000px;background-color:#F0FFF0;float:left;border-left:1px solid #DCDCDC;border-right:1px solid #DCDCDC;">
+		<div style="padding:15px 0px 0px 15px;height:130px;">
+			<div style="font-size:12px;font-style:italic;color:gray;">
+				Recruiter
+			</div>
+			<div id="img_recruiter" style="float:left;width:77px;padding-top:5px;">
+				<image src="../images/profile_photos/Tomer_linkedin_image.jpg" style="width:75px;border:1px solid #DCDCDC;">
+			</div>
+			<div style="float:left;width:100px;padding-left:10px;">
+				<div id="full_name" style="font-size:16px;padding-top:5px;">
+					Tomer
+					<br/>
+					Sagi
+				</div>
+				<div style="padding-top:5px;font-size:12px;color:gray;font-style:italic;">
+					Recruiter (5skills)
+				</div>
+			</div>
+		</div>
+		<div style="padding:5px 0px 0px 15px;height:300px;overflow-y:hidden;">
+			<div style="font-size:12px;font-style:italic;color:gray;">
+				Company
+			</div>
+			<div style="height:250px;width:180px;padding-left:10px;">
+				<div style="padding-top:5px;">
+					<div style="color:black;">
+						Name:
+					</div>
+					<div id="full_name" style="color:gray;font-size:14px;padding-left:5px;">
+						Wix
+					</div>
+				</div>
+				<div style="padding-top:5px;">
+					<div style="color:black;">
+						Url:
+					</div>
+					<div id="full_name" style="color:gray;font-size:14px;padding-left:5px;">
+						http://www.wix.com/
+					</div>
+				</div>
+				<div style="padding-top:5px;">
+					<div style="color:black;">
+						Size:
+					</div>
+					<div id="full_name" style="color:gray;font-size:14px;padding-left:5px;">
+						400 employees
+					</div>
+				</div>
+				<div style="padding-top:5px;">
+					<div style="color:black;">
+						Office locations:
+					</div>
+					<div id="full_name" style="color:gray;font-size:14px;padding-left:5px;">
+						Tel Aviv
+						<br/>
+						New York
+						<br/>
+						San Fransisco
+						<br/>
+						Dnepropetrovsk
+					</div>
+				</div>
+				<div style="padding-top:5px;">
+					<div style="color:black;">
+						Address:
+					</div>
+					<div id="full_name" style="color:gray;font-size:14px;padding-left:5px;">
+						Tel Aviv Port 40
+						<br/>
+						Tel Aviv
+						<br/>
+						Israel
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</div>
+	
+</div>

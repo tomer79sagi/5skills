@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  
+  <title><%= yield :head %></title>
+
+	  
+  <%= render :partial => '/layouts/layout__core' %>
+  
+  <%= render :partial => '/layouts/layout__3rd_party_components' %>
+
+  <%= render :partial => '/layouts/layout__framework' %>
+  
+  
+  <%= render :partial => '/layouts/job_seeker/layout_ajs__framework' %>
+  
+  <%= render :partial => '/layouts/job_seeker/layout_ajs__apply__in_product_guide' %>
+  
+  <%= render :partial => '/layouts/job_seeker/layout_ajs__on_load' %>
+  
+    
+</head>
+
+<body style="background-color:#E5F9EE;">
+
+	<%= render :partial => '/fs_job_seeker/a_job_seeker_site_header' %>
+			
+	<%= yield %>
+	
+	<%= render :partial => '/five_skills/footer' %>
+
+</body>
+</html>
+
+
+<%= render :partial => '/layouts/job_seeker/layout_ajs__footer' %>

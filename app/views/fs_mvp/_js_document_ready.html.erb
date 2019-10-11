@@ -1,0 +1,17 @@
+$('#field_3-email').focus();
+
+$('#field_3-email').bind('keypress', function(e){
+   if ( e.keyCode == 13 ) {
+     $('#btn_sign_up').click();
+   } else {
+   	$('#field_3-email').addClass("input_3_text_entered");
+	$('#field_3-email').removeClass("input_3");
+	skills[2]['dirty'] = true;
+   }
+ });
+ 
+$(function() {
+   $('a[rel=tipsy]').tipsy({fade: true, gravity: 'w'});
+ });
+ 
+display_page_errors();

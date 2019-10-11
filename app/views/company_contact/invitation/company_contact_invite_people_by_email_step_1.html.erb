@@ -1,0 +1,34 @@
+<% content_for :head do %>
+  <title>FLYC: PHP Developer</title>
+<% end %>
+
+<% content_for :title do %>
+	<span class="content-title">Invite Agents
+<% end %>
+
+<% content_for :entity_actions do %>
+	
+<% end %>	
+
+<% content_for :filters do %>
+	
+<% end %>
+
+<% content_for :bread_crumbs do %>
+
+	<div style="width:100%;padding:0em 0em 0em 0em;float:right;text-align:left;">
+		<span class="content-title" style="font-size:12px;font-weight:normal;">Invitations</span>
+		>
+	</div>
+	
+<% end %>
+
+<% content_for :summary do %>
+
+	
+	
+<% end %>
+
+<%= render :partial => '/main/messages', :locals => {:action => "general"} %>
+
+<%= render :partial => 'company_contact/invitation/company_contact_invite_people_by_email_details_step_1' %>

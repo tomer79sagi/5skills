@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  
+  <title><%= yield :head %></title>
+  
+  <%= stylesheet_link_tag 'mvp-1' %>
+  
+  <%= javascript_include_tag 'jquery-1.7.2.min', 'jquery-ui/jquery-ui-1.8.20.custom.min' %>
+  
+  <%= render :partial => '/js/framework/_google_analytics' %>
+
+  <%= render :partial => '/five_skills/js' %>
+  <%= render :partial => '/fs_ui/list_utilities' %>
+
+  <%= render :partial => '/fs_job_seeker/_js' %>
+  <%= render :partial => '/fs_job_seeker/_js_seek_seekers_ajax_functions' %>
+  <%= render :partial => '/fs_job_seeker/_js_seek_seekers' %>
+  
+	  <script type="text/javascript">
+	$(document).ready(function() {
+		
+		<%= render :partial => '/five_skills/_site_header_js_binders' %>
+		<%= render :partial => '/fs_job_seeker/_find_talent_js_binders' %>
+		
+	});
+  </script>
+    
+</head>
+<body>
+	
+	<%= render :partial => '/five_skills/_site_header' %>
+	<%= render :partial => '/five_skills/messages' %>
+
+	<%= yield %>
+	
+</body>
+</html>

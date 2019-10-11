@@ -1,0 +1,196 @@
+<div style="width:100%;float:left;min-height:80px;padding:1em 0em 0em 0em;">
+	
+	<!-- Job Application Details -->
+	<table style="width:750px;text-align:left;border-collapse:collapse;margin:0em 0em 1em 0em;">
+		<tr style="vertical-align:top;">
+			<td class="template_cell_title_content" 
+					style="text-align:center;width:78px;padding:0em .5em 0em 1em;">
+				<div style="background-color:#cef5c2;padding:.7em 0em .7em 0em;margin:0em 0em 0em .5em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<%= link_to 'Email addresses', invite_company_contact_agents_by_email_step_1_url %>
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:95px;padding:0em 1em 0em .5em;">
+				<div style="background-color:#ceecc2;padding:.7em 0em .7em 0em;margin:0em 0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<b>Search agencies / agents</b>
+				</div>
+			</td>
+			<td class="template_cell_title_content" style="text-align:center;width:148px;padding:0em .5em 0em .5em;">
+			</td>
+		</tr>
+	</table>
+	
+		<!-- ******************* -->
+		<!-- HEADER 			 -->
+		<!-- ******************* -->
+		
+		<table style="width:100%;border-collapse:collapse;">
+			<tr>
+				<td colspan="4" style="background-color:#cef5c2;width:500px;text-align:left;padding:0em 0em 0em 1em;margin:0px 0px 20px 0px;">
+					<%= link_to 'Step 1: Search for agents', invite_company_contact_agents_by_search_step_1_agents_url %>
+					&nbsp;|&nbsp;
+					<b>Step 2: Confirm invitations</b>
+				</td>
+				<td colspan="5" style="background-color:#cef5c2;width:250px;text-align:right;padding:0em 0em 0em 1em;margin:0px 0px 20px 0px;">
+					<button onClick="document.location.href='<%= invite_company_contact_agents_by_search_step_1_agents_url %>'";><< Go back</button>
+					&nbsp;<button onClick="document.location.href='<%= company_contact_view_home_url %>'";>Send invitations</button>
+					&nbsp;<button>Cancel</button>
+				</td>
+			</tr>
+			
+				<tr>
+					<td colspan="9" style="background-color:#cef5c2;border-top:1px solid black;">
+				  		&nbsp;
+					</td>
+				</tr>
+				<tr>
+					<td colspan="9" style="background-color:#cef5c2;text-align:left;padding:0em 0em 1em 0em;">
+				  		Please make sure you'd like to invite the following agents to link up with you!<br/>
+						You can remove a few agents from this list or return to the previous screen to add new ones.
+					</td>
+				</tr>
+				
+				<tr>
+		
+					<td colspan="9" style="background-color:#cef5c2;width:800px;text-align:left;border:1px solid #cef5c2;padding:0em 0em 0em 1em;margin:0px 0px 0px 0px;">
+				
+						<!-- ******************* -->
+						<!-- HEADER 			 -->
+						<!-- ******************* -->
+						
+						<table style="width:100%;border-collapse:collapse;">
+							<tr style="vertical-align:top;">
+								
+									<td style="width:20px;text-align:center;font-size:18px;">
+										&nbsp;
+									</td>
+												
+									<td class="template_cell_title_content" style="width:200px;vertical-align:middle;">
+										<b>Name</b>
+									</td>
+									<td class="template_cell_title_content" style="width:110px;vertical-align:middle;">
+										<b>Agency</b>
+									</td>
+									<td class="template_cell_title_content" style="width:90px;vertical-align:middle;">
+										<b>Mobile No.</b>
+									</td>
+									<td class="template_cell_closing_date_content" style="width:170px;">
+										<b>Email</b>
+									</td>
+									<td class="template_cell_closing_date_content" style="width:170px;">
+										<b>Status</b>
+									</td>
+								
+							</tr>
+				
+					<!-- ******************* -->
+					<!-- Role 1 			 -->
+					<!-- ******************* -->
+					
+							<tr style="vertical-align:top;">
+								
+								<td style="padding:.1em 0em 0em 0em;width:20px;text-align:center;font-size:18px;min-height:25px;">
+									<b>1</b>
+								</td>	
+								<td class="template_cell_title_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:200px;font-size:12px;line-height:24px;vertical-align:top;">
+									<%= link_to 'Dana Jame<b>son</b>', view_company_contact_agent_url %>
+								</td>
+								<td class="template_cell_title_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:110px;">
+									920
+								</td>
+								<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:90px;">
+									021 777-4411
+								</td>
+								<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+									dana.jameson@920.co.nz
+								</td>
+								<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+									On Flyc
+								</td>
+								<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:100px;">
+									<u>Remove</u>
+								</td>
+								
+							</tr>
+					
+					<!-- ******************* -->
+					<!-- Role 2 			 -->
+					<!-- ******************* -->
+					
+							<tr style="vertical-align:top;">
+								
+								<td style="padding:.1em 0em 0em 0em;width:20px;text-align:center;font-size:18px;min-height:25px;">
+									<b>2</b>
+								</td>
+								<td class="template_cell_title_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:200px;font-size:12px;line-height:24px;vertical-align:top;">
+									<b>Son</b>ny Black
+								</td>
+								<td class="template_cell_title_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:110px;">
+									920
+								</td>
+								<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:90px;">
+									021 777-4411
+								</td>
+								<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+									sonny.black@920.co.nz
+								</td>
+								<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+									Not on Flyc (yet)
+								</td>
+								<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:100px;">
+									<u>Remove</u>
+								</td>
+								
+							</tr>
+					
+					<!-- ******************* -->
+					<!-- Role 3				 -->
+					<!-- ******************* -->
+					
+							<tr style="vertical-align:top;">
+								
+								<td style="padding:.1em 0em 0em 0em;width:20px;text-align:center;font-size:18px;min-height:25px;">
+									<b>3</b>
+								</td>	
+								<td class="template_cell_title_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:200px;font-size:12px;line-height:24px;vertical-align:top;">
+									Black <b>Son</b>ner
+								</td>
+								<td class="template_cell_title_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:110px;">
+									Hudson
+								</td>
+								<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:90px;">
+									021 777-4411
+								</td>
+								<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+									black.sonner@hudson.co.nz
+								</td>
+								<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+									Not on Flyc (yet)
+								</td>
+								<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:100px;">
+									<u>Remove</u>
+								</td>
+								
+							</tr>
+							
+						</table>
+		
+					</td>
+				</tr>
+				
+				<tr>
+					<td colspan="9" style="background-color:#cef5c2;border-bottom:1px solid black;">
+				  		&nbsp;
+					</td>
+				</tr>
+				<tr>
+					<td colspan="9" style="background-color:#cef5c2;width:800px;text-align:right;border:1px solid #cef5c2;padding:0em 0em 0em 1em;margin:0px 0px 20px 0px;">
+				  		<button onClick="document.location.href='<%= invite_company_contact_agents_by_search_step_1_agents_url %>'";><< Go back</button>
+						&nbsp;<button onClick="document.location.href='<%= company_contact_view_home_url %>'";>Send invitations</button>
+						&nbsp;<button>Cancel</button>
+					</td>
+				</tr>
+				
+			</table>
+	
+</div>

@@ -1,0 +1,12 @@
+<% content_for :head do %>
+	5skills.me
+<% end %>
+
+<% content_for :title do %>
+	<img src="/images/animal_icons/sml/Hippopotamus_32x32.png" alt="" />
+	<%= link_to 'Job seeker - ' + session[:person].id.to_s, admin_tags_demo_url %>
+<% end %>
+
+
+
+<%= render :partial => '/five_skills/fs_profile' %>

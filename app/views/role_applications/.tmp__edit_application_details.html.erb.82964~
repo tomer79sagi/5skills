@@ -1,0 +1,165 @@
+<div style="width:750px;float:left;min-height:80px;padding:1em 0em 0em 0em;">
+	
+	<!-- Job Application Details -->
+	<table style="width:100%;text-align:left;border-collapse:collapse;">
+		<tr style="vertical-align:top;">
+			<td class="template_cell_title_content" style="text-align:center;width:148;padding:0em .5em 0em 1em;">
+				<div style="background-color:#dfefff;padding:.7em 0em .7em 0em;margin:0em 0em 0em .5em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<b>Job</b>
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em .5em 0em .5em;">
+				<div style="background-color:#e1e1e1;padding:.7em 0em .7em 0em;margin:0em 0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					Agency
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em 1em 0em .5em;">
+				<div style="background-color:#e1e1e1;padding:.7em 0em .7em 0em;margin:0em 0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					Company
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em .5em 0em .5em;">
+			</td>
+			<td class="template_cell_title_content" style="text-align:center;width:148;padding:0em 1em 0em .5em;">
+				<div style="background-color:#e1e1e1;padding:.7em 0em .7em 0em;margin:0em .0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<% if @is_new %>
+						Notes	
+					<% else %>
+						Notes (<%= @application_summary.notes_total %>)					
+					<% end %>
+				</div>
+			</td>
+		</tr>
+	</table>
+	
+	  <div style="background-color:#dfefff;width:100%;text-align:left;border:1px solid #dfefff;padding:1em 0em 0em 1em;margin:-1px 0px 20px 0px;">
+	  
+	  	<div style="padding:0em 1em .5em 0em;margin:0em 1em 0em 0em;text-align:right;border-bottom:1px gray solid;">
+			<%= submit_tag 'Save & View', :name => "update" %>
+			<%= submit_tag 'Save & Close', :name => "update_close" %>
+			<%= submit_tag 'Cancel', :name => "cancel" %>
+		</div>
+		
+		<table style="width:100%;margin:0px 10px 0px 0px;">
+			<tr id="row 1">
+				<td style="padding:1em 0em 0em 0em;vertical-align:top;width:100px;text-align:right;"><b>Title:</b></td>
+				<td style="padding:1em 0em 0em 0em;">
+					<%= text_field 'role', 'title' %>
+					<%= error_message_on "role", "title", {:prepend_text => "Title ", :css_class => "error_message_field"} %>
+				</td>		
+				<td style="padding:1em 0em 0em 0em;vertical-align:top;text-align:right;"><b>Status:</b></td>
+				<td style="padding:1em 0em 0em 0em;">
+					<%= select :role_application, :status_id, Role.application_statuses_for_select, {}, {"size" => "1", "style" => "width:217px;"} %>	
+					<%= error_message_on "role_application", "status_id", {:prepend_text => "Status ", :css_class => "error_message_field"} %>
+				</td>		
+			</tr>
+			<tr id="row 2">
+				<td style="vertical-align:top;text-align:right;">Location:</td>
+				<td style="vertical-align:top;">
+					<%= select :role, :location_id, Role.locations_for_select, {}, {"size" => "1", "style" => "width:217px;"} %>
+					<%= error_message_on "role", "location_id", {:prepend_text => "Location ", :css_class => "error_message_field"} %>
+				</td>
+				<td style="vertical-align:top;text-align:right;"><b>Type:</b></td>
+				<td>
+					<%= select :role, :type_id, Role.types_for_select, {}, {"size" => "1", "style" => "width:217px;"} %>	
+					<%= error_message_on "role", "type_id", {:prepend_text => "Type ", :css_class => "error_message_field"} %>
+				</td>
+			</tr>		
+			<tr>
+				<td colspan="4" style="vertical-align:top;text-align:right;">
+				&nbsp;
+				</td>
+			</tr>						
+			<tr>
+				<td style="vertical-align:top;text-align:right;">Salary:</td>
+				<td>
+					$<%= text_field 'role', 'salary_min', :style => "width:85px;" %>
+					->
+					$<%= text_field 'role', 'salary_max', :style => "width:84px;" %>
+					
+					<%= error_message_on "role", "salary_min", {:prepend_text => "Minimum Salary ", :css_class => "error_message_field"} %>
+					<%= error_message_on "role", "salary_max", {:prepend_text => "Maximum Salary ", :css_class => "error_message_field"} %>
+				</td>
+				<td style="vertical-align:top;text-align:right;">Salary Type:</td>
+				<td style="vertical-align:top;">
+					<%= select :role, :salary_frequency_id, Role.salary_types_for_select, {}, {"size" => "1", "style" => "width:217px;"} %>
+					<%= error_message_on "role", "salary_frequency_id", {:prepend_text => "Salary Type ", :css_class => "error_message_field"} %>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4" style="vertical-align:top;text-align:right;">
+				&nbsp;
+				</td>
+			</tr>
+			<tr>
+				<td style="vertical-align:top;text-align:right;">Duration:</td>
+				<td>
+					<%= text_field 'role', 'duration', :style => "width:92px;" %>
+					<%= select :role, :duration_type_id, Role.durations_for_select, {}, {"size" => "1", "style" => "width:116px;"} %>	
+					<%= error_message_on "role", "duration", {:prepend_text => "Duration ", :css_class => "error_message_field"} %>
+					<%= error_message_on "role", "duration_type_id", {:prepend_text => "Duration Type ", :css_class => "error_message_field"} %>
+				</td>
+				<td style="vertical-align:top;text-align:right;">Source:</td>
+				<td style="vertical-align:top;">
+					<%= select :role, :source_id, Role.sources_for_select(session[:user].id), {}, {"size" => "1", "style" => "width:125px;"} %>	
+					<%= error_message_on "role", "source_id", {:prepend_text => "Source ", :css_class => "error_message_field"} %>
+					
+					<%= text_field 'custom_type', 'select_value', :style => "width:125px;" %>
+					<%= error_message_on "custom_type", "select_value", {:prepend_text => "Other Source ", :css_class => "error_message_field"} %>
+				</td>
+			</tr>
+			<tr>
+				<td style="vertical-align:top;text-align:right;">Start Date:</td>
+				<td>
+					<% @role_start_date = "" %>
+					<% @role_start_date = @role.start_date.strftime('%B %d, %Y') if @role.start_date %>
+					
+					<%= calendar_date_select_tag "role[start_date]", nil, 
+						:popup => :force, :month_year => 'label', 
+						:year_range => 1.years.ago..0.years.ago,
+						:value => @role_start_date, :style => "width:92px;" %>
+				</td>
+				<td style="vertical-align:top;text-align:right;">Reference:</td>
+				<td>
+					<%= text_field 'role', 'reference', :style => "width:125px;" %>
+				</td>
+			</tr>
+			<tr>
+				<td style="vertical-align:top;text-align:right;">Closing Date:</td>
+				<td style="vertical-align:top;">
+					<% @role_close_date = "" %>
+					<% @role_close_date = @role.close_date.strftime('%B %d, %Y') if @role.close_date %>
+					
+					<%= calendar_date_select_tag "role[close_date]", nil, 
+						:popup => :force, :month_year => 'label', 
+						:year_range => 1.years.ago..0.years.ago,
+						:value => @role_close_date, :style => "width:92px;" %>
+				</td>
+				<td style="vertical-align:top;text-align:right;">External Link:</td>
+				<td>
+					<%= text_field 'role', 'external_link', :style => "width:255px;" %>
+					<%= error_message_on "role", "external_link", {:prepend_text => "External Link ", :css_class => "error_message_field"} %>
+				</td>
+			</tr>
+			<tr>
+				
+				<td colspan="4">&nbsp;</td>
+			</tr>		
+			<tr id="description">
+				<td style="vertical-align:top;text-align:right;">Description:</td>
+				<td colspan="3" style="padding:0em 0em 1em 0em;">
+					<%= fckeditor_textarea( "role", "description", {:toolbarSet => 'Jobby_Default', :width => '580', :height => '500'} ) %>
+				</td>
+			</tr>			
+		</table>
+		
+		<div style="padding:.5em 1em 1em 0em;margin:0em 1em 0em 0em;text-align:right;border-top:1px gray solid;">
+			<%= submit_tag 'Save & View', :name => "update" %>
+			<%= submit_tag 'Save & Close', :name => "update_close" %>
+			<%= submit_tag 'Cancel', :name => "cancel" %>
+		</div>
+	</div>
+</div>

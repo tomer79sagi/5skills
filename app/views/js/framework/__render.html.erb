@@ -1,0 +1,115 @@
+<script type="text/javascript">
+
+// --- GET TEMPLATE
+//
+// This function clones an HTML template and makes it available for use by the workspace.
+// [To be implemented] In case the template doesn't exist, this function will retrieve the HTML Template from the server'
+// If that failes, an error is displayed
+//
+function get_template(template_name) {
+	var template = $("#templates div[id='" + template_name + "']");
+	var instance = null;
+	
+	
+	// -- 1. Create the template instance by cloning
+	
+	if (template) {
+		instance = template.clone();
+	} else {
+		// Try and retrieve the template from the server
+	}
+	
+	// -- 2. Add the 'template_id' attribute to the new instance
+	instance.attr("template_id", template_name);
+		
+		
+	// -- 3. Search for all other templates on the page based on the 'template_id' attribute
+
+	var inst_num = 1;
+	
+	// Increment the inst_num by the number of instances that exist on the page
+	$("div[template_id='" + template_name + "']").each(function() { inst_num++; });
+	
+	
+	// -- 4. Set the name of the new instance to hold a consecutive number
+	
+	// Change the counter for the templates & the forms inside
+	instance.attr("instance_number", inst_num);
+	instance.find("form").each(function() {
+		
+		// -- Set the instance number
+		$(this).attr("instance_number", inst_num);
+		
+		// -- Set the 'valid' flag to false, i.e. requires validation
+		$(this).attr("valid", "false");
+	});
+		
+	return instance;
+}
+
+// -- 
+//
+// - '_vhook_realtime' = true/false flag for indicating a recurring sync 
+//
+function render(template_name, parent_css_selector, _vhook, _vhook_realtime) {
+
+	var template_inst = get_template(template_name);
+	var parent = $(parent_css_selector);
+	
+	console.log("__rendering:  template: '" + template_name + "' | parent: '" + parent_css_selector + "' | _vhook: '" + _vhook + "'");
+	
+	if (template_inst && parent) {
+		
+		// Clear the panel first
+		parent.empty();
+		
+		// Replace the panel
+		template_inst.appendTo(parent_css_selector).fadeIn("slow");
+		
+		
+		// If none exists, add a 'vhook' to the instance
+		// ---!!! The following is a PULL request
+		// ---	  Using the 30sec timer, I'll implement a semi-PUSH mechanism -> refresh current data
+		if (_vhook) {
+			
+			if (!_vhook_realtime) { _vhook_realtime = false; } // Set the default
+			
+			template_inst.attr("_template", template_name);
+			template_inst.attr("_vhook", _vhook);
+			template_inst.attr("_vhook__updated_at", null);
+			template_inst.attr("_vhook__realtime", _vhook_realtime);
+			
+			// Add the _vhook to the array
+			// Will be refreshed at the end of the 'switch_to' call (which includes multiple 'render' calls)
+			if (_vhooks.indexOf(_vhook) == -1) { _vhooks.push(_vhook); }
+			
+			// Add a _vhook_realtime '_vhook' if the template requested is a realtime one
+			if (_vhook_realtime && _vhooks_realtime.indexOf(_vhook) == -1) { _vhooks_realtime.push(_vhook); }			
+			
+		}
+		
+	} else {
+		console.log('rendering issue - template / ' + parent_css_selector + ' ; parent_css_selector / ' + parent_css_selector + ' !');
+		return null;
+	}
+}
+
+function _loading(template_name, template_inst) {
+	var event_func_name = '__SYNC_LOADING__' + template_name;
+	if (eval("typeof " + event_func_name) === 'function') {
+		eval(event_func_name)(template_inst);
+	} else {
+		// console.log("'" + event_func_name + "' is not a function!");
+	}
+}
+
+function _ready(template_name, template_inst) {
+	var event_func_name = '__SYNC_READY__' + template_name;
+	if (eval("typeof " + event_func_name) === 'function') {
+		eval(event_func_name)(template_inst);
+	} else {
+		// console.log("'" + event_func_name + "' is not a function!");
+	}
+}
+
+</script>

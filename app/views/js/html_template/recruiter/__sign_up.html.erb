@@ -1,0 +1,52 @@
+<div id="template__recruiter__sign_up" style="width:550px;padding:15px;display:none;">
+	
+	<div style="font-size:30px;">
+		Get <span style="font-style:italic;color:green;font-size:30px;">more</span> job offers.
+	</div>
+	
+	<div style="padding-top:10px;height:30px;padding-top:10px;font-size:14px;">
+		Sign-up TODAY and start getting job offers that are based on what YOU are looking for.
+	</div>
+		
+	<% form_tag({:action => :fajax_job_seeker_sign_up, :controller => :fs_job_seeker}, :remote => true, :multipart => true, :target => 'upload_frame') do  %>
+		
+		<div style="height:70px;padding-top:20px;">
+			<div style="width:50px;height:50px;background-color:#F8F8FF;border:1px solid #DCDCDC;float:left;text-align:center;font-size:30px;padding-top:15px;">
+				1
+			</div>
+			<div id="file" style="float:left;padding-left:10px;">
+				<div style="font-size:14px;color:gray;padding-top:5px;font-weight:bold;">
+					Your email.
+				</div>
+				<div style="padding-top:10px;">
+					<%= text_field 'upload_cv', 'fs2_file' %>
+				</div>
+			</div>
+		</div>
+		
+		<div id="personal_details" style="height:70px;padding-top:15px;">
+			<div style="width:50px;height:50px;background-color:#F8F8FF;border:1px solid #DCDCDC;float:left;text-align:center;font-size:30px;padding-top:15px;">
+				2
+			</div>
+			<div style="float:left;padding-left:15px;">
+				<div style="font-size:14px;color:gray;padding-top:5px;font-weight:bold;">
+					Your password.
+				</div>
+				<div style="padding-top:10px;">
+					<%= text_field 'upload_cv', 'fs2_file' %>
+				</div>
+			</div>
+		</div>
+		
+		<div style="margin-left:125px;margin-top:40px;height:50px;">
+			<button class="btn__sign_up__cancel" style="background-color:red;width:200px;height:50px;float:left;">
+				<span style="font-weight:bold;font-size:20px;color:white;">Cancel</span>
+			</button>
+			<button class="btn__sign_up__sign_up" submit_form_id="frm_send_application" style="margin-left:15px;background-color:green;width:200px;height:50px;float:left;">
+				<span style="font-weight:bold;font-size:20px;color:white;">Sign up >></span>
+			</button>
+		</div>
+		
+	<% end %>
+	
+</div>

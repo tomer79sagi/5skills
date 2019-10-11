@@ -1,0 +1,60 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head profile="http://www.w3.org/2005/10/profile">
+	
+  <link rel="icon" type="image/png" href="http://<%= request.env["HTTP_HOST"].to_s %>/images/mvp/5_only.png">
+	
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  
+  <title>5skills.me - my job to job seeker match-maker using ONLY 5 SKILLS</title>
+  <meta name="Description" content="Finding a job or candidate is like finding love. 5skills.me is your personal job to job seeker match-maker. You create your profile by choosing only 5 skills and instantly get matched with perfect jobs or job seekers.">
+  <meta name="Keywords" content="דרושים, לוח דרושים, מודעות דרושים, חיפוש עבודה, עבודה, הצעות עבודה, משרות,jobs,skills,candidates,job boards,recruitment,vacancies,israel">
+  
+  <%= stylesheet_link_tag 'jquery-ui/jquery-ui-1.8.20.custom' %>
+  <%= stylesheet_link_tag 'mvp/styles', :media => "screen, projection" %>
+  <%= stylesheet_link_tag 'tipsy/tipsy.css', :media => "screen, projection" %>
+  
+  <script src="http://connect.facebook.net/en_US/all.js"></script>
+  
+  <%= javascript_include_tag 'jquery-1.7.2.min', 'jquery-ui/jquery-ui-1.8.20.custom.min', 'application' %>
+  <%= javascript_include_tag 'tipsy/jquery.tipsy' %>
+  
+  <%= render :partial => '/five_skills/js' %>
+  <%= render :partial => '/fs_mvp/js' %>
+  <%= render :partial => '/fs_mvp/js_ajax_functions' %>
+  
+  <script type="text/javascript">
+	$(document).ready(function() {
+		<%= render :partial => '/fs_mvp/js_document_ready' %>
+  		<%= render :partial => '/five_skills/js_document_ready' %>
+	});
+  </script>
+  
+	<script type="text/javascript">
+	
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-34900030-1']);
+	  _gaq.push(['_trackPageview']);
+	
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	
+	</script>  
+  
+</head>
+<body style="background-color:#e8ebf0;">
+	
+<div id="fb-root"></div>
+<script>
+	FB.init({appId: '156127131075698', xfbml: true, cookie: true});
+</script>
+
+<%= yield %>
+
+</body>
+</html>

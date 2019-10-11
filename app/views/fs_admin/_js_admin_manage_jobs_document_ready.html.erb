@@ -1,0 +1,7 @@
+$(".adm_new_entity").bind('click', function(e) {
+	doRedirect('admin/template/new');
+});
+
+$(".adm_entity_title").bind('click', function(e) {
+	doRedirect("admin/job/" + $(this).parent().find("[id=entity_id]>span").html() + "/edit");
+});	

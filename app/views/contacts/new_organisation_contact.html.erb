@@ -1,0 +1,31 @@
+<% content_for :head do %>
+  <title>FLYC: <%= @organisation_summary.organisation_name %> | Agency Details</title>
+<% end %>
+
+<% content_for :title do %>
+	<span class="content-title"><%= session[:organisation_type_name] %> Contact</span>
+	<span class="content-title"> |</span>
+	<span class="content-title" style="font-size:18px;font-weight:normal;">New</span>
+<% end %>
+
+<% content_for :bread_crumbs do %>
+
+	<div style="width:100%;padding:0em 0em .5em 0em;float:right;text-align:left;">
+		<span class="content-title" style="font-size:12px;font-weight:normal;">My <%= session[:organisation_type_name_plural] %></span>
+		>
+		<span class="content-title" style="font-size:12px;font-weight:normal;">'<%= truncate(@organisation_summary.organisation_name, :options => {nil, 9}) %>'</span>
+		>
+		<span class="content-title" style="font-size:12px;font-weight:normal;">Contacts</span>
+		>
+		<span class="content-title" style="font-size:12px;font-weight:bold;">New Contact</span>
+	</div>
+	
+<% end %>
+
+<%= render :partial => '/organisations/organisation_summary' %>
+
+<%= render :partial => '/main/messages', :locals => {:action => "general"} %>
+
+<% form_tag({:action => :save_organisation_contact, :contact_id => @contact.id}) do %>
+	<%= render :partial => 'new_organisation_contact_details' %>	   
+<% end %>

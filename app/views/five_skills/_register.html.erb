@@ -1,0 +1,88 @@
+<% form_tag :action => :do_register, :controller => :fs_login do %>
+	
+	<div class="homepage_title_2" style="height:25px;">
+		Register
+	</div>
+	
+	<div class="content-body" style="padding:5px 0px 5px 0px;">
+		
+		<%= render :partial => '/five_skills/messages', :locals => {:action => "register"} %>
+		
+		<div id="user_type" style="padding-bottom:1em;">
+			<input type="radio" id="radio1" name="radio" <%= "checked='checked'" if is_job_seeker_selected %> />
+			<label for="radio1" onclick="toggle_register_as(this);">Job Seeker</label>
+			&nbsp;
+			<input type="radio" id="radio2" name="radio" <%= "checked='checked'" if is_recruitment_agent_selected %> />
+			<label for="radio2" onclick="toggle_register_as(this);">Recruitment Agent</label>
+			&nbsp;
+			<input type="radio" id="radio3" name="radio" <%= "checked='checked'" if is_hiring_manager_selected %> />
+			<label for="radio3" onclick="toggle_register_as(this);">Hiring Manager</label>
+			<input type="hidden" id="user_type-id" name="user_type[type_id]" value="<%= @user_type_id %>"/>
+		</div>
+	  
+	  	<table>
+	  		<tr>
+	  			<td style="vertical-align:top;">
+	  				<table style="border-collapse:collapse;">				
+						<tr>
+							<td>Full Name:</td>
+							<td> 
+								<%= text_field 'person', 'full_name' %>
+								<%= error_message_on "person", "full_name", {:prepend_text => "First Name ", :css_class => "error_message_field"}%>
+							</td>
+						</tr>
+						<tr>
+							<td>Email:</td>
+							<td>
+								<%= text_field 'user', 'email' %>
+								<%= error_message_on "user", "email", {:prepend_text => "Email ", :css_class => "error_message_field"} %>
+							</td>
+						</tr>
+						<tr>
+							<td style="vertical-align:top;">Password:</td>
+							<td>
+								<%= password_field 'user', 'password', :size => 30 %>
+								<%= error_message_on "user", "password", {:prepend_text => "Password ", :css_class => "error_message_field"} %>
+								<br/>
+								<!-- <span style="font-size:10px;font-weight:bold;">Password must contain at least:<br/>(1) 6 characters<br/>(2) 1 upper case letter<br/>(3) 1 lower case letter<br/>(4) 1 digit</span> -->
+							</td>
+						</tr>
+						<tr id="company_field" <%= "style='display:none;'" if !is_hiring_manager_selected %> >
+							<td style="">Company:</td>
+							<td style="">
+								<input type="text" id="search_company-name" name="search_company-name" style="width:210px;">
+								<%= error_message_on "organisation", "name", {:prepend_text => "Company ", :css_class => "error_message_field"} %>
+								<input type="hidden" id="search_company-id"/>
+							</td>
+						</tr>
+						<tr id="agency_field" <%= "style='display:none;'" if !is_recruitment_agent_selected %> >
+							<td style="">Agency:</td>
+							<td style="">
+								<input type="text" id="search_agency-name" name="search_agency-name" style="width:210px;">
+								<%= error_message_on "organisation", "name", {:prepend_text => "Agency ", :css_class => "error_message_field"} %>
+								<input type="hidden" id="search_agency-id"/>
+							</td>
+						</tr>
+						<tr id="organisation_role_field" <%= "style='display:none;'" if is_job_seeker_selected %> >
+							<td style="">Role:</td>
+							<td style="">
+								<%= text_field 'contact', 'organisation_role' %>
+								<%= error_message_on "contact", "organisation_role", {:prepend_text => "Role ", :css_class => "error_message_field"} %>
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td style="text-align:right;padding-top:20px;">
+								<%= submit_tag 'Register', :style => "width:130px;height:50px;" %>
+							</td>
+						</tr>
+				  	</table>
+	  			</td>
+				<td id="company_logo" style="display:none;vertical-align:top;"></td>
+				<td id="agency_logo" style="display:none;vertical-align:top;"></td>
+	  		</tr>
+		</table>
+		
+	</div>
+
+<% end %>

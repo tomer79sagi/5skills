@@ -1,0 +1,166 @@
+<script type="text/javascript">
+
+
+// ------------ Start up action ------------
+
+function _REQ_first_time_access(data) {
+	// $.nmData($("#templates div[id='template__first_time_access']").clone().show().wrap('<p/>').parent().html(), {modal: true});
+	
+	$.prompt(tourStates);
+	
+	bind__apply_to_job_post();
+}
+
+
+// ------------ Apply to job post ------------
+
+function _REQ_apply_to_job_post(data){
+	
+	var json_arr = _session_ids;
+	
+	//alert(json_arr);
+	
+	// var json_arr = {};
+	// json_arr.job_id = $("#job").attr("job_id");
+	
+	json_arr.skills_profile = extract_skills_from_flat_profile();
+	
+	if (!json_arr.skills_profile) {
+		// var prev_bgc = $("#fld_fs_profile").css("background-color");
+		$("#fld_fs_profile").animate({"background-color": "red"}, 5000);
+		add_error_message('Your 5skills profile must have at least 1 skill entered. Please select some skills! :-)');
+		return;
+	}
+	
+	$.nmData("<div style='text-align:center;padding:30px;'><span style='font-style:italic;color:green;font-size:30px;'>Matching!</span><br/><br/>Please wait...</div>", {modal: true, sizes: {minW: 300, minH: 200}});
+	
+	return {action: "ajax/job_post/" + $('#job').attr('job_id') + "/apply", data: json_arr};
+
+}
+
+function _RES_apply_to_job_post(data, status_i){
+	// alert(data.above_threshold);
+	var modal_w;
+	
+	
+	// --- X. set the 'session_user_id' value in the client (overcoming the 'session-less' issue on the live server)
+	
+	$("#session_ids input[name='active_user']").attr("value", data.session_ids.active_user);
+	$("#session_ids input[name='user_id']").attr("value", data.session_ids.user_id);
+	$("#session_ids input[name='job_seeker_id']").attr("value", data.session_ids.job_seeker_id);
+	$("#session_ids input[name='job_seeker__fs_profile_id']").attr("value", data.session_ids.fs_profiles_ids.job_seeker);
+	$("#session_ids input[name='job__fs_profile_id']").attr("value", data.session_ids.fs_profiles_ids.job);
+	
+	// alert($("#session_ids input[name='active_user']").attr("value"));
+	// alert($("#session_ids input[name='user_id']").attr("value"));
+	// alert($("#session_ids input[name='job_seeker_id']").attr("value"));
+	// alert($("#session_ids input[name='job_seeker__fs_profile_id']").attr("value"));
+	// alert($("#session_ids input[name='job__fs_profile_id']").attr("value"));
+	
+	
+	if (data.above_threshold) {
+		modal_html = $("#templates div[id='template__job_post_apply__match']").clone();
+		modal_html.attr("id", "modal__apply__match");
+		modal_html.find("#frm_send_application").attr("id", "frm_send_application_o");
+		modal_html.show().wrap('<p/>').parent().html();
+		
+		$.nmData(modal_html, {modal: true});
+		
+		bind__apply_to_job_post("submit__send_application");
+		bind__apply_to_job_post("click__match_cancel");
+	} else {
+		$.nmData($("#templates div[id='template__job_post_apply__no_match']").clone().show().wrap('<p/>').parent().html(), {modal: true});
+		
+		bind__apply_to_job_post("click__sign_up");
+		bind__apply_to_job_post("click__no_match_cancel");
+	}
+}
+
+function _RES_ERR_apply_to_job_post(data, status_i){
+	$.nmData("Error");
+}
+
+
+// ------------ Send application ------------
+
+function _REQ_send_application(data){
+
+	
+	// --- 1. Disable buttons
+	
+	$(".btn__send_application").attr("disabled", "disabled");
+	$(".btn__match_cancel").attr("disabled", "disabled");
+	
+	$(".btn__send_application").css("background-color", "gray");
+	$(".btn__match_cancel").css("background-color", "gray");
+	
+	$(".btn__send_application").attr("value", "Sending...");
+}
+
+function _RES_send_application(data, status_i){
+	$.nmData($("#templates div[id='template__job_post_apply__other_opportunities']").clone().show().wrap('<p/>').parent().html(), {modal: true});
+				
+	bind__apply_to_job_post("click__other_opportunities__not_interested");
+	bind__apply_to_job_post("click__other_opportunities");
+	
+	
+	$("#session_ids input[name='user_id']").attr("value", data.session_ids.user_id);
+	$("#session_ids input[name='job_seeker_id']").attr("value", data.session_ids.job_seeker_id);
+	
+	// alert($("#session_ids input[name='user_id']").attr("value"));
+	// alert($("#session_ids input[name='job_seeker_id']").attr("value"));
+}
+
+function _RES_ERR_send_application(data, status_i){
+	
+	$(".btn__send_application").css("background-color", "green");
+	$(".btn__match_cancel").css("background-color", "red");
+	
+	$(".btn__send_application").attr("value", "Send application >>");
+	
+	$(".btn__send_application").removeAttr("disabled");
+	$(".btn__match_cancel").removeAttr("disabled");
+}
+
+
+// ------------ More jobs ------------
+
+function _REQ_applied_successfully__more_jobs(data){
+
+	var json_arr = {};
+	
+	json_arr.active_user = $("#session_ids input[name='active_user']").attr("value");
+	json_arr.user_id = $("#session_ids input[name='user_id']").attr("value");
+	json_arr.job_seeker_id = $("#session_ids input[name='job_seeker_id']").attr("value");
+	json_arr.job_seeker__fs_profile_id = $("#session_ids input[name='job_seeker__fs_profile_id']").attr("value");
+	json_arr.job__fs_profile_id = $("#session_ids input[name='job__fs_profile_id']").attr("value");
+	
+	$(".btn__other_opportunities__not_interested").attr("disabled", "disabled");
+	$(".btn__other_opportunities").attr("disabled", "disabled");
+	
+	$(".btn__other_opportunities__not_interested").css("background-color", "gray");
+	$(".btn__other_opportunities").css("background-color", "gray");
+
+	$(".btn__other_opportunities").css("font-weight", "bold");
+	$(".btn__other_opportunities").css("color", "white");
+	$(".btn__other_opportunities").css("font-size", "20px");
+	$(".btn__other_opportunities").html("Please wait...");
+	
+	return {action: "ajax/job_seeker/i_want_more_jobs", data: json_arr};
+	
+}
+
+function _RES_applied_successfully__more_jobs(data, status_i){
+	modal_html = $("#templates div[id='template__sign_up__success_beta']").clone();
+	modal_html.attr("id", "modal__sign_up__success_beta");
+	modal_html.show().wrap('<p/>').parent().html();
+	
+	$.nmData(modal_html, {modal: true});
+}
+
+function _RES_ERR_applied_successfully__more_jobs(data, status_i){
+	
+	alert('error');
+}
+
+</script>

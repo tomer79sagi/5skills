@@ -1,0 +1,275 @@
+<script type="text/javascript">
+
+function bind_fields(context_name) {
+	bind_unbind(context_name, true);
+}
+
+function unbind_fields(context_name) {
+	bind_unbind(context_name, false);
+}
+
+// ---
+// 'bind_flag' == true -> BIND
+// 'bind_flag' == false -> UNBIND
+//
+function bind_unbind(context_name, bind_flag) {
+	
+	// 1 - Find the element
+	var field_obj;
+	var events = ['click', 'mouseover', 'mouseout', 'submit'];
+	var event_func_name;
+	
+	for (var component in map_context_events[context_name]) {
+		
+		// Find the HTML field based on the css selector
+		
+		field_obj = $(map_context_events[context_name][component]);
+		if (field_obj) {
+			for (var i = 0 ; i < events.length ; ++i) {
+				event_func_name = component + '__' + events[i].toUpperCase() + '__';
+			
+				// Check if the 'event' / 'function' exists, if so, bind the event
+				if (eval("typeof " + event_func_name) === 'function') {
+					
+					// In case we're BINDING, bind the event
+					if (bind_flag) {
+						field_obj.bind(events[i], { event_func_name: event_func_name }, function(e) {
+							return eval(e.data.event_func_name)(e, this);
+						});
+					
+					// In case we're UNBINDING, perform the 'unbind'
+					} else {
+						field_obj.unbind(events[i]);
+					}
+					// console.log("'" + event_func_name + "' is a function!");
+				} else {
+					// console.log("'" + event_func_name + "' is not a function!");
+				}
+			}			
+		}
+	}
+}
+
+function bind_field_text(field_name, ajax_action, field_source, flags) {
+	bind_field($("#" + field_name), ajax_action, field_source, flags);
+}
+
+
+// -- This function is the core function for AUTOCOMPLETE
+// 
+// Binding the field to an AJAX call
+//
+function bind_field(field_jq_obj, ajax_action, field_source, flags) {
+	
+	// For capturing the 'TAB' key
+	field_jq_obj.bind( "keydown", function( event ) {
+		
+		if (event.keyCode != '9') { g_cache.is_input_blurred = true; }
+		
+		var a = $(this).parents("[orig_value]").attr("orig_value");
+		
+		if (event.keyCode == '9' && event.shiftKey) {
+    		event.preventDefault();
+			
+			if ( a != $(this).attr("value") ) {
+				$(this).attr("value", a);
+			}
+			
+			hop_to_previous_element($(this));
+    	} else if (event.keyCode == '9' && $(this).attr("value") != "") {
+			event.preventDefault();
+			
+			if ( a != $(this).attr("value") ) {
+				$(this).attr("value", a);
+			}
+			
+			hop_to_next_element($(this));
+		}
+	});
+	
+	field_jq_obj.bind( "keyup", function( event ) {
+		
+		// g_cache.is_input_blurred = true;
+		
+		if ( event.keyCode === $.ui.keyCode.TAB && $( this ).data( "autocomplete" ).menu.active ) {
+			console.log('__tab && menu.active');
+			event.preventDefault();
+		}
+		
+		if (flags && flags.autocomplete == "false" && ajax_action != "") {
+			g_timeout = setTimeout(ajax_it_delayed, 500, ajax_action, $(this).attr("value"));
+		}	
+		
+		if ( event.which == 13) {
+			if ( flags && flags.onenter ) {
+				eval(flags.onenter + "()");
+			} else {
+				var li_obj = $(this).parents("[orig_value]");
+				
+				if (li_obj.attr("orig_value") == $(this).attr("value")) {
+					hop_to_next_element($(this));
+				}
+				// alert(li_obj.attr("orig_value") + ' ; ' + $(this).attr("value"));
+			}
+		}
+		
+		if (flags && flags.onkeyup) {
+			eval("_EVENT_" + flags.onkeyup + "(event, $(this))");
+		}
+
+	});
+	
+	field_jq_obj.bind('blur', function(event) {
+		console.log('blur captured ; ' + g_cache.is_input_blurred + ' ; ' + flags.onblur + ' ; ' + $(this).attr("value"));
+		
+		// if (g_cache.is_input_blurred) {
+			// g_cache.is_input_blurred = false;
+		// } else {
+			// g_cache.is_input_blurred = true;
+			// if (flags && flags.onblur) { eval("_EVENT_" + flags.onblur + "(event, $(this))"); }
+		// }
+		
+		if (g_cache.is_input_blurred) {
+			g_cache.is_input_blurred = false;
+		// }
+		} else {
+			if (flags && flags.onblur) { eval("_EVENT_" + flags.onblur + "(event, $(this))"); }
+		}
+	});
+
+		
+	if (flags && flags.autocomplete == "true") {
+		
+		field_jq_obj.autocomplete({
+			minLength: 1,
+			open: function (event, ui) {
+				console.log('open');
+				
+				$('body').css('overflow', 'hidden');
+			},
+			close: function(event, ui) {
+				console.log('close');
+				
+				('body').css('overflow', 'auto');
+				
+				if (!ui.item && !g_cache.is_input_blurred && flags && flags.onblur) { eval("_EVENT_" + flags.onblur + "(event, $(this))"); }
+				
+				if (g_cache.is_input_blurred) { g_cache.is_input_blurred = false; }
+
+			},
+			change: function(event, ui) {
+				
+				console.log('change: ' + g_cache.is_input_blurred);
+				
+				if (!ui.item) { return; }
+				// if (!ui.item && !g_cache.is_input_blurred && flags && flags.onblur) { eval("_EVENT_" + flags.onblur + "(event, $(this))"); }
+				
+				if (g_cache.is_input_blurred) { g_cache.is_input_blurred = false; }
+
+			},
+			source: function( request, response ) {
+				
+				console.log('source');
+				
+				if (flags && flags.remote == false) {
+					console.log('false remote');		
+					// delegate back to autocomplete, but extract the last term
+					response( $.ui.autocomplete.filter( field_source, extractLast( request.term ) ) );
+				} else {
+					console.log('remote');
+					// Store the 'response' function in the global variable. Don't know how to capture this function and pass it to the 'RES' functions
+					g_ajax_obj_cache = {};
+					g_ajax_obj_cache.response = response;
+					
+					if (flags && flags.onsearch) { ajax_it(flags.onsearch, {request: request}); }
+				}
+			},
+			focus: function( event, ui ) {
+				console.log('focus');
+				// prevent value inserted on focus
+				$( "#" + flags.id_field ).val( ui.item.value );
+				
+				return false;
+			},
+			select: function( event, ui ) {
+				// if (flags && flags.entity_id) { g_ajax_obj_cache.entity_id = flags.entity_id; }
+				// g_ajax_obj_cache.selected_item_id = ui.item.id;
+
+				console.log('select');
+				
+				var terms = split( this.value );
+				
+				var data_h = {
+					field_o: $(this),
+					selected_item_id: ui.item.id, 
+					selected_item_name: ui.item.value
+				};
+				
+				if (flags && flags.data && flags.data.is_blank) { 
+					console.log('___is_blank');
+					data_h.is_blank = flags.data.is_blank
+				}
+					
+				if (flags && flags.entity_id) { 
+					console.log('___is_entity_id');
+					data_h.entity_id = flags.entity_id
+				}
+				
+				
+				// --- 'onselect'
+				
+				if (flags && flags.onselect) {
+					ajax_it(flags.onselect, data_h);
+				}
+				
+				
+				if (flags && flags.screen_to_json_flds_map) { 
+					console.log('___update_screen...');
+					update_screen_from_json(ui.item, flags.screen_to_json_flds_map);
+				}
+				
+				// remove the current input
+				terms.pop();
+				// add the selected item
+				terms.push( ui.item.value );
+				
+				// Change the 'HTML' element that holds the selected_id
+				if (flags && flags.id_field) {
+					console.log('___id_field'); 
+					$( "#" + flags.id_field ).val( ui.item.id ); }
+				
+				// add placeholder to get the comma-and-space at the end
+				if (flags && flags.comma_suffix && flags.comma_suffix == true) { terms.push( "" ); }
+				
+				this.value = terms.join( ", " );
+				
+				convert_input_to_primary_skill($(this));				
+				
+				// Finally, run the search
+				if (ajax_action != "") { ajax_it(ajax_action, data_h); }
+				
+				return false;
+			}
+			
+		}).data( "autocomplete" )._renderItem = function( ul, item ) {
+			if (flags && flags.include_image && flags.include_image == true) {
+				return $( "<li></li>" )
+					.data( "item.autocomplete", item )
+					.append( "<a style='width:250px;'>" +  
+						'<img style="vertical-align:middle;" src="' + g_server_url + 'file/' + item.file_id + '/show" ' + 
+						'width="' + item.width + '" ' + 
+						'height="' + item.height + '">&nbsp;' + item.value  + "</a>" )
+					.appendTo( ul );
+			} else {
+				// console.log('xxx: ' + field_jq_obj.attr("value"));
+				return $( "<li></li>" )
+					.data( "item.autocomplete", item )
+					.append( "<a>" + item.value  + "</a>" )
+					.appendTo( ul );
+			}
+		}
+		;
+	}
+}
+
+</script>

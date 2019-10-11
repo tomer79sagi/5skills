@@ -1,0 +1,18 @@
+  <!--[form:agency]-->
+
+<table>
+	<tr>
+		<td>
+			<h4>Agency Contact Details</h4>
+			<%= render :partial => '/main/contact_details_agency' %>							
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<h4>Agent Contact Details</h4>
+			<%= render :partial => '/main/contact_details_agent' %>
+		</td>
+	</tr>
+</table>
+	  
+  <!--[eoform:agency]-->

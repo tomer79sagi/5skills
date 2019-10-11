@@ -1,0 +1,57 @@
+Workspace / initialization
+--------------------------
+
+1. http://5skills.me/recruiter/home
+
+
+2. fs_controller -> recruiter_home()
+
+
+3. 'MVP2_recruiter_home.html' / __recruiter_home_layout
+ 
+ 
+4. __recruiter_home_layout
+ CSS
+  * ui_layout, jquery_ui
+  * mvp-2, mvp-fs_profile, mvp-fs_profile_choose_skills, mvp-workspace, mvp-social_posting
+ Javascript
+  * jquery, jquery-ui, ui_layout
+ Components
+  * Google analytics / '/five_skills/_site_js_analytics'
+  * nyroModal / css + javascript
+ Ajax
+  * framework, lookup, fs_profile, fs_results_job_seekers, social_posting
+ Utilities
+  * workspace, fs_profile, fs_profile_add_skills, fs_results_job_seekers
+  + 'workspace'
+   - 'bind_field' -> main field binder (for autocomplete functionality)
+   - 'bind_field_text'
+   - 'switch_main_content' -> dynamic switching of main content area
+   - 'var popupBlockerChecker' -> define the attribute for checking if pop-up is disabled in the current browser
+   - 'split()' -> splits a string with 'commas' into an array
+   - 'extractLast()' -> extract the last element from an array
+   - 'limit_string()' -> limit the string to a certain number of characters
+ Binder
+  * workspace, fs_profile, fs_profile_add_skills
+  
+  
+5. documet.ready ->  /js/onload/...
+ workspace
+  + render 'workspace_layout'
+   * '$('body').layout' -> setting up the animated panel layout (dimensions, behaviour etc)
+  + display 'notice' and 'error' messages
+  + bind workspace elements -> 'bind__workspace();'
+ fs_profile
+  + bind fs_profile elements -> 'bind__fs_profile();'
+  + setup the fs_profile sortable component -> '$( ".skills_profile_top_5" ).sortable'
+ fs_profile_add_skills
+  + bind elements -> 'bind__fs_profile_add_skills();'
+ framework
+  + $.ajaxSetup -> set request header for json requests
+  + bind__fs_profile(); -> if defined in the
+  + [work in progress] ':workspace_start_point' -> switch the main content area according to a pre-defined state / 'switch_main_content(2);'
+  + [work in progress] Register dirty components -> register_dirty_comp(1, 1); / related to the timer functionality
+  + Setup the changing background image -> 'function loadimg(){'
+  
+  
+6. Workspace - render -> '/js/html_template/_workspace'

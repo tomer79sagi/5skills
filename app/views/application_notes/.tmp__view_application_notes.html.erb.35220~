@@ -1,0 +1,105 @@
+<div style="width:750px;float:left;min-height:80px;padding:1em 0em 0em 0em;">
+
+	<!-- Job Application Details -->
+	<table style="width:100%;text-align:left;border-collapse:collapse;">
+	
+		<tr style="vertical-align:top;">
+			<td class="template_cell_title_content" 
+					style="text-align:center;width:148;padding:0em .5em 0em 1em;">
+				<div style="background-color:#ceecc2;padding:.7em 0em .7em 0em;margin:0em 0em 0em .5em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<%= link_to 'Job', view_application_url(:application_id => @application_id) %>
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em .5em 0em .5em;">
+				<div style="background-color:#ceecc2;padding:.7em 0em .7em 0em;margin:0em 0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<%= link_to 'Agency', view_application_agency_url(:application_id => @application_id) %>
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em 1em 0em .5em;">
+				<div style="background-color:#ceecc2;padding:.7em 0em .7em 0em;margin:0em 0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<%= link_to 'Company', view_application_company_url(:application_id => @application_id) %>
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em .5em 0em .5em;">
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em 1em 0em .5em;">
+					<div style="background-color:#cef5c2;padding:.7em 0em .7em 0em;margin:0em .0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+						<b>Notes (<%= @application_summary.notes_total %>)</b>
+					</div>
+			</td>
+		</tr>
+		
+	</table>
+	
+	  <div style="background-color:#cef5c2;width:100%;text-align:left;border:1px solid #cef5c2;padding:1em 1em 1em 1em;margin:-1px 0px 20px 0px;">
+	  
+		<div style="text-align:right;padding:0px 0px 0px 0px;font-size:14px;border-bottom:1px solid gray;">
+			<%= link_to 'New Note', new_application_note_url(:application_id => @application_summary.application_id), :class => "content_link" %>	
+		</div>
+		
+		<%= render :partial => 'header_3_notes' %>
+		
+	  	<!-- NOTES -->
+
+		<% if !@notes or @notes.blank? %>
+		
+			<div style="padding:2em 0em 2em 0em;">
+				No Notes found! Create a new one!
+			</div>
+			
+		<% else %>
+		
+			<% @notes.each do |note| %>
+		
+				<div style="clear:left;text-align:left;">
+				
+				<div class="top_padding_1">	
+				<table style="width:100%;">
+					<tr style="vertical-align:top;">
+						
+						<td style="padding:0em 0em 1em 0em;margin:0px 0px 0px 1px;">
+							<div style="width:100%;border:1px solid #ceffc2;float:left;min-height:80px;background-color:#ceffc2;">
+							
+								<!-- Job Application Details -->
+								<table style="width:100%;text-align:left;">
+									<tr style="vertical-align:top;">
+										
+										
+										<td class="template_cell_title_content" style="width:200px;font-size:14px;line-height:24px;vertical-align:top;">
+											<%= link_to note.description.gsub(/<\/?[^>]*>/,  ""), view_application_note_url(:note_id => note.note_id) %>
+										</td>
+										<td class="template_cell_last_updated_date_content" style="width:99px;text-align:left;">
+											<b><%= note.note_updated_at.to_datetime.strftime '%A' %></b><br/>
+											&nbsp;<%= note.note_updated_at.to_datetime.strftime '%d %b %y' %><br/>
+											&nbsp;&nbsp;<%= note.note_updated_at.to_datetime.strftime '%I:%M%p' %>
+										</td>
+										
+									</tr>
+								</table>
+							</div>
+						</td>	
+						
+					</tr>
+				</table>
+				</div>
+				
+				</div>
+		
+			<% end %>
+			
+		<% end %>
+		
+		<div style="text-align:right;padding:0px 0px 0px 0px;font-size:14px;border-top:1px solid gray;">
+			<%= link_to 'New Note', new_application_note_url(:application_id => @application_summary.application_id), :class => "content_link" %>	
+		</div>
+		
+	</div>
+	
+	<div style="width:750px;text-align:right;padding:0em 0em 1em 0em;">
+		<%= link_to 'Delete Job', delete_job_url(:application_id => @application_summary.application_id), :confirm => "Are you sure you want to delete job '#{@application_summary.role_title}'?", :class => "tab_link" %>
+	</div>
+</div>

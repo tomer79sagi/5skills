@@ -1,0 +1,247 @@
+
+<%= javascript_include_tag 'thenBy/thenBy.min' %>
+
+
+<script type="text/javascript">
+
+function _print_hash(hash, prefix) {
+	if (!prefix) { prefix = " "; }
+	
+	var attributes = {};
+	var collections = {};
+	
+	// -- 1 - Separate ATTRIBUTES from COLLECTIONS
+	for (var h in hash) {
+		 
+		if (hash[h] instanceof Object) {
+			collections[h] = hash[h];
+		} else {
+			attributes[h] = hash[h];
+		}
+	}
+	
+	// -- 2 - Print the ATTRIBUTES
+	if (attributes.id) { console.log(prefix + 'ID -> ' + attributes.id); } // First print the ID field
+	for (var a in attributes) {
+		if (a == 'id') { continue; } // Skip the 'ID'
+		console.log(prefix + a + ' -> ' + attributes[a]);
+	}
+	
+	// -- 3 - Print the COLLECTION
+	for (var c in collections) {
+		console.log(prefix + c + ' >>');
+		_print_hash(collections[c], prefix + " ");
+	}
+}
+
+function _init_action_timer(action_id) {
+	action_timer_map[action_id] = {
+		timer_obj: null, 
+		counter: 0
+	};
+}
+
+function _reset_action_timer(action_id) {
+	clearInterval(action_id);
+	action_timer_map[action_id] = null;
+}
+
+function _dirty(comp_id) {
+	dirty_comp_map[comp_id] = component_state["dirty"];
+
+	if (component_map[comp_id]) {
+		
+		// Output the 'dirty' component
+		console.log('.. dirty component: ' + comp_id + ' ; ' + component_map[comp_id].name);
+		
+		var action_id, run_at_start, run_now;;
+		
+		// 3. Run through all the 'actions' in the 'configuration'
+		for (var action_info in component_map[comp_id].dirty_actions) {
+
+			action_id = component_map[comp_id].dirty_actions[action_info].action_id;
+			run_at_start = component_map[comp_id].dirty_actions[action_info].run_at_start;
+			run_now = false;
+			
+			// Create the 'timer' running information for the dirty component
+			if (action_timer_map[action_id] == null) { _init_action_timer(action_id); }
+			if ((action_timer_map[action_id].counter == 0 && run_at_start == true) || action_timer_map[action_id].counter > 0) { run_now = true; }
+			
+			_tick(component_map[comp_id].dirty_actions[action_info].action_id, run_now);
+		}
+	}
+	
+	// Un 'dirty' the component
+	dirty_comp_map[comp_id] = component_state["clean"];
+}
+
+
+// ---- Function that checks if a particular 'component' (based on its 'id') is dirty (state == component_state["dirty"])
+//
+function is_dirty(component_id) {
+	if (!component_id) {
+		console.log("Error: no 'component_id' defined = '" + component_id + "'!");
+		return null;
+	}
+	
+	// alert('Dirty component check: Component "' + component_id + '" dirty state = ' + dirty_comp_map[component_id]);
+	
+	if (dirty_comp_map && dirty_comp_map[component_id] && dirty_comp_map[component_id] == component_state["dirty"]) {
+		alert('Component "' + component_id + '" is dirty');
+	}
+}
+
+
+
+function _tick(action_id, run_now) {
+	
+	var s_log = "";
+	var is_repeat = false;
+	
+	// Use the Array's 'slice' method to make all elements from the 'action' array, starting at index '1', into an Array
+	func_argu_arr = action_map[action_id].func.slice(1);
+	func = action_map[action_id].func[0];
+
+	if (run_now) {
+		
+		if (!action_timer_map[action_id]) {
+			console.log("... timer CLEARED.");
+			return;
+		}
+		
+		s_log += ".. exec NOW: '";
+		var f = (function(){ func.apply(null, func_argu_arr); });
+	    f();
+	    
+	    // increment the 'counter'
+	    action_timer_map[action_id].counter += 1;
+	    
+   } else {
+   		s_log += ".. exec LATER: '";
+   }
+   
+   
+   // IE Check, 'func.name' returned 'undefined' in IE, use custom function instead
+   if (func.name === undefined) {
+   		s_log += '[IE]' + className(func);
+   } else {
+   		s_log += func.name;
+   }
+   
+   s_log += "(" + func_argu_arr + ")'" + " | counter: " + action_timer_map[action_id].counter + " ; repeat: " + action_map[action_id].repeat;
+   
+   	// Reset the timer once it's done
+	if ((action_timer_map[action_id].counter == 1 && action_map[action_id].repeat == 0) || 
+		(action_map[action_id].repeat > 0 && action_timer_map[action_id].counter == action_map[action_id].repeat)) {
+			s_log += " --> STOP"
+			_reset_action_timer(action_id);
+	} else if (action_timer_map[action_id].counter <= action_map[action_id].repeat || action_map[action_id].repeat == -1) {
+    	s_log += " --> REPEAT in " + action_map[action_id].timer / 1000 + " seconds"
+    	is_repeat = true;
+    }
+    
+    console.log(s_log);
+    
+    // [repeat] set another timer to run the query shortly
+    if (is_repeat) {
+    	action_timer_map[action_id].timer_obj = setTimeout(_tick, action_map[action_id].timer, action_id, true);
+	}
+    
+}
+
+function className(object, defaultName) {
+    var result = "";
+    if (typeof object === 'function') {
+        result = object.name || object.toString().match(/^function\s?([^\s(]*)/)[1];
+    } else if (typeof object.constructor === 'function') {
+        result = className(object.constructor, defaultName);
+    }
+    return result || defaultName;
+}
+
+function register_dirty_comp(comp_id, status_id) {
+	dirty_comp_map[comp_id] = status_id;
+}
+
+function deregister_ditry_comp(comp_id) {
+	dirty_comp_map[comp_id] = null;
+}
+
+function clear_ditry_map() {
+	dirty_comp_map = {};
+}
+
+
+
+function split( val ) {
+	return val.split( /,\s*/ );
+}
+
+function extractLast( term ) {
+	return split( term ).pop();
+}
+
+function limit_string(text_string, num_chars, more_symb) {
+	if (!text_string || text_string == "") { return null; }
+	
+	if (more_symb == null) { more_symb = ".."; }
+	
+	if (num_chars < text_string.length) {
+		return text_string.substring(0, num_chars - more_symb.length) + more_symb;
+	} else {
+		return text_string;
+	}
+}
+
+function addCommas(nStr) {
+	nStr += '';
+	x = nStr.split('.');
+	x1 = x[0];
+	x2 = x.length > 1 ? '.' + x[1] : '';
+	var rgx = /(\d+)(\d{3})/;
+	while (rgx.test(x1)) {
+		x1 = x1.replace(rgx, '$1' + ',' + '$2');
+	}
+	return x1 + x2;
+}
+
+var popupBlockerChecker = {
+        check: function(popup_window){
+            var _scope = this;
+            if (popup_window) {
+                if(/chrome/.test(navigator.userAgent.toLowerCase())){
+                    setTimeout(function () {
+                        _scope._is_popup_blocked(_scope, popup_window);
+                     },200);
+                }else{
+                    popup_window.onload = function () {
+                        _scope._is_popup_blocked(_scope, popup_window);
+                    };
+                }
+            }else{
+                _scope._displayError();
+            }
+        },
+        _is_popup_blocked: function(scope, popup_window){
+            if ((popup_window.innerHeight > 0)==false){ scope._displayError(); }
+        },
+        _displayError: function(){
+            alert("Popup Blocker is enabled! Please add this site to your exception list.");
+        }
+    };
+    
+window.setTimeout = function(fRef, mDelay) {
+
+	// console.log('in setTimeout');
+	// if (_st) { console.log('in_clear: '); clearTimeout(g_timeout);  return;}
+	
+    if(typeof fRef == "function") {  
+        var argu = Array.prototype.slice.call(arguments,2); 
+        var f = (function(){ fRef.apply(null, argu); }); 
+        return _st(f, mDelay); 
+    } 
+    return _st(fRef,mDelay);
+    
+}
+
+</script>

@@ -1,0 +1,7 @@
+Retrieving controller and action name in Rails:
+--------
+
+<%= controller.action_name %>
+<%= controller.controller_name %>
+
+

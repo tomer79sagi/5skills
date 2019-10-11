@@ -1,0 +1,372 @@
+<% content_for :head do %>
+  <title>FLYC: My Agents</title>
+<% end %>
+
+<% content_for :title do %>
+	<span class="content-title">'Dana James'</span> (agent)&nbsp;
+	<span class="content-title">/ Candidates</span>
+<% end %>
+
+<% content_for :bread_crumbs do %>
+
+	<div style="width:100%;padding:0em 0em 0em 0em;float:right;text-align:left;">
+		<span class="content-title" style="font-size:12px;font-weight:normal;">Agents</span>
+		>
+	</div>
+	
+<% end %>
+
+<% content_for :summary do %>
+
+	<%= render :partial => 'company_contact/agent/company_contact_agent_summary' %>
+	
+<% end %>
+
+<%= render :partial => '/main/messages', :locals => {:action => "general"} %>
+
+<!-- Job Application Details -->
+
+<div style="width:100%;float:left;min-height:80px;padding:1em 0em 0em 0em;">
+
+	<table style="width:750px;text-align:left;border-collapse:collapse;">
+		<tr style="vertical-align:top;">
+			<td class="template_cell_title_content" 
+					style="text-align:center;width:148;padding:0em .5em 0em 1em;">
+				<div style="background-color:#ceecc2;padding:.7em 0em .7em 0em;margin:0em 0em 0em .5em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<%= link_to 'Details', view_company_contact_agent_url %>
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em .5em 0em .5em;">
+				<div style="background-color:#ceecc2;padding:.7em 0em .7em 0em;margin:0em 0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<%= link_to 'Roles', view_company_contact_agent_roles_url %>
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em 1em 0em .5em;">
+				<div style="background-color:#cef5c2;padding:.7em 0em .7em 0em;margin:0em 0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<b>Candidates</b>
+				</div>
+			</td>
+			<td class="template_cell_title_content" style="text-align:center;width:148;padding:0em .5em 0em .5em;">
+			</td>
+		</tr>
+	</table>
+	
+	<div style="background-color:#cef5c2;width:100%;text-align:left;border:1px solid #cef5c2;padding:1em 1em 1em 1em;margin:-1px 0px 20px 0px;">
+
+		<div style="text-align:left;padding:0px 0px 0px 0px;font-size:14px;font-weight:bold;border-bottom:1px solid gray;">
+			<span class="content_link"><i>New Role</i></span>
+			|
+			<span class="content_link"><i>New Candidate</i></span>
+			|
+			<span class="content_link"><i>New Agent</i></span>			
+		</div>
+	
+		<!-- ******************* -->
+		<!-- HEADER 			 -->
+		<!-- ******************* -->
+		
+			<table style="width:100%;border-collapse:collapse;">
+				<tr style="vertical-align:top;">
+					
+						<td style="width:30px;text-align:center;font-size:18px;float:left;">
+							&nbsp;
+						</td>
+									
+									<td class="template_cell_title_content" style="width:200px;vertical-align:middle;">
+										<b>Name</b>
+									</td>
+									<td class="template_cell_title_content" style="width:110px;vertical-align:middle;">
+										<b>Mobile No.</b>
+									</td>
+									<td class="template_cell_title_content" style="width:110px;vertical-align:middle;">
+										<b>Agency / Agent</b>
+									</td>
+									<td class="template_cell_closing_date_content" style="vertical-align:middle;">
+										<b>Last Comm. Date</b>
+									</td>
+									<td class="template_cell_closing_date_content">
+										<b>Last Comm. Subject</b>
+									</td>
+									<td class="template_cell_closing_date_content" style="vertical-align:middle;">
+										<b>Status</b>
+									</td>
+									<td class="template_cell_company_content" style="width:70px;">
+										<b>% Req.<br/>Match</b>
+									</td>
+									<td class="template_cell_company_content" style="width:70px;vertical-align:middle;">
+										<b>CV</b>
+									</td>
+						<td style="padding:1em 0em 0em 0em;width:150px;">
+							&nbsp;
+						</td>
+					</td>	
+					
+				</tr>
+				
+				<tr style="vertical-align:top;">
+					
+						<td style="width:30px;text-align:center;font-size:18px;float:left;">
+							&nbsp;
+						</td>
+									
+									<td class="template_cell_title_content" style="width:200px;vertical-align:middle;">
+										&nbsp;
+									</td>
+									<td class="template_cell_title_content" style="width:110px;vertical-align:middle;">
+										&nbsp;
+									</td>
+									<td class="template_cell_title_content" style="width:110px;vertical-align:middle;">
+										<select>
+											<option>- No Filter -</option>
+											<option>920 - Dana James</option>
+											<option>920 - Avi Biton</option>
+											<option>Hudson - Mike Jog</option>
+										</select>
+									</td>
+									<td class="template_cell_closing_date_content" style="vertical-align:middle;">
+										&nbsp;
+									</td>
+									<td class="template_cell_closing_date_content">
+										&nbsp;
+									</td>
+									<td class="template_cell_closing_date_content" style="vertical-align:middle;">
+										<select>
+											<option>- No Filter -</option>
+											<option>Application Sent</option>
+											<option>Interview Scheduled</option>
+											<option>Rejected</option>
+											<option>Pending Interview</option>
+										</select>
+									</td>
+									<td class="template_cell_company_content" style="width:70px;">
+										&nbsp;
+									</td>
+									<td class="template_cell_company_content" style="width:70px;vertical-align:middle;">
+										&nbsp;
+									</td>
+						<td style="padding:1em 0em 0em 0em;width:150px;">
+							&nbsp;
+						</td>
+					</td>	
+					
+				</tr>
+	
+		<!-- ******************* -->
+		<!-- Role 1 			 -->
+		<!-- ******************* -->
+		
+				<tr style="vertical-align:top;">
+					
+					<td style="padding:.1em 0em 0em 0em;width:30px;text-align:center;font-size:18px;float:left;min-height:45px;">
+						<b>1</b>
+					</td>		
+					<td class="template_cell_title_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:200px;font-size:20px;line-height:24px;vertical-align:top;">
+						Dana James
+					</td>
+					<td class="template_cell_title_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:110px;">
+						021 777-4411
+					</td>
+					<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+						920<br/>
+						Dana Ulner
+					</td>
+					<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+						18 August, 2011
+					</td>
+					<td class="template_cell_company_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+						<u>New Message</u><br/>
+						'Hello there...'
+					</td>
+					<td class="template_cell_closing_date_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;">
+						Rejected
+					</td>
+					<td class="template_cell_closing_date_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;">
+						82%
+					</td>
+					<td class="template_cell_closing_date_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;">
+						<u>Latest CV.doc</u>
+					</td>
+					<td style="padding:.1em 0em .1em 0em;width:100px;text-align:left;vertical-align:top;">
+						Messages (4)<br/>
+						Notes (5)
+					</td>
+					
+				</tr>
+		
+		<!-- ******************* -->
+		<!-- Role 2 			 -->
+		<!-- ******************* -->
+		
+				<tr style="vertical-align:top;">
+					
+					<td style="padding:.1em 0em 0em 0em;width:30px;text-align:center;font-size:18px;float:left;min-height:45px;">
+						<b>1</b>
+					</td>		
+					<td class="template_cell_title_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:200px;font-size:20px;line-height:24px;vertical-align:top;">
+						Avi Biton
+					</td>
+					<td class="template_cell_title_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:110px;">
+						021 777-4411
+					</td>
+					<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+						920<br/>
+						Dana Ulner
+					</td>
+					<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+						18 August, 2011
+					</td>
+					<td class="template_cell_company_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+						<u>New Message</u><br/>
+						'Hello there...'
+					</td>
+					<td class="template_cell_closing_date_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;">
+						Rejected
+					</td>
+					<td class="template_cell_closing_date_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;">
+						77%
+					</td>
+					<td class="template_cell_closing_date_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;">
+						<u>Latest CV.doc</u>
+					</td>
+					<td style="padding:.1em 0em .1em 0em;width:100px;text-align:left;vertical-align:top;">
+						Messages (4)<br/>
+						Notes (5)
+					</td>
+					
+				</tr>
+		
+		<!-- ******************* -->
+		<!-- Role 3				 -->
+		<!-- ******************* -->
+		
+				<tr style="vertical-align:top;">
+					
+					<td style="padding:.1em 0em 0em 0em;width:30px;text-align:center;font-size:18px;float:left;min-height:45px;">
+						<b>2</b>
+					</td>		
+					<td class="template_cell_title_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:200px;font-size:20px;line-height:24px;vertical-align:top;">
+						Mike Johnson
+					</td>
+					<td class="template_cell_title_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:110px;">
+						021 777-4411
+					</td>
+					<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+						920<br/>
+						Dana Ulner
+					</td>
+					<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+						18 August, 2011
+					</td>
+					<td class="template_cell_company_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+						<u>New Message</u><br/>
+						'Hello there...'
+					</td>
+					<td class="template_cell_closing_date_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;">
+						Rejected
+					</td>
+					<td class="template_cell_closing_date_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;">
+						66%
+					</td>
+					<td class="template_cell_closing_date_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;">
+						<u>Latest CV.doc</u>
+					</td>
+					<td style="padding:.1em 0em .1em 0em;width:100px;text-align:left;vertical-align:top;">
+						Messages (4)<br/>
+						Notes (5)
+					</td>
+					
+				</tr>
+		
+		<!-- ******************* -->
+		<!-- Role 4 			 -->
+		<!-- ******************* -->
+		
+				<tr style="vertical-align:top;">
+					
+					<td style="padding:.1em 0em 0em 0em;width:30px;text-align:center;font-size:18px;float:left;min-height:45px;">
+						<b>3</b>
+					</td>		
+					<td class="template_cell_title_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:200px;font-size:20px;line-height:24px;vertical-align:top;">
+						Jeff Hump
+					</td>
+					<td class="template_cell_title_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:110px;">
+						021 777-4411
+					</td>
+					<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+						920<br/>
+						Dana Ulner
+					</td>
+					<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+						18 August, 2011
+					</td>
+					<td class="template_cell_company_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+						<u>New Message</u><br/>
+						'Hello there...'
+					</td>
+					<td class="template_cell_closing_date_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;">
+						Rejected
+					</td>
+					<td class="template_cell_closing_date_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;">
+						55%
+					</td>
+					<td class="template_cell_closing_date_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;">
+						<u>Latest CV.doc</u>
+					</td>
+					<td style="padding:.1em 0em .1em 0em;width:100px;text-align:left;vertical-align:top;">
+						Messages (4)<br/>
+						Notes (5)
+					</td>
+					
+				</tr>
+		
+		<!-- ******************* -->
+		<!-- Role 5				 -->
+		<!-- ******************* -->
+		
+				<tr style="vertical-align:top;">
+					
+					<td style="padding:.1em 0em 0em 0em;width:30px;text-align:center;font-size:18px;float:left;min-height:45px;">
+						<b>4</b>
+					</td>		
+					<td class="template_cell_title_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:200px;font-size:20px;line-height:24px;vertical-align:top;">
+						Michael Jordan
+					</td>
+					<td class="template_cell_title_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:110px;">
+						021 777-4411
+					</td>
+					<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+						920<br/>
+						Dana Ulner
+					</td>
+					<td class="template_cell_agency_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+						18 August, 2011
+					</td>
+					<td class="template_cell_company_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+						<u>New Message</u><br/>
+						'Hello there...'
+					</td>
+					<td class="template_cell_closing_date_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;">
+						Rejected
+					</td>
+					<td class="template_cell_closing_date_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;">
+						44%
+					</td>
+					<td class="template_cell_closing_date_content" style="border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;">
+						<u>Latest CV.doc</u>
+					</td>
+					<td style="padding:.1em 0em .1em 0em;width:100px;text-align:left;vertical-align:top;">
+						Messages (4)<br/>
+						Notes (5)
+					</td>
+					
+				</tr>
+			</table>
+	
+	</div>
+	
+</div>
+
+<!-- APPLICATIONS -->
+

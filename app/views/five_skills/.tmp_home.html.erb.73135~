@@ -1,0 +1,9 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+<% content_for :title do %>
+	Home
+<% end %>
+
+Home!!!

@@ -1,0 +1,1234 @@
+<script type="text/javascript">
+
+var g_server_url = 'http://<%= request.env["HTTP_HOST"] %>/';
+var g_searched_text = ''; // temporary storage for the last 'searched_text'. Comparing the two decides if an ajax call should be made again
+var g_timeout; // object holding the 'window.setTimeOut' object. This allows for clearing the timer object if a new request interrupts the old request
+var g_cache = {}; // General cache to be used by the client
+var g_ajax_obj_cache = {}; // hold 'jquery timeout' response object to be able to use ajax calls with it
+var ajax_action_queue = new Array();
+var ajax_action_queue_data = null;
+var org_types = {
+	company: <%= Fs2Organisation::ORGANISATION_TYPES[:company] %>,
+	agency: <%= Fs2Organisation::ORGANISATION_TYPES[:agency] %>};
+	
+<% if @server_response %>
+	var server_response = <%= @server_response.to_s %>;
+<% else %>
+	var server_response = null;
+<% end %>
+
+<% if is_binders && params[:field_data] %>
+
+	var source_options = {
+		
+		<% i = 0 %>
+		<% params[:field_data].each do |field_data_key, field_data_value| %>
+			<%= "," if i > 0 %>
+			<%= field_data_key %>: [ <%= field_data_value %> ]
+			<% i+= 1 %>
+		<% end %>
+		
+		};
+		
+<% end %>
+
+function share_on_facebook() {
+	FB.ui(
+	  {
+	    method: 'feed',
+	    name: '5skills.me',
+	    link: 'http://www.5skills.me/',
+	    picture: 'http://fbrell.com/f8.jpg',
+	    caption: 'Finding your next job without your CV!',
+	    description: '5skills.me is a place where you can find your tailored job by describing only your top 5 skills. Give it a try!'
+	  },
+	  function(response) {
+	    if (response && response.post_id) {
+	      alert('Post was published.');
+	    } else {
+	      alert('Post was not published.');
+	    }
+	  }
+	);
+}
+      
+function fld_toggle(obj, new_state) {
+	eval('_FLD_' + $(obj).attr("id") + '(' + new_state + ')');
+}
+
+function help() {
+	var help_options_1 = { Next: 1, Close: false }
+	var help_options_2 = { Prev: -1, Next: 1, Close: false }
+	var help_options_3 = { Prev: -1, Close: false }
+	var help_options_4 = { Close: false }
+	
+	var tourSubmitFunc = function(e,v,m,f){
+				if(v === -1){
+					$.prompt.prevState();
+					return false;
+				}
+				else if(v === 1){
+					$.prompt.nextState();
+					return false;
+				}
+	},
+	tourStates = [
+		{
+			html: 'Welcome to jQuery Impromptu, lets take a quick tour of the plugin.',
+			buttons: help_options_4,
+			focus: 1,
+			position: { container: '#skill_1-name', x: 10, y: 45, width: 200, arrow: 'tc' },
+			submit: tourSubmitFunc
+		}
+	];
+	$.prompt(tourStates, { opacity: 0.3 });
+}
+
+// ************************************************************
+// The following is a method for running the 'timeout' function with multiple variables properly
+// ************************************************************
+var _st = window.setTimeout;
+ 
+window.setTimeout = function(fRef, mDelay) {
+
+	if (g_timeout) { clearTimeout(g_timeout);  }
+	
+    if(typeof fRef == "function") {  
+        var argu = Array.prototype.slice.call(arguments,2); 
+        var f = (function(){ fRef.apply(null, argu); }); 
+        return _st(f, mDelay); 
+    } 
+    return _st(fRef,mDelay);
+    
+}
+
+
+
+function field_keyup(obj, target_obj) {
+	if ($(obj).attr("value") != $(obj).attr("default_value")) {
+		$(obj).css("color", "black");
+		$(obj).css("font-style", "normal");
+		$(obj).attr("dirty", "true");		
+	}	
+}
+
+function field_blur(obj) {
+	if ($(obj).attr("value") == "") {
+		$(obj).css("color", "#8a8a8a");
+		$(obj).css("font-style", "italic");
+		$(obj).attr("value", $(obj).attr("default_value"));
+		$(obj).attr("dirty", "false");
+	}
+}
+
+function field_click(obj) {
+	if ($(obj).attr("dirty") && $(obj).attr("dirty") == "false") {
+		$(obj).css("color", "black");
+		$(obj).css("font-style", "normal");
+		$(obj).val("");
+	} else {
+		obj.select();
+	} 
+}
+
+
+function repeat_functions(invoke_hash) {
+	console.log('repeat_functions: ' + invoke_hash.repeatTimes + ' times every ' + invoke_hash.repeatInterval + ' ms.');
+	var argu = Array.prototype.slice.call(arguments,1);
+	var f = (function(){ invoke_hash.functionRef.apply(null, argu); }); 
+    
+    f();
+    
+    if (--invoke_hash.repeatTimes != 0) {
+	    setTimeout(repeat_functions, invoke_hash.repeatInterval, 
+	    	{functionRef: invoke_hash.functionRef, repeatTimes: invoke_hash.repeatTimes, repeatInterval: invoke_hash.repeatInterval}, 
+	    	argu);
+	}
+}
+
+// ************************************************************
+
+function ajax_it_delayed(ajax_action, value) {
+	if (value != g_searched_text) {
+		g_searched_text = value;
+		ajax_it(ajax_action);
+	}
+}
+
+
+function attach_common_field_binders(field_id) {
+	
+	// --- Bind all fields (if no 'field_id' is provided)
+	
+	if (!field_id) {
+		attach_field_binders("test");
+		
+		return;
+	}
+	
+	
+	// --- Bind the field
+	
+	switch (field_id) {
+		case "test":
+		
+			break;				
+	}
+			
+}
+
+function update_screen_from_json(data_hash, flds_map) {
+	for (var field in flds_map) {
+		var html_elm = flds_map[field][0];
+		var elm_data = data_hash[flds_map[field][1]];
+		
+		if (!elm_data || elm_data == "") {
+			elm_data = $("#" + field).attr("blank_value"); 
+		}
+		
+		if (html_elm == "><") {
+			$("#" + field).html(elm_data);
+		} else {
+			$("#" + field).attr(html_elm, elm_data);
+		}
+	}
+}
+
+function convert_div_label_to_select_field(field_o, data) {
+	field_o.attr("orig_value", field_o.html());
+	
+	var b = $( document.createElement('select') );
+	var opt;
+	
+	if (data && data.options) {
+		for (var option in data.options) {
+			opt = $( document.createElement('option') );
+			opt.html("test");
+			
+			b.append(opt);
+		}
+	}
+	
+    b.attr("id", "skill_field");
+    
+    if (data && data.class) { b.addClass(data.class); }
+    // b.attr("style", "padding-left:5px;margin-bottom:15px;margin-top:15px;width:100px;height:26px;border:1px solid lightgray;");
+	b.css("width", parseInt(field_o.css("width")) - 10 + "px");
+    
+    // --- Bind JS events to the input field
+    
+    b.bind('change', function(e) {
+    	convert_select_field_to_div_label($(this));
+    });
+	
+    field_o.unbind('click');
+    field_o.html(b);
+   
+    b.select();
+}
+
+function convert_select_field_to_div_label(field_o, data) {
+	if (!field_o.is("input")) { return; }
+
+	var parent_div = field_o.parent();	
+	
+	// // In case the value is "", make the primary skill 'blank'
+	// if (field_o.attr("value") == "") {
+		// if (parent_div.attr("blank")) {
+			// field_o.attr("value", parent_div.attr("blank_value"));
+		// } else {
+			// alert("Field: '" + parent_div.attr("id") + "' can't be blank, switching back to last value.");
+			// field_o.attr("value", parent_div.attr("orig_value"));
+		// }
+// 		
+	// } else {
+		// parent_div.removeAttr("blank");
+	// }
+// 	
+	// // In case an item was selected from the list
+	// if (data && data.selected_item_id) {
+		// parent_div.attr("entity_id", data.selected_item_id);
+		// parent_div.html(data.selected_item_name);
+	// // In case no item was selecte from the list
+	// } else if (field_o.attr("value") != parent_div.attr("orig_value")) {
+		// parent_div.attr("entity_id", "-1");
+		// parent_div.html(field_o.attr("value") + "*");
+	// } else {
+		// parent_div.html(field_o.attr("value"));
+	// }
+	
+	parent_div.html(field_o.attr("value"));
+	attach_field_binders(parent_div.attr("id"));
+}
+
+function convert_div_label_to_input_field(field_o, data) {
+	field_o.attr("orig_value", field_o.html());
+	
+	var b = $( document.createElement('input') );
+	
+    b.attr("type", "text");
+    b.attr("id", "skill_field");
+    
+    if (data && data.class) { b.addClass(data.class); }
+    // b.attr("style", "padding-left:5px;margin-bottom:15px;margin-top:15px;width:100px;height:26px;border:1px solid lightgray;");
+	b.css("width", parseInt(field_o.css("width")) - 10 + "px");
+	
+	if (field_o.attr("blank")) {
+		b.attr("value", "");
+	} else {
+		b.attr("value", field_o.attr("orig_value"));
+	}
+    
+    
+    // --- Bind to auto-complete or another datasource
+    
+    // var bind_params = {
+    	// autocomplete: "true", 
+		// onsearch: "search_skills",
+		// onkeyup: "primary_skill_keyup",
+		// onblur: "primary_skill_blur",
+		// onselect: "change_primary_skill"
+    // }
+    // bind_field(b, "fs_profile_updated", null, bind_params);
+    
+    
+    // --- Bind JS events to the input field
+    
+    b.bind('blur', function(e) {
+    	if (field_o.attr("autocomplete")) {
+    		$(this).attr("value", $(this).parent().attr("orig_value"));
+    	}
+    	
+    	convert_input_field_to_div_label($(this));
+    });
+    
+    // Prevent regular characters from being entered
+    b.bind('keyup', function(e) {
+    	// Prevent non-digit characters from being entered
+    	// $(this).attr("value", $(this).attr("value").replace(/[^0-9\.]/g, ''));
+    	
+    	// - ENTER
+    	if (e.which == 13) {
+    		convert_input_field_to_div_label($(this));
+    		
+    		if (data && data.actions && actions.ajax_action) {
+    			ajax_it(data.actions.ajax_action);
+    		}
+    	// - ESC
+    	} else if (e.which == 27) {
+    		$(this).attr("value", $(this).attr("orig_value"));
+    		convert_input_field_to_div_label($(this));
+    	}
+    });
+	    
+   
+    field_o.unbind('click');
+    field_o.html(b);
+   
+    b.select();
+}
+
+function convert_input_field_to_div_label(field_o, data) {
+	if (!field_o.is("input")) { return; }
+
+	var parent_div = field_o.parent();	
+	
+	// In case the value is "", make the primary skill 'blank'
+	if (field_o.attr("value") == "") {
+		if (parent_div.attr("blank")) {
+			field_o.attr("value", parent_div.attr("blank_value"));
+		} else {
+			alert("Field: '" + parent_div.attr("id") + "' can't be blank, switching back to last value.");
+			field_o.attr("value", parent_div.attr("orig_value"));
+		}
+		
+	} else {
+		parent_div.removeAttr("blank");
+	}
+	
+	// In case an item was selected from the list
+	if (data && data.selected_item_id) {
+		parent_div.attr("entity_id", data.selected_item_id);
+		parent_div.html(data.selected_item_name);
+	// In case no item was selecte from the list
+	} else if (field_o.attr("value") != parent_div.attr("orig_value") && parent_div.attr("autocomplete")) {
+		parent_div.attr("entity_id", "-1");
+		parent_div.html(field_o.attr("value") + "*");
+	} else {
+		parent_div.html(field_o.attr("value"));
+	}
+	
+	attach_field_binders(parent_div.attr("id"));
+}
+
+
+
+
+function bind_field_text(field_name, ajax_action, field_source, flags) {
+	bind_field($("#" + field_name), ajax_action, field_source, flags);
+}
+
+function bind_field(field_jq_obj, ajax_action, field_source, flags) {
+	
+	field_jq_obj.bind( "keyup", function( event ) {
+		
+		g_cache.is_input_blurred = true;
+		
+		if ( event.keyCode === $.ui.keyCode.TAB &&
+				$( this ).data( "autocomplete" ).menu.active ) {
+			event.preventDefault();
+		}
+		
+		if (flags && flags.autocomplete == "false" && ajax_action != "") {
+			g_timeout = setTimeout(ajax_it_delayed, 500, ajax_action, $(this).attr("value"));
+		}
+		
+		if ( event.which == 13 && flags && flags.onenter) {
+			eval(flags.onenter + "()");
+		}
+		
+		if (flags && flags.onkeyup) {
+			eval("_EVENT_" + flags.onkeyup + "(event, $(this))");
+		}
+	});
+	
+	field_jq_obj.bind('blur', function(event) {
+		// console.log('blur');
+		
+		if (g_cache.is_input_blurred) {
+			return true;
+		} else if (flags && flags.onblur) {
+			g_cache.is_input_blurred = true;
+			eval("_EVENT_" + flags.onblur + "(event, $(this))");
+		}
+	});
+		
+	if (flags && flags.autocomplete == "true") {
+		
+		field_jq_obj.autocomplete({
+			minLength: 1,
+			open: function (event, ui) {
+				// console.log('open');
+			},
+			close: function(event, ui) {
+				// console.log('close');
+				
+				if (!ui.item && !g_cache.is_input_blurred && flags && flags.onblur) { eval("_EVENT_" + flags.onblur + "(event, $(this))"); }
+				
+				if (g_cache.is_input_blurred) { g_cache.is_input_blurred = false; }
+			},
+			change: function(event, ui) {
+				// console.log('change');
+				if (!ui.item && !g_cache.is_input_blurred && flags && flags.onblur) { eval("_EVENT_" + flags.onblur + "(event, $(this))"); }
+				
+				if (g_cache.is_input_blurred) { g_cache.is_input_blurred = false; }
+			},
+			source: function( request, response ) {
+				
+				if (flags && flags.remote == false) {		
+					// delegate back to autocomplete, but extract the last term
+					response( $.ui.autocomplete.filter(
+						field_source, extractLast( request.term ) ) );
+				} else {
+					// Store the 'response' function in the global variable. Don't know how to capture this function and pass it to the 'RES' functions
+					g_ajax_obj_cache = {};
+					g_ajax_obj_cache.response = response;					
+					if (flags && flags.onsearch) { ajax_it(flags.onsearch, {request: request}); }
+				}
+			},
+			focus: function( event, ui ) {
+				// prevent value inserted on focus
+				$( "#" + flags.id_field ).val( ui.item.value );
+				
+				return false;
+			},
+			select: function( event, ui ) {
+				// if (flags && flags.entity_id) { g_ajax_obj_cache.entity_id = flags.entity_id; }
+				// g_ajax_obj_cache.selected_item_id = ui.item.id;
+				console.log('select');
+				
+				var terms = split( this.value );
+				
+				var data_h = {
+					field_o: $(this),
+					selected_item_id: ui.item.id, 
+					selected_item_name: ui.item.value};
+				
+				if (flags && flags.data && flags.data.is_blank) { data_h.is_blank = flags.data.is_blank }
+				if (flags && flags.entity_id) { data_h.entity_id = flags.entity_id}
+				if (flags && flags.onselect) { ajax_it(flags.onselect, data_h); }
+				if (flags && flags.screen_to_json_flds_map) { update_screen_from_json(ui.item, flags.screen_to_json_flds_map); }
+				
+				// remove the current input
+				terms.pop();
+				// add the selected item
+				terms.push( ui.item.value );
+				
+				// Change the 'HTML' element that holds the selected_id
+				if (flags && flags.id_field) { $( "#" + flags.id_field ).val( ui.item.id ); }
+				
+				// add placeholder to get the comma-and-space at the end
+				if (flags && flags.comma_suffix && flags.comma_suffix == true) { terms.push( "" ); }
+				
+				this.value = terms.join( ", " );
+				
+				// Finally, run the search
+				if (ajax_action != "") { ajax_it(ajax_action, data_h); }
+				
+				return false;
+			}
+			
+		}).data( "autocomplete" )._renderItem = function( ul, item ) {
+			if (flags && flags.include_image && flags.include_image == true) {
+				return $( "<li></li>" )
+					.data( "item.autocomplete", item )
+					.append( "<a style='width:250px;'>" +  
+						'<img style="vertical-align:middle;" src="' + g_server_url + 'file/' + item.file_id + '/show" ' + 
+						'width="' + item.width + '" ' + 
+						'height="' + item.height + '">&nbsp;' + item.value  + "</a>" )
+					.appendTo( ul );
+			} else {
+				return $( "<li></li>" )
+					.data( "item.autocomplete", item )
+					.append( "<a>" + item.value  + "</a>" )
+					.appendTo( ul );
+			}
+		}
+		;
+	}
+}
+
+function split( val ) {
+	return val.split( /,\s*/ );
+}
+
+function extractLast( term ) {
+	return split( term ).pop();
+}
+
+function view_organisation_summary(data, org_type) {
+	if (data.files[id_text == null]) { return; }
+	
+	var id_text;
+	
+	if (org_type == org_types['company']) {
+		id_text = "company_logo";
+	} else if (org_type == org_types['agency']) {
+		id_text = "agency_logo";
+	}
+	
+	if (data.files[id_text]["id"] == null || data.files[id_text]["id"] == "") { return; }
+	
+	var img = '<img src="' + g_server_url + 'file/' + data.files[id_text]["id"] + '/show" ';
+	var def_lrg_dimensions = "<%= Fs2File::IMAGE_JOB_SEEKER_PLACEHOLDER_SIZES[:large] %>".split("x");
+	var width = def_lrg_dimensions[0];
+	var height = def_lrg_dimensions[1];
+	
+	if (data.files[id_text]["large_dimensions"]) {
+		if (data.files[id_text]["large_dimensions"]["width"]) {
+			width = data.files[id_text]["large_dimensions"]["width"];
+		}
+		
+		if (data.files[id_text]["large_dimensions"]["height"]) {
+			height = data.files[id_text]["large_dimensions"]["height"];
+		}
+	}
+	
+	img += 'width="' + width + '" ' +
+		'height="' + height + '" ' + '">';
+	
+	$("#" + id_text).html(img);
+}
+
+function push_ajax_action(s_action) {
+	ajax_action_queue.push(s_action);
+}
+
+function push_ajax_actions(a_actions, data) {
+	if (data) { ajax_action_queue_data = data; }
+	
+	ajax_action_queue = ajax_action_queue.concat(a_actions);
+}
+
+function pop_ajax_action() {
+	var next_action = ajax_action_queue.shift();
+	
+	if (!next_action) { ajax_action_queue_data = null; }
+	
+	if (ajax_action_queue_data) {
+		return {action: next_action, data: ajax_action_queue_data};
+	} else {
+		return {action: next_action, data: null};
+	}
+}
+
+function clear_skills_fields() {
+	var skill_prefix = "skill_";
+	var element_prefix ="[name='skills_profile";
+	var element_suffix ="']";
+		
+	for (i = 1; i <= 5; ++i) {
+		skill_element_prefix = element_prefix + "[" + skill_prefix + i + "]";
+		
+		$(skill_element_prefix + "[name]" + element_suffix).val("");
+		$(skill_element_prefix + "[years_experience]" + element_suffix).val("");
+		$(skill_element_prefix + "[self_rate]" + element_suffix).val("");
+		$(skill_element_prefix + "[details]" + element_suffix).val("");	
+	}
+	
+	$(element_prefix + "[additional_requirements]" + element_suffix).val("");
+}
+
+function populate_skills_fields(skills_profile_matrix) {
+	var skill_prefix = "skill_";
+	var element_prefix ="[name='skills_profile";
+	var element_suffix ="']";
+		
+	for (i = 1; i <= 5; ++i) {
+		skill_element_prefix = element_prefix + "[" + skill_prefix + i + "]";
+		
+		$(skill_element_prefix + "[name]" + element_suffix).val(skills_profile_matrix[skill_prefix + i].name);
+		$(skill_element_prefix + "[years_experience]" + element_suffix).val(skills_profile_matrix[skill_prefix + i].years_experience);
+		$(skill_element_prefix + "[self_rate]" + element_suffix).val(skills_profile_matrix[skill_prefix + i].self_rate);
+		$(skill_element_prefix + "[details]" + element_suffix).val(skills_profile_matrix[skill_prefix + i].details);	
+	}
+	
+	$(element_prefix + "[additional_requirements]" + element_suffix).val(skills_profile_matrix["additional_requirements"]);	
+}
+
+
+function remove_notice_messages() {
+	$("#message_notice").hide('slow');
+}
+
+function remove_error_messages() {
+	$("#message_error").hide('slow');
+}
+
+function add_notice_message(message) {
+	$("#message_notice").html(message);
+	$("#message_notice").show('slow');
+	
+	setTimeout(remove_notice_messages, 3000);
+}
+
+function add_error_message(message) {
+	$("#message_error").html(message);
+	$("#message_error").show('slow');
+	
+	setTimeout(remove_error_messages, 3000);
+}
+
+
+
+function parse_five_skills() {
+	var skill_prefix = "skill_";
+	var skills_profile = {};
+	var element_prefix;
+	
+	for (i=1 ; i<=5 ; ++i) {
+		element_prefix ="[name='skills_profile[" + skill_prefix + i + "]";
+		
+		skills_profile[skill_prefix + i] = {};
+		skills_profile[skill_prefix + i].name = $(element_prefix + "[name]']").val();
+		skills_profile[skill_prefix + i].years_experience = $(element_prefix + "[years_experience]']").val();
+		skills_profile[skill_prefix + i].self_rate = $(element_prefix + "[self_rate]']").val();
+		skills_profile[skill_prefix + i].details = $(element_prefix + "[details]']").val();
+	}
+	
+	skills_profile["additional_requirements"] = $("#additional_requirements").val();
+	
+	return skills_profile;
+}
+
+function parse_five_skills_from_view() {
+	var skill_prefix = "skill_";
+	var skills_profile = {};
+	var element_prefix;
+	
+	for (i=1 ; i<=5 ; ++i) {
+		element_prefix = skill_prefix + i;
+		
+		skills_profile[skill_prefix + i] = {};
+		skills_profile[skill_prefix + i].name = $("#" + element_prefix + "-name").html();
+		skills_profile[skill_prefix + i].years_experience = $("#" + element_prefix + "-years_experience").html();
+		skills_profile[skill_prefix + i].self_rate = $("#" + element_prefix + "-self_rate").html();
+		skills_profile[skill_prefix + i].details = $("#" + element_prefix + "-details").html();
+	}
+	
+	skills_profile["additional_requirements"] = $("#additional_requirements").html();
+	
+	return skills_profile;
+}
+
+function create_job_result_row_as_html(js_result){
+	// return create_result_row_as_html(js_result, 1);
+	return create_result_row_as_html_pct(js_result, 1);
+}
+
+function create_job_seeker_result_row_as_html(js_result){
+	// return create_result_row_as_html(js_result, 2);
+	return create_result_row_as_html_pct(js_result, 2);
+}
+
+function doRedirect(url) {
+	document.location.href = g_server_url + url;
+}
+
+
+function create_result_row_as_html_pct(js_result, entity_type){
+	var js_id = js_result[0];
+	var js_data = js_result[1];
+	
+	var tr_row_start = '<tr id="' + js_id + '" style="border-top:1px solid black;background-color:';
+	var tr_row_end = '</tr>';
+	
+	// Change color based on the 'looking_for_work' flag
+	if (js_data.looking_for_work && js_data.looking_for_work == 1) {
+		tr_row_start += '#33D685"';
+	} else if (!js_data.looking_for_work || js_data.looking_for_work == 0) {
+		tr_row_start += '#B2FFE0"';
+	}
+	
+	
+	// --------------------------------------------------
+	// Logos and profile photos' columns
+	// --------------------------------------------------
+	var td_images = '';
+	
+	if (entity_type == 1) { // job
+	
+		var s_link_start = '<a href="' + g_server_url + 'job/' + js_id + '/view">';
+		var s_link_end = '</a>';
+		
+		tr_row_start += ' onclick="doRedirect(\'' + 'job/' + js_id + '/view' + '\');">';
+		td_images += '<td id="' + js_id + '-company_logo" style="padding-top:.5em;text-align:left;width:50px;">';
+		
+		if (js_data.files.company_logo) {		
+			var a_medium_dimensions = [50, 50];
+			
+			if (js_data.files.company_logo.medium_dimensions) {
+				a_medium_dimensions = js_data.files.company_logo.medium_dimensions.split('x');
+			} 
+			
+			td_images += 
+				s_link_start + 
+				'<img src="' + g_server_url + 'file/' + js_data.files.company_logo.id + '/show" ' + 
+				'width="' + a_medium_dimensions[0] + '" ' + 
+				'height="' + a_medium_dimensions[1] + '">' +
+				s_link_end;
+		}
+		
+		if (js_data.files.agency_logo) {
+			var a_medium_dimensions = [50, 50];
+			
+			if (js_data.files.agency_logo.medium_dimensions) {
+				a_medium_dimensions = js_data.files.agency_logo.medium_dimensions.split('x');
+			} 
+			
+			td_images += 
+				s_link_start +
+				'<img src="' + g_server_url + 'file/' + js_data.files.agency_logo.id + '/show" ' + 
+				'width="' + a_medium_dimensions[0] + '" ' + 
+				'height="' + a_medium_dimensions[1] + '">' +
+				s_link_end;
+		}
+		
+		if (js_data.company_name || js_data.agency_name) {
+			td_images += '<br/>';
+			
+			if (js_data.company_name) {
+				td_images += '<span style="width:50px;">' + js_data.company_name + '</span>';
+			}
+			
+			if (js_data.agency_name) {
+				td_images += '<span style="width:50px;">' + js_data.agency_name + '</span>';
+			}
+		}
+		
+		td_images += '</td>';
+	
+	} else if (entity_type == 2) { // job_seeker
+		
+		tr_row_start += ' onclick="doRedirect(\'' + 'job_seeker/' + js_id + '/view' + '\');">';
+	
+		if (js_data.files.profile_photo) {
+			var a_medium_dimensions = [50, 50];
+			
+			if (js_data.files.profile_photo.medium_dimensions) {
+				a_medium_dimensions = js_data.files.profile_photo.medium_dimensions.split('x');
+			} 
+			
+			td_images += 
+				'<td id="' + js_id + '-profile_photo" style="padding-top:.5em;text-align:left;width:50px;">' +
+				'<img src="' + g_server_url + 'file/' + js_data.files.profile_photo.id + '/show" ' + 
+				'width="' + a_medium_dimensions[0] + '" ' + 
+				'height="' + a_medium_dimensions[1] + '">' + '</td>';
+		}
+		
+	}
+	
+	if (td_images == '') { td_images = '<td style=""></td>'; }
+
+
+	// --------------------------------------------------
+	// Full name column
+	// --------------------------------------------------
+	var td_full_name = '';
+	
+	if (entity_type == 1) { // job
+		
+		if (js_data.company_contact_full_name || js_data.agency_contact_full_name) {
+			td_full_name += '<td style="">';
+			
+			if (js_data.company_contact_full_name) {
+				td_full_name += js_data.company_contact_full_name;
+			}
+			
+			if (js_data.agency_contact_full_name) {
+				td_full_name += js_data.agency_contact_full_name;
+			}
+			
+			td_full_name += '</td>';
+		}
+		
+	} else if (entity_type == 2) { // job_seeker
+		
+		var s_link_start = '<a href="' + g_server_url + 'job_seeker/' + js_id + '/view">';
+		var s_link_end = '</a>';
+		td_full_name = 
+			'<td id="' + js_id + '-full_name" style="padding-top:.5em;padding-left:.5em;text-align:left;width:100px;font-weight:bold;">' +
+			s_link_start + js_data.full_name + s_link_end + '</td>';
+			
+	}
+	
+	if (td_full_name == '') { td_full_name = '<td style=""></td>'; }
+	
+
+	// --------------------------------------------------
+	// Skills profile columns
+	// --------------------------------------------------
+	var skill_profile_table = '<td colspan="3" style="padding-top:.5em;width:550px;">';
+	
+	if (js_data.skill_display_matrix) {
+		var skill_details_arr;
+		
+		skill_profile_table += '<table style="border-collapse:collapse;">';
+	
+		for (j=0 ; j<5 && js_data.skill_matches_matrix[j] ; ++j) {
+			skill_profile_table += '<tr>';
+			
+			skill_profile_table += '<td id="' + js_id + '-skills" style="text-align:left;width:200px;">';
+			if (js_data.skill_matches_matrix[j][0] == -2) { skill_profile_table += "<b>"; }
+			skill_profile_table += js_data.skill_display_matrix[j][0]; 
+			if (js_data.skill_matches_matrix[j][0] == -2) { skill_profile_table += "</b>"; }
+			skill_profile_table += "</td>";
+			
+			skill_profile_table += '<td id="' + js_id + '-years_experience" style="text-align:left;width:50px;">';
+			if (js_data.skill_matches_matrix[j][1] == -2) { skill_profile_table += "<b>"; }
+			skill_profile_table += js_data.skill_display_matrix[j][1]; 
+			if (js_data.skill_matches_matrix[j][1] == -2) { skill_profile_table += "</b>"; }
+			skill_profile_table += "</td>";
+			
+			// 'details' is an array
+			skill_profile_table += '<td id="' + js_id + '-skill_details" style="text-align:left;width:300px;">';
+			
+			if (js_data.skill_matches_matrix[j][2] != null) {
+				skill_details_arr = js_data.skill_display_matrix[j][2].split(",");
+				
+				if (!(skill_details_arr instanceof Array)) {
+					skill_details_arr = new Array(js_data.skill_display_matrix[j][2]);
+				}
+				
+				for (k=0 ; k<js_data.skill_matches_matrix[j][2].length && skill_details_arr[k] != ''; ++k) {
+					if (k > 0) { skill_profile_table += ", "; } 
+					if (js_data.skill_matches_matrix[j][2][k] == -2) { skill_profile_table += "<b>"; }
+					skill_profile_table += skill_details_arr[k]; 
+					if (js_data.skill_matches_matrix[j][2][k] == -2) { skill_profile_table += "</b>"; }
+				}
+			}
+			
+			skill_profile_table += "</td>";
+			skill_profile_table += '</tr>';
+		}
+		
+		skill_profile_table += '</table>';
+	}
+	
+	skill_profile_table += '</td>';
+	
+	
+	// Match pct.
+	var td_match_pct = '<td id="' + js_id + '-points" style="padding-top:.5em;text-align:center;width:50px;;font-size:20px;font-weight:bold;">' + js_data.match_pct + '%</td>';
+	
+	
+	// Status / Actions
+	var td_status_actions = '';
+	
+	if (js_data.cv_trans_status_id) {
+		
+		td_status_actions = '<b>' + js_data.cv_trans_status_name + '</b>';
+			
+		if (js_data.cv_trans_updated_at) {
+			td_status_actions += '<br/>' + js_data.cv_trans_updated_at_formatted +
+				'<br/><i>' + js_data.cv_trans_updated_at_time_ago + '</i>';
+		}
+		
+		if (entity_type == 1) { // job
+			if (js_data.cv_trans_status_id == <%= Fs2CvsToJobsTransaction::STATUS_TYPES[:cv_requested] %>) {
+				td_status_actions += '<br/><br/>' + 
+					'<a href="' + g_server_url + 'job/' + js_id + '/cv_request/approve">APPROVE!</a>' + 
+					'&nbsp;' + 
+					'<a href="' + g_server_url + 'job/' + js_id + '/cv_request/reject">Reject</a>';
+			}
+		} else if (entity_type == 2) { // job_seeker
+			if (js_data.files.cv && (js_data.cv_trans_status_id == <%= Fs2CvsToJobsTransaction::STATUS_TYPES[:cv_sent] %> || js_data.cv_trans_status_id == <%= Fs2CvsToJobsTransaction::STATUS_TYPES[:cv_request_approved] %>)) {
+				td_status_actions += '<br/><br/>' + 
+					'<a href="' + g_server_url + 'file/' + js_data.files.cv.id + '/download">Download CV!</a>';	
+			}
+		}
+		
+	} else {
+		
+		if (entity_type == 1) { // job
+			td_status_actions = '<a href="' + g_server_url + 'job/' + js_id + '/send_cv">Send CV</a>';
+		} else if (entity_type == 2) { // job_seeker
+			td_status_actions = '<a href="' + g_server_url + 'job_seeker/' + js_id + '/request_cv">Request CV</a>';
+		}
+			 
+	}
+	
+	td_status_actions = '<td id="' + js_id + '-status" style="padding-top:.5em;padding-left:.5em;text-align:left;width:150px">' + td_status_actions + '</td>';
+	
+	row_as_html = 
+		tr_row_start + 
+		td_images + 
+		td_full_name + 
+		skill_profile_table + 
+		td_match_pct + 
+		td_status_actions + 
+		tr_row_end;
+	
+	return row_as_html;
+}
+
+//
+// 'entity_type': {:job => 1, :job_seeker => 2}
+//
+function create_result_row_as_html(js_result, entity_type){
+	var js_id = js_result[0];
+	var js_data = js_result[1];
+	
+	var tr_row_start = '<tr id="' + js_id + '">';
+	var tr_row_end = '</tr>';
+	var td_images = '';
+	
+	if (entity_type == 1) { // job
+	
+		var s_link_start = '<a href="' + g_server_url + 'job/' + js_id + '/view">';
+		var s_link_end = '</a>';
+		
+		td_images += '<td id="' + js_id + '-company_logo" style="text-align:left;">';
+		
+		if (js_data.files.company_logo) {		
+			var a_small_dimensions = [32, 32];
+			
+			if (js_data.files.company_logo.small_dimensions) {
+				a_small_dimensions = js_data.files.company_logo.small_dimensions.split('x');
+			} 
+			
+			td_images += 
+				s_link_start + 
+				'<img src="' + g_server_url + 'file/' + js_data.files.company_logo.id + '/show" ' + 
+				'width="' + a_small_dimensions[0] + '" ' + 
+				'height="' + a_small_dimensions[1] + '">' +
+				s_link_end;
+		}
+		
+		if (js_data.files.agency_logo) {
+			var a_small_dimensions = [32, 32];
+			
+			if (js_data.files.agency_logo.small_dimensions) {
+				a_small_dimensions = js_data.files.agency_logo.small_dimensions.split('x');
+			} 
+			
+			td_images += 
+				s_link_start +
+				'<img src="' + g_server_url + 'file/' + js_data.files.agency_logo.id + '/show" ' + 
+				'width="' + a_small_dimensions[0] + '" ' + 
+				'height="' + a_small_dimensions[1] + '">' +
+				s_link_end;
+		}
+		
+		td_images += '</td>';
+	
+	} else if (entity_type == 2) { // job_seeker
+	
+		if (js_data.files.profile_photo) {
+			var a_small_dimensions = [32, 32];
+			
+			if (js_data.files.profile_photo.small_dimensions) {
+				a_small_dimensions = js_data.files.profile_photo.small_dimensions.split('x');
+			} 
+			
+			td_images += 
+				'<td id="' + js_id + '-profile_photo" style="text-align:left;">' +
+				'<img src="' + g_server_url + 'file/' + js_data.files.profile_photo.id + '/show" ' + 
+				'width="' + a_small_dimensions[0] + '" ' + 
+				'height="' + a_small_dimensions[1] + '">' + '</td>';
+		}
+		
+	}
+	
+	if (td_images == '') { td_images = '<td></td>'; }
+
+	var td_matched_skills = '<td id="' + js_id + '-skills" style="text-align:left;">' + js_data.matched_skills + '</td>';
+	var td_matched_skills_details = '<td id="' + js_id + '-skill_details" style="text-align:left;">' + js_data.matched_skill_details + '</td>';
+	var td_matched_additional_requirements = '<td id="' + js_id + '-additional_requirements" style="text-align:left;">' + js_data.matched_additional_requirements + '</td>';
+	var td_match_points = '<td id="' + js_id + '-points" style="text-align:left;">' + js_data.match_points + '</td>';
+
+	var row_as_html = tr_row_start;
+	
+	if (entity_type == 1) { // job
+		row_as_html += s_link_start + td_images + s_link_end;
+	} else if (entity_type == 2) { // job_seeker
+		var s_link_start = '<a href="' + g_server_url + 'job_seeker/' + js_id + '/view">';
+		var s_link_end = '</a>';
+		var td_full_name = 
+			'<td id="' + js_id + '-full_name" style="text-align:left;">' +
+			s_link_start + js_data.full_name + s_link_end + '</td>';
+		
+		row_as_html += td_images + td_full_name;
+	}
+	
+	// Status / Actions
+	var td_status_actions = '';
+	
+	if (js_data.cv_trans_status_id) {
+		
+		td_status_actions = '<b>' + js_data.cv_trans_status_name + '</b>';
+			
+		if (js_data.cv_trans_updated_at) {
+			td_status_actions += '<br/>' + js_data.cv_trans_updated_at_formatted +
+				'<br/><i>' + js_data.cv_trans_updated_at_time_ago + '</i>';
+		}
+		
+		if (entity_type == 1) { // job
+			if (js_data.cv_trans_status_id == <%= Fs2CvsToJobsTransaction::STATUS_TYPES[:cv_requested] %>) {
+				td_status_actions += '<br/><br/>' + 
+					'<a href="' + g_server_url + 'job/' + js_id + '/cv_request/approve">APPROVE!</a>' + 
+					'&nbsp;' + 
+					'<a href="' + g_server_url + 'job/' + js_id + '/cv_request/reject">Reject</a>';
+			}
+		} else if (entity_type == 2) { // job_seeker
+			if (js_data.files.cv && (js_data.cv_trans_status_id == <%= Fs2CvsToJobsTransaction::STATUS_TYPES[:cv_sent] %> || js_data.cv_trans_status_id == <%= Fs2CvsToJobsTransaction::STATUS_TYPES[:cv_request_approved] %>)) {
+				td_status_actions += '<br/><br/>' + 
+					'<a href="' + g_server_url + 'file/' + js_data.files.cv.id + '/download">Download CV!</a>';	
+			}
+		}
+		
+	} else {
+		
+		if (entity_type == 1) { // job
+			td_status_actions = '<a href="' + g_server_url + 'job/' + js_id + '/send_cv">Send CV</a>';
+		} else if (entity_type == 2) { // job_seeker
+			td_status_actions = '<a href="' + g_server_url + 'job_seeker/' + js_id + '/request_cv">Request CV</a>';
+		}
+			 
+	}
+	
+	td_status_actions = '<td id="' + js_id + '-status" style="text-align:left;">' + td_status_actions + '</td>';
+	
+	row_as_html += 
+		td_matched_skills + 
+		td_matched_skills_details + 
+		td_matched_additional_requirements + 
+		td_match_points + 
+		td_status_actions + 
+		tr_row_end;
+	
+	return row_as_html;
+}
+
+function ajax_it(action, data) {
+	console.log('in: ' + action);
+	if (!action) {
+		return;
+	}
+	
+	var h_ajax_data;
+	
+	// In case the 'data' attribute exists, invoke the relevant '_REQ_' function
+	if (data) {
+		h_ajax_data = eval("_REQ_" + action + "(data);");
+	} else {
+		h_ajax_data = eval("_REQ_" + action + "();");
+	}
+	
+	// 'h_ajax_data' is the 'hash' returned from invoking a '_REQ_' function
+	if (h_ajax_data) {
+		
+		if (h_ajax_data.action) {
+			$.post(g_server_url + h_ajax_data.action, {
+				json: JSON.stringify(h_ajax_data.data)}, callbackSuccess, "json");
+			
+		} else if (h_ajax_data.ajax_actions) {
+			if (data) {
+				push_ajax_actions(h_ajax_data.ajax_actions, data);	
+			} else {
+				push_ajax_actions(h_ajax_data.ajax_actions);
+			}
+			
+			var next_action = pop_ajax_action();
+			ajax_it(next_action.action, next_action.data);
+			
+		} else if (h_ajax_data.form_submit) {
+			$("#" + h_ajax_data.form_submit).submit();
+			
+		} else {
+			alert('AJAX ERROR: No ajax ACTION defined!');
+		}
+		
+	}
+}
+
+function display_page_errors() {
+	if (!server_response) { return; }
+	
+	var message_start = '<div style="text-align:left;color:#fff;font-weight:bold;">';
+	var message = '';
+	var message_end = '</div>';
+	
+	for (var field in server_response.errors) {
+						
+		for (var fld_attr in server_response.errors[field]) { // email
+			// $("#" + field + "-" + fld_attr + "_error").html("");			
+			for (var fld_attr_error in server_response.errors[field][fld_attr]) { // email
+				message += server_response.errors[field][fld_attr][fld_attr_error] + "<br/>";
+				
+				// $("#" + field + "-" + fld_attr + "_error").append("'" + fld_attr + "' " + data.errors[field][fld_attr][fld_attr_error] + "<br/>");
+				// alert(data.errors[field][fld_attr][fld_attr_error]);
+				
+				// Only display the 1st top error message for the field
+				// break;
+			}
+			$("#" + field + "-" + fld_attr).attr("original-title", message_start + message + message_end);
+			$("#" + field + "-" + fld_attr).tipsy({html: true, trigger: 'manual', gravity: 'e', fade: true, delayIn: 2000});
+			$("#" + field + "-" + fld_attr).tipsy('show');
+			
+			message = '';
+		}
+		
+	}
+}
+
+function callbackSuccess(data, textStatus, jqXHR){
+	
+	if (!data) {
+		alert('ERROR: No "data" object returned from server!');
+		return;
+	}
+	
+	var status_i = parseInt(data.status);
+	
+	if (status_i < 100) { // 0 - 100 are system-type error messages
+		alert('ERROR: ' + data.status + ', ' + data.action + ', ' + data.message);
+		return;
+	} else {
+		// --- Redirects, system calls and processing functionality (only if successful)
+		if (status_i >= 100 && status_i < 200) { // form OR data related errors
+			
+			// 2. Update the error messages for the appropriate form fields
+			switch (status_i) {
+				case 100: // Field validation error
+					for (var key in data.errors) {	
+//						$("#" + key + "_error").html("'" + key + "' " + data.errors[key]);
+						alert("'" + key + "' " + data.errors[key]);
+					}
+					
+					if (data.message) {
+						add_error_message("ERROR: " + data.message);
+					}
+					
+					break;
+				case 101: // Field validation error
+				
+					for (var field in data.errors) {
+						
+						for (var fld_attr in data.errors[field]) { // email
+							$("#" + field + "-" + fld_attr + "_error").html("");
+							
+							for (var fld_attr_error in data.errors[field][fld_attr]) { // email
+								$("#" + field + "-" + fld_attr + "_error").append("'" + fld_attr + "' " + data.errors[field][fld_attr][fld_attr_error] + "<br/>");
+								// alert(data.errors[field][fld_attr][fld_attr_error]);
+								
+								// Only display the 1st top error message for the field
+								break;
+							}
+						}
+						
+					}
+					
+					break;
+			}
+			
+			eval("_RES_ERR_" + data.action + "(data, status_i);");
+			
+		} else { // No error
+		
+			// Messages
+			if (data.message) {
+				add_notice_message(data.message);
+			}
+		
+			eval("_RES_" + data.action + "(data, status_i);");
+			
+			// Execute the other 'ajax_actions' if they exist in the queue
+			var next_action = pop_ajax_action();
+			ajax_it(next_action.action, next_action.data);
+		}	
+	}	
+	
+	
+}
+
+function toggle_register_as(obj) {
+	var selection = $(obj).prev().attr('id');
+	
+	if (selection == 'radio1') {
+		
+	    $("#company_field").hide('slow');
+	    $("#agency_field").hide('slow');
+	    $("#organisation_role_field").hide('slow');
+		
+		$("#company_logo").hide('slow');
+		$("#agency_logo").hide('slow');
+		
+		$("#user_type-id").attr("value", <%= Fs2User::USER_TYPES[:job_seeker] %>);
+		
+	} else if (selection == 'radio2') { // Recruitment agent
+	
+		$("#company_field").hide('slow');
+		$("#agency_field").show('slow');
+		$("#organisation_role_field").show('slow');
+		
+		$("#company_logo").hide('slow');
+		$("#agency_logo").show('slow');
+		
+		$("#user_type-id").attr("value", <%= Fs2User::USER_TYPES[:recruitment_agent] %>);
+		
+	} else if (selection == 'radio3') { // Hiring manager
+	
+		$("#agency_field").hide('slow');
+		$("#company_field").show('slow');	
+		$("#organisation_role_field").show('slow');
+		
+		$("#company_logo").show('slow');
+		$("#agency_logo").hide('slow');
+		
+		$("#user_type-id").attr("value", <%= Fs2User::USER_TYPES[:hiring_manager] %>);
+		
+	}
+}
+
+</script>

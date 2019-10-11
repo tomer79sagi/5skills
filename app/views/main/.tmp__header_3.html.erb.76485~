@@ -1,0 +1,91 @@
+<!-- Headings -->
+<div class="top_padding_1">
+	
+<% form_tag({:action => :create_application_quick}) do %>
+
+	<table class="template_h3t" style="border-collapse:collapse;">
+		<tr style="vertical-align:middle;">
+			
+			<td class="template_cell_title_heading">
+				<%= sort("Title", "title") %>
+			</td>
+			<td class="template_cell_status_heading">
+				<%= sort("Status", "status") %>
+			</td>
+			<td class="template_cell_agency_heading">
+				<%= sort("Agency", "agency") %>
+			</td>
+			<td class="template_cell_company_heading">
+				<%= sort("Company", "company") %>
+			</td>
+			<td class="template_cell_closing_date_heading">
+				<%= sort("Closing Date", "closing_date") %>
+			</td>
+			<td class="template_cell_last_updated_date_heading">
+				<%= sort("Updated At", "update_date") %>
+			</td>
+			<td class="template_cell_last_updated_date_heading">
+				
+			</td>
+			
+		</tr>
+		<tr style="vertical-align:top;background-color:#a0dc8f;">
+			
+			<td class="template_cell_title_content" style="border-top:3px solid gray;border-bottom:3px solid gray;border-left:3px solid gray;padding:4px 0px 4px 4px;margin:0px 0px 0px 0px;">
+				<%= text_field 'quick_add_role', 'title', :style => "width:166px;text-align:left;" %>
+				<%= error_message_on "quick_add_role", "title", {:prepend_text => "Title ", :css_class => "error_message_field"} %>
+			</td>
+			<td class="template_cell_status_content" style="border-top:3px solid gray;border-bottom:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+				<%= select :quick_add_role_application, :status_id, Role.application_statuses_for_select, {}, {"size" => "1", "style" => "width:110px;"} %>	
+				<%= error_message_on "quick_add_role_application", "status_id", {:prepend_text => "Status ", :css_class => "error_message_field"} %>
+			</td>
+			<td class="template_cell_agency_content" style="border-top:3px solid gray;border-bottom:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+				<% if @quick_add_agencies %>
+					<%= select :quick_add_role, :agency_id, @quick_add_agencies, {}, {"size" => "1", "style" => "width:170px"} %>
+					<%= error_message_on "quick_add_role", "agency_id", {:prepend_text => "Agency ", :css_class => "error_message_field"} %>
+				<% else %>
+					<%= select :quick_add_role, :agency_id, [], {}, {"size" => "1", "style" => "width:170px"} %>
+				<% end %>
+				<div style="padding: 2px 0px 0px 0px;">
+					<%= text_field 'quick_add_agency', 'name', :style => "width:166px;text-align:left;" %>
+					<%= error_message_on "quick_add_agency", "name", {:prepend_text => "Name ", :css_class => "error_message_field"} %>
+				</div>
+			</td>
+			<td class="template_cell_company_content" style="border-top:3px solid gray;border-bottom:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+				<% if @quick_add_companies %>
+					<%= select :quick_add_role, :company_id, @quick_add_companies, {}, {"size" => "1", "style" => "width:170px"} %>
+					<%= error_message_on "quick_add_role", "company_id", {:prepend_text => "Company ", :css_class => "error_message_field"} %>
+				<% else %>
+					<%= select :quick_add_role, :company_id, [], {}, {"size" => "1", "style" => "width:170px"} %>
+				<% end %>	
+				<div style="padding: 2px 0px 0px 0px;">
+					<%= text_field 'quick_add_company', 'name', :style => "width:166px;text-align:left;" %>
+					<%= error_message_on "quick_add_company", "name", {:prepend_text => "Name ", :css_class => "error_message_field"} %>
+				</div>
+			</td>
+			<td class="template_cell_closing_date_content" style="border-top:3px solid gray;border-bottom:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+				<div style="">
+					<% @role_close_date = "" %>
+					<% @role_close_date = @quick_add_role.close_date.strftime('%B %d, %Y') if @quick_add_role.close_date %>
+					
+					<%= calendar_date_select_tag "quick_add_role[close_date]", nil, 
+						:popup => :force, :month_year => 'label', 
+						:year_range => 1.years.ago..0.years.ago,
+						:value => @role_close_date, :style => "width:92px;" %>
+				</div>
+			</td>
+			<td class="template_cell_last_updated_date_content" style="border-top:3px solid gray;border-bottom:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+			</td>
+			<td class="template_cell_last_updated_date_content" style="border-top:3px solid gray;border-bottom:3px solid gray;border-right:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+				<div style="padding: 2px 0px 0px 0px;">
+					<%= submit_tag 'Add', :name => "add", :style => "width:85px;" %>
+					<%= submit_tag 'Add & Edit', :name => "add_edit", :style => "width:85px;" %>
+				</div>
+			</td>
+			
+		</tr>
+	</table>
+
+<% end %>
+
+</div>

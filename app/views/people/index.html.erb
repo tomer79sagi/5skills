@@ -1,0 +1,39 @@
+<h1>Listing Candidates</h1>
+
+<p/>
+
+<table border="1">
+  <tr>
+  	<td>First Name</td>
+	<td>Last Name</td>
+	<td>Mobile Number</td>
+	<td>Phone Number</td>
+	<td>Email Address</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td colspan="2">Applications</td>
+  </tr>
+
+<% @people.each do |person| %>
+
+<% @contact_detail = person.contact_detail %>
+ 
+  <tr>
+  	<td><%= person.first_name %></td>
+	<td><%= person.last_name %></td>
+	<td><%= @contact_detail.mobile %></td>
+	<td><%= @contact_detail.phone%></td>
+	<td><%= @contact_detail.email %></td>
+    <td><%= link_to 'Show', show_candidate_url(:candidate_id => person.id) %></td>
+    <td><%= link_to 'Edit', edit_candidate_url(:candidate_id => person.id) %></td>
+    <td><%= link_to 'Remove', remove_candidate_url(:candidate_id => person.id), :confirm => 'Are you sure?' %></td>
+	<td><%= link_to 'List', view_applications_url(:candidate_id => person.id) %></td>
+	<td><%= link_to 'New', add_application_url(:candidate_id => person.id) %></td>	
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New person', add_candidate_url %>

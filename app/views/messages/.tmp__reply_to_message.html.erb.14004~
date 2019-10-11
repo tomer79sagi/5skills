@@ -1,0 +1,79 @@
+<div style="width:750px;float:left;min-height:80px;padding:1em 0em 0em 0em;">
+	
+	<%= render :partial => 'messages/header' %>
+	
+	<div style="background-color:#cef5c2;width:100%;text-align:left;border:1px solid #cef5c2;padding:1em 0em 0em 1em;margin:-1px 0px 20px 0px;">
+	
+		<div style="padding:0em 0em .5em 0em;margin:0em 1em 1em 0em;text-align:right;border-bottom:1px gray solid;">
+			<%= submit_tag 'Send Message', :name => "send_message" %>
+			<%= submit_tag 'Cancel', :name => "cancel" %>
+		</div>
+		
+		<table valign="top" style="background-color:#ceffd6;margin:0em 1em 1em 0em;">
+		
+			<tr style="vertical-align:top;">
+										
+				<td class="template_cell_title_content" style="width:150px;font-size:14px;line-height:24px;vertical-align:top;">
+					<%= session[:user].first_name %> <%= session[:user].last_name %>
+				</td>
+				<td class="template_cell_title_content" style="width:405px;font-size:14px;line-height:24px;vertical-align:top;">
+					<b><%= @subject %></b>
+				</td>
+				
+			</tr>
+		
+			<tr style="vertical-align:top;">
+			
+				<td style="vertical-align:top;text-align:right;padding:1em 0em 0em 0em;">Message:</td>
+				<td colspan="3" style="padding:1em 0em 1em 0em;padding:1em 0em 0em 0em;">
+					<%= fckeditor_textarea( "message_form", "body", {:toolbarSet => 'Jobby_Default', :width => '580', :height => '250'} ) %>
+					<%= error_message_on "message_form", "body", {:prepend_text => "Message ", :css_class => "error_message_field"} %>
+				</td>
+				
+			</tr>
+			
+		</table>
+		
+		<p><b>Last received message in correspondence</b></p>
+			
+		<table valign="top" style="background-color:#ceffd6;margin:0em 1em 1em 0em;">
+			
+			<tr style="vertical-align:top;">
+										
+				<td class="template_cell_title_content" style="width:150px;font-size:14px;line-height:24px;vertical-align:top;">
+					<%= @message.sender_first_name %> <%= @message.sender_last_name %>
+				</td>
+				<td class="template_cell_title_content" style="width:405px;font-size:14px;line-height:24px;vertical-align:top;">
+					<b><%= @message.subject %></b>
+				</td>
+				<td class="template_cell_title_content" style="width:100px;font-size:14px;line-height:24px;vertical-align:top;">
+					<%= type_value(MyMailerMetadata.message_statuses, @message.message_status_id) %>
+				</td>
+				<td class="template_cell_last_updated_date_content" style="width:100px;text-align:left;">
+					<b><%= @message.created_at.to_datetime.strftime '%d %b %y' %></b><br/>
+					<%= @message.created_at.to_datetime.strftime '%I:%M%p' %><br/>
+					<%= @message.created_at.to_datetime.strftime '%A' %>
+				</td>
+				
+			</tr>
+			<tr style="vertical-align:top;">
+			
+				<td colspan="3" class="template_cell_title_content" style="padding:2em 0em 0em 2em;width:150px;font-size:12px;line-height:24px;vertical-align:top;">
+					<%= @message.message_html %>
+				</td>
+				
+			</tr>
+						
+		</table>
+		
+		<div style="padding:.5em 0em 0em 0em;margin:0em 1em 1em 0em;text-align:right;border-top:1px gray solid;">
+			<%= submit_tag 'Send Message', :name => "send_message" %>
+			<%= submit_tag 'Cancel', :name => "cancel" %>
+		</div>
+		
+	</div>
+	
+	<div style="width:750px;text-align:right;padding:0em 0em 1em 0em;">
+		Delete Message
+	</div>
+</div>

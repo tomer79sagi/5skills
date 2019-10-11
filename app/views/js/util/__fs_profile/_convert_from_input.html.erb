@@ -1,0 +1,122 @@
+<script type="text/javascript">
+
+  	function convert_input_to_primary_skill(field_o, selected_skill_data) {
+  		console.log('__convert input to primary skill');
+  		
+  		if (!field_o.is("input")) { return; }
+
+  		var name_td_obj = field_o.parent();
+  		var li_obj = field_o.parents("[orig_value]");
+  		
+  		var skill_index = li_obj.attr("id").split("_")[1];
+  		var skill_id = li_obj.attr("skill_id");
+  		var skill_name;
+  		
+  		// In case the value is "", make the primary skill 'blank'
+  		if (field_o.attr("value") == "") {
+  			li_obj.parent().html(create_blank_primary_skill(skill_index));
+  			attach_primary_field_binders(skill_index, true);
+  			return;
+  		}
+  		
+  		// In case the primary skill WAS 'blank' and a skill was selected, make it a normal one
+  		if (selected_skill_data) {
+  			console.log('A');
+  			skill_id = selected_skill_data.selected_item_id;
+  			skill_name = selected_skill_data.selected_item_name;
+  			
+  			// Shorten the skill_name to fit the appropriate space
+  			
+  			
+  			if (li_obj.attr("blank")) {
+  				console.log('C');
+	  			li_obj.replaceWith(create_primary_skill(skill_index, {
+		  			id: skill_id,
+		  			name: skill_name,
+		  			years_exp: 1
+		  		}));
+	  					
+	  			attach_primary_field_binders(skill_index);
+	  			return;
+			} else {
+				console.log('D');
+				li_obj.attr("skill_id", skill_id);
+				li_obj.attr("orig_value", skill_name);
+			}
+  		} else {
+  			console.log('B');
+  			skill_name = field_o.attr("value");
+  		}
+		
+		// var m = measureText(skill_name, 16);
+  		// name_td_obj.css("width", m.width);
+  		
+  		var span_name = $( document.createElement('span') );
+  		span_name.html(limit_string(skill_name, 28, ".."));
+  		name_td_obj.html(span_name);
+  		
+  		attach_name_field_binders(name_td_obj.attr("id"));
+  	}
+  	
+  	function convert_input_to_yrsexp(field_o) {
+  		if (!field_o.is("input")) { return; }
+  		
+  		var td_obj = field_o.parent();
+  		var li_obj = td_obj.parents("[orig_value]");
+		  		
+  		if (field_o.attr("value") == "") {
+  			field_o.attr("value", "1");
+  		}
+  		
+  		// var m = measureText(field_o.attr("value"), 16);
+  		// td_obj.css("width", m.width);
+  		
+  		li_obj.attr("skill_yrsexp", field_o.attr("value"));
+  		
+  		var span_name = $( document.createElement('span') );
+  		span_name.html(field_o.attr("value") + "y");
+  		td_obj.html(span_name);
+  		
+  		attach_yrs_field_binders(td_obj.attr("id"));
+  	}
+  	
+  	// 'field_o' is the 'input' field in the 'li -> div -> input' chain
+  	function convert_input_to_skill(field_o, selected_skill_data) {
+  		if (!field_o.is("input")) { return; }
+  		
+  		var div_obj = field_o.parent();
+  		var li_obj = div_obj.parent();
+  		
+  		if (field_o.attr("value") == "") {
+  			li_obj.remove();
+  			return;
+  		}
+  		
+  		var span_name = $( document.createElement('span') );
+  		
+  		if (selected_skill_data) {
+  			span_name.append(selected_skill_data.selected_item_name);
+  			li_obj.attr("id", selected_skill_data.selected_item_id);
+	  		li_obj.attr("skill_id", selected_skill_data.selected_item_id);
+	  		li_obj.attr("orig_value", selected_skill_data.selected_item_name);
+  		} else {
+  			span_name.append(field_o.attr("value"));
+  		}
+  		
+  		var m = measureText(span_name.html(), 16);
+  		
+  		li_obj.css("width", m.width + 25);
+  		span_name.css("width", m.width);
+  		div_obj.attr("class", "ovalbutton");
+  		div_obj.html(span_name);
+  		
+  		attach_sub_skill_field_binders(li_obj);
+  		
+  		
+  		// *** SAMPLE FOR TRIGGERING THE 'STOP' EVENT ***
+  		// ************************************************
+  		// var s = $("#sortable2").selectable("option", "stop");
+  		// s();
+  	}
+
+</script>

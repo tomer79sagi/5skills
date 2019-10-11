@@ -1,0 +1,138 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+<% content_for :title do %>
+	
+<% end %>
+
+<table width="100%">
+	<tr>
+		<td style="width:50%;vertical-align:top;">
+			<% form_tag :action => :login, :controller => :login do %>
+			
+			<div class="homepage_title_2" style="height:25px;">
+				Login
+			</div>
+						
+			<div class="content-body">
+							
+				<table>
+				  <tr>
+				  	<td style="width:120px;">Email:</td>
+					<td>
+						<%= text_field 'person_login', 'email'%>
+						<%= error_message_on "person_login", "email", {:prepend_text => "Email ", :css_class => "error_message_field"} %>
+					</td>
+				  </tr>
+				  <tr>
+					<td>Password:</td>
+					<td>
+						<%= password_field 'person_login', 'password'%>
+						<%= error_message_on "person_login", "password", {:prepend_text => "Password ", :css_class => "error_message_field"} %>
+					</td>
+				  </tr>
+				  <tr>
+				  	<td></td>
+					<td style="text-align:left;"><%= check_box "save_login", "checked", {}, "yes", "no" %> Remember me</td>
+				  </tr>
+				  <tr>
+				  	<td></td>
+					<td style="text-align:left;">
+						<%= submit_tag 'Login' %>
+					</td>
+				  </tr>
+				  <tr>
+				  	<td></td>
+					<td style="text-align:right;"><%= link_to 'Forgot your password?', forgot_password_url %></td>
+				  </tr>
+				</table>
+				
+			</div>
+			
+			<% end %>			
+		</td>
+		<td style="width:50%;vertical-align:top;height:350px;">
+			<% form_tag :action => :register, :controller => :fs_account do %>
+			
+			<div class="homepage_title_2" style="height:25px;">
+				Register
+			</div>
+			
+			<div class="content-body">
+				
+				<div id="user_type" style="padding-bottom:1em;">
+					<input type="radio" id="radio1" name="radio" checked="checked" /><label for="radio1" onclick="toggle_register_as(this);">Job Seeker</label>
+					&nbsp;
+					<input type="radio" id="radio2" name="radio" /><label for="radio2" onclick="toggle_register_as(this);">Recruitment Agent</label>
+					&nbsp;
+					<input type="radio" id="radio3" name="radio" /><label for="radio3" onclick="toggle_register_as(this);">Hiring Manager</label>
+					<input type="hidden" id="user_type-id" name="user_type[type_id]" value="<%= Fs2User::USER_TYPES[:job_seeker] %>"/>
+				</div>
+			  
+			  	<table>
+			  		<tr>
+			  			<td style="vertical-align:top;">
+			  				<table style="border-collapse:collapse;">				
+								<tr>
+									<td>Full Name:</td>
+									<td>
+										<%= text_field 'person', 'full_name' %>
+										<%= error_message_on "person", "full_name", {:prepend_text => "First Name ", :css_class => "error_message_field"}%>
+									</td>
+								</tr>
+								<tr>
+									<td>Email:</td>
+									<td>
+										<%= text_field 'person', 'email' %>
+										<%= error_message_on @person, "email", {:prepend_text => "Email ", :css_class => "error_message_field"} %>
+									</td>
+								</tr>
+								<tr>
+									<td>Password:</td>
+									<td>
+										<%= password_field 'person', 'password', :size => 30 %>
+										<%= error_message_on @person, "password", {:prepend_text => "Password ", :css_class => "error_message_field"} %>
+									</td>
+								</tr>
+								<tr id="company_field" style="display:none;">
+									<td style="">Company:</td>
+									<td style="">
+										<input type="text" id="search_company-name" name="search_company-name" style="width:210px;">
+										<input type="hidden" id="search_company-id"/>
+									</td>
+								</tr>
+								<tr id="agency_field" style="display:none;">
+									<td style="">Agency:</td>
+									<td style="">
+										<input type="text" id="search_agency-name" name="search_agency-name" style="width:210px;">
+										<input type="hidden" id="search_agency-id"/>
+									</td>
+								</tr>
+								<tr id="organisation_role_field" style="display:none;">
+									<td style="">Role:</td>
+									<td style="">
+										<%= text_field 'person', 'organisation_role' %>
+									</td>
+								</tr>
+								<tr>
+									<td></td>
+									<td style="text-align:left;"><%= submit_tag 'Register' %></td>
+								</tr>
+						  	</table>
+			  			</td>
+						<td id="company_logo" style="display:none;vertical-align:top;"></td>
+						<td id="agency_logo" style="display:none;vertical-align:top;"></td>
+			  		</tr>
+				</table>
+				
+			</div>
+			
+			<% end %>			
+		</td>
+	</tr>
+</table>
+
+<div style="font-size:50px;">
+	5skills.me
+</div>

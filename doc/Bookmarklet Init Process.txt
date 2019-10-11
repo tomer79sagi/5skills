@@ -1,0 +1,70 @@
+BL - Load process:
+
+1. flyc_runthis();
+
+2. _REQ_ping();
+ - Load 'easyXDM' JS library
+ 
+3. callServer("check_session"), success => 'bookmark_site', failure => 'login'
+ - [1st IFRAME] Define container for 'server' iframe -> "test_iframe"
+
+4. [easyXDM] 'bookmarklet/check_session' action => bookmarklet/bl_check_session
+
+5. [RAILS] Perform login initialisation (from session or from cookie)
+ 
+4. [RENDER] 'bookmarklet/simple.html' with server response (either has session or not)
+ - Define Facebook parameters ('div')
+ - Define 'test_inner' iframe (for ..)
+ - Define function for receiving information from the inner frame
+ - Create server socket
+ - Send 'onReady' event to the client
+ 
+ *** 3rd level iFrame to enable 'same-domain' pop-up clearance. If there was only 1 iframe on the 2nd level, ***
+ *** some browsers will block the 'facebook' login pop-up and will cause the user experience to be crap! ***
+5. [2nd IFRAME] 'general/iframe_test' -> 'general/iframe_test'
+
+6. [RENDER] 'general/iframe_test.html'
+ - Load 'Facebook' libraries
+ - Display the 'login' or 'logout' buttons for facebook
+ - Register for 'authorisation' events at facebook
+  + 'logged in' -> call 'a()' function at the parent iFrame (2nd level iFrame)
+  + 'a()' is called with the user's ID and the 'access token'
+  
+7. [2nd IFRAME] a()
+ - send the 'user ID' and 'access token' to the client
+ 
+8. [server -> client] socket.postMessage('facebook-token:{user ID}, {access token}')
+ - Display 'facebook' profile photo
+ 
+5. [client -> server] socket.postMessage('check_session') once the 'iframe' is initialized
+ - Call server 'onMessage' (simple.html)
+ - Send response back to client:
+  + 'key:{session_key}'
+  + 'err:{error_code}'
+  
+6. [server -> client] socket.postMessage({server_response});
+ - [success]
+  + create a 'requestHeader' for holding the 'session_key'
+  + call 'success' action ('bookmark_site') -> '_REQ_bookmark_site();'
+ - [failure]
+  + call 'failure' action ('login' ajax-it action) -> '_REQ_login();'
+  
+7. _REQ_bookmark_site
+
+8. [JSON] 'bookmarklet/bookmark_site' -> 'bookmarklet/bl_bookmark_site'
+ 
+9. -> '_RES_bookmark'
+ - [page_type == 'unknown']
+ 
+10. -> '_REQ_get_unknown_panel'
+
+11. [JSON] 'bookmarklet/panel/unknown' -> 'bl_get_unknown_panel'
+
+12. -> '_RES_get_unknown_panel'
+ 
+13. -> '_REQ_get_new_role_panel'
+
+14. [JSON] 'bookmarklet/panel/new_role' -> 'bl_get_new_role_panel'
+
+15. -> '_RES_get_new_role_panel'
+ - Update UI

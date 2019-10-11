@@ -1,0 +1,128 @@
+<!--[form:agency]-->
+  
+<div style="width:750px;float:left;min-height:80px;padding:1em 0em 0em 0em;">
+	
+	<!-- Job Application Details -->
+	<table style="width:100%;text-align:left;border-collapse:collapse;">
+		<tr style="vertical-align:top;">
+			<td class="template_cell_title_content" 
+					style="text-align:center;width:148;padding:0em .5em 0em 1em;">
+				<div style="background-color:<%= session[:organisation_color_dark] %>;padding:.7em 0em .7em 0em;margin:0em 0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<%= link_to session[:organisation_type_name], view_organisation_url(:organisation_id => @organisation_summary.organisation_id) %>
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em .5em 0em .5em;">
+				<div style="background-color:<%= session[:organisation_color] %>;padding:.7em 0em .7em 0em;margin:0em 0em 0em .5em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<b>Contacts</b>
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em 1em 0em .5em;">
+				&nbsp;
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em .5em 0em .5em;">
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em 1em 0em .5em;">
+				&nbsp;
+			</td>
+		</tr>
+	</table>
+	
+	  <div style="background-color:<%= session[:organisation_color] %>;width:100%;text-align:left;border:1px solid <%= session[:organisation_color] %>;padding:0em 0em 0em 1em;margin:-1px 0px 20px 0px;">
+		
+		<% if @contacts && @contact %>
+		
+			<div style="margin:1em 1em 1em 0em;text-align:right;border-bottom:1px gray solid;">
+				<%= link_to 'New Contact', new_organisation_contact_url(:organisation_id => @organisation_summary.organisation_id), :class => "tab_link" %>
+				|
+				<%= link_to 'Edit Contact', edit_contact_url(:contact_id => @contact.id), :class => "tab_link" %>
+			</div>
+		
+			<table style="width:100%;margin:0px 10px 0px 0px;border-collapse:collapse;">
+				<tr>
+					<td style="padding:1em 0em 1em 0em;width:100px;text-align:right;">
+						<%= session[:organisation_contact_type_name_plural] %>
+					</td>
+					<td rowspan="7" style="padding:1em 0em 0em 0em;width:200px;text-align:left;">
+						<%= select_tag "contacts[contact_id]", 
+							options_for_select(@contacts.collect {|contact| [ contact.first_name + " " + contact.last_name, contact.id ]},
+							@contact.id), 
+							"onChange" => "form.submit();",
+							:size => 9, "name" => "contacts", "id" => "contacts", "style" => "width:217px;" %>			
+					</td>
+					<td style="padding:1em 0em 0em 0em;text-align:right;width:150px;">First Name:</td>
+					<td style="padding:1em 0em 0em 0em;text-align:left;width:350px;"><b><%= @contact.first_name %></b></td>
+				</tr>
+				<tr>
+					<td style="text-align:right;">&nbsp;</td>
+					<td style="text-align:right;">Last Name:</td>
+					<td><b><%= @contact.last_name %></b></td>
+				</tr>
+				<tr>
+					<td style="text-align:right;">&nbsp;</td>
+					<td style="text-align:right;">Mobile Number:</td>
+					<td><b><%= @contact.mobile %></b></td>		
+				</tr>		
+				<tr>
+					<td style="text-align:right;">&nbsp;</td>
+					<td style="text-align:right;">Email Address:</td>
+					<td><b><%= @contact.primary_email %></b></td>
+				</tr>
+				<tr>
+					<td style="text-align:right;">&nbsp;</td>
+					<td style="text-align:right;">Phone Number:</td>
+					<td><b><%= @contact.phone_work %></b></td>
+				</tr>
+				<tr>
+					<td style="text-align:right;">&nbsp;</td>
+					<td style="text-align:right;">Fax Number:</td>
+					<td><b><%= @contact.fax %></b></td>
+				</tr>
+				<tr>
+					<td colspan="4">&nbsp;</td>
+				</tr>
+			</table>
+			
+			<div style="margin:1em 1em 1em 0em;text-align:right;border-top:1px gray solid;">
+				<%= link_to 'New Contact', new_organisation_contact_url(:organisation_id => @organisation_summary.organisation_id), :class => "tab_link" %>
+				|
+				<%= link_to 'Edit Contact', edit_contact_url(:contact_id => @contact.id), :class => "tab_link" %>
+			</div>
+		
+		<% else %>
+		
+			<div style="margin:1em 1em 1em 0em;text-align:right;border-bottom:1px gray solid;">
+				<%= link_to 'New Contact', new_organisation_contact_url(:organisation_id => @organisation_summary.organisation_id), :class => "tab_link" %>
+			</div>
+		
+			<table style="width:100%;margin:0px 10px 0px 0px;padding:3em 0em 3em 0em;">
+				<tr>
+					<td colspan="4" style="text-align:left;">
+						There are no contacts for this <%= session[:organisation_type_name] %>. Please click 'New Contact' to create some!
+					</td>
+				</tr>
+			</table>
+			
+			<div style="margin:1em 1em 1em 0em;text-align:right;border-top:1px gray solid;">
+				<%= link_to 'New Contact', new_organisation_contact_url(:organisation_id => @organisation_summary.organisation_id), :class => "tab_link" %>
+			</div>
+				
+		<% end %>
+		
+	</div>
+	
+	<div style="width:750px;text-align:right;padding:0em 0em 1em 0em;">
+	
+		<% if @contacts && @contact %>
+			<%= link_to 'Delete Contact', delete_contact_url(:contact_id => @contact.id), :confirm => "Are you sure you want to delete contact '#{@contact.first_name} #{@contact.last_name}'?", :class => "tab_link" %>
+			|
+		<% end %>
+		
+		<%= link_to 'Delete ' + session[:organisation_type_name], delete_organisation_url(:organisation_id => @organisation_summary.organisation_id), :confirm => "Are you sure you want to delete #{session[:organisation_type_name]} '#{@organisation_summary.organisation_name}'?", :class => "tab_link" %>
+	</div>
+</div>
+	  
+  <!--[eoform:organisation]-->

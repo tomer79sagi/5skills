@@ -1,0 +1,20 @@
+<table style="width:100%;border-bottom:3px solid green;">
+	<tr>
+		<td style="font-size:20px;font-weight:bold;"><%= link_to 'HOME', five_skills_home_url %></td>
+		<td>
+			<table style="text-align:left;">
+				<tr>
+					<td><b>JOB SEEKER</b></td>
+					<td><%= link_to 'Create job seeker profile', create_job_seeker_profile_url %></td>
+					<td>Search jobs</td>
+				</tr>
+				<tr>
+					<td><b>RECRUITER</b></td>
+					<td><%= link_to 'Create job description', create_job_url %></td>
+					<td><%= link_to 'Search job seekers', search_job_seekers_url %></td>
+				</tr>
+				
+			</table>	
+		</td>
+	</tr>
+</table>

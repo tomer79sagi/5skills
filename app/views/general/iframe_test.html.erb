@@ -1,0 +1,67 @@
+<html>
+	<head></head>
+	<body>
+<div id="fb-root"></div>      
+
+<script type="text/javascript" src="http://localhost:3002/javascripts/jquery-1.5.1.min.js"></script>
+<script type="text/javascript">
+	  							      // Load the SDK Asynchronously
+			      (function(d){
+			         var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+			         if (d.getElementById(id)) {return;}
+			         js = d.createElement('script'); js.id = id; js.async = true;
+			         js.src = "//connect.facebook.net/en_US/all.js";
+			         ref.parentNode.insertBefore(js, ref);
+			       }(document));
+			
+			      // Init the SDK upon load
+			      window.fbAsyncInit = function() {
+			        FB.init({
+                        appId      : '156127131075698',
+			            status     : true, 
+			            cookie     : true,
+			            xfbml      : true,
+			            oauth      : true,
+			        });
+					
+					var is_logged_in = false;
+			
+			        // listen for and handle auth.statusChange events
+			        FB.Event.subscribe('auth.statusChange', function(response) {
+			        	if (!response.authResponse) {
+					  	
+//							alert('not authorised');
+							
+						} else {
+							
+//							alert('authorised!');
+							
+							is_logged_in = true;
+							document.getElementById('auth-login').style.display = 'none';
+							
+							// Call parent iFrame (easyXDM stuff)
+							FB.api('/me', function(me){
+//								$.getJSON("https://graph.facebook.com/" + me.id + "?access_token=" + response.authResponse.accessToken,
+//									function(data) {
+////										alert(data.id);
+//									});
+									
+								parent.a(me.id, response.authResponse.accessToken);
+
+							});	// FB.api					
+						}
+						
+			        }); // FB.Event.subscribe
+					
+					if (!is_logged_in) {
+						document.getElementById('auth-login').style.display = 'block';
+					}
+					
+			      }
+				  
+				  </script>
+				  
+				  <div id="auth-login" class="fb-login-button" scope="email, publish_stream" style="display:none;">Login with Facebook</div>
+
+	  </body>
+  </html>

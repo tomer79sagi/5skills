@@ -1,0 +1,269 @@
+<div style="width:100%;float:left;min-height:80px;padding:1em 0em 0em 0em;">
+	
+	<!-- Job Application Details -->
+	<table style="width:750px;text-align:left;border-collapse:collapse;margin:0em 0em 1em 0em;">
+		<tr style="vertical-align:top;">
+			<td class="template_cell_title_content" 
+					style="text-align:center;width:150px;padding:0em .5em 0em 1em;">
+				<div style="background-color:#cef5c2;padding:.7em 0em .7em 0em;margin:0em 0em 0em .5em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<b>Uncategorised senders (10)</b>
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:150px;padding:0em 1em 0em .5em;">
+				<div style="background-color:#ceecc2;padding:.7em 0em .7em 0em;margin:0em 0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<%= link_to 'Uncategorised messages (15)', invite_company_contact_agents_by_email_step_1_url %>
+				</div>
+			</td>
+			<td class="template_cell_title_content" style="text-align:center;width:148px;padding:0em .5em 0em .5em;">
+			</td>
+		</tr>
+	</table>
+	
+	<table style="border-collapse:collapse;width:100%;text-align:left;padding:0em 0em 0em 0em;">
+				
+		<tr>
+			<td style="background-color:#cef5c2;width:250px;text-align:right;padding:0em 0em 0em 1em;margin:0px 0px 20px 0px;">
+				<table>
+					<tr>
+						<td style="width:500px;">
+							<b>Step 1: Categorise senders</b>
+							&nbsp;|&nbsp;
+							Step 2: Review categorised senders
+						</td>
+						<td style="background-color:#cef5c2;width:250px;text-align:right;padding:0em 0em 0em 1em;margin:0px 0px 0px 0px;">
+					  		<button onClick="document.location.href='<%= company_contact_view_home_url %>'";>Approve categorisation</button>
+							&nbsp;<button>Cancel</button>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		
+		<tr>
+			<td colspan="9" style="background-color:#cef5c2;border-top:1px solid black;">
+		  		&nbsp;
+			</td>
+		</tr>
+		
+		<tr>
+			<td style="background-color:#cef5c2;text-align:left;padding:0em 0em 1em 0em;">
+		  		The following senders were identified!<br/>
+				Flyc tried to auto-categorise these email addresses. You can change the categorisation of each email address by using the drop-down menus.<br/>
+				If you wish to create a new agency or contact, you can use the 'text' fields to the right of each detected field.<br/> 
+				<br/>
+				<i>* The "Map doman" checkbox will map the domain to the agency for all previous and future messages</i>
+			</td>
+		</tr>
+		<tr>
+			
+			<td style="background-color:#cef5c2;width:800px;text-align:left;border:1px solid #cef5c2;padding:0em 0em 0em 1em;margin:0px 0px 0px 0px;">
+			
+				<!-- ******************* -->
+				<!-- HEADER 			 -->
+				<!-- ******************* -->
+				
+				<table style="width:100%;border-collapse:collapse;">
+					<tr>
+					
+						<td style="background-color:#cef5c2;width:30px;text-align:center;font-size:18px;">
+							&nbsp;
+						</td>
+									
+								<td class="template_cell_title_content" style="background-color:#cef5c2;width:200px;vertical-align:middle;">
+									<b>Email address</b>
+								</td>
+								<td class="template_cell_closing_date_content" style="background-color:#cef5c2;">
+									<b>Detected contact type</b>
+								</td>
+								<td class="template_cell_closing_date_content" style="background-color:#cef5c2;">
+									<b>Deteceted agency</b>
+								</td>
+								<td class="template_cell_closing_date_content" style="background-color:#cef5c2;">
+									<b>New agency</b>
+								</td>
+								<td class="template_cell_title_content" style="background-color:#cef5c2;width:110px;vertical-align:middle;">
+									<b>Detected contact</b>
+								</td>
+								<td class="template_cell_title_content" style="background-color:#cef5c2;width:90px;vertical-align:middle;">
+									<b>New contact</b>
+								</td>
+								<td class="template_cell_company_content" style="background-color:#cef5c2;width:170px;vertical-align:middle;">
+									&nbsp;
+								</td>
+					
+					</tr>
+		
+			<!-- ******************* -->
+			<!-- Role 1 			 -->
+			<!-- ******************* -->
+			
+					<tr style="vertical-align:top;">
+						
+						<td style="background-color:#cef5c2;padding:.1em 0em 0em 0em;width:30px;text-align:center;font-size:18px;float:left;min-height:45px;">
+							<b>1</b>
+						</td>	
+						<td class="template_cell_title_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:200px;font-size:12px;line-height:24px;vertical-align:top;">
+							<b>john.travolta@hudson.com</b>
+						</td>
+						<td class="template_cell_company_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+							<select style="width:100px;">
+								<option>- N/A -</option>
+								<option>Agency</option>
+								<option selected="true">Agent</option>
+								<option>Candidate</option>
+							</select>
+						</td>
+						<td class="template_cell_agency_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+							<select style="width:100px;">
+								<option>- N/A -</option>
+								<option selected="true">Hudson</option>
+							</select>
+							<br/>
+							<input type="checkbox" checked="true">Map domain
+						</td>
+						<td class="template_cell_agency_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+							<input type="text" style="width:100px;">
+						</td>
+						<td class="template_cell_title_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:110px;">
+							<select style="width:100px;">
+								<option>- N/A -</option>
+								<option selected="true">John Travolta</option>
+							</select>
+						</td>
+						<td class="template_cell_agency_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:90px;">
+							<input type="text" style="width:100px;">
+						</td>
+						<td class="template_cell_closing_date_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;">
+							
+						</td>
+						
+					</tr>
+			
+			<!-- ******************* -->
+			<!-- Role 2 			 -->
+			<!-- ******************* -->
+			
+					<tr style="vertical-align:top;">
+						
+						<td style="background-color:#cef5c2;padding:.1em 0em 0em 0em;width:30px;text-align:center;font-size:18px;float:left;min-height:45px;">
+							<b>2</b>
+						</td>	
+						<td class="template_cell_title_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:200px;font-size:12px;line-height:24px;vertical-align:top;">
+							<b>john.hughes@920.co.nz</b>
+						</td>
+						<td class="template_cell_company_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+							<select style="width:100px;">
+								<option>- N/A -</option>
+								<option>Agency</option>
+								<option selected="true">Agent</option>
+								<option>Candidate</option>
+							</select>
+						</td>
+						<td class="template_cell_agency_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+							<select style="width:100px;">
+								<option>- N/A -</option>
+								<option>Hudson</option>
+								<option selected="true">*920</option>
+								<option>Neal Andrews</option>
+							</select>
+							<br/>
+							<input type="checkbox" checked="true">Map domain
+						</td>
+						<td class="template_cell_agency_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+							<input type="text" style="width:100px;">
+						</td>
+						<td class="template_cell_title_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:110px;">
+							<select style="width:100px;">
+								<option>- N/A -</option>
+								<option selected="true">*John Hughes</option>
+								<option>James Flinn</option>
+								<option>Joanne Milla</option>
+							</select>
+						</td>
+						<td class="template_cell_agency_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:90px;">
+							<input type="text" style="width:100px;">
+						</td>
+						<td class="template_cell_closing_date_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;">
+							
+						</td>
+						
+					</tr>
+			
+			<!-- ******************* -->
+			<!-- Role 3				 -->
+			<!-- ******************* -->
+			
+					<tr style="vertical-align:top;">
+						
+						<td style="background-color:#cef5c2;padding:.1em 0em 0em 0em;width:30px;text-align:center;font-size:18px;float:left;min-height:45px;">
+							<b>3</b>
+						</td>	
+						<td class="template_cell_title_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:200px;font-size:12px;line-height:24px;vertical-align:top;">
+							<b>info@blender.co.il</b>
+						</td>
+						<td class="template_cell_company_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+							<select style="width:100px;">
+								<option>- N/A -</option>
+								<option selected="true">Agency</option>
+								<option>Agent</option>
+								<option>Candidate</option>
+							</select>
+						</td>
+						<td class="template_cell_agency_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+							<select style="width:100px;">
+								<option>- N/A -</option>
+								<option selected="true">*Blender</option>
+								<option>920</option>
+								<option>Neal Andrews</option>
+							</select>
+							<br/>
+							<input type="checkbox" checked="true">Map domain
+						</td>
+						<td class="template_cell_agency_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:170px;">
+							<input type="text" style="width:100px;">
+						</td>
+						<td class="template_cell_title_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:110px;">
+							<select style="width:100px;">
+								<option>- N/A -</option>
+								<option selected="true">*Info</option>
+								<option>John Hughes</option>
+								<option>James Flinn</option>
+								<option>Joanne Milla</option>
+							</select>
+						</td>
+						<td class="template_cell_agency_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;width:90px;">
+							<input type="text" style="width:100px;">
+						</td>
+						<td class="template_cell_closing_date_content" style="background-color:#cef5c2;border-top:2px solid #cef5c2;border-bottom:2px solid #cef5c2;background-color:#cef5ff;">
+							
+						</td>
+						
+					</tr>
+					
+				</table>
+
+			</td>
+		</tr>
+		<tr>
+			<td style="background-color:#cef5c2;border-bottom:1px solid black;">
+		  		&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="background-color:#cef5c2;width:250px;text-align:right;padding:0em 0em 0em 1em;margin:0px 0px 0px 0px;">
+		  		<table>
+					<tr>
+						<td style="width:500px;">
+							&nbsp;
+						</td>
+						<td style="background-color:#cef5c2;width:250px;text-align:right;padding:0em 0em 0em 1em;margin:0px 0px 0px 0px;">
+					  		<button onClick="document.location.href='<%= company_contact_view_home_url %>'";>Approve categorisation</button>
+							&nbsp;<button>Cancel</button>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>

@@ -1,0 +1,72 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  
+  <title><%= yield :head %></title>
+  
+	<link href='http://fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+	<%= stylesheet_link_tag 'mvp-1' %>
+  
+  	<%= javascript_include_tag 'jquery-1.7.2.min', 'jquery-ui/jquery-ui-1.8.20.custom.min' %>
+  	
+  	<%= render :partial => '/five_skills/_site_js_analytics' %>
+  
+	<script type="text/javascript">
+	
+		function test(ads) {
+			// alert('t');
+			
+				for (var i=0 ; i<50000 ; ++i) {
+					// ads.alert('tomer');
+					
+					if ($(ads.document).find('body')) {
+					// if ($(win.document).find('[id=main]') && $(win.document).find('[id=main]').html() != null) {
+						// alert($(win.document).find('.given-name').html());
+						alert($(ads.document).find('body'));
+						// win.alert($(win.document).find('.given-name').html());
+						break;
+					} else {
+						// console.log('test');
+					}
+				}
+			
+			}
+	
+		$(document).ready(function() {
+			var win = setTimeout(window.open("http://www.linkedin.com/in/tomersagi", '','width=400,height=400'), 1000);
+			// win.onready = win.alert('tomer');
+			
+			// $(win.document).ready(function(){
+				// alert($(this).html());
+			// })
+			
+			setTimeout(test(win), 5000);
+			
+			
+			
+			// alert($(win.document).find('html').html());
+			// alert($(win.document).find('input[name="session_key"]').html());
+			// alert($(win.document).find('input[name="session_key"]').html());
+			// win.ready = function() {
+				// alert($(win.document).find('input[name="session_key"]').html());
+				// // $(this.document).find('input[name="session_key"]').attr('value', 'tomer');
+			// }
+			// $(win.document).find('input[name="session_key"]').attr('value', 'tomer');
+			
+		});
+	</script>
+    
+</head>
+<body style="background-color:#E5F9EE;">
+
+	<%= render :partial => '/five_skills/messages' %>
+			
+	<%= yield %>
+	
+	<%#= render :partial => '/five_skills/footer' %>
+
+</body>
+</html>

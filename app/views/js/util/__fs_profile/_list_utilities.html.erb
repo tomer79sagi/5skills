@@ -1,0 +1,329 @@
+<script type="text/javascript">
+
+	function renumber_fs_profile() {
+		var divs;
+		var counter = 1;
+		
+		$("li[id^='skill_']").each(function() {
+			
+			$(this).attr("id", "skill_" + counter);
+			$(this).find("div[id$='_name']").attr("id", "skill_" + counter + "_name");
+			$(this).find("div[id$='_yrs']").attr("id", "skill_" + counter + "_yrs");
+			
+			++counter;
+		});
+	}
+
+	function remove_skill(skill_index) {
+		var li_obj = $("#skill_" + skill_index);
+
+		li_obj.replaceWith(create_blank_primary_skill(skill_index));
+		attach_primary_field_binders(skill_index, true);
+		ajax_it("fs_profile_updated");
+	}
+
+	//
+	// This method extracts the parent html object
+	//
+	function first_parent(html_object) {
+		return html_object.parents("[id^='skill_']");
+	}
+
+	function hop_to_start() {
+		$("#skill_" + skill_index + "_name").click();
+	}
+	
+	function hop_to_element(current_element, is_forward) {
+		// alert(current_element.attr("id"));
+		// alert(current_element.parents("[id^='skill_']").attr("id"));
+		
+		// If no element is selected, hop to first primary skill (start)
+		if (!current_element) { hop_to_start(); }
+		
+		var parent_element = first_parent(current_element);
+		var field_id_array = parent_element.attr("id").split("_");
+		var index_diff = (is_forward ? 0 : -1);
+		
+		if ( field_id_array.length == 3) {
+			if (field_id_array[2] == 'name') {
+				if (field_id_array[1] == 1 && index_diff == -1) {
+					return;
+				} else {
+					// $("#skill_" + (parseInt(field_id_array[1]) + index_diff) + "_yrs").click();
+					convert_input_to_primary_skill($("#skill_" + (parseInt(field_id_array[1]) + index_diff) + "_name"));
+					convert_yrsexp_to_input($("#skill_" + (parseInt(field_id_array[1]) + index_diff) + "_yrs"));
+				}
+			} else if (field_id_array[2] == 'yrs') {
+				if (field_id_array[1] == 5 && index_diff == 0) {
+					return;
+				} else {
+					// alert(current_element.attr("value"));
+					console.log("+++ " + parent_element.attr("id") + ' ; ' + current_element.attr("value") + ' ; ' + $("#skill_" + (parseInt(field_id_array[1]) + index_diff) + "_yrs").attr("value"));
+					convert_input_to_yrsexp(current_element);
+					convert_primary_skill_to_input($("#skill_" + (parseInt(field_id_array[1]) + index_diff + 1) + "_name"));
+					// $("#skill_" + (parseInt(field_id_array[1]) + index_diff + 1) + "_name").click();
+				}
+			}			
+		}
+	}
+	
+	function hop_to_next_element(current_element) {
+		hop_to_element(current_element, true);
+	}
+	
+	function hop_to_previous_element(current_element) {
+		hop_to_element(current_element, false);
+	}
+
+	function get_first_blank_skill(fs_profile__css_selector) {
+		var priority = null;
+		
+		blank_li = $(fs_profile__css_selector + " li[blank='true']:first");
+		if (blank_li && blank_li.attr("id")) { priority = blank_li.attr("id").split("_")[1]; }
+		
+		return priority;
+	}
+
+	// Check 'primary' by matching the 'id' to the 'primaries' array or the 'skill_X' format
+  	function is_primary(obj_id) {
+  		return g_primaries.indexOf(obj_id) != -1 || /skill_[1-5]/.test(obj_id);
+  	}
+  	
+  	// Check 'sub skill' by matching the 'id' to the 'secondaries' array or the 'id' is a number
+  	function is_sub_skill(obj_id) {
+  		return g_secondaries.indexOf(obj_id) != -1 || !isNaN(parseInt(obj_id));
+  	}
+  	
+  	function add_sub_skill(skill_id, skill_name, container_o) {
+  		var a = create_sub_skill(skill_id, skill_name);
+	    
+	    attach_sub_skill_field_binders(a);
+	    
+	    container_o.append(a);
+  	}
+  	
+  	function add_add_sub_skill(skill_id, container_o) {
+  		var a = create_add_sub_skill(skill_id);
+	    
+	    a.bind('click', function() {
+	    	var b = $(this).parent();
+	    	var new_id = $(this).attr("id");
+	    	
+	    	$(this).css("width", "100px");
+	    	convert_skill_to_input($(this), true);
+	    	
+	    	// Add a new 'add new skill' field
+	    	add_add_sub_skill(new_id, b);
+	    });
+	    
+	    container_o.append(a);
+  	}
+
+	function replace_prev_primary_skill() {
+  		// Replace primary skill with previous skill
+		if (g_primaries.indexOf(g_cache.prev_target_list_id) != -1 && g_cache.start_list_id != g_cache.prev_target_list_id) {
+			$("#" + g_cache.prev_target_list_id).html(g_cache.prev_target_html_content.html());
+			// attach_primary_field_binders(g_primaries.indexOf(g_cache.prev_target_list_id) + 1);
+		
+		// Create 'blank' primary skill
+		} else if (g_primaries.indexOf(g_cache.prev_target_list_id) != -1 && g_cache.start_list_id == g_cache.prev_target_list_id) {
+			var skill_index = g_primaries.indexOf(g_cache.prev_target_list_id) + 1;
+			var blank_primary_skill_obj = create_blank_primary_skill(skill_index);
+			
+			$("#" + g_cache.prev_target_list_id).append(blank_primary_skill_obj);
+			// attach_primary_field_binders(skill_index, true);
+		}
+  	}
+  	
+  	function extract_skills_from_lists(li_skill_container_obj) {
+  		var skills_a = new Array();
+  		var active_obj;
+  		var curr_primary_element, curr_secondary_element;
+  		var i = -1;
+  		
+  		if (!li_skill_container_obj) {
+  			active_obj = $("ul.connectedSortable");
+  		} else {
+  			active_obj = li_skill_container_obj.find("ul.connectedSortable");
+  		}
+  		
+		active_obj.each(function() {
+			
+			if (g_primaries.indexOf($(this).attr("id")) != -1) {
+				
+				curr_primary_element = $(this).find("li");
+				
+				skills_a.push({
+					id: curr_primary_element.attr("skill_id"),
+					value: curr_primary_element.attr("orig_value"),
+					yrs_exp: curr_primary_element.attr("skill_yrsexp"),
+					sub_skills: new Array()
+				});
+				
+				++i;
+				
+				// alert(curr_element.attr("skill_id") + " ; " + curr_element.attr("orig_value"));
+			} else if (g_secondaries.indexOf($(this).attr("id")) != -1) {
+				
+				// Loop through all 'li' elements
+				$(this).find("li[skill_id]").each(function() {
+					skills_a[i].sub_skills.push({
+						id: $(this).attr("skill_id"),
+						value: $(this).attr("orig_value"),
+						yrs_exp: 1
+					});
+				});
+				
+			}
+		});
+		
+		// alert(skills_a['skill_1'].id);
+
+		return skills_a;
+  	}
+  	
+	//
+	// This function returns the following structure:
+	//
+	//   [{id: 2141, value: "Project management", yrs_exp: "1"},
+	//    {id: 35142, value: "Software development", yrs_exp: "2"}]
+	//
+	function extract_skills_from_flat_profile(li_skill_container_obj) {
+		var skills_a = new Array();
+		var is_dirty = false;
+		
+		$(".skills_profile_top_5 li").each(function() {
+			if ($(this).attr("skill_id") && $(this).attr("skill_id") != "-1") {
+				skills_a.push({
+						id: $(this).attr("skill_id"),
+						value: $(this).attr("orig_value"),
+						yrs_exp: $(this).attr("skill_yrsexp")
+					});
+				
+				is_dirty = true;
+			}
+			
+		});
+		
+		// Additional requirements, not used as at June 2013.
+		// Will consider adding it back in post alpha release for recruiters
+		$(".skills_profile_additional li").each(function() {
+			// alert($(this).attr("skill_id"));
+			
+			skills_a.push({
+					id: $(this).attr("skill_id"),
+					value: $(this).find(".single_additional_skill_name").html().trim(),
+					yrs_exp: $(this).attr("skill_yrsexp")
+				});
+				
+			is_dirty = true;
+		});
+	
+		if (is_dirty) {
+			return skills_a;
+		} else { 
+			return null;
+		}
+	}
+  	
+  	
+  	//
+  	// This function is called when the 'over' event is triggered on the relevant lists
+  	//
+  	function convert_item_to_skill(list_obj, item_obj, convert_type) {
+  		
+  		switch (convert_type) {
+  			case 1: // available skills (sub skill)
+  			
+		    	g_cache.curr_target_html_content = create_sub_skill(34, g_cache.start_skill_name);
+		    	var local_skill_name;
+		    	var div_obj = g_cache.curr_target_html_content.find("div");
+		    	var span_obj = g_cache.curr_target_html_content.find("span");
+		    	
+		    	local_skill_name = span_obj.html();
+		    	if (local_skill_name.length > 22) { local_skill_name = local_skill_name.substring(0, 22) + "..."; }
+				span_obj.html(local_skill_name);
+				
+				span_obj.css("max-width", 135);
+				
+				item_obj.html(g_cache.curr_target_html_content.html());
+				
+				// item_obj.css("color", g_cache.curr_target_html_content.css("color"));
+				// item_obj.css("width", g_cache.curr_target_html_content.css("width"));
+				// item_obj.css("min-width", g_cache.curr_target_html_content.css("min-width"));
+				// item_obj.css("max-width", "145px");
+				// item_obj.css("height", g_cache.curr_target_html_content.css("height"));
+				// item_obj.css("text-align", g_cache.curr_target_html_content.css("text-align"));
+				// item_obj.css("border", g_cache.curr_target_html_content.css("border"));
+				// item_obj.css("cursor", "default");
+				
+  				break;
+  				
+  			case 2: // 5skills' profile sub skill
+  			
+  				console.log("into secondary: " + g_cache.start_skill_name);
+  				
+  				var div_obj = item_obj.find("div");
+  			
+  				g_cache.curr_target_html_content = create_sub_skill(item_obj.attr("skill_id"), g_cache.start_skill_name);
+        		div_obj.attr("class", "ovalbutton");
+        		item_obj.attr("orig_value", g_cache.curr_target_html_content.attr("orig_value"));
+        		
+        		item_obj.html(g_cache.curr_target_html_content.html());
+        		
+        		item_obj.css("color", g_cache.curr_target_html_content.css("color"));
+        		item_obj.css("width", g_cache.curr_target_html_content.css("width"));
+        		item_obj.css("min-width", g_cache.curr_target_html_content.css("min-width"));
+        		item_obj.css("max-width", g_cache.curr_target_html_content.css("max-width"));
+        		item_obj.css("height", g_cache.curr_target_html_content.css("height"));
+        		item_obj.css("text-align", g_cache.curr_target_html_content.css("text-align"));
+        		item_obj.css("border", g_cache.curr_target_html_content.css("border"));
+            		
+  				break;
+  				
+			case 3: // 5skills' profile primary skill
+			
+				// console.log("into primary");
+            		
+        		// Find all primary 'add skill' options and remove them
+        		list_obj.find("#" + "-99").remove();
+        		
+        		// Grab the previous primary skill's HTML
+        		var element = list_obj.find("div[id$=_name]");
+        		// Hack to grab the '<table>' tag including its inner html
+        		var elem_content = element.parent().clone().wrap('<p/>').parent();
+        		var skill_index = g_primaries.indexOf(g_cache.curr_target_list_id) + 1;
+        		
+        		// Capture the previous HTML content (as we need to replace the primary content)
+            	g_cache.prev_target_html_content = elem_content;
+        		
+        		// Create the next primary HTML content
+        		g_cache.curr_target_html_content = create_primary_skill(skill_index, {
+		  			id: g_cache.start_skill_id,
+		  			name: g_cache.start_skill_name,
+		  			years_exp: item_obj.attr("skill_yrsexp")
+		  		});
+        		
+        		// Change the entering 'NEW' element to be a 'primary' one
+        		item_obj.html(g_cache.curr_target_html_content.html());
+        		attach_primary_field_binders(skill_index);
+        		
+        		// Set the 'orig_value' attribute
+        		// item_obj.find("[id$='_name']").attr("orig_value", g_cache.start_skill_name);
+        		item_obj.attr("orig_value", g_cache.start_skill_name);
+        		
+        		item_obj.css("color", g_cache.curr_target_html_content.css("color"));
+        		item_obj.css("width", g_cache.curr_target_html_content.css("width"));
+        		item_obj.css("height", g_cache.curr_target_html_content.css("height"));
+        		item_obj.css("text-align", g_cache.curr_target_html_content.css("text-align"));
+        		item_obj.css("border", g_cache.curr_target_html_content.css("border"));
+        		
+        		// Remove the 'PREVIOUS' element
+        		element.parent().remove();
+			
+				break;
+  		}
+  		
+  	}
+
+</script>

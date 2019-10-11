@@ -1,0 +1,76 @@
+<table style="width:100%;border-bottom:3px solid green;">
+	<tr>
+		<td style="height:50px;font-size:20px;font-weight:bold;text-align:left;"><%= link_to 'HOME', five_skills_home_url %></td>
+		
+		<% if session[:user] && session[:person] %>
+		
+			<td>
+				<table style="text-align:left;">
+					<tr>
+						
+						<% if session[:user].user_type_id == Fs2User::USER_TYPES[:job_seeker] %>
+						
+							<td style="padding:0em .5em 0em .5em;"><%= link_to 'Edit job seeker profile', edit_job_seeker_profile_url({:job_seeker_id => session[:person].id}) %></td>
+							<td style="padding:0em 1em 0em .5em;"><%= link_to 'Find jobs', find_jobs_url %></td>
+							
+						<% elsif session[:user].user_type_id == Fs2User::USER_TYPES[:recruitment_agent] || session[:user].user_type_id == Fs2User::USER_TYPES[:hiring_manager] %>
+						
+							<% if session[:job].nil? %>
+								<td style="padding:0em .5em 0em 1em;"><%= link_to 'Create job profile', create_job_profile_url %></td>
+							<% else %>
+								<td style="padding:0em .5em 0em 1em;"><%= link_to 'Edit job profile', edit_job_profile_url({:job_id => session[:job].id}) %></td>
+							<% end %>						
+							
+							<td style="padding:0em .5em 0em .5em;"><%= link_to 'Find job seekers', find_job_seekers_url %></td>
+							
+						<% end %>
+						
+					</tr>
+				</table>	
+			</td>
+			
+		<% end %>
+		
+			<td style="text-align:right;">
+			
+				<table style="width:100%;">
+					
+					<% if session[:user] && session[:person] %>
+					
+						<tr>
+							<td>
+								
+								Hi <span style="font-weight:bold;"><%= session[:person].full_name %></span>
+								
+								|
+								
+								<% if session[:user].user_type_id == Fs2User::USER_TYPES[:job_seeker] %>
+									JOB SEEKER
+								<% elsif session[:user].user_type_id == Fs2User::USER_TYPES[:recruitment_agent] %>
+									RECRUITMENT AGENT
+								<% elsif session[:user].user_type_id == Fs2User::USER_TYPES[:hiring_manager] %>
+									HIRING MANAGER
+								<% end %>
+								
+								<% if session[:organisation] %>
+									[<%= session[:organisation].name %>]
+								<% end %>
+								,
+								 
+								<%= link_to 'Logout', do_logout_url, :class => "content_link" %>
+							</td>
+						</tr>
+					
+					<% end %>
+					
+					<tr>
+						<td style="text-align:right;">
+							<a href="/" onClick="help(); return false;">Help</a>
+						</td>
+					</tr>
+				</table>
+				
+			</td>
+		
+	</tr>
+</table>

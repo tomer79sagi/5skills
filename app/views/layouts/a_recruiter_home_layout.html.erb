@@ -1,0 +1,75 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  
+  <title><%= yield :head %></title>
+  
+	<link href='http://fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+	<%= stylesheet_link_tag 'mvp-1' %>
+  
+  	<%= javascript_include_tag 'jquery-1.7.2.min', 'jquery-ui/jquery-ui-1.8.20.custom.min' %>
+  	
+  	<%= render :partial => '/js/framework/_google_analytics' %>
+  	
+  	
+  	  <!--  Nyro Modal  -->
+  
+	  <%= stylesheet_link_tag 'nyroModal/nyroModal' %>
+	  <%= javascript_include_tag 'nyroModal/jquery.nyroModal.custom.min' %>
+	  
+	  <!--[if IE 6]>
+	  	<%= javascript_include_tag 'nyroModal/jquery.nyroModal-ie6.min' %>
+	  <![endif]-->
+  
+	<script type="text/javascript">
+		$(document).ready(function() {
+			
+			<%# render :partial => '/five_skills/_site_header_js_binders' %>
+			<%= render :partial => '/fs_job/_homepage_js_binders' %>
+			
+		});
+	</script>
+    
+</head>
+<body style="background-color:#E4F6EC;">
+
+	<div class="homepage5_header">
+		<div class="homepage5_header_content">
+			<div id="btn_logo" class="homepage5_header_logo" style="float:left;"></div>
+			
+			<% if session[:user].nil? %>
+			
+				<div class="homepage5_header_menu">
+					<div id="lnk_find_talent" class="homepage5_header_menu_item">Jobs in: <highlight>Tel Aviv</highlight></div>
+					<!-- <div id="lnk_find_talent" class="homepage5_header_menu_item">Recruiting?</div> -->
+					<div class="homepage5_logged_in_anonymous_icon pleft_10" style="">
+						<div id="lnk_login" class="homepage5_header_menu_item" style="margin-top:7px;margin-left:20px;">Login</div>
+					</div>
+				</div>
+				
+			<% else %>
+			
+				<div class="homepage5_header_menu" style="margin-left:500px;">
+					<div class="logged_in_anonymous_icon">
+						<%= session[:user].email %>
+						<div class="log_out_link"><%= link_to "Log out", :action => :do_logout, :controller => :fs_login %></div>
+					</div>
+				</div>
+			
+			<% end %>
+		</div>
+	</div>
+
+	<%= render :partial => '/five_skills/messages' %>
+			
+	<%= yield %>
+	
+	<%#= render :partial => '/five_skills/footer' %>
+
+</body>
+</html>
+
+<%= render :partial => '/js/framework/a_recruiter__templates' %>

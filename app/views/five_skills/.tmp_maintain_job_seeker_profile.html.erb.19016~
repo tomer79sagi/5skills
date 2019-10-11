@@ -1,0 +1,98 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+<% content_for :title do %>
+	<%= params[:form_label] %> job seeker profile
+<% end %>
+
+<% form_tag({:action => params[:form_action]}, :multipart => true) do %>
+
+	<table>
+		<tr>
+			<% if is_edit %>
+				<td style="text-align:right;width:100px;" rowspan="2">
+					<input type="hidden" id="job_seeker-id" name="job_seeker-id" value="<%= @job_seeker.id %>"/>	
+					<% if @h_js_files && @h_js_files[:profile_photo] %>
+						<%= fs_image_tag(@h_js_files[:profile_photo].id, @h_js_files[:profile_photo].large_dimensions) %>
+					<% else %>
+						N/A
+					<% end %>
+				</td>
+			<% end %>
+			<td style="text-align:right;">Full Name:</td>
+			<td style="text-align:left;">
+				<%= text_field 'job_seeker', 'full_name' %>
+				<%= error_message_on "job_seeker", "full_name", {:prepend_text => "Full name ", :css_class => "error_message_field"} %>
+			</td>
+			<td style="text-align:right;">Email:</td>
+			<td style="text-align:left;">
+				<%= text_field 'job_seeker', 'email' %>
+				<%= error_message_on "job_seeker", "email", {:prepend_text => "Full name ", :css_class => "error_message_field"} %>
+			</td>
+		</tr>
+		<tr>
+			<td style="text-align:right;">CV:</td>
+			<td style="text-align:left;">
+				<% if is_edit %>
+					<% if @h_js_files && @h_js_files[:cv] %>
+						<%= link_to squeeze_c(@h_js_files[:cv].name, 35), download_file_url(:file_id => @h_js_files[:cv].id) %>
+					<% else %>
+						N/A
+					<% end %>
+					<br/>
+				<% end %>
+				<%= file_field 'upload_cv', 'fs2_file' %>
+				<div class="error_message_field"><%= @upload_cv.errors.on("fs2_file") if @upload_cv %></div>
+			</td>
+			<td style="text-align:right;">Profile photo:</td>
+			<td style="text-align:left;">
+				<% if is_edit %>
+					<% if @h_js_files && @h_js_files[:profile_photo] %>
+						<%= link_to squeeze_c(@h_js_files[:profile_photo].name, 35), download_file_url(:file_id => @h_js_files[:profile_photo].id) %>
+					<% else %>
+						N/A
+					<% end %>
+					<br/>
+				<% end %>
+				<%= file_field 'upload_profile_photo', 'fs2_file' %>
+				<div class="error_message_field"><%= @upload_profile_photo.errors.on("fs2_file") if @upload_profile_photo %></div>
+			</td>
+			<td style="text-align:left;">
+				<%= check_box_tag 'anonymous', 'yes', true %>Anonymous
+				&nbsp;
+				<%= check_box_tag 'looking_for_work', 'yes', false %>Looking for work
+			</td>
+		</tr>
+	</table>
+	
+	<table style="margin-top:1em;padding:.7em 0em .5em 0em;border-top:1px solid gray;width:100%;">
+		<tr>
+			<td style="width:100px;text-align:right;">Template:</td>
+			<td style="width:150px;text-align:left;">
+				<input type="text" id="search_template-name" name="search_template-name">
+				<input type="hidden" id="search_template-id"/>
+			</td>
+			<td style="width:70%;"></td>
+		</tr>
+	</table>
+		
+	<%= render :partial => '/five_skills/job_seeker_five_skills' %>
+		
+	<table>
+		<tr>
+			<td>
+				<table>
+					<tr>
+						<td style="width:950px;text-align:right;">
+							<%= submit_tag params[:form_update_label] + ' Profile', :name => params[:form_update_label].downcase + '_profile' %>
+							&nbsp;
+							<%= submit_tag 'Cancel', :name => "cancel" %>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+
+<% end %>

@@ -1,0 +1,104 @@
+<!--[form:agency]-->
+  
+<div style="padding:2em 0em 6em 0em;">	
+	<div style="width:750px;float:left;min-height:80px;">
+	
+		<!-- Job Application Details -->
+		<table style="width:100%;text-align:left;border-collapse:collapse;">
+			<tr style="vertical-align:top;">
+				<td class="template_cell_title_content" 
+						style="text-align:center;width:148;padding:0em .5em 0em 1em;">
+					<div style="background-color:#e1e1e1;padding:.7em 0em .7em 0em;margin:0em 0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+						Agency Details
+					</div>
+				</td>
+				<td class="template_cell_title_content"
+						style="text-align:center;width:148;padding:0em .5em 0em .5em;">
+					<div style="background-color:#e1e1e1;padding:.7em 0em .7em 0em;margin:0em 0em 0em .5em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+						Contacts
+					</div>
+				</td>
+				<td class="template_cell_title_content"
+						style="text-align:center;width:148;padding:0em 1em 0em .5em;">
+					&nbsp;
+				</td>
+				<td class="template_cell_title_content"
+						style="text-align:center;width:148;padding:0em .5em 0em .5em;">
+					&nbsp;
+				</td>
+				<td class="template_cell_title_content"
+						style="text-align:center;width:148;padding:0em 1em 0em .5em;">
+					<div style="background-color:#00fb00;padding:.7em 0em .7em 0em;margin:0em .0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+						<b>Editing Contact</b>
+					</div>
+				</td>
+			</tr>
+		</table>
+		
+		  <div style="background-color:#00fb00;width:100%;text-align:left;border:1px solid #00fb00;padding:1em 0em 0em 1em;margin:-1px 0px 20px 0px;">
+		  
+		  	<div style="padding:0em 0em .5em 0em;margin:0em 1em 1em 0em;text-align:right;border-bottom:1px gray solid;">
+				<%= submit_tag 'Save & View', :name => "update" %>
+				<%= submit_tag 'Save & Close', :name => "update_close" %>
+				<%= submit_tag 'Cancel', :name => "cancel" %>
+			</div>
+
+			<table style="width:100%;margin:0px 10px 0px 0px;">
+				<tr>
+					<td style="padding:1em 0em 0em 0em;text-align:right;width:200px;">Agent:</td>
+					<td style="padding:1em 0em 0em 0em;vertical-align:middle;text-align:left;width:200px;">
+						<b style="font-size:20px;"><%= @agent.first_name %> <%= @agent.last_name %></b>
+					</td>
+					<td colspan="2">&nbsp;</td>
+				</tr>
+				<tr>
+					<td colspan="4">&nbsp;</td>
+				</tr>
+				<tr>
+					<td style="text-align:right;">First Name:</td>
+					<td><b><%= text_field 'agent', 'first_name' %></b></td>
+					
+					<td colspan="2" style="text-align:right;">&nbsp;</td>
+				</tr>		
+				<tr>
+					<td style="text-align:right;">Last Name:</td>
+					<td><b><%= text_field 'agent', 'last_name' %></b></td>
+					
+					<td colspan="2" style="text-align:right;">&nbsp;</td>
+				</tr>
+				<tr>
+					<td style="text-align:right;">Email:</td>
+					<td><b><%= text_field 'agent', 'primary_email' %></b></td>
+					
+					<td colspan="2" style="text-align:right;">&nbsp;</td>
+				</tr>
+				<tr>
+					<td style="text-align:right;">Work Phone:</td>
+					<td><b><%= text_field 'agent', 'phone_work' %></b></td>
+					
+					<td colspan="2" style="text-align:right;">&nbsp;</td>
+				</tr>
+				<tr>
+					<td style="text-align:right;">Mobile Phone:</td>
+					<td><b><%= text_field 'agent', 'mobile' %></b></td>
+					
+					<td colspan="2" style="text-align:right;">&nbsp;</td>
+				</tr>
+				<tr>
+					<td style="text-align:right;">Website:</td>
+					<td><b><%= text_field 'agent', 'website' %></b></td>
+					
+					<td colspan="2" style="text-align:right;">&nbsp;</td>
+				</tr>
+			</table>
+
+			<div style="padding:.5em 0em 0em 0em;margin:1em 1em 1em 0em;text-align:right;border-top:1px gray solid;">
+				<%= submit_tag 'Save & View', :name => "update" %>
+				<%= submit_tag 'Save & Close', :name => "update_close" %>
+				<%= submit_tag 'Cancel', :name => "cancel" %>
+			</div>
+		</div>
+	</div>
+</div>
+	  
+  <!--[eoform:agency]-->

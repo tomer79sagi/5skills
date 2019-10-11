@@ -1,0 +1,22 @@
+<script type="text/javascript">
+
+function _REQ_save_job_seeker_fs_profile(data){
+	var json_arr = {};
+	
+	$("[id='btn_get_started']").html("Please wait...");
+	$("[id='btn_get_started']").attr("disabled", "disabled");
+	
+	json_arr.status_id = <%= Fs2User::USER_STATUSES[:at_landing_page] %>;
+	
+	return {action: "ajax/job_seeker/save", data: json_arr};
+}
+
+function _RES_save_job_seeker_fs_profile(data, status_i) {
+	doRedirect("job_seeker/create");
+}
+
+function _RES_ERR_save_job_seeker_fs_profile(data, status_i) {
+	alert('fail');
+}
+
+</script>

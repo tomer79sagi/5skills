@@ -1,0 +1,20 @@
+Matching, Job seeker with Job
+
+AJAX request
+- extract_skills_from_flat_profile();
+
+before_filter
+- create_fs_profile_from_request
+ + @request_fs_profile / params['skills_profile']
+- create_db_ready_fs_profile
+ + @skills / params['skills_profile']
+
+- fs_job_seeker : match_with_job
+ + five_skills : fetch_job_seeker_profile(job_seeker_id, job_id)
+  + Fs2JobSeeker.find_by_id
+  + Fs2User.find_by_id
+  + fetch_skills_profiles
+  + fetch_files
+  + search_entity_2
+ + set_active_fs_profile
+ 

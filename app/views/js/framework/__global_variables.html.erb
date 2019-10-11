@@ -1,0 +1,101 @@
+<script type="text/javascript">
+
+// --- Repeat map
+// var _repeat_map = {};
+// var _timer_tick = 2500;
+
+// The ajax 'request' objects array. This is stored so they can be canceled as needed.
+// When an action is invoked, it will check if there is another 'same' action available. It will cancel it if it does
+// var xhrPool = {}; // {action_id}: {xhrObj}
+
+<% if @session_ids %>
+	var _session_ids = JSON.parse(decodeURI("<%=@session_ids%>"));
+<% else %>
+	var _session_ids = "";
+<% end %>
+
+var g_server_url = 'http://<%= request.env["HTTP_HOST"] %>/';
+var g_timeout; // object holding the 'window.setTimeOut' object. This allows for clearing the timer object if a new request interrupts the old request
+var g__bubble_fields__selectors = new Array();
+
+var ajax_current_action = null;
+
+// Ajax action queue processing (if the 'REQ' function returns an array of 'REQ' actions)
+var ajax_action_queue = new Array();
+var ajax_action_queue_data = null;
+
+var _st = window.setTimeout;
+var g_fajax = { flag: false, response: false };
+
+// --- Component states
+var component_state = {
+	"clean": 0,
+	"dirty": 1
+};
+
+var dirty_comp_map = {}; // {component_id}: {component_state} ==> 1: 2 ==> component 1: state 2 ==> 'fs_profile': 'dirty'
+
+var action_timer_map = {}; // {action_id}: {timer_obj: obj, counter: 1}
+var action_map = {
+	
+	'sync_rt': {
+		name: "sync_rt",
+		func: [sync_rt, null],
+		timer: 25000, // Run with timer (15,000 = 5 seconds)
+		repeat: -1, // run until further notice
+		before_is_changed_func: null,
+		after_is_changed_func: null
+	},
+	
+	'search_job_seekers': {
+		name: "search_job_seekers",
+		func: [ajax_it, "search_job_seekers"],
+		timer: 10000, // Run with timer
+		repeat: 0, // Run once, use '-1' to indicate it should run indefinitely
+		before_is_changed_func: null,
+		after_is_changed_func: null
+	},
+	2: {
+		name: "save_job_fs_profile",
+		func: [ajax_it, "save_job_fs_profile"],
+		timer: 15000, // Run every 5 seconds
+		repeat: 0, // Run once
+		before_is_changed_func: null,
+		after_is_changed_func: null
+	},
+	3: {
+		name: "search_jobs",
+		func: [ajax_it, "search_job_seekers"],
+		timer: 10000, // Run with timer
+		repeat: -1, // Run indefinitely
+		before_is_changed_func: null,
+		after_is_changed_func: null
+	},
+	4: {
+		name: "save_job_seeker_fs_profile",
+		func: [ajax_it, "save_job_fs_profile"],
+		timer: 15000, // Run every 5 seconds
+		repeat: 0, // Run once
+		before_is_changed_func: null,
+		after_is_changed_func: null
+	}
+};
+
+var component_map = {
+	'job_fs_profile': { 
+		name: "job_fs_profile",
+		dirty_actions: [
+			{action_id: 'search_job_seekers', run_at_start: true}
+		]
+	},
+	2: {
+		name: "notifications",
+		dirty_actions: [
+			
+		]
+	}
+	
+};
+
+
+</script>

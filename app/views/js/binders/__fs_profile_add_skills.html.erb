@@ -1,0 +1,56 @@
+
+<script type="text/javascript">
+
+function bind__fs_profile_add_skills(field_id) {
+	
+	// --- Bind all fields (if no 'field_id' is provided)
+	
+	if (!field_id) {
+		bind__fs_profile_add_skills("click_add_skill");
+		bind__fs_profile_add_skills("click_close_add_skills_panel");
+		
+		return;
+	}
+	
+	
+	// --- Bind the field
+	
+	switch (field_id) {
+			
+		case "click_add_skill":
+		
+			$(".add_skill_container").bind('click', function(e) {
+				if ($(this).attr("skill_added") == "no") {
+					var skill_index = get_first_blank_skill(".skills_profile_top_5");
+					
+					if (skill_index) {
+						add_skill_to_profile($.trim($(this).find(".add_skill_left").html()), $(this).attr("skill_id"), skill_index);
+					
+						//$(this).find("div").css("color", "gray");
+						$(this).find("div").css("font-style", "italic");
+						$(this).find("div").css("font-weight", "bold");
+						$(this).find("div").css("color", "#fff");
+						$(this).css("background-color", "#000");
+						$(this).attr("skill_added", "yes");
+						
+						ajax_it("fs_profile_updated");
+					}
+				}
+			});
+			
+			break;
+			
+		case "click_close_add_skills_panel":
+		
+			$("#btn_close_skills_panel").bind('click', function() {
+				panel__fs_profile_choose_skills.toggle('west');
+				$("#btn_add_skills_panel").show();
+			});
+			
+			break;
+						
+	}
+			
+}
+
+</script>

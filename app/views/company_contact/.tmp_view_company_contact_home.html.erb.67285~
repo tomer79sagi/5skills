@@ -1,0 +1,113 @@
+<% content_for :head do %>
+  <title>FLYC: My Jobs</title>
+<% end %>
+
+<% content_for :title do %>
+	<span class="content-title">Home</span>
+<% end %>
+
+<% content_for :bread_crumbs do %>
+
+	<div style="width:100%;padding:0em 0em .5em 0em;float:right;text-align:left;">
+		
+	</div>
+	
+<% end %>
+
+<div style="text-align:left;padding:0px 0px 0px 0px;font-size:14px;font-weight:bold;border-bottom:1px solid gray;">
+	<span class="content_link"><i>New Role</i></span>
+	|
+	<span class="content_link"><i>New Candidate</i></span>
+	|
+	<span class="content_link"><i>New Agent</i></span>			
+</div>
+
+<%= render :partial => '/main/messages', :locals => {:action => "general"} %>
+
+<table style="width:100%;border-collapse:collapse;">
+	<tr>
+		<td style="margin:.5em 0em .1em 0em;padding:0em .5em 0em .5em;min-height:200px;width:48%;text-align:left;float:left;color:white;background:#77aaeb;">
+			<table style="width:100%;">
+				<tr>
+					<td colspan="4" style="width:100%;background:#77cccc;text-align:left;font-size:16px;font-weight:bold;color:black;">Latest Roles</td>
+				</tr>
+				<tr>
+					<td>Title</td>
+					<td>Created Date</td>
+					<td>xxx</td>
+					<td>yyy</td>
+				</tr>
+				<tr>
+					<td>Project Manager</td>
+					<td>14 August, 2003</td>
+					<td>xxx</td>
+					<td>yyy</td>
+				</tr>
+			</table>
+		</td>
+		<td style="margin:.5em 0em .1em 0em;padding:0em .5em 0em 0.5em;min-height:200px;width:48%;text-align:left;float:right;color:white;background:#77aaeb;">
+			<table style="width:100%;">
+				<tr>
+					<td colspan="5" style="width:100%;background:#77cccc;text-align:left;font-size:16px;font-weight:bold;color:black;">Latest Candidates</td>
+				</tr>
+				<tr>
+					<td>First Name</td>
+					<td>Last Name</td>
+					<td>Location</td>
+					<td>Role Interested</td>
+					<td>Last Updated CV</td>
+				</tr>
+				<tr>
+					<td>John</td>
+					<td>Travlota</td>
+					<td>Tel Aviv</td>
+					<td>Project Manager</td>
+					<td>24 August, 2004</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	
+	<tr>
+		<td style="margin:.5em 0em .1em 0em;padding:0em .5em 0em .5em;min-height:200px;width:48%;text-align:left;float:left;color:white;background:#77aaeb;">
+			<table style="width:100%;">
+				<tr>
+					<td colspan="4" style="width:100%;background:#77cccc;text-align:left;font-size:16px;font-weight:bold;color:black;">Latest Messages</td>
+				</tr>
+				<tr>
+					<td>Sender</td>
+					<td>Subject</td>
+					<td>Attachments</td>
+					<td>Date Recieved</td>
+				</tr>
+				<tr>
+					<td>John Travolta</td>
+					<td>Hey, what about my CV?</td>
+					<td>CV.doc</td>
+					<td>24 August, 2005 | 4:12 pm</td>
+				</tr>
+			</table>
+		</td>
+		<td style="margin:.5em 0em .1em 0em;padding:0em .5em 0em 0.5em;min-height:200px;width:48%;text-align:left;float:right;color:white;background:#77aaeb;">
+			<table style="width:100%;">
+				<tr>
+					<td colspan="5" style="width:100%;background:#77cccc;text-align:left;font-size:16px;font-weight:bold;color:black;">Latest Files</td>
+				</tr>
+				<tr>
+					<td>Sender</td>
+					<td>File Name</td>
+					<td>Date Received</td>
+				</tr>
+				<tr>
+					<td>John Travolta</td>
+					<td>CV.doc</td>
+					<td>24 August, 2004</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	
+</table>
+
+<!-- APPLICATIONS -->
+

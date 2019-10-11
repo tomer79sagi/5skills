@@ -1,0 +1,36 @@
+// --- HEADER ---
+$("#btn_logo").bind('click', function() {
+	document.location.href = '<%= home_url %>';
+});
+
+
+$("#lnk_learn_more").bind('click', function() {
+	//document.location.href = '<%= do_linkedin_login_url %>';
+	
+	$('html, body').animate({scrollTop:$(lnk_goto_whatis).offset().top}, 'slow');
+	
+	// Stop the link from acting like a normal anchor link
+	return false;
+});
+
+$("#lnk_goto_whatis").bind('click', function() {
+	//document.location.href = '<%= do_linkedin_login_url %>';
+});
+
+$("#lnk_goto_howworks").bind('click', function() {
+	//document.location.href = '<%= do_linkedin_login_url %>';
+});
+
+ 
+$("#lnk_find_talent").bind('click', function() {
+	//document.location.href = '<%= do_linkedin_login_url %>';
+});
+
+$(".homepage_5_login_button").bind('click', function() {
+	document.location.href = '<%= do_linkedin_login_url %>';
+});
+
+// --- CONNECT WITH LINKEDIN ---
+$(".homepage_5_login_button").bind('click', function() {
+	document.location.href = '<%= do_linkedin_login_url %>';
+});

@@ -1,0 +1,159 @@
+<% content_for :head do %>
+  <title>FLYC - Homepage</title>
+<% end %>
+
+<div class="homepage_table">
+	<div class="homepage_row">
+		<div class="homepage_main">
+			<div class="homepage_left_padding">
+				<div class="homepage_left_box">
+					
+					<div class="content-title">Homepage</div>
+					
+					<div class="content-body">
+						<%= render :partial => '/main/messages', :locals => {:action => "general"} %>
+						
+						<p>This is FLYC!</p>
+						<p>Finally a job-related site focused on the Job Seeker.</p>
+						<p>You can register to this site and track your jobs!</p>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="homepage_right_side">
+			<div class="homepage_title_2">
+				Login
+			</div>
+			
+			<div class="content-body">
+				
+			<%= render :partial => '/main/messages', :locals => {:action => "login"} %>
+				
+				<% form_tag :action => :process_login, :controller => :login do %>
+				
+					<table>
+					  <tr>
+					  	<td style="width:120px;">Email:</td>
+						<td>
+							<%= text_field 'person_login', 'email'%>
+							<%= error_message_on "person_login", "email", {:prepend_text => "Email ", :css_class => "error_message_field"} %>
+						</td>
+					  </tr>
+					  <tr>
+						<td>Password:</td>
+						<td>
+							<%= password_field 'person_login', 'password'%>
+							<%= error_message_on "person_login", "password", {:prepend_text => "Password ", :css_class => "error_message_field"} %>
+						</td>
+					  </tr>
+					  <tr>
+					  	<td></td>
+						<td style="text-align:left;"><%= check_box "save_login", "checked", {}, "yes", "no" %> Remember me</td>
+					  </tr>
+					  <tr>
+					  	<td></td>
+						<td style="text-align:left;">
+							<%= submit_tag 'Login' %>
+						</td>
+					  </tr>
+					  <tr>
+					  	<td></td>
+						<td style="text-align:right;"><%= link_to 'Forgot your password?', forgot_password_url %></td>
+					  </tr>
+					</table>
+				
+				<% end %>
+				
+				</div>
+			
+			<!--[form:register_candidate]-->
+			
+			<% form_tag :action => :process_registration, :controller => :account do %>
+			
+			<div class="homepage_title_2">
+				Register as
+				<select id="user_type" name="user_type" onchange="toggle_register_as();">
+					<option value="1" selected="true">Job Seeker</option>
+					<option value="2">Company Contact</option>
+					<option value="3">Agent</option>
+				</select>
+			</div>
+			
+			<div class="content-body">
+			
+			<%= render :partial => '/main/messages', :locals => {:action => "register"} %>
+			  
+				<table style="border-collapse:collapse;">				
+					<tr>
+						<td>First Name:</td>
+						<td>
+							<%= text_field 'person', 'first_name' %>
+							<%= error_message_on "person", "first_name", {:prepend_text => "First Name ", :css_class => "error_message_field"}%>
+						</td>
+					</tr>  	
+					<tr>
+						<td>Last Name:</td>
+						<td>
+							<%= text_field 'person', 'last_name' %>
+							<%= error_message_on "person", "last_name", {:prepend_text => "Last Name ", :css_class => "error_message_field"} %>
+						</td>
+					</tr>
+					<tr>
+						<td>Email:</td>
+						<td>
+							<%= text_field 'person', 'primary_email' %>
+							<%= error_message_on @person, "primary_email", {:prepend_text => "Email ", :css_class => "error_message_field"} %>
+						</td>
+					</tr>
+					<tr>
+						<td>Password:</td>
+						<td>
+							<%= password_field 'person', 'password', :size => 30 %>
+							<%= error_message_on @person, "password", {:prepend_text => "Password ", :css_class => "error_message_field"} %>
+						</td>
+					</tr>
+					<tr>
+						<td>Confirm Password:</td>
+						<td>
+							<%= password_field 'person', 'password_confirmation' %>
+							<%= error_message_on @person, "password_confirmation", {:prepend_text => "Confirm Password ", :css_class => "error_message_field"} %>
+						</td>
+					</tr>
+					<tr id="organisation_role_field" style="display:none;">
+						<td style="border-top:1px solid black;">Role:</td>
+						<td style="border-top:1px solid black;">
+							<%= text_field 'person', 'organisation_role' %>
+						</td>
+					</tr>
+					<tr id="organisation_field" style="display:none;">
+						<td style="">Company:</td>
+						<td style="">
+							<%= text_field 'organisation', 'name' %>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td style="text-align:left;"><%= submit_tag 'Register' %></td>
+					</tr>
+			  	</table>
+				
+			</div>
+			
+			<% end %>
+			
+		</div>
+	</div>
+</div>
+
+<script>
+  jQuery("#user_type").change(function () {
+    if ($(this).val() == 1) {
+      jQuery("#organisation_field").hide('slow');
+	  jQuery("#organisation_role_field").hide('slow');
+    }
+    if ($(this).val() == 2 || $(this).val() == 3) {
+      jQuery("#organisation_field").show('slow');
+	  jQuery("#organisation_role_field").show('slow');
+    }
+  });
+</script>

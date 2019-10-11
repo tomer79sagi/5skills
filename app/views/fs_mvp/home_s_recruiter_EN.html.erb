@@ -1,0 +1,58 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+	<%= render :partial => '/fs_mvp/mvp_s_header' %>
+	
+	<div class="middle">
+		<div class="middle_bg">
+			
+			<div class="title clear"><%= image_tag("mvp/candidates_lrg_ENG.png") %></div>
+			
+			<div class="girl"><%= image_tag("mvp/girl_2.png") %></div>	
+			<div class="main_box">
+			
+				<%= render :partial => '/fs_mvp/mvp_slider' %>
+				
+				<div class="content">
+					<div class="steps">
+					<div class="left"><%= image_tag("mvp/1.png") %></div>
+					<p>Choose your jobs required 5 skills</p>
+					<span>For example, “Software Project Management”</span>
+					</div>
+					
+					<div class="steps clear ptop_10">
+					<div class="left"><%= image_tag("mvp/2.png") %></div>
+					<p>Filter matching candidates</p>
+					<span>Our skills-matching engine gives you candidates that fit!</span>
+					</div>
+					
+					<div class="steps clear ptop_10">
+					<div class="left"><%= image_tag("mvp/3.png") %></div>
+					<p>Request their CV</p>
+					<span>1-click and you're done.</span>
+					</div>
+					
+					<div class="arrow"><%= image_tag("mvp/arrow_2.png") %></div>
+					<div class="tbl_su_form left">
+						<input id="field_3-email" name="user_login[email]" type="text" class="input_3" value="@ your email address..." onkeyup="field_keyup(this, 'btn_i_want_in');" onblur="field_blur(this);" onclick="field_click(this);" />
+					</div>
+					<div id="btn_sign_up" class="sighup_but left" onclick="fld_toggle(this, 4);" onmouseover="fld_toggle(this, 2);" onmouseout="fld_toggle(this, 3);"><span>Sign me up!</span></div>
+					<div class="input_3_error left" id="user_login-email_error"></div>
+				</div>	
+				
+				<div class="footer">
+					<div id="likebox-frame" class="left">
+						<%= render :partial => '/fs_mvp/mvp_footer' %>
+					</div>
+					
+					<div class="right">
+						<%= render :partial => '/fs_mvp/mvp_social_share' %>
+					</div>					
+					
+				</div>			
+				
+			</div>
+		
+		</div>
+	</div>

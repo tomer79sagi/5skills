@@ -1,0 +1,22 @@
+LinkedIn login process
+----
+
+
+1. Homepage
+ - session[:user] ?
+	[yes]
+		Redirect to job page
+		Retrieve the status of the job publishing
+		? Needs LinkedIn re-auth POP-UP if real-time status of the job posts is required
+	[no]
+		display homepage
+
+2. Login
+	assume: NO session[:user]
+	double check: session[:user]
+	{authorize Linkedin}
+		
+		session[:access_token] +
+			[yes]
+				
+3. Entries exist in database | No session information but 'UserConnector' exists with the user's information

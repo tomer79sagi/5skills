@@ -1,0 +1,246 @@
+<div style="width:100%;float:left;min-height:80px;padding:1em 0em 0em 0em;">
+	
+	<!-- Job Application Details -->
+	<table style="width:750px;text-align:left;border-collapse:collapse;">
+		<tr style="vertical-align:top;">
+			<td class="template_cell_title_content" 
+					style="text-align:center;width:78px;padding:0em .5em 0em 1em;">
+				<div style="background-color:#cef5c2;padding:.7em 0em .7em 0em;margin:0em 0em 0em .5em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<b>Email addresses</b>
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:78px;padding:0em 1em 0em .5em;">
+				<div style="background-color:#ceecc2;padding:.7em 0em .7em 0em;margin:0em 0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<%= link_to 'Candidates', view_company_contact_agent_filtered_candidates_url %>
+				</div>
+			</td>
+			<td class="template_cell_title_content" style="text-align:center;width:148px;padding:0em .5em 0em .5em;">
+			</td>
+		</tr>
+	</table>
+	
+	<table style="border-collapse:collapse;width:100%;text-align:left;padding:0em 0em 0em 0em;">
+		<tr>
+			<td style="background-color:#cef5c2;width:500px;text-align:left;padding:1em 0em 0em 1em;margin:0px 0px 20px 0px;">
+		  		Search
+				<input type="text" value="son">
+				<button>Search</button>
+			</td>
+		</tr>
+		<tr>
+			<td style="background-color:#cef5c2;border-bottom:1px solid black;">
+		  		&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="background-color:#cef5c2;width:500px;text-align:left;padding:0em 0em 0em 1em;margin:0px 0px 20px 0px;">
+		  		<b>Agencies</b>
+				&nbsp;|&nbsp;
+				<%= link_to 'Agents', invite_company_contact_agents_by_email_step_2_url %>
+			</td>
+		</tr>
+		<tr>
+			<td style="background-color:#cef5c2;border-top:1px solid black;">
+		  		&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="background-color:#cef5c2;width:800px;text-align:left;border:1px solid #cef5c2;padding:0em 0em 0em 1em;margin:0px 0px 0px 0px;">
+			
+				<table>
+					<tr>
+						<td style="width:40px;font-weight:bold;text-align:right;">
+							&nbsp;
+						</td>
+						<td style="width:105px;font-weight:bold;">
+							Agency name
+						</td>
+						<td style="width:200px;font-weight:bold;">
+							Address
+						</td>
+						<td style="width:200px;font-weight:bold;">
+							Location
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4" style="background-color:#cef5c2;border-top:1px solid black;">
+					  		&nbsp;
+						</td>
+					</tr>
+				</table>
+			
+				<ul id="tree" class="tree" style="text-align:left;margin-left: 15px;"> 
+					<li>
+						<input type="checkbox">
+						<label>
+							<table>
+								<tr>
+									<td style="width:100px;">
+										Hud<b>son</b>
+									</td>
+									<td style="width:200px;">
+										Level 9, 24 Queen Street
+									</td>
+									<td style="width:200px;">
+										Wellington
+									</td>
+								</tr>
+							</table>
+						</label>
+					    <ul>
+					    	<table style="border-collapse:collapse;">
+								<tr>
+									<td style="border-bottom:1px solid black;width:30px;font-weight:bold;">
+										&nbsp;
+									</td>
+									<td style="border-bottom:1px solid black;width:115px;font-weight:bold;">
+										Agent name
+									</td>
+									<td style="border-bottom:1px solid black;width:200px;font-weight:bold;">
+										Mobile
+									</td>
+									<td style="border-bottom:1px solid black;width:200px;font-weight:bold;">
+										Email
+									</td>
+								</tr>
+							</table> 
+							<li style="height:20px;">
+								<input type="checkbox">
+								<label>
+									<table>
+										<tr>
+											<td style="width:100px;">
+												John Smith
+											</td>
+											<td style="width:200px;">
+												021 777-810
+											</td>
+											<td style="width:200px;">
+												john.smith@hudson.co.nz
+											</td>
+										</tr>
+									</table>
+								</label>
+						    </li> 
+						</ul>
+						<ul> 
+							<li style="height:20px;">
+								<input type="checkbox">
+								<label>
+									<table>
+										<tr>
+											<td style="width:100px;">
+												Michael Jordan
+											</td>
+											<td style="width:200px;">
+												021 777-810
+											</td>
+											<td style="width:200px;">
+												michael.jordan@hudson.co.nz
+											</td>
+										</tr>
+									</table>
+								</label>
+						    </li> 
+						</ul>
+						<ul> 
+							<li style="height:20px;">
+								<input type="checkbox">
+								<label>
+									<table>
+										<tr>
+											<td style="width:100px;">
+												- Info -
+											</td>
+											<td style="width:200px;">
+												
+											</td>
+											<td style="width:200px;">
+												info@hudson.co.nz
+											</td>
+										</tr>
+									</table>
+								</label>
+						    </li> 
+						</ul>  
+					</li>
+					<li>
+						<input type="checkbox">
+						<label>
+							<table>
+								<tr>
+									<td style="width:100px;">
+										Jami<b>son</b>
+									</td>
+									<td style="width:200px;">
+										Level 3, 12 Kent Terrace
+									</td>
+									<td style="width:200px;">
+										Wellington
+									</td>
+								</tr>
+							</table>
+						</label>
+					    <ul> 
+							<table style="border-collapse:collapse;">
+								<tr>
+									<td style="border-bottom:1px solid black;width:30px;font-weight:bold;">
+										&nbsp;
+									</td>
+									<td style="border-bottom:1px solid black;width:115px;font-weight:bold;">
+										Agent name
+									</td>
+									<td style="border-bottom:1px solid black;width:200px;font-weight:bold;">
+										Mobile
+									</td>
+									<td style="border-bottom:1px solid black;width:200px;font-weight:bold;">
+										Email
+									</td>
+								</tr>
+							</table> 
+							<li style="height:20px;">
+								<input type="checkbox">
+								<label>
+									<table>
+										<tr>
+											<td style="width:100px;">
+												Black James
+											</td>
+											<td style="width:200px;">
+												033 342-2123
+											</td>
+											<td style="width:200px;">
+												black.james@jamison.co.nz
+											</td>
+										</tr>
+									</table>
+								</label>
+						    </li> 
+						</ul>
+						<ul> 
+							<li style="height:20px;">
+								<input type="checkbox">
+								<label>
+									<table>
+										<tr>
+											<td style="width:100px;">
+												Kelly Brown
+											</td>
+											<td style="width:200px;">
+												021 777-810
+											</td>
+											<td style="width:200px;">
+												kelly.brown@jamison.co.nz
+											</td>
+										</tr>
+									</table>
+								</label>
+						    </li> 
+						</ul>
+					</li>
+				</ul>
+			</td>
+		</tr>
+	</table>
+</div>

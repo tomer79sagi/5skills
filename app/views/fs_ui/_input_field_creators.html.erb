@@ -1,0 +1,107 @@
+<script type="text/javascript">
+
+  	function convert_primary_skill_to_input(field_o) {
+  		var b = $( document.createElement('input') );
+  		var li_obj = field_o.parents("[orig_value]");
+  		
+	    b.attr("type", "text");
+	    b.attr("id", "skill_field");
+   	    b.attr("style", "padding-left:10px;width:100px;height:26px;border:1px solid lightgray;");
+   	    
+    	b.css("width", parseInt(field_o.css("width")) - 10 + "px");
+    	
+    	if (li_obj.attr("blank")) {
+    		b.attr("value", "");
+    	} else {
+    		b.attr("value", li_obj.attr("orig_value"));
+    	}
+	    
+	    var bind_params = {
+	    	autocomplete: "true", 
+    		onsearch: "search_skills",
+    		onkeyup: "primary_skill_keyup",
+    		onblur: "primary_skill_blur",
+    		onselect: "change_primary_skill"
+	    }
+	    
+	    bind_field(b, "fs_profile_updated", null, bind_params);
+   	   
+   	    field_o.unbind('click');
+	    field_o.html(b);
+	   
+	    b.select();
+  	}
+  	
+  	function convert_yrsexp_to_input(field_o) {
+  		var b = $( document.createElement('input') );
+  		var val = field_o.find("span").html();
+  		
+	    b.attr("type", "text");
+	    b.attr("id", "skill_field");
+   	    b.attr("style", "padding-left:10px;width:100px;height:26px;border:1px solid lightgray;");
+   	    
+    	b.css("width", parseInt(field_o.css("width")) - 10 + "px");
+    	b.attr("value", val.substring(0, val.length - 1));  
+   	   
+   	    b.bind('blur', function(e) {
+   	    	$(this).attr("value", $(this).parents("[skill_yrsexp]").attr("skill_yrsexp"));
+	    	convert_input_to_yrsexp($(this));
+	    });
+	    
+	    // Prevent regular characters from being entered
+	    b.bind('keyup', function(e) {
+	    	$(this).attr("value", $(this).attr("value").replace(/[^0-9\.]/g, ''));
+	    	
+	    	if (e.which == 13) {
+	    		convert_input_to_yrsexp($(this));
+	    		ajax_it("fs_profile_updated");
+	    	} else if (e.which == 27) {
+	    		$(this).attr("value", $(this).parents("[skill_yrsexp]").attr("skill_yrsexp"));
+	    		convert_input_to_yrsexp($(this));
+	    	}
+	    });
+   	   
+   	    field_o.unbind('click');
+	    field_o.html(b);
+	   
+	    b.select();  		
+  	}
+  	
+  	// 'field_o' is the 'div' of the 'li -> div -> span' chain
+  	function convert_skill_to_input(field_o, is_new) {
+  		var b = $( document.createElement('input') );
+  		
+	    b.attr("type", "text");
+	    b.attr("id", "skill_field");
+   	    b.attr("style", "padding-left:5px;height:18px;border:1px solid lightgray;");
+   	    
+   	    b.css("width", parseInt(field_o.css("width")) - 5 + "px");
+   	    
+   	    if (!is_new) {
+   	    	b.attr("value", field_o.attr("orig_value"));
+    	} else {
+    		b.attr("blank", "true");
+    	}
+    	
+    	// Remove the 'click' event from the 'li' element so the '<input type...' won't be appended with every subsequent click
+    	field_o.unbind('click'); 
+	    
+	    var bind_params = {
+	    	autocomplete: "true", 
+    		onsearch: "search_skills",
+    		onkeyup: "sub_skill_keyup",
+    		onblur: "sub_skill_blur",
+    		onselect: "change_skill"
+	    }
+	    
+   	    bind_field(b, "fs_profile_updated", null, bind_params);
+   	    
+   	    var div = $( document.createElement('div') );
+	    div.html(b);
+	    
+	    field_o.html(div);
+	   
+	    b.select();
+  	}
+
+</script>

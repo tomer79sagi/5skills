@@ -1,0 +1,82 @@
+<% content_for :head do %>
+	5skills.me
+<% end %>
+
+<% content_for :title do %>
+	Almost there.... ;-)
+<% end %>
+
+<div style="padding:15px;width:400px;">
+	<h1>Applying for a job!</h1>
+</div>
+
+<% form_tag({:action => :send_job_application}, :multipart => true) do %>
+
+	<div style="width:700px;">
+		
+		<div style="padding-left:15px;width:700px;">
+			<h2 class="left">Register</h2>
+		
+			<% if session[:user].status_id < Fs2User::USER_STATUSES[:registered] %>
+			
+				<div class="">
+					<div class="left" style="padding-left:50px;">
+						<div class="">Email address:</div>
+						<div class="">
+							<%= text_field 'user', 'email', {:css_class => "left"} %>
+							<%= error_message_on "user", "email", {:prepend_text => "Email ", :css_class => "error_message_field left"} %>
+						</div>
+					</div>
+					<div class="left">
+						<div class="">Password:</div>
+						<div class="">
+							<%= password_field 'user', 'password', {:size => 30, :css_class => "left"} %>
+							<%= error_message_on "user", "password", {:prepend_text => "Password ", :css_class => "error_message_field left"} %>
+						</div>
+					</div>
+				</div>
+			
+			<% end %>
+		
+		</div>
+		
+		<div class="clear ptop_20"/>
+		
+		<div style="padding-left:15px;width:700px;">
+			<h2 class="left">Choose your CV</h2>
+			
+			<div class="" style="">
+				<div class="left" style="padding-left:30px;width:150px;">
+					<div class="">Your CV:</div>
+					<div class="">
+						<% if @upload_files && @upload_files[:cv] && @upload_files[:cv].id %>
+							<%= link_to squeeze_c(@upload_files[:cv].name, 35), :action => :download_file, :controller => :five_skills, :file_id => @upload_files[:cv].id %>
+						<% else %>
+							N/A
+						<% end %>
+					</div>
+				</div>
+				<div class="left">
+					<div class="">Replace with CV:</div>
+					<div class="">
+						<%= file_field 'upload_cv', 'fs2_file' %>
+						<div class="error_message_field"><%= @upload_files[:cv].errors.on("fs2_file") if @upload_files[:cv] %></div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+	</div>
+	
+	<div class="clear ptop_30"></div>
+	<hr style="width:700px;"/>
+	<div class="clear ptop_30"></div>
+	
+	
+	<%= render :partial => '/five_skills/fs_profile' %>
+	
+	
+	<%= submit_tag 'Cancel', :name => "cancel", :class => "left", :style => "margin-top:20px;margin-left:100px;width:100px;height:30px;" %>
+	<%= submit_tag 'Send application', :name => "upload", :class => "left", :style => "width:200px;height:50px;" %>
+
+<% end %>

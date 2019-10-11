@@ -1,0 +1,83 @@
+<p style="font-size:8pt;">You can define an action to follow for this job ad.<br/>
+The system will send a reminder email on the selected day at 9am in the morning.</p>
+
+<table>
+	<tr>
+		<td colspan="3" style="vertical-align:top;padding:.75em 0em 0em 0em;">
+			<table style="cell-padding:0px;cell-spacing:0px;">
+				<tr>
+					<td><b>Action</b></td>
+					<td>&nbsp;<b>When</b></td>
+				</tr>
+				<tr>
+					<td style="">
+						<select id="page_type" style="width:190px;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;">
+							<option value="1">Email my CV</option>
+							<option value="2" selected="true">Follow-up email</option>
+							<option value="3">Follow-up phone call</option>
+						</select>
+					</td>
+					<td style="">&nbsp;
+						<select id="action_day" style="width:140px;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;">
+							<% @action_day_options_arr.each_index do |option_index| %>
+								<option value="<%= @action_day_options_arr[option_index][1] %>"
+									<%= ' selected="true"' if option_index == 1 %>
+									><%= @action_day_options_arr[option_index][0] %></option>
+							<% end %>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td style="">
+						or&nbsp;
+						<input id="custom_action" type="text" style="width:170px;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;">
+					</td>
+					<td style=""></td>
+				</tr>
+				<tr>
+					<td id='action_error' style='font-size:10pt;'></td>
+					<td id='when_error' style='font-size:10pt;'></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="3" style="vertical-align:top;padding:.75em 0em 0em 0em;">
+			<table style="cell-padding:0px;cell-spacing:0px;">
+				<tr>
+					<td><b>Timezone</b></td>
+				</tr>
+				<tr>
+					<td style="">
+						
+						<% if @timezone_options_arr %>
+						
+							<select id="timezone" style="width:260px;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;">
+								<% @timezone_options_arr.each do |option| %>
+									<option value="<%= option[1] %>"
+										<%= ' selected="true"' if option[1] == @selected_country_timezone %>
+										><%= option[0] %></option>
+								<% end %>
+							</select>
+							
+						<% else %>
+						
+							'Timezone' database isn't available, please report issue to system admin.
+						
+						<% end %>
+						
+					</td>
+				</tr>
+				<tr>
+					<td id='timezone_error' style='font-size:10pt;'></td>
+				</tr>
+				<tr>
+					<td style='font-size:8pt;font-style:italic;'>
+						* This timezone was auto-detected by the system. 
+						You can change it by using the drop-down element above
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>

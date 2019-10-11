@@ -1,0 +1,73 @@
+<img src="http://5skills.me/5skills-160x49.png">
+
+<br/><br/>
+
+<span style="font-weight:bold;"><%= @person_name %></span>,
+
+<br><br>
+
+You have successfully sent your 5skills profile together with your CV to
+<span style="font-weight:bold;">Wix</span> for the job <span style="font-weight:bold;"><%= @job[:title] %></span>.
+
+<br/><br/>
+
+Using 5skills increases your chances of getting that first interview. Our matching engine matches yours and the potential employers preferences!.
+
+<br/><br/>
+
+<table style="border-collapse:collapse;">
+	<tr style="line-height:20px;">
+		<td style="width:115px;text-align:left;background-color:#00923F;color:white;">Job details</td>
+		<td style="width:300px;text-align:right;font-style:italic;background-color:#00923F;">
+			<% if 1 == 2 %>
+				<a style="color:white;" href="http://<%= @http_host %>/job_seeker/<%= @job_seeker[:id].to_s %>/view">view full profile</a>
+			<% end %>
+		</td>
+	</tr>
+	<tr style="line-height:16px;">
+		<td style="width:115px;text-align:left;">Salary range</td>
+		<td style="width:300px;text-align:left;font-weight:bold;">13,000 - 17,000 nis</td>
+	</tr>
+	<tr style="line-height:16px;">
+		<td style="width:115px;text-align:left;">Location</td>
+		<td style="width:300px;text-align:left;font-weight:bold;">Tel Aviv, Israel</td>
+	</tr>
+</table>
+
+<br/><br/>
+
+<table style="border-collapse:collapse;">
+	<tr style="line-height:20px;">
+		<td colspan="2" style="width:415px;text-align:left;background-color:#00923F;color:white;">Company details</td>
+	</tr>
+	<tr style="line-height:16px;">
+		<td style="width:115px;text-align:left;">Name</td>
+		<td style="width:300px;text-align:left;font-weight:bold;">Wix</td>
+	</tr>
+	<tr style="line-height:16px;">
+		<td style="width:115px;text-align:left;">Industry</td>
+		<td style="width:300px;text-align:left;font-weight:bold;">High-tech / online web hosting</td>
+	</tr>
+</table>
+
+<br/><br/>
+
+<% @skills_profile_matrix = @job_seeker[:skills_profile] %>
+<% if @skills_profile_matrix %>
+	<%= render :partial => 'display_fs_profile' %>
+<% end %>
+
+<br/><br/><br/>
+
+<table>
+	<tr>
+		<td style="width:40px;text-align:center;">
+			<img src="http://5skills.me/5_only-32x36.png">
+		</td>
+		<td style="width:400px;font-size:16px;font-weight:bold;font-style:italic;">
+			Look for the 5skills logo on job posts on
+			<br/>
+			Facebook, LinkedIn and Twitter.
+		</td>
+	</tr>
+</table>

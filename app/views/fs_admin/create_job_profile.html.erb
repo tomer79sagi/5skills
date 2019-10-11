@@ -1,0 +1,127 @@
+<% content_for :head do %>
+	5skills.me
+<% end %>
+
+<% content_for :title do %>
+	Create 5skills job profile
+<% end %>
+
+<% form_tag({:action => :search_keywords}) do %>
+
+	<table>
+		<tr>
+			<td style="font-weight:bold;">Job description</td>
+			<td style="font-weight:bold;">Suggested 5skills profile</td>
+			<td style="font-weight:bold;">Job seeker matches</td>
+		</tr>
+		<tr>
+			<td style="width:330px;vertical-align:top;">
+				<table>
+					<tr>
+						<td>
+							<textarea rows="20" cols="40"></textarea>
+						</td>
+					</tr>
+					<tr>
+						<td style="border:1px solid green;height:50px;">
+							&nbsp;
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<table>
+								<tr>
+									<td>Add keyword</td>
+									<td>Add skill</td>
+									<td>&nbsp;</td>
+								</tr>
+								<tr>
+									<td><input type="text"></td>
+									<td><input type="text"></td>
+									<td><button>+</button></td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</td>
+			<td style="vertical-align:top;text-align:left;width:330px;">
+				<table>
+					
+					<% 5.times do |i| %>
+					
+						<tr>
+							<td style="vertical-align:top;">
+								<%= i+1 %>
+							</td>
+							<td style="vertical-align:top;">
+								<table>
+									<tr>
+										<td>
+											<table>
+												<tr style="">
+													<td style="width:200px;border:1px dashed green;">Primary skill</td>
+													<td style="width:50px;border:1px dashed green;text-align:center;">yrs</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+									<tr>
+										<td style="">
+											<table>
+												<tr>
+													<td style="height:35px;width:255px;border:1px dashed green;vertical-align:top;">Skill 1, Skill 2, Skill 3</td>
+												</tr>
+											</table>
+										</td>
+									</tr>	
+								</table>
+							</td>
+						</tr>
+					
+					<% end %>
+					
+				</table>
+			</td>
+			<td style="vertical-align:top;text-align:left;width:330px;">
+				<table>
+					
+					<% 5.times do %>
+					
+						<tr>
+							<td style="width:60px;font-size:30px;">85%</td>
+							<td style="width:270px;">
+								<table>
+									<tr>
+										<td style="font-weight:bold;">Anonymous</td>
+									</tr>
+									<tr>
+										<td>
+											<table>
+												<tr>
+													<td style="width:200px;text-align:left;">Project Management</td>
+													<td style="width:50px;">2y</td>
+													<td style="width:50px;">+2</td>
+													<td style="width:50px;">3</td>
+												</tr>
+												<tr>
+													<td style="width:200px;text-align:left;">Project Management</td>
+													<td style="width:50px;">2y</td>
+													<td style="width:50px;">+2</td>
+													<td style="width:50px;">3</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+					
+					<% end %>
+					
+				</table>
+			</td>
+		</tr>
+	</table>
+
+<% end %>

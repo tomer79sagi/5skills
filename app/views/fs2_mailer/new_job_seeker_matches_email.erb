@@ -1,0 +1,96 @@
+Hey <%= @person_name %> !
+
+<br><br>
+
+5skills found new jobs for you!
+
+Check them out below...
+
+<br/><br/>
+
+<hr/>
+
+<br/>
+
+<table style="border-collapse:collapse;">
+	<tr>
+		<td style="background-color:gray;">Job Seeker</td>
+		
+		<td style="background-color:gray;">Match points</td>
+		<td style="background-color:gray;">Matched skills</td>
+		<td style="background-color:gray;">Matched skill details</td>
+		<td style="background-color:gray;">Matched skill additional requirements</td>
+		<td style="background-color:gray;">Actions</td>
+	</tr>
+	
+	<% if @js_results_array %>
+	
+		<% @js_results_array.each do |job_seeker| %>
+			
+			<tr>
+				<td>
+					<% if job_seeker[1][:files][:profile_photo] && job_seeker[1][:files][:profile_photo][:id] && job_seeker[1][:files][:profile_photo][:medium_dimensions] %>
+					
+						<a href="http://<%= @http_host %>/job_seeker/<%= job_seeker[0].to_s %>/view">
+						<img src="http://<%= @http_host %>/file/<%= job_seeker[1][:files][:profile_photo][:id] %>/show"
+							width="<%= job_seeker[1][:files][:profile_photo][:medium_dimensions].split("x")[0] %>"
+							height="<%= job_seeker[1][:files][:profile_photo][:medium_dimensions].split("x")[1] %>"
+						</a>
+						
+					<% end %>
+					
+					<br/>
+					<%= job_seeker[1][:full_name] %>
+					
+				</td>
+				<td>
+						<%= job_seeker[1][:match_points].to_s %>
+					</td>
+					<td>
+						<%= job_seeker[1][:matched_skills].to_s %>
+					</td>
+					<td>
+						<%= job_seeker[1][:matched_skill_details].to_s %>
+					</td>
+					<td>
+						<%= job_seeker[1][:matched_additional_requirements].to_s %>
+					</td>
+					<td>
+						
+						<% if job_seeker[1][:cv_trans_status_id] %>
+						
+							<b><%= job_seeker[1][:cv_trans_status_name] %></b>
+							
+							<% if job_seeker[1][:cv_trans_updated_at] %>
+								<br/>
+								<%= job_seeker[1][:cv_trans_updated_at_formatted] %>
+								<br/>
+								<i><%= job_seeker[1][:cv_trans_updated_at_time_ago] %></i>
+							<% end %>
+							
+							<% if job_seeker[1][:files][:cv] && (job_seeker[1][:cv_trans_status_id].to_i == Fs2CvsToJobsTransaction::STATUS_TYPES[:cv_sent] || job_seeker[1][:cv_trans_status_id].to_i == Fs2CvsToJobsTransaction::STATUS_TYPES[:cv_request_approved]) %>
+								<br/></br/>
+							
+								<a href="http://<%= @http_host %>/file/<%= job_seeker[1][:files][:cv][:id].to_s %>/download">Download CV!</a>
+							<% end %>
+						
+						<% else %>
+						
+							<a href="http://<%= @http_host %>/job_seeker/<%= job_seeker[0].to_s %>/request_cv">Request CV</a>
+							
+						<% end %>
+						
+					</td>
+			</tr>
+	
+		<% end %>
+		
+	<% end %>
+	
+</table>
+
+<br/>
+
+<hr/>
+
+<a href="http://<%= @http_host %>/job_seeker/find">Find job seekers!</a>

@@ -1,0 +1,137 @@
+  <!--[partial:debugging]-->
+	<div style="">
+
+	<table>
+		
+		<tr>
+			<td align="center"><b>PARAMS</b></td>
+			<td align="center"><b>SESSION</b></td>	
+		</tr>
+		
+		<tr valign="top">
+			<td>
+				<table border="1">
+					<tr>
+						<th>Key</th>
+						<th>Value</th>
+					</tr>
+				    <% params.each do |header, value| %>
+						<tr>
+							<td>
+								<div style="text-align:left;word-wrap:break-word;width:100px;"><%= "#{header}" %></div>
+							</td>
+							<td>
+								<div style="text-align:left;word-wrap:break-word;width:350px;"><%= "#{value}" %></div>
+								<!--<%# !value && value.each do |k1, v1| %>
+									<div style="text-align:left;word-wrap:break-word;width:350px;">
+										<%# if !v1 or v1.empty? %>
+											<%# "#{k1}" %>
+										<%# else %>
+											<%#= "<b>#{k1}" %> = '</b><%#= "#{v1}" %><b>'</b>
+										<%# end %>
+									</div>
+								<%# end %>--> 
+							</td>
+						</tr> 
+				   <% end %>
+			 	</table>
+			</td>
+			<td>
+				
+				<table border="1">
+					<tr>
+						<th>Key</th>
+						<th>Value</th>
+					</tr>
+				    <% session.each do |header, value| %>
+						<tr>
+							<td>
+								<div style="text-align:left;word-wrap:break-word;width:100px;"><%= "#{header}" %></div>
+							</td>
+							<td>
+								<div style="text-align:left;word-wrap:break-word;width:350px;"><%= "#{value}" %></div>
+								<!--<%# !value && value.each do |k1, v1| %>
+									<div style="text-align:left;word-wrap:break-word;width:350px;">
+										<%# if !v1 or v1.empty? %>
+											<%#= "#{k1}" %>
+										<%# else %>
+											<%#= "<b>#{k1}" %> = '</b><%#= "#{v1}" %><b>'</b>
+										<%# end %>
+									</div>
+								<%# end %>-->
+							</td>
+						</tr> 
+				   <% end %>
+				   <tr>
+				   		<td><div style="text-align:left;word-wrap:break-word;width:100px;">flash[:action]</div></td>
+				   		<td><div style="text-align:left;word-wrap:break-word;width:350px;max-width:300px;"><%= flash[:action] if flash[:action] %></div></td>
+				   </tr>
+				   <tr>
+				   		<td><div style="text-align:left;word-wrap:break-word;width:100px;">flash[:error]</div></td>
+				   		<td><div style="text-align:left;word-wrap:break-word;width:350px;max-width:300px;"><%= flash[:error] if flash[:error] %></div></td>
+				   </tr>
+				   <tr>
+				   		<td><div style="text-align:left;word-wrap:break-word;width:100px;">flash[:notice]</div></td>
+				   		<td><div style="text-align:left;word-wrap:break-word;width:350px;max-width:300px;"><%= flash[:notice] if flash[:notice] %></div></td>
+				   </tr>
+			 	</table>
+				
+			</td>
+		</tr>
+		
+		<!--
+		<tr>
+			<td align="center"><b>REQUEST</b></td>
+			<td align="center"><b>RESPONSE</b></td>	
+		</tr>
+		
+		<tr>
+			<td>
+		
+				<table border="1">
+					<tr>
+						<th>Header</th>
+						<th>Value</th>
+					</tr>
+				    <% request.headers.each do |header, value| %>
+						<tr>
+							<td style="text-align:left;word-wrap:break-word;width:200px;">
+								<%= "#{header}" %>
+							</td>
+							<td style="text-align:left;word-wrap:break-word;width:250px;max-width:250px;">
+								<%= "#{value}" %> 
+							</td>
+						</tr> 
+				   <% end %>
+			   </table>
+		   
+		   </td>
+		   
+		   <td valign="top">
+		   	
+			   <table border="1">
+			   		<tr>
+						<th>Header</th>
+						<th>Value</th>
+					</tr>
+				    <% response.headers.each do |header, value| %>
+						<tr>
+							<td style="text-align:left;word-wrap:break-word;width:200px;">
+								<%= "#{header}" %>
+							</td>
+							<td style="text-align:left;word-wrap:break-word;width:250px;max-width:250px;">
+								<%= "#{value}" %> 
+							</td>
+						</tr> 
+				   <% end %>
+			   </table>
+			   	   	
+		   </td>
+	   </tr>
+	   -->
+   
+   </table>
+   
+   </div>
+		
+  <!--[eopartial:debugging]-->

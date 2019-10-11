@@ -1,0 +1,317 @@
+<script type="text/javascript">
+
+var g_group_id_selected;
+
+function _REQ_get_job_publishing_info(){
+	var json_arr = {};
+	
+	_loading("template__publishing_job", $(".bb ._loading"));
+	
+	json_arr.job_id = _get__skeleton_object("job-active").entity_id;
+	json_arr.user_id = _core['user_id'];
+	
+	return {action: "ajax/job/publishing/info", data: json_arr};
+}
+
+function _RES_get_job_publishing_info(data, status_i) {
+	
+	_ready("template__publishing_job", $(".bb ._loading"));
+	
+	// -- Header
+	var groups_summary__data_blocks = $("._header ._header__data_block__number");
+	$(groups_summary__data_blocks[0]).html(data.job__publishing_info.required_groups._total); // Selected
+	$(groups_summary__data_blocks[1]).html(data.job__publishing_info.required_groups._total); // Required
+	$(groups_summary__data_blocks[2]).html(data.job__publishing_info.missing_groups._total); // Missing
+	
+	// -- Footer
+	var posts__data_blocks = $("._footer ._footer__data_block__number");
+	$(posts__data_blocks[0]).html(1); // Now - Wall
+	$(posts__data_blocks[1]).html(data.job__publishing_info.required_groups._total); // Now - Discussion
+	$(posts__data_blocks[2]).html(data.job__publishing_info.required_groups._total); // Now - Job discussion
+	$(posts__data_blocks[3]).html(data.job__publishing_info.missing_groups._total); // Later - Discussion
+	$(posts__data_blocks[4]).html(data.job__publishing_info.missing_groups._total); // Later - Job discussion
+	
+	
+	// alert(data.job__publishing_info.required_groups._total);
+	// alert(data.job__publishing_info.required_groups.values[0]._key);
+}
+
+function _RES_ERR_get_job_publishing_info(data, status_i) {
+	
+	if (data.status == 50) { // Permission error, redirecto to the linkedin authorization screen to add permission
+	    var popup = window.open(data.auth_url, '_blank', 'resizable=no,width=200,height=300');
+		popupBlockerChecker.check(popup);
+
+	}
+}
+
+
+function _REQ_publish_job(){
+	var json_arr = {};
+	
+	_loading("template__publishing_job", $(".bb ._loading"));
+	
+	json_arr.job_id = _get__skeleton_object("job-active").entity_id;
+	json_arr.user_id = _core['user_id'];
+	json_arr.skills_profile = extract_skills_from_flat_profile();
+	
+	return {action: "ajax/job/publish", data: json_arr};
+}
+
+function _RES_publish_job(data, status_i) {
+	
+	_ready("template__publishing_job", $(".bb ._loading"));
+	
+	var post = null;
+	
+	// var sorted_group = data.groups_obj.values.sort(
+		// firstBy(function(a,b) { return b.group.id - a.group.id; } ).
+		// thenBy(function(a,b) { return b.group.numMembers - a.group.numMembers; } )
+	
+	for (var req_post in data.post_channels.linkedin) {
+		post = data.post_channels.linkedin[req_post];
+		
+		if (req_post == 'wall') {
+			if (post.status == 'updated_successfully') {
+				$(".bb #job_publishing__wall_post__body #group_member_status").css('font-weight', 'bold');
+				$(".bb #job_publishing__wall_post__body #group_member_status").html('Published');
+			} else {
+				$(".bb #job_publishing__wall_post__body #group_member_status").html('<span style="font-weight:bold;">Failed</span>: "' + post.status + '"');
+			}
+		} else {
+			create_publishing_job_row("#template__job_publishing__single_group", req_post, post);
+		}
+	}
+}
+
+function _RES_ERR_publish_job(data, status_i) {
+	
+}
+
+function create_publishing_job_row(template_css_selector, group_id, post_data) {
+	
+	// Create a group row (with binders)
+	// alert(sorted_group[group].group.name);
+	single_group_div = $(template_css_selector).clone();
+	single_group_div.attr("id", group_id);
+	single_group_div.attr("group_id", group_id);
+	single_group_div.find("#group_logo").html("<img src='" + post_data.group_info.small_logo_url + "' style='height:25px;'/>");
+	single_group_div.find("#group_name").html(limit_string(post_data.group_info.channel_name, 55));
+
+	// single_group_div.find("#group_discussion").html(post_data.discussion.status);
+	single_group_div.find("#group_discussion").html("...");
+	
+	
+	// -- NO Discussion ---> Job discussion under moderation
+	if (!post_data.discussion || (post_data.discussion.status == 'updated_successfully' && !post_data.job_discussion)) {
+		single_group_div.find("#group_job_discussion").html('<span style="font-weight:bold;">Failed</span>: "unknown_reason"');
+		
+	} else if (post_data.discussion.status != 'updated_successfully') {
+		single_group_div.find("#group_job_discussion").html('<span style="font-weight:bold;">Failed</span>: "' + post_data.discussion.status + '"');
+		
+	} else if (post_data.job_discussion.status != 'updated_successfully') {
+		single_group_div.find("#group_job_discussion").html('<span style="font-weight:bold;">Failed</span>: "' + post_data.job_discussion.status + '"');
+		
+	// -- SUCCESS
+	} else {
+		// -- Sample 'post_id' -> g-5049608-S-277276174
+		if (post_data.job_discussion.post_id) {
+			var post_id_split = post_data.job_discussion.post_id.split("-");
+			var gid = post_id_split[1]
+			var pid = post_id_split[3]
+			var lin_post_url = 'http://www.linkedin.com/groupItem?view=&gid=' + gid + '&type=member&item=' + pid;
+			
+			single_group_div.find("#group_job_discussion").html('<a href="' + lin_post_url + '" target="_blank" style="font-weight:bold;">Published</a>');
+		}
+	}
+	
+		
+	// if (post_data.discussion) {
+		// if (post_data.discussion.status == 'updated_successfully') {
+			// single_group_div.find("#group_discussion").css('font-weight', 'bold');
+			// single_group_div.find("#group_discussion").html('Published');
+		// } else {
+			// single_group_div.find("#group_discussion").html('<span style="font-weight:bold;">Failed</span>: "' + post_data.discussion.status + '"');
+		// }
+	// }
+	
+	
+	single_group_div.appendTo("#job_publishing__groups_body").show();
+	
+}
+
+// -- UNDER CONSTRUCTION
+//
+function create_group_row(template_css_selector, data) {
+		
+	// Create a group row (with binders)
+	// alert(sorted_group[group].group.name);
+	single_group_div = $(template_css_selector).clone();
+	single_group_div.attr("id", group);
+	single_group_div.attr("group_id", sorted_group[group].group.id);
+
+	if (sorted_group[group].group.id > 3000000) {
+		single_group_div.find("#flg_recommended").find("input").attr('checked', 'checked');
+		single_group_div.find("#flg_selected").find("input").attr('checked', 'checked');
+		single_group_div.find("#group_moderated").html("Yes");
+		
+		// TEST: group ids above 4500000 are considered as non-members
+		if (sorted_group[group].group.id > 4500000) {
+			
+			// Flag non-member group
+			single_group_div.attr("non-member", "true");
+			single_group_div.css("background-color", "yellow");
+			single_group_div.find("#group_member_status").html("Non member");
+			single_group_div.find("#group_engagement").html("High");
+			
+			// Update the 'suggested groups' counter
+			$("#missing_group_count").html(++missing_groups_count);
+		} else {
+			single_group_div.find("#group_job_post").html("4 days ago<br/><span style='font-size:8px;font-style:italic;'>discussion + job</span>");
+			single_group_div.css("background-color", "#D3E8CC");
+			single_group_div.find("#group_member_status").html(sorted_group[group].membershipState.code);
+			single_group_div.find("#group_engagement").css("font-weight", "bold");
+			single_group_div.find("#group_engagement").html("Very high");
+		}
+		
+		// Update the 'suggested groups' counter
+		$("#suggested_group_count").html(++suggested_group_count);
+	}
+	
+	single_group_div.find("#flg_recommended").find("input").attr('disabled', 'disabled');
+	single_group_div.find("#group_logo").html("<img src='" + sorted_group[group].group.smallLogoUrl + "' style='height:25px;'/>");
+	single_group_div.find("#group_name").html(limit_string(sorted_group[group].group.name, 55));
+	single_group_div.find("#group_members_count").html(addCommas(sorted_group[group].group.numMembers));
+	
+	// Attached the binders
+	single_group_div.bind('click', function() {
+		// alert($(this).attr("group_id"));
+		g_group_id_selected = $(this).attr("group_id");
+		ajax_it("post_job_to_social_group");
+	}).bind('mouseover', function() {
+		$(this).css("background-color", "#BDDCBD");
+	}).bind('mouseout', function() {
+		if ($(this).attr("non-member") == "true") {
+			$(this).css("background-color", "yellow");
+		} else if ($(this).find("#flg_recommended input").attr("checked") == "checked") { // If recommended
+			$(this).css("background-color", "#D3E8CC");
+		} else {
+			$(this).css("background-color", "#F4F4F4");
+		}
+	});
+}
+
+function _REQ_get_social_groups(){
+	var json_arr = {};
+	
+	return {action: "ajax/social/groups", data: json_arr};
+}
+
+function _RES_get_social_groups(data, status_i) {
+	
+	var single_group_div;
+	
+	// ---- Header information
+	$("#current_group_state div[id='groups_count']").html(data.groups_obj._total);
+	
+	// TEMP: Suggested group count
+	var suggested_group_count = 0;
+	var missing_groups_count = 0;
+	
+	var sorted_group = data.groups_obj.values.sort(
+		firstBy(function(a,b) { return b.group.id - a.group.id; } ).
+		thenBy(function(a,b) { return b.group.numMembers - a.group.numMembers; } )
+	);
+	
+	for (var group in sorted_group) {
+		
+		// Create a group row (with binders)
+		// alert(sorted_group[group].group.name);
+		single_group_div = $("#template__single_group").clone();
+		single_group_div.attr("id", group);
+		single_group_div.attr("group_id", sorted_group[group].group.id);
+
+		if (sorted_group[group].group.id > 3000000) {
+			single_group_div.find("#flg_recommended").find("input").attr('checked', 'checked');
+			single_group_div.find("#flg_selected").find("input").attr('checked', 'checked');
+			single_group_div.find("#group_moderated").html("Yes");
+			
+			// TEST: group ids above 4500000 are considered as non-members
+			if (sorted_group[group].group.id > 4500000) {
+				
+				// Flag non-member group
+				single_group_div.attr("non-member", "true");
+				single_group_div.css("background-color", "yellow");
+				single_group_div.find("#group_member_status").html("Non member");
+				single_group_div.find("#group_engagement").html("High");
+				
+				// Update the 'suggested groups' counter
+				$("#missing_group_count").html(++missing_groups_count);
+			} else {
+				single_group_div.find("#group_job_post").html("4 days ago<br/><span style='font-size:8px;font-style:italic;'>discussion + job</span>");
+				single_group_div.css("background-color", "#D3E8CC");
+				single_group_div.find("#group_member_status").html(sorted_group[group].membershipState.code);
+				single_group_div.find("#group_engagement").css("font-weight", "bold");
+				single_group_div.find("#group_engagement").html("Very high");
+			}
+			
+			// Update the 'suggested groups' counter
+			$("#suggested_group_count").html(++suggested_group_count);
+		}
+		
+		single_group_div.find("#flg_recommended").find("input").attr('disabled', 'disabled');
+		single_group_div.find("#group_logo").html("<img src='" + sorted_group[group].group.smallLogoUrl + "' style='height:25px;'/>");
+		single_group_div.find("#group_name").html(limit_string(sorted_group[group].group.name, 55));
+		single_group_div.find("#group_members_count").html(addCommas(sorted_group[group].group.numMembers));
+		
+		// Attached the binders
+		single_group_div.bind('click', function() {
+			// alert($(this).attr("group_id"));
+			g_group_id_selected = $(this).attr("group_id");
+			ajax_it("post_job_to_social_group");
+		}).bind('mouseover', function() {
+			$(this).css("background-color", "#BDDCBD");
+		}).bind('mouseout', function() {
+			if ($(this).attr("non-member") == "true") {
+				$(this).css("background-color", "yellow");
+			} else if ($(this).find("#flg_recommended input").attr("checked") == "checked") { // If recommended
+				$(this).css("background-color", "#D3E8CC");
+			} else {
+				$(this).css("background-color", "#F4F4F4");
+			}
+		});
+		
+		single_group_div.appendTo("#groups_body").show();
+	}
+}
+
+function _RES_ERR_get_social_groups(data, status_i) {
+	
+	if (data.status == 50) { // Permission error, redirecto to the linkedin authorization screen to add permission
+	    var popup = window.open(data.auth_url, '_blank', 'resizable=no,width=200,height=300');
+		popupBlockerChecker.check(popup);
+
+	}
+}
+
+function _REQ_post_job_to_social_group(){
+	var json_arr = {};
+	
+	json_arr.group_id = g_group_id_selected;
+	
+	if (confirm('Posting to group: "' + $('.single_group[group_id=' + g_group_id_selected + ']').find("#group_name").html() + '"\n\rAre you sure?')) { 
+		return {action: "ajax/social/group/post/job", data: json_arr};
+	} else {
+		// Do nothing
+	}
+}
+
+function _RES_post_job_to_social_group(data, status_i) {
+	alert('Success!');
+}
+
+function _RES_ERR_post_job_to_social_group(data, status_i) {
+	alert('Fail!');
+}
+
+</script>

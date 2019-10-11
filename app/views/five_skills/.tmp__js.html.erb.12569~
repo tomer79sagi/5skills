@@ -1,0 +1,174 @@
+<script type="text/javascript">
+	
+$(document).ready(function() {
+	// 5 skills
+	for (i=1 ; i <= 5 ; ++i) {
+		bind_field("skill_" + i + "-name");
+		bind_field("skill_" + i + "-details", true);
+	}
+	
+	// Additional requirements
+	bind_field("additional_requirements", true);
+	
+	$( "#sortable" ).sortable();
+	$( "#sortable" ).disableSelection();	
+	
+	
+	
+	$.ajaxSetup({
+	    beforeSend: function (xhr) {
+	            xhr.setRequestHeader("Accept", "application/json, text/javascript, text/html, application/xml, text/xml, */*");
+	    }
+	});
+});
+
+
+var g_server_url = "http://localhost:3002/";
+var h_results = null;
+
+
+function bind_field(field_name, with_suffix) {
+	$( "#" + field_name )
+			// don't navigate away from the field on tab when selecting an item
+			.bind( "keydown", function( event ) {
+				if ( event.keyCode === $.ui.keyCode.TAB &&
+						$( this ).data( "autocomplete" ).menu.active ) {
+					event.preventDefault();
+				}
+			})
+			.autocomplete({
+				minLength: 0,
+				source: function( request, response ) {
+					// delegate back to autocomplete, but extract the last term
+					response( $.ui.autocomplete.filter(
+						availableTags, extractLast( request.term ) ) );
+				},
+				focus: function() {
+					// prevent value inserted on focus
+					return false;
+				},
+				select: function( event, ui ) {
+					var terms = split( this.value );
+					// remove the current input
+					terms.pop();
+					// add the selected item
+					terms.push( ui.item.value );
+					// add placeholder to get the comma-and-space at the end
+					if (with_suffix) { terms.push( "" ); }
+					this.value = terms.join( ", " );
+					
+					// Finally, run the search
+					ajax_it('search');
+					
+					return false;
+				}
+			});
+}
+
+var availableTags = [ <%= @all_keywords %> ];
+		
+function split( val ) {
+	return val.split( /,\s*/ );
+}
+
+function extractLast( term ) {
+	return split( term ).pop();
+}
+
+function _REQ_search(){
+	var skill_prefix = "skill_";
+	var json_arr = {};
+	
+	json_arr.skills_profile = {};
+	
+	for (i=1 ; i<=5 ; ++i) {
+		json_arr.skills_profile[skill_prefix + i] = {};
+		json_arr.skills_profile[skill_prefix + i].name = $("#" + skill_prefix + i + "-name").val();
+		json_arr.skills_profile[skill_prefix + i].years_experience = $("#" + skill_prefix + i + "-years_experience").val();
+		json_arr.skills_profile[skill_prefix + i].self_rate = $("#" + skill_prefix + i + "-self_rate").val();
+		json_arr.skills_profile[skill_prefix + i].details = $("#" + skill_prefix + i + "-details").val();
+	}
+	
+	json_arr.skills_profile["additional_requirements"] = $("#additional_requirements").val();
+	
+	$.post(g_server_url + "job_seeker/search", {
+		json: JSON.stringify(json_arr)}, callbackSuccess, "json");
+}
+
+function _RES_search(data, status_i) {
+//	alert('cool response!');
+	
+	var a_job_seeker;
+	h_results = {};
+	
+	// Remove elements
+	$("#results_table tr:not([id='results_row_titles'])").remove();
+	
+	// Add new rows
+	for (job_seeker in data.results) {
+		$("#results_table tbody:last").append(create_result_row_as_html(data.results[job_seeker][1]));
+	}
+}
+
+function create_result_row_as_html(js_data) {
+	var js_id = js_data.skills_profile_id;
+	
+	var tr_row_start = '<tr id="' + js_id + '">'
+	var tr_row_end = '</tr>'
+	var td_full_name = '<td id="' + js_id + '-full_name" style="text-align:left;">' + js_data.full_name + '</td>'
+	var td_matched_skills = '<td id="' + js_id + '-skills" style="text-align:left;">' + js_data.matched_skills + '</td>'
+	var td_matched_skills_details = '<td id="' + js_id + '-skill_details" style="text-align:left;">' + js_data.matched_skill_details + '</td>'
+	var td_matched_additional_requirements = '<td id="' + js_id + '-additional_requirements" style="text-align:left;">' + js_data.matched_additional_requirements + '</td>'
+	var td_match_points = '<td id="' + js_id + '-points" style="text-align:left;">' + js_data.match_points + '</td>'
+	
+	var row_as_html = 
+		tr_row_start + 
+		td_full_name + 
+		td_matched_skills + 
+		td_matched_skills_details + 
+		td_matched_additional_requirements + 
+		td_match_points + 
+		tr_row_end;
+	
+	return row_as_html;
+}
+
+function ajax_it(action, target_field_o) {
+	eval("_REQ_" + action + "();");	
+}
+
+function callbackSuccess(data, textStatus, jqXHR){
+	if (!data) {
+		alert('ERROR: No "data" object returned from server!');
+		return;
+	}
+	
+	var status_i = parseInt(data.status);
+	
+	if (status_i < 100) { // 0 - 100 are system-type error messages
+		alert('ERROR: ' + data.status + ', ' + data.action + ', ' + data.message);
+		return;
+	} else {
+		// --- Redirects, system calls and processing functionality (only if successful)
+		if (status_i >= 100 && status_i < 200) { // form OR data related errors
+			
+			// 2. Update the error messages for the appropriate form fields
+			switch (status_i) {
+				case 100: // Field validation error
+					for (var key in data.errors) {	
+//						$("#" + key + "_error").html("'" + key + "' " + data.errors[key]);
+						alert("'" + key + "' " + data.errors[key]);
+					}
+					
+					break;
+			}
+			
+		} else { // No error
+			eval("_RES_" + data.action + "(data, status_i);");
+		}	
+	}	
+	
+	
+}
+
+</script>

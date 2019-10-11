@@ -1,0 +1,62 @@
+Skill_profile_matches (job_seeker)
+ + New job added
+ + Existing job - skills_profile changed
+ 
+- skill_profile_id - source [via job_seeker_id]
+- skill_profile_id - match [job.skills_profile_id]
+- match_date
+- status [new - just matched & email sent, reviewed, cv sent, archived, purged]
+
+Skill_profile_matches (job)
+ + New job_seeker
+ + Exsting job_seeker updated skills_profile
+ 
+- skill_profile_id - source [job.skills_profile.id]
+- skill_profile_id - match [skills_profile_id.job_seeker_id]
+- match_date
+- status [new - just matched & email sent, reviewed, cv sent, archived, purged]
+
+
+Scenario:
+1. Job seeker creates profile
+ - System runs matches on jobs and rates them (score)
+  + System records all matches as follows:
+   * job_seeker - skills_profile (as job seeker could have multiple skills_profiles)
+   * Match (which is a job_id and its skills_profile_id)
+   * Match date/time (date/time the match occured) as the match could become invalid or out-of-date
+   * job_seeker_skills (matching keywords, comma delimited)
+   * ... remaining columns for job_seeker
+   * job_seeker Status (new)
+   * from_job_seeker_match_points
+   * from_job_seeker_match_skills (matching keywords, comma delimited)
+   * from_job_Seeker_match_skill_details
+   * from_job_seeker_match_skill_years
+   * from_job_seeker_match_skill_rank
+   * from_job_seeker_match_skill_additional_requirements
+   * job_skills (matching keywords, comma delimited)
+   * ... remaining columns for job_seeker
+   * contact status (new)
+   * from_job_match_points
+   * from_job_match_skills (matching keywords)
+   * from_job_match_skill_details
+   * from_job_match_skill_years
+   * from_job_match_skill_rank
+   * from_job_match_skill_additional_requirements
+ - All matches can be viewed in 'matches' / 'skills_profile' page
+ - Site notification icon changes to represent no. of 'new' matches
+ - Top 5 matches are sent in an INSTANT email to the job_seeker
+  + System changes Match status to 'notification sent'
+
+2. Job seeker changes profile
+ - System deleted previous skills_profile (currently)
+  + System deletes 'matches'
+   * If job seeker is trying to access older matches (thru URL), system will provide appropriate error message
+ - System runs process #1
+ 
+3. Job skills profile changes
+ - Check 'skills_profile_matches' table
+  + Delete previous matches based on 'skills_profile_id' (of the job) - 'match' column
+ - Delete current skills_profile
+ - Create new skills_profile
+ - Perform matches
+  + search 'match' database and update all matched 'job_seeker_id' from current match search with 

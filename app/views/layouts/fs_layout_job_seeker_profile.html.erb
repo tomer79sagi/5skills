@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  
+  <title><%= yield :head %></title>
+  
+  <%= render :partial => '/layouts/fs_layout_core_js_and_styles' %>
+  
+  <script type="text/javascript">
+	$(document).ready(function() {
+  		<%= render :partial => '/five_skills/js_document_ready' %>
+	});
+  </script>
+    
+</head>
+<body>
+
+<%= render :partial => '/five_skills/header' %>
+
+<div id="messages_pane" style="width:100%;">
+	<div id="message_notice" class="messages_area_good" style="display:none;"><%= flash[:notice].to_s %></div>
+	<div id="message_error" class="messages_area_bad" style="display:none;"><%= flash[:error].to_s %></div>
+</div>
+
+<div class="middle">
+	<div class="main_left">
+		
+		<div class="title">
+			
+			<div class="left">
+				<h1><%= yield :title %></h1>
+			</div>	
+			<div class="date left">
+				<img src="/images/star.png" alt="" />	
+				<span class="pleft_5">Today, 11:15</span>
+			</div>
+			
+			<% if @job_seeker[:job_match] %>
+				
+				<div class="right">
+					<div class="header_match left">
+						<div class="header_match_return_to_results">
+							<% if session[:person] && session[:user] && session[:user].user_type_id != Fs2User::USER_TYPES[:job_seeker] %>
+								<%= link_to "return to 'Edit' screen", edit_job_profile_url( :job_id => @job_seeker[:job_match][0] ) %>
+							<% end %>
+						</div>
+						<div class="header_match_pct left">
+							<div>
+								<span><%= @job_seeker[:job_match][1][:match_pct] %></span>%
+							</div>
+						</div>
+					</div>
+				</div>
+				
+			<% end %>
+			
+		</div>
+
+		<div class="clear"></div>
+		
+		<% if @job_seeker[:job_match] %>
+		
+		  <div class="main_box" style="border-top:1px solid #20B962;">
+		
+		<% else %>
+		
+		  <div class="main_box">
+				
+		<% end %>
+			
+			<%= yield %>
+			
+		</div>
+
+	</div>
+	
+	<div class="main_right">
+		
+		<% if !@job_seeker[:job_match] %>
+		
+			<h2>Looking for work?</h2>
+			<div class="box1">
+				<img src="/images/user_pic.png" alt="" />
+				<h3>Want a profile like this?</h3>
+				<div class="skill_but"><input type="submit" value="5skill yourself!" /></div>
+			</div>			
+						
+			<h2>Looking for candidates?</h2>
+			<div class="box2">
+				<img src="/images/logo_box.png" alt="" />
+				<img src="/images/user_pic.png" alt="" />
+				<h3>Want a job profile like this?</h3>
+				<div class="skill_but2"><input type="submit" value="5skill your Job!" /></div>
+			</div>	
+			
+		<% end %>
+				
+	</div>
+</div>
+
+<%= render :partial => '/five_skills/footer' %>
+
+</body>
+</html>

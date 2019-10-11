@@ -1,0 +1,65 @@
+
+<% if params[:ajax_start_up_actions] %>
+	ajax_it('start_up_actions');
+<% end %>
+
+
+
+// ------------------- workspace start point -------------------
+// --- !!! Not active (as at 1st Sep 2013) !!! ---
+
+<% if params[:workspace_start_point] %>
+	<% if params[:workspace_start_point] == "social" %>
+		switch_main_content(2);
+	<% end %>
+<% end %>
+
+
+// ------------------- Register components -------------------
+// --- !!! Need to further check the following implementation (as at 1st Sep 2013) !!! ---
+
+<% case params[:action]
+	
+	when "view_job_post" %>
+	
+		register_dirty_comp(1, 1);
+
+<% end %>
+
+
+// ---------------------- Slider / Carrousel ----------------------
+
+function loadimg(){
+    
+   $('#background').animate({ opacity: 1 }, 1500,function(){
+
+        //finished animating, minifade out and fade new back in           
+        $('#background').animate({ opacity: 0 }, 500,function(){
+            
+            currimg++;
+            
+            if(currimg > images.length-1){
+                
+                currimg=0;
+                
+            }
+            
+            var newimage = images[currimg];
+        
+            //swap out bg src                
+            $('#background').css("background-image", "url("+newimage+")"); 
+        
+            //animate fully back in
+            $('#background').animate({ opacity: 1 }, 1000,function(){
+
+                //set timer for next
+                setTimeout(loadimg,5000);
+
+            });
+
+        });
+    
+    });
+
+ }
+ setTimeout(loadimg,2000);

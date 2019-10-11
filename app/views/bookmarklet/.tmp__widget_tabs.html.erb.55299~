@@ -1,0 +1,63 @@
+<table style="width:100%;">
+	<tr>
+		<% if @page_type && @page_type == 0 # Unknown %>
+		
+			<td style="padding:.5em 0em .5em 0em;text-align:center;width:150px;border-bottom:1px solid gray;">
+				<% if @tab == "unknown %>
+					<b>Unknown</b>
+				<% elsif @tab %>
+					<a href="/" onClick="ajax_it('get_new_role_panel'); return false;">Unknown</a>
+				<% end %>
+			</td>
+			<td style="padding:.5em 0em .5em 0em;text-align:center;width:150px;border-bottom:1px solid gray;">
+				<% if @tab == "actions" %>
+					<b>Actions</b>
+				<% elsif @tab %>
+					<a href="/" onClick="ajax_it('get_actions_panel'); return false;">Actions</a>
+				<% end %>
+			</td>
+		
+		<% elsif @page_type # Search Results %>
+		
+			<td style="padding:.5em 0em .5em 0em;text-align:center;width:150px;border-left:1px solid gray;border-right:1px solid gray;border-top:1px solid gray;">
+			
+				<% if @page_type == 1 # Search Results %>
+					<% if @tab == "search_results" %>
+						<b>Search Results</b>
+					<% elsif @tab %>
+						<a href="/" onClick="ajax_it('get_search_results_panel'); return false;">Search Results</a>
+					<% end %>
+				<% elsif @page_type == 2 # Job Page %>
+					<% if @tab == "job" %>
+						<b>Job</b>
+					<% elsif @tab %>
+						<a href="/" onClick="ajax_it('get_job_panel'); return false;">Job</a>
+					<% end %>
+				<% elsif @page_type == 3 # Apply Page %>
+					<% if @tab == "apply" %>
+						<b>Apply</b>
+					<% elsif @tab %>
+						<a href="/" onClick="ajax_it('get_apply_panel'); return false;">Apply</a>
+					<% end %>
+				<% end %>
+
+			</td>
+			<td style="padding:.5em 0em .5em 0em;text-align:center;width:150px;border-bottom:1px solid gray;">
+				<% if @tab == "new_role %>
+					<b>New Role*</b>
+				<% elsif @tab %>
+					<a href="/" onClick="ajax_it('get_new_role_panel'); return false;">New Role*</a>
+				<% end %>
+			</td>
+			<td style="padding:.5em 0em .5em 0em;text-align:center;width:150px;border-bottom:1px solid gray;">
+				<% if @tab == "actions" %>
+					<b>Actions</b>
+				<% elsif @tab %>
+					<a href="/" onClick="ajax_it('get_actions_panel'); return false;">Actions</a>
+				<% end %>
+			</td>
+			
+		<% end %>
+		
+	</tr>
+</table>

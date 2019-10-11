@@ -1,0 +1,47 @@
+  <!--[partial:header]-->
+
+<% if session[:user] %>
+			
+	<table class="header_2" style="width:100%;">
+	
+		<tr>
+			<td style="margin:.1em 0em .1em 0em;padding:0em .5em 0em 0.5em;text-align:left;float:left;color:white;background:#77aaeb;">
+				<span class="template_h_link" style="color:white;"><i>Messages (3)</i></span>
+				|
+				<span class="template_h_link" style="color:white;"><i>Notifications (5)</i></span>
+				|
+				<span class="template_h_link" style="color:white;"><i>Invitations (2)</i></span>
+				|
+				<span class="template_h_link" style="color:white;"><i>Files (3)</i></span>
+			</td>
+			<td style="margin:.1em 0em .1em 0em;padding:0em .5em 0em 0.5em;text-align:right;float:right;color:white;background:#77aaeb;">
+				<span class="template_h_link" style="color:white;"><i>Uncategorised Senders (3)</i></span>
+				|
+				<span class="template_h_link" style="color:white;"><i>Uncategories Messages (3)</i></span>
+			</td>
+		</tr>
+		<tr>
+			<td style="padding:.5em 0em .5em 0em;text-align:right;float:right;width:50%;">
+				<span class="template_h_link"><%= link_to 'Activities', activities_url %></span>
+				|
+				<span class="template_h_link">
+					<a href="javascript:(function(){document.body.appendChild(document.createElement('script')).src='http://<%= request.env["HTTP_HOST"] %>/javascripts/bl/flyc.js';})();">Flyc Magic</a
+				</span>
+				|
+				<span class="template_h_link">
+					<%= link_to 'Mechanize', mechanize_url %>
+				</span>
+			</td>
+			
+			<td style="padding:.5em 0em .5em 0em;text-align:left;float:left;width:50%;">
+				<span class="text_highlight_2"><%= session[:user].first_name %> <%= session[:user].last_name %></span><%= link_to 'Logout', logout_url, :class => "content_link" %>
+			</td>
+		</tr>
+	
+	</table>
+	
+	<%= render :partial => '/agent/primary_navigation' %>
+	
+<% end %>
+		
+  <!--[eopartial:header]-->

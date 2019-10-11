@@ -1,0 +1,25 @@
+--> RAILS LAYOUT
+
+	+ JS
+	+ CSS
+	+ 3rd party components
+	
+	> Yield >
+	
+	+ upload frame
+	+ templates
+
+--> RAILS VIEW
+
+	grid layout HTML DIVs
+
+--> ON_LOAD [RAILS_LAYOUT]
+
+	> /framework/onload_pre_components
+	
+	ajaxSetup
+	sync();
+	grid layout definitions (width, height, names etc)
+	
+	bind_fields("__w__core");
+	switch_to(context["a_recruiter_workspace"]["_default"]);

@@ -1,0 +1,11 @@
+<% content_for :head do %>
+  <title>FLYC - Admin Homepage</title>
+<% end %>
+
+<div class="content-body">
+	<%= render :partial => '/main/messages', :locals => {:action => "general"} %>
+	
+	<p>This is FLYC!</p>
+	<p>Finally a job-related site focused on the Job Seeker.</p>
+	<p>You can register to this site and track your jobs!</p>
+</div>

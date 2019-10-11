@@ -1,0 +1,124 @@
+<div id='content_panel' style='direction:ltr;'>
+	
+	<div id='site_parsing_panel' style='padding:.5em 0em 0em 0em;direction:ltr;'>
+		<table>
+			<tr>
+				<td style='text-align:left;height:20px;'>Site url: </td>
+				<td id='site_url' style='text-align:left;height:20px;vertical-aling:top;'>
+					<%= @site_url if @site_url %>
+				</td>
+			</tr>
+			<tr>
+				<td style='text-align:left;height:20px;'>Page path: </td>
+				<td id='site_url' style='text-align:left;height:20px;vertical-aling:top;'>
+					<%= @url_o.path %>
+				</td>
+			</tr>
+		</table>
+		
+		<div>
+			<table>
+				<tr>
+					<td style='text-align:left;height:20px;vertical-align:top;'>Site detected: </td>
+					<td id='site_detected' style='text-align:left;height:20px;vertical-aling:top;'>
+						<input type="text" id="organisation_name" name="" value="<%= @organisation.name if @organisation %>" style="padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;"/>
+						<div id='name_error' style='font-size:10pt;'></div>
+						&nbsp;
+						<select id="s_organisation_type" style="width:75px;vertical-align:bottom;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;">
+							<% Organisation.organisation_types.each do |organisation_type| %>
+								<option value="<%= organisation_type[1] %>"
+									<%= ' selected="true"' if organisation_type[1] == @site_organisation_type %>
+									><%= organisation_type[0] %></option>
+							<% end %>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td style='text-align:left;height:20px;vertical-align:top;'>Page type path: </td>
+					<td id='page_type_path' style='text-align:left;height:20px;vertical-aling:top;'>
+						<select id="s_page_type_path" style="width:130px;vertical-align:bottom;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;" onChange="checkBlankSelection(this);">
+							<% @page_type_path_arr.each do |page_type_path| %>
+								<option value="<%= page_type_path[1] %>"
+									<%= ' selected="true"' if @page && page_type_path[1] == @page.id %>
+									><%= page_type_path[0] %></option>
+							<% end %>
+						</select>
+						<br/>
+						<input type="text" id="i_page_type_path" name="" 
+							value="<%= @page.uri_string if @page %>" 
+							style="padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;"
+							<%= ' disabled="true"' if @page_type_path == "{blank}" %>/>
+						<div id='uri_string_error' style='font-size:10pt;'></div>
+					</td>
+				</tr>
+				<tr>
+					<td style='text-align:left;height:20px;vertical-align:top;'>Page type: </td>
+					<td id='page_detected' style='text-align:left;height:20px;vertical-align:bottom;'>
+						<select id="page_type" style="vertical-align:bottom;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;" onChange="changePageTypeWidget(this);">
+							<% @page_type_options_arr.each do |option| %>
+								<option value="<%= option[1] %>"
+									<%= ' selected="true"' if option[1] == @page_type %>
+									><%= option[0] %></option>
+							<% end %>
+						</select>
+						&nbsp;
+						<button id="btn_save_page" style="width:80px;height:25px;" onClick="ajax_it('admin-save_page'); return false;">Save Page</button>
+					</td>
+				</tr>
+			</table>
+		
+		</div>
+		
+	</div>
+	
+	<hr/>
+	
+	<div id='d_field_type' style='position:relative;direction:ltr;padding:.5em 0em .5em 0em;'>
+		Field type:
+		<select id="s_field_type" style="vertical-align:bottom;" onChange="ajax_it('admin-get_field_details');">
+			<% @field_type_options_arr.each_index do |option_index| %>
+				<option value="<%= @page_type_options_arr[option_index][1] %>"
+					<%= ' selected="true"' if option_index == @field_type_options_arr[1][1] %>
+					><%= @field_type_options_arr[option_index][0] %></option>
+			<% end %>
+		</select>
+		<br/>
+		Field css selector:
+		<textarea id='ta_field_css_selector' style='text-align:left;width:90%;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;'><%= @jquery_css_selector if @jquery_css_selector %></textarea>
+		<br/>
+	</div>
+	
+	<div id='d_job_selection' style='direction:ltr;'>
+		<b>Results</b>
+		<div id="d_job_results" style="vertical-align:bottom;">
+			<button id='btn_parse_text' style='width:80px;height:25px;' onClick='ajax_it('admin-save_field'); return false;'>Save Field</button>
+		</div>
+	</div>
+	
+	<div id='content_panel_messages'></div>
+	
+	<p>
+		
+	<div id='content_panel_body' style='padding:.5em 0em 0em 0em;min-height:350px;direction:ltr;'>
+		<hr/>
+			<b>Page parsing test</b>
+		<br/>
+			<textarea id='selector_text' rows="6" style='width:70%;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;'></textarea>
+			<button id='btn_selector_gadget' style='width:70px;height:25px;' onClick='loadSelectorGadget(); return false;'>Selector</button>
+		<br/>
+			<textarea id='parse_text' rows="4" style='width:70%;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;'></textarea>
+			<button id='btn_parse_text' style='width:50px;height:25px;' onClick='testParsing(); return false;'>Parse</button>
+		<br/>
+			<div id="d_parse_results">
+				<select id='parse_select' size='4' onClick='testScroll(this);' style='width:90%;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;'></select>
+			</div>
+		<br/>
+			<input id='chk_collapsable' type='checkbox' style=''>
+			Collapse / expand
+		<br/>
+			<button id="btn_move_widget" style="width:100px;height:25px;" onClick="ajax_it('move_widget'); return false;">Move widget</button>&nbsp;
+	</div>
+	
+	<div id='buttons_panel' style="padding:.5em 0em 0em 0em;"></div>
+	
+</div>

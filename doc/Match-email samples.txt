@@ -1,0 +1,33 @@
+JOB SEEKER
+
+A) INSTANT -> New match found
+ 1. Match
+  Links:
+	- Send CV
+	- View job profile
+ 
+B) INSTANT -> Hiring Manager / Recruitment Agent -> requested your CV
+ 1. JOB details
+  Links:
+	- Approve sending of CV
+	- Deny sending of CV
+	- View job profile
+	
+DIGEST (Weekly - Israel, Thursday morning, Overseas, Friday morning)
+Email contents:
+* Top 5 of the following
+New matches
+ 1. Match 1
+ 2. Match 2
+ 3. Match 3
+ 4. Match 4
+ 5. Match 5
+      See more... (2 additional new matches)
+Reviewed matches
+Applied (CV sent)
+Requested (sorted by response status)
+ 1. Match 1 [no response]
+ 2. Match 1 [CV approved]
+ 3. Match 2 [CV denied]
+Archived matches (1 month old)
+Purged matches (2 months old)

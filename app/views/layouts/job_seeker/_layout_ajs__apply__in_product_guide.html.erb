@@ -1,0 +1,64 @@
+  
+  <!-- Impromptu instructions -->
+  
+  <script type="text/javascript">
+  	
+  	var tourSubmitFunc = function(e,v,m,f){
+				if(v === -1){
+					$.prompt.prevState();
+					return false;
+				}
+				else if(v === 1){
+					$.prompt.nextState();
+					return false;
+				}
+	},
+	tourStates = [
+		{
+			title: 'What is 5skills?',
+			html: '5skills is your simplest and anonymous reverse job seeking platform based on your skills.' + 
+				'<br/><br/>You only need to do 2 things.' + 
+				'<br/>(1) Create a simple job seeking profile based on your skills' +
+				'<br/>(2) Wait while Employers find you and offer you jobs you really want :-)' +
+				'<br/><br/><span style="font-style:italic;">Let\'s get started! Let\'s create my profile.</span>',  
+			buttons: { Skip: 2, Next: 1 },
+			focus: 1,
+			submit: tourSubmitFunc
+		},
+		{
+			title: 'Step 1. Add skills',
+			html: 'Look to find skills you might have from the \'Common skills\' list.' + 
+				'<br/><br/>Click on a skill and get it into your profile.',
+			buttons: { Next: 1 },
+			focus: 1,
+			position: { container: '.add_skill_panel_body', x: 230, y: 0, width: 300, arrow: 'lt' },
+			submit: tourSubmitFunc
+		},
+		{
+			title: 'Step 2. Add years experience',
+			html: 'Type in the number of years experience you have for each skill you added.',
+			buttons: { Prev: -1, Next: 1 },
+			focus: 1,
+			position: { container: '#skill_1_yrs', x: 40, y: -15, width: 300, arrow: 'lt' },
+			submit: tourSubmitFunc
+		},
+		{
+			title: 'Step 3. Add additional skills',
+			html: 'In case you have skills that don\'t appear in the \'Common skills\' list, manually add skills to your profile.' +
+				'<br/><br/>Click on a skill and start typing your skill. We will suggest skills as you start typing.',
+			buttons: { Prev: -1, Next: 1 },
+			focus: 1,
+			position: { container: '#skill_2_yrs', x: 40, y: -15, width: 300, arrow: 'lt' },
+			submit: tourSubmitFunc
+		},
+		{
+			title: 'Step 4. Hit \'Apply\'',
+			html: 'Once you\'re done, hit the \'Apply\' button',
+			buttons: { Prev: -1, Done: 2 },
+			focus: 1,
+			position: { container: '#btn_check_match', x: 180, y: 10, width: 300, arrow: 'lt' },
+			submit: tourSubmitFunc
+		}
+	];
+	
+   </script>

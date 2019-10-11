@@ -1,0 +1,21 @@
+<% content_for :head do %>
+	<title>FLYC: Provide Feedback</title>
+<% end %>
+
+<% content_for :title do %>
+	<span class="content-title">Provide Feedback</span>
+<% end %>
+
+<% content_for :bread_crumbs do %>
+	
+<% end %>
+
+<%= render :partial => '/main/messages', :locals => {:action => "general"} %>
+
+<% form_tag({:action => :send_feedback, :controller => :general_application}) do %>
+
+	<%= hidden_field(:page_for_feedback, @feedback_for_page) %>
+
+	<%= render :partial => 'general_application/provide_feedback_detail' %>	   
+	
+<% end %>

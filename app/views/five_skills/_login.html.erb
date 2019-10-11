@@ -1,0 +1,48 @@
+<% form_tag :action => :do_login, :controller => :fs_login do %>
+				
+	<div class="homepage_title_2" style="height:25px;">
+		Login
+	</div>
+				
+	<div class="content-body">
+		
+		<div style="padding-bottom:5px;width:234px;">
+			<%= render :partial => '/five_skills/messages', :locals => {:action => "login"} %>
+		</div>
+					
+		<table>
+		  <tr>
+			<td>
+				<%= text_field 'user_login', 'email', :dirty => "false", :default_value => "Email address...", :value => "Email address...", :class => "home_field", :onkeyup => "field_keyup(this, 'btn_login');", :onblur => "field_blur(this);", :onclick => "field_click(this);" %>
+				<%= error_message_on "user_login", "email", {:prepend_text => "Email ", :css_class => "error_message_field"} %>
+			</td>
+		  </tr>
+		  <tr>
+			<td style="padding-top:5px;">
+				<%= password_field 'user_login', 'password', :dirty => "false", :default_value => "Password...", :value => "Password...", :class => "home_field", :onkeyup => "field_keyup(this, 'btn_login');", :onblur => "field_blur(this);", :onclick => "field_click(this);" %>
+				<%= error_message_on "user_login", "password", {:prepend_text => "Password ", :css_class => "error_message_field"} %>
+			</td>
+		  </tr>
+		  <tr>
+			<td style="text-align:left;"><%= check_box "save_login", "checked", {}, "yes", "no" %> Remember me</td>
+		  </tr>
+		  <tr>
+			<td id="btn_login" style="text-align:right;padding-top:10px;">
+				<%= submit_tag 'Login', :style => "width:130px;height:50px;" %>
+			</td>
+		  </tr>
+		  
+		  <% if 1 == 2 %>
+		  
+			  <tr>
+			  	<td></td>
+				<td style="text-align:right;"><%= link_to 'Forgot your password?', forgot_password_url %></td>
+			  </tr>
+		  
+		  <% end %>
+		  
+		</table>
+		
+	</div>
+
+<% end %>

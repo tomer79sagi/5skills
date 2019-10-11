@@ -1,0 +1,17 @@
+<!-- <%= action if defined?(action) %> - <%= flash[:action] %> -->
+
+<% if defined?(action) and (action == flash[:action] or action == "general") and (flash[:notice] or flash[:error]) %>
+
+	<div style="width:100%;padding:0.7em 0em 0em 0em;">
+	
+		<% if flash[:notice] %>
+			<div class="messages_area_good"><%= flash[:notice] %></div>
+		<% end %>
+		
+		<% if flash[:error] %>
+			<div class="messages_area_bad"><%= flash[:error] %></div>	
+		<% end %>
+		
+	</div>
+
+<% end %>

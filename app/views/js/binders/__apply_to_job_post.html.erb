@@ -1,0 +1,164 @@
+<script type="text/javascript">
+
+function bind__apply_to_job_post(field_id) {
+	
+	// --- Bind all fields (if no 'field_id' is provided)
+	
+	if (!field_id) {
+		bind__apply_to_job_post("click__first_time_to_5skills");
+		bind__apply_to_job_post("click__not_first_time_to_5skills");
+		
+		bind__apply_to_job_post("click__check_match");
+		bind__apply_to_job_post("submit__send_application");
+		bind__apply_to_job_post("click__match_cancel");
+		bind__apply_to_job_post("click__sign_up");
+		bind__apply_to_job_post("click__other_opportunities");
+		bind__apply_to_job_post("click__sign_up__success_beta__close");
+		
+		bind__apply_to_job_post("click__other_opportunities__not_interested");
+		bind__apply_to_job_post("click__no_match_cancel");
+		bind__apply_to_job_post("click__sign_up__sign_up");
+		
+		return;
+	}
+	
+	
+	// --- Bind the field
+	
+	switch (field_id) {
+					
+		
+		// ---------------- FIRST TIME SCREEN ----------------
+		
+		case "click__first_time_to_5skills":
+			$(".btn__first_time_to_5skills").bind('click', function() {
+				$.nmTop().close();
+				$.prompt(tourStates);
+			});
+			break;
+		case "click__not_first_time_to_5skills":
+			$(".btn__not_first_time_to_5skills").bind('click', function() {
+				$.nmTop().close();
+			});
+			break;
+		
+		
+		// ---------------- APPLY ----------------
+			
+		case "click__check_match":
+			$("#btn_check_match").bind('click', function(e) {
+				ajax_it("apply_to_job_post");
+			});
+			break;	
+			
+		
+		// ---------------- MATCH ---------------- 
+		
+		case "submit__send_application":
+			$("#frm_send_application_o").bind('submit', function(e) {
+				fajax_it("send_application", {form_id: $(this).attr("submit_form_id")});
+				
+				// $.nmData($("#templates div[id='template__job_post_apply__other_opportunities']").clone().show().wrap('<p/>').parent().html(), {modal: true});
+// 				
+				// bind__apply_to_job_post("click__other_opportunities__not_interested");
+				// bind__apply_to_job_post("click__other_opportunities");
+			});
+			break;	
+		case "click__match_cancel":
+			$(".btn__match_cancel").bind('click', function(e) {
+				$.nmData($("#templates div[id='template__job_post_apply__other_opportunities_not_interested']").clone().show().wrap('<p/>').parent().html(), {modal: true});
+			});
+			break;
+			
+			
+		// ---------------- OTHER OPPORTUNITIES ---------------- 
+		
+		case "click__other_opportunities":
+			$(".btn__other_opportunities").bind('click', function(e) {
+				// fajax_it("send_application", {form_id: $(this).attr("submit_form_id")});
+				
+				
+				ajax_it("applied_successfully__more_jobs");
+				
+				bind__apply_to_job_post("click__sign_up__success_beta__close");
+				
+				
+				// $.nmData($("#templates div[id='template__sign_up']").clone().show().wrap('<p/>').parent().html(), {modal: true});
+// 				
+				// bind__apply_to_job_post("click__sign_up__sign_up");
+				// bind__apply_to_job_post("click__sign_up__cancel");
+			});
+			break;	
+		case "click__other_opportunities__not_interested":
+			$(".btn__other_opportunities__not_interested").bind('click', function(e) {
+				$.nmData($("#templates div[id='template__job_post_apply__other_opportunities_not_interested']").clone().show().wrap('<p/>').parent().html(), {modal: true});
+			});
+			break;		
+			
+
+		// ---------------- SIGN UP ---------------- 
+		
+		case "click__sign_up__sign_up":
+			$(".btn__sign_up__sign_up").bind('click', function(e) {
+				$.nmData($("#templates div[id='template__job_post_apply__plans_n_pricing']").clone().show().wrap('<p/>').parent().html(), {modal: true});
+				
+				bind__apply_to_job_post("click__plans_n_pricing__finished");
+			});
+			break;	
+		case "click__sign_up__cancel":
+			$(".btn__sign_up__cancel").bind('click', function(e) {
+				$.nmData($("#templates div[id='template__job_post_apply__other_opportunities_not_interested']").clone().show().wrap('<p/>').parent().html(), {modal: true});
+			});
+			break;				
+			
+		// ---------------- CHOOSE PLAN ---------------- 
+		
+		case "click__plans_n_pricing__finished":
+			$(".btn__sign_up__finish").bind('click', function(e) {
+				// fajax_it("send_application", {form_id: $(this).attr("submit_form_id")});
+				
+				$.nmData($("#templates div[id='template__sign_up__success_beta']").clone().show().wrap('<p/>').parent().html(), {modal: true});
+				
+				bind__apply_to_job_post("click__sign_up__success_beta__close");
+			});
+			break;
+			
+			
+		// ---------------- SUCCESS SCREEN ---------------- 
+		
+		case "click__sign_up__success_beta__close":
+			$(".btn__sign_up__success_beta__close").bind('click', function(e) {
+				// fajax_it("send_application", {form_id: $(this).attr("submit_form_id")});
+				
+				$.nmTop().close();
+			});
+			break;
+			
+			
+			
+		// ---------------- ALTERNATIVE PATHS ----------------
+			
+		// ---------------- NO MATCH ---------------- 
+		
+		case "click__sign_up":
+			$(".btn__no_match__sign_up").bind('click', function(e) {
+				$.nmData($("#templates div[id='template__sign_up']").clone().show().wrap('<p/>').parent().html(), {modal: true});
+		
+				bind__apply_to_job_post("click__sign_up__sign_up");
+				bind__apply_to_job_post("click__sign_up__cancel");
+			});
+			break;	
+		case "click__no_match_cancel":
+			$(".btn__no_match__cancel").bind('click', function(e) {
+				$.nmData($("#templates div[id='template__job_post_apply__other_opportunities_not_interested']").clone().show().wrap('<p/>').parent().html(), {modal: true});
+			});
+			break;	
+			
+			
+			
+												
+	}
+	
+}
+
+</script>

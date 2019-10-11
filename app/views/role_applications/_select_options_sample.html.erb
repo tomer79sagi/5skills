@@ -1,0 +1,9 @@
+			<tr>
+				<td>Salary Frequency:</td>
+				<td></td>
+				<td>
+					<select name="role[salary_frequency_id]">
+					<%= options_from_collection_for_select (SalaryFrequency.find(:all), :id, :name, @role.salary_frequency_id) %>
+					</select>
+				</td>
+			</tr>

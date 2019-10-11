@@ -1,0 +1,164 @@
+
+<script type="text/javascript">
+
+//
+// Adds a skill from the 'add skill' list to the 'skills_profile'
+//
+function add_skill_to_profile(skill_name, skill_id, skill_index) {
+	if (parseInt(skill_index) <= 5) {
+		var skill_obj = $(".skills_profile_top_5 li[skill_priority='" + skill_index + "']");
+		
+		skill_obj.find(".single_top_skill_name").html(skill_name);
+		skill_obj.attr("skill_id", skill_id);
+		skill_obj.removeAttr("blank");
+	} else {
+		var skill_obj = $("#templates [id='template_additional_skill']").clone();
+		
+		skill_obj.find(".single_additional_skill_name").html(skill_name);
+		skill_obj.css("display", "block");
+		skill_obj.attr("skill_id", skill_id);
+		$(".skills_profile_additional").append(skill_obj);
+	}
+}
+
+var g_editing = false;
+
+function attach_field_binders(field_id) {
+	
+	// Call common functions
+	attach_common_field_binders(field_id);
+	
+	// --- Bind all fields (if no 'field_id' is provided)
+	
+	if (!field_id) {
+		attach_field_binders("fld_organization_name");
+		attach_field_binders("fld_organization_type");
+		attach_field_binders("fld_organization_jobs_email");
+		attach_field_binders("fld_organization_phone_number");
+		
+		attach_field_binders("btn_save_fs_profile");
+		attach_field_binders("btn_cancel");
+		attach_field_binders("search_jobs_by_job_seekers");
+		attach_field_binders("search_jobs_by_job");
+		attach_field_binders("job_title");
+		attach_field_binders("action_delete_job");
+		attach_field_binders("action_clone_job");
+		
+		return;
+	}
+	
+	
+	// --- Bind the field
+	
+	switch (field_id) {
+		case "fld_organization_name":
+		
+			$("#" + field_id).bind('click', function(e) {
+				convert_div_label_to_input_field($(this), {class: "convert_field"});
+				
+				var bind_params = {
+			    	autocomplete: "true", 
+		    		onsearch: "search_organizations",
+		    		onselect: "convert_input_to_div",
+		    		screen_to_json_flds_map: {
+		    			fld_organization_type_id: ["entity_id", "type"],
+		    			fld_organization_type: ["><", "type_name"],
+		    			fld_jobs_email: ["><", "jobs_email"]
+		    		}
+			    }
+			    
+			    bind_field($(this).find("input"), null, null, bind_params);
+			});	
+			break;
+			
+		case "fld_organization_type":
+		
+			$("#" + field_id).bind('click', function(e) {
+				var select_options = {1: "Agency", 2: "Company"};
+				
+				convert_div_label_to_select_field($(this), {options: select_options, class: "convert_field"});
+			});	
+			break;
+			
+		case "fld_organization_jobs_email":
+		
+			$("#" + field_id).bind('click', function(e) {
+				convert_div_label_to_input_field($(this), {class: "convert_field"});
+			});	
+			break;
+			
+		case "fld_organization_phone_number":
+		
+			$("#" + field_id).bind('click', function(e) {
+				convert_div_label_to_input_field($(this), {class: "convert_field"});
+			});	
+			break;
+			
+		case "btn_save_fs_profile":
+		
+			$("[id='btn_save_fs_profile']").bind('click', function(e) {
+				$("[id='btn_save_fs_profile']").html("Saving...");
+				$("[id='btn_save_fs_profile']").attr("disabled", "disabled");
+				
+				$("[id='btn_cancel']").attr("disabled", "disabled");
+				
+				var ajax_data = {
+					job_data: {
+						id: $("#job_title").attr("entity_id"),
+						title: $("#job_title").html(),
+						description: $("#job_description").attr("value"),
+					},
+					organization_data: {
+						id: $("#fld_organization_name").attr("entity_id"),
+						name: $("#fld_organization_name").html(),
+						jobs_email: $("#fld_organization_jobs_email").html(),
+						phone: $("#fld_organization_phone_number").html(),
+					},
+					fs_profile_data: {
+						id: $("#fs_profile").attr("entity_id")
+					}
+				};
+				
+				// Temp fix for the 'phone' field
+				if ($("#fld_organization_phone_number").attr("blank")) { ajax_data.organization_data.phone = null; }
+				if ($("#fld_organization_name").html() && $("#fld_organization_name").html().substr($("#fld_organization_name").html().length - 1) == "*") { 
+					ajax_data.organization_data.name = $("#fld_organization_name").html().substr(0, $("#fld_organization_name").html().length - 1);
+				}
+				
+				ajax_it("save_job_fs_profile", ajax_data);
+			});	
+			break;
+			
+		case "btn_cancel":
+		
+			$("[id='btn_cancel']").bind('click', function(e) {
+				doRedirect('admin/job/all/manage');
+			});
+			break;
+			
+		case "search_jobs_by_job_seekers":
+			
+			$("#search_jobs_by_job_seekers").bind('click', function(e) {
+				toggle_search_by(2);
+			});
+			break;
+			
+		case "search_jobs_by_job":
+			
+			$("#search_jobs_by_job").bind('click', function(e) {
+				toggle_search_by(1);
+			});
+			break;
+			
+		case "job_title":
+			
+			$("#job_title").bind('click', function(e) {
+				convert_div_label_to_input_field($(this), {class: "convert_main_title"});
+			});	
+			break;
+						
+	}
+			
+}
+
+</script>

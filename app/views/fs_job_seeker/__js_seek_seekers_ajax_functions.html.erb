@@ -1,0 +1,72 @@
+<script type="text/javascript">
+
+function _REQ_search_job_seekers(){
+	var json_arr = {};
+	
+	$(".right_panel_body").fadeTo("slow", 0.5);
+	
+	json_arr.skills_profile = extract_skills_from_flat_profile();
+	
+	return {action: "job_seeker/search", data: json_arr};
+}
+
+function _RES_search_job_seekers(data, status_i) {
+	var curr_element;
+	
+	if (!data || !data.results || !data.results.length || data.results.length == 0) {
+		// $("#total_matches span").html("0");
+		alert('No results found');
+		return;
+	} else {
+		// $("#total_matches span").html(data.results.length);
+		
+		// Clear the deck
+	    $(".right_panel_body").empty();
+	    $(".right_panel_body").fadeTo("fast", 1);
+		
+		// Add new rows
+		var i = 0;
+		for (job_seeker in data.results) {
+			job_seeker = create_job_seeker_result_div(data.results[job_seeker]);
+			
+			// Add a badge (and increment the pct by '5') for the first two results
+			if (i < 2) { 	
+				job_seeker.find("#badge img").css("display", "block");
+				job_seeker.find("#pct").html(parseInt(job_seeker.find("#pct").html().split("%")[0]) + 5 + "%");
+			}
+			
+			// Ignore job seekers without a public profile url
+			if (job_seeker.find("[id='lnk_linkedin_url'] a").attr("href") != "") {
+				$(".right_panel_body").append(job_seeker);
+				++i;
+			}
+		}
+		
+		// Fade them in
+		var results = $(".right_panel_body [id='template_job_seeker_result']")
+		
+		results.each(function() {
+			$(this).fadeTo("slow", 1);
+		});
+	}
+}
+
+function _REQ_save_job_seeker_fs_profile(data){
+	var json_arr = {};
+	
+	json_arr.skills_profile = extract_skills_from_lists();
+	// json_arr.send_emails = true;
+	
+	return {action: "ajax/job_seeker/save", data: json_arr};
+}
+
+function _RES_save_job_seeker_fs_profile(data, status_i) {
+	$("#save_fs_button").html("Save");
+	$("#save_fs_button").removeAttr("disabled");
+}
+
+function _RES_ERR_save_job_seeker_fs_profile(data, status_i) {
+	// alert('fail');
+}
+
+</script>

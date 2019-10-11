@@ -1,0 +1,33 @@
+<% content_for :head do %>
+  <title>FLYC: <%= @application_summary.role_title %> | Agency Details</title>
+<% end %>
+
+<% content_for :title do %>
+	<span class="content-title">Job Agency</span>
+<% end %>
+
+<% content_for :bread_crumbs do %>
+
+	<div style="width:100%;padding:0em 0em .5em 0em;float:right;text-align:left;">
+		<span class="content-title" style="font-size:12px;font-weight:normal;"><%= link_to 'My Jobs', view_applications_url %></span>
+		>
+		<span class="content-title" style="font-size:12px;font-weight:normal;">'<%= link_to truncate(@application_summary.role_title, :options => {nil, 9}), view_application_url(:application_id => @application_summary.application_id) %>'</span>
+		
+		<% if @application_summary.agency_name %>
+			>
+			<span class="content-title" style="font-size:12px;font-weight:normal;">Agency</span>
+			>
+			<span class="content-title" style="font-size:12px;font-weight:bold;">'<%= truncate(@application_summary.agency_name, :options => {nil, 9}) %>'</span>
+		<% else %>
+			>
+			<span class="content-title" style="font-size:12px;font-weight:bold;">Agency</span>
+		<% end %>		
+	</div>
+	
+<% end %>
+
+<%= render :partial => 'application_summary' %>
+
+<%= render :partial => '/main/messages', :locals => {:action => "general"} %>
+
+<%= render :partial => 'view_application_agency_details' %>

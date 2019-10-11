@@ -1,0 +1,157 @@
+<script type="text/javascript">
+
+	function create_blank_primary_skill(skill_index) {
+  		var li_obj = create_primary_skill(skill_index, {
+  			id: -1,
+  			name: "?",
+  			years_exp: 1,
+  			blank: true
+  		});
+  		// var name_td = li_obj.find("[id$='_name']");
+  		// var yrs_td = li_obj.find("[id$='_yrs']");
+  		
+  		// li_obj.attr("blank", "true");
+  		// li_obj.attr("orig_value", "?");
+  		
+  		// name_td.attr("orig_value", "?");
+  		
+  		return li_obj;
+  	}
+  	
+  	// Input parameters: skill info Hash is made out of:
+  	// skill_info_hash: {}
+  	// - id:
+  	// - name:
+  	// - years_exp:
+  	// - states: {}
+  	//  - name:
+  	//	- years_exp:
+  	//
+  	// States are: 
+  	// - 1 normal
+  	// - 2 match
+  	// - 3 disabled
+  	//
+  	function create_primary_skill(skill_index, skill_info_hash, return_li_obj) {
+  		var li_skill = $( document.createElement('li') );
+  		
+  		var left_div = $( document.createElement('div') );
+  		var center_div = $( document.createElement('div') );
+  		var right_div = $( document.createElement('div') );
+  		
+  		var div_name = $( document.createElement('div') ); // Skill name
+  		var div_separator = $( document.createElement('div') ); // separator
+  		var div_yrs = $( document.createElement('div') ); // Skill years
+  		var span_name = $( document.createElement('span') );
+  		var span_yrs = $( document.createElement('span') );
+  		
+  		left_div.attr("class", "single_top_skill_container_left");
+  		center_div.attr("class", "single_top_skill_name");
+  		right_div.attr("class", "single_top_skill_container_right");
+  		
+  		li_skill.attr("id", "skill_" + skill_index);
+  		li_skill.attr("skill_id", skill_info_hash.id);
+  		li_skill.attr("orig_value", skill_info_hash.name);
+  		li_skill.attr("skill_yrsexp", skill_info_hash.years_exp);
+  		li_skill.attr("class", "single_top_skill");
+  		
+  		if (!skill_info_hash.blank || skill_info_hash.blank == false) {
+  			li_skill.attr("blank", "false");
+		} else if (skill_info_hash.blank == true) {
+			li_skill.attr("blank", "true");
+		}
+  		
+  		// if (skill_info_hash.name != null) {
+  			// span_name.html(skill_index + ". " + skill_info_hash.name.toUpperCase());
+  		// } else {
+  			// span_name.html(skill_index + ". " + skill_info_hash.name);
+  		// }
+  		
+  		// Ensure the 'name' attribute fits appropriately to the skill space
+  		span_name.html(limit_string(skill_info_hash.name, 28, ".."));
+  		span_yrs.html(skill_info_hash.years_exp + "y");
+  		
+  		div_name.attr("id", "skill_" + skill_index + "_name");
+  		div_name.attr("class", "title2");
+  		div_name.append(span_name);
+  		switch (skill_info_hash.name_state) {
+  			case 1:
+  				break;
+  			case 2:
+  				div_name.addClass("title2_match");
+  				break;
+  			case 3:
+  				break;
+  		}
+  		
+  		div_separator.attr("class", "skill_separator");
+  		
+  		div_yrs.attr("id", "skill_" + skill_index + "_yrs");
+  		div_yrs.attr("class", "position");
+  		div_yrs.append(span_yrs);
+  		switch (skill_info_hash.years_exp_state) {
+  			case 1:
+  				break;
+  			case 2:
+  				div_yrs.addClass("position_match");
+  				break;
+  			case 3:
+  				break;
+  		}
+  		
+  		// --- Add the 'DIV' elements to the 'li' object
+  		center_div.append(div_name);
+  		center_div.append(div_separator);
+  		center_div.append(div_yrs);
+  		
+  		li_skill.append(left_div);
+  		li_skill.append(center_div);
+  		li_skill.append(right_div);
+  		
+  		if (return_li_obj) { li_skill = li_skill.clone().wrap('<p/>').parent(); }
+  		
+  		//alert('s: ' + li_skill.html);
+  		return li_skill;
+  	}
+
+  	function create_sub_skill(skill_id, skill_name, skill_yrs_exp) {
+  		var m = measureText(skill_name, 16);
+  		var a = $( document.createElement('li') );
+  		var div = $( document.createElement('div') );
+  		var span = $( document.createElement('span') );
+  		
+  		if (!skill_yrs_exp) { skill_yrs_exp = 1; }
+  		
+  		a.attr("orig_value", skill_name);
+		a.attr("id", skill_id);
+		a.attr("skill_id", skill_id);
+		a.attr("skill_yrsexp", skill_yrs_exp);
+		a.css("width", m.width + 25 + "px");
+	    
+	    div.attr("class", "ovalbutton");
+	    span.css("width", m.width + "px");
+	    span.css("height", m.height + "px;");
+	    
+	    span.html(skill_name);
+	    div.append(span);
+	    a.append(div);
+	    
+	    return a;
+  	}
+  	
+  	function create_add_sub_skill(skill_id) {
+  		var a = $( document.createElement('li') );
+  		var div = $( document.createElement('div') );
+  		var span = $( document.createElement('span') );
+  		
+		a.attr("id", skill_id);
+	    div.attr("class", "ovalbutton add_sub_skill");
+	    
+	    span.html("Add skill");
+	    div.append(span);
+	    a.append(div);
+	    
+	    return a;
+  	}
+
+</script>

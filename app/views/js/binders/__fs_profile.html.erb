@@ -1,0 +1,45 @@
+
+<script type="text/javascript">
+
+function bind__fs_profile(field_id) {
+	
+	// --- Bind all fields (if no 'field_id' is provided)
+	
+	if (!field_id) {
+		bind__fs_profile("btn_save_fs_profile");
+		bind__fs_profile("click_open_add_skills_panel");
+		bind__fs_profile("populate_fs_profile");
+		
+		return;
+	}
+	
+	
+	// --- Bind the field
+	
+	switch (field_id) {
+			
+		case "btn_save_fs_profile":
+		
+			// Bind 'action butttons'
+			$("#save_fs_button").bind('click', function(e) {
+				$(this).html("Saving...");
+				$(this).attr("disabled", "disabled");
+				ajax_it("save_job_seeker_fs_profile");
+			});
+			
+			break;
+			
+		case "click_open_add_skills_panel":
+		
+			$("#btn_add_skills_panel").bind('click', function(e) {
+				panel__fs_profile_choose_skills.toggle('west');
+				$(this).hide();
+			});
+			
+			break;
+						
+	}
+			
+}
+
+</script>

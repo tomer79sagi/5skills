@@ -1,0 +1,36 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  
+  <title><%= yield :head %></title>
+  
+	<link href='http://fonts.googleapis.com/css?family=Arimo:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+	<%= stylesheet_link_tag 'mvp-1' %>
+  
+  	<%= javascript_include_tag 'jquery-1.7.2.min', 'jquery-ui/jquery-ui-1.8.20.custom.min' %>
+  	
+  	<%= render :partial => '/five_skills/0_site_js_analytics' %>
+  
+	<script type="text/javascript">
+		$(document).ready(function() {
+			
+			<%= render :partial => '/fs_job_seeker/0_site_header_js_binders' %>
+			<%= render :partial => '/fs_job_seeker/0_seeker_homepage_js_binders' %>
+			
+		});
+	</script>
+    
+</head>
+<body style="background-color:#E5F9EE;">
+
+<%= render :partial => '/five_skills/0_header' %>
+		
+<%= yield %>
+
+<%#= render :partial => '/five_skills/footer' %>
+
+</body>
+</html>

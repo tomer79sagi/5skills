@@ -1,0 +1,76 @@
+# General Apache options
+# AddHandler fastcgi-script .fcgi
+AddHandler cgi-script .cgi
+Options +FollowSymLinks +ExecCGI
+
+# If you don't want Rails to look in certain directories,
+# use the following rewrite rules so that Apache won't rewrite certain requests
+# 
+# Example:
+#   RewriteCond %{REQUEST_URI} ^/notrails.*
+#   RewriteRule .* - [L]
+
+# Redirect all requests not available on the filesystem to Rails
+# By default the cgi dispatcher is used which is very slow
+# 
+# For better performance replace the dispatcher with the fastcgi one
+#
+# Example:
+#   RewriteRule ^(.*)$ dispatch.fcgi [QSA,L]
+RewriteEngine On
+
+# If your Rails application is accessed via an Alias directive,
+# then you MUST also set the RewriteBase in this htaccess file.
+#
+# Example:
+#   Alias /myrailsapp /path/to/myrailsapp/public
+#   RewriteBase /myrailsapp
+
+# Lines for 'Test' subdomain
+#RewriteCond %{REQUEST_URI} ^/test.* 
+#RewriteRule .* - [L]
+
+RewriteRule ^$ index.html [QSA]
+RewriteRule ^([^.]+)$ $1.html [QSA]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ dispatch.fcgi [QSA,L]
+
+# In case Rails experiences terminal errors
+# Instead of displaying this message you can supply a file here which will be rendered instead
+# 
+# Example:
+#   ErrorDocument 500 /500.html
+
+ErrorDocument 500 "<h2>Application error</h2>Rails application failed to start properly"
+
+
+
+### FLYC ADDITIONS ###
+
+# - 29 Jul 2010
+# To stop all the attempts at downloading "/download/Wait_for_You.mp3" files. Probably spamming. Instead
+# of blocking IP's which I'll have to continuously modify and add, I decided to blcok a file type and see if it works
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|mp3)$">
+ Order Allow,Deny
+ Deny from all
+</FilesMatch>
+
+# - 29 Jul 2010
+# Try limiting IPs as the above doesn't seem to make a difference
+<Limit GET POST PUT>
+ order allow,deny
+ allow from all
+ deny from 218.168.228.86
+</Limit>
+
+## maintenance.html file (as per Capistrano scripts) ##
+
+# Please add something like this to your site's htaccess to redirect users to the maintenance page.
+# More Info: http://www.shiftcommathree.com/articles/make-your-rails-maintenance-page-respond-with-a-503
+
+ErrorDocument 503 /system/maintenance.html
+RewriteEngine On
+RewriteCond %{REQUEST_URI} !.(css|gif|jpg|png)$
+RewriteCond %{DOCUMENT_ROOT}/system/maintenance.html -f
+RewriteCond %{SCRIPT_FILENAME} !maintenance.html
+RewriteRule ^.*$  -  [redirect=503,last]

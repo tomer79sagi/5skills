@@ -1,0 +1,52 @@
+<table>
+	<tr>
+		<td style="border-top:2px solid blue;border-bottom:5px solid blue;">
+			<table>
+				<tr>
+					<td><b>Skill</b></td>
+					<td><b>Skill name</b></td>
+					<td><b>Years exp.</b></td>
+					<td><b>Self rate</b></td>
+					<td><b>Skill details</b></td>
+					<td><b>Additional requirements</b></td>
+				</tr
+				<tr>
+					<td>
+						<table>
+							<% 5.times do |i| %>
+								<tr><td style="height:50px;"><%= i + 1 %></td></tr>
+							<% end %>
+						</table>
+					</td>
+					<td colspan="4">
+						<ul id="sortable">
+				
+							<% 5.times do |i| %>
+							
+								<% @skill_key = "skill_" + (i + 1).to_s %>
+								
+									<li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>
+										<table style="padding:0em 0em 0em 0em;margin:0px 0px 0px 0px;">
+											<tr>
+												<td><textarea cols="30" rows="2" id="<%= @skill_key %>-name" name="skills_profile[<%= @skill_key %>][name]"><%= @skills_profile_matrix[@skill_key][:name] %></textarea></td>
+												<td><input type="text" style="height:35px;width:30px;" id="<%= @skill_key %>-years_experience" name="skills_profile[<%= @skill_key %>][years_experience]" value="<%= @skills_profile_matrix[@skill_key][:years_experience] %>"></td>
+												<td><input type="text" style="height:35px;width:30px;" id="<%= @skill_key %>-self_rate" name="skills_profile[<%= @skill_key %>][self_rate]" value="<%= @skills_profile_matrix[@skill_key][:self_rate] %>"></td>
+												<td><textarea cols="40" rows="2" id="<%= @skill_key %>-details" name="skills_profile[<%= @skill_key %>][details]"><%= @skills_profile_matrix[@skill_key][:details].join(",") %></textarea></td>
+											</tr>
+										</table>
+									</li>
+								
+							<% end %>
+						
+						</ul>
+												
+					</td>
+					<td>
+						<textarea cols="20" rows="14" id="additional_requirements" name="skills_profile[additional_requirements]"><%= @skills_profile_matrix[:additional_requirements].join(",") %></textarea>
+					</td>
+				</tr>
+				
+			</table>
+		</td>
+	</tr>
+</table>

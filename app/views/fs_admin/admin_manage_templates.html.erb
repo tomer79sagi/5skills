@@ -1,0 +1,44 @@
+<% content_for :head do %>
+	5skills.me
+<% end %>
+
+<% content_for :title do %>
+	Admin - Manage Templates
+<% end %>
+
+
+<div class="clear"></div>
+
+<div class="middle">
+	
+	<%= render :partial => '/fs_admin/header' %>
+	
+	<div style="width:100%;float:left;">
+		
+		<h1><%= yield :title %></h1>
+		
+		<div class="db_entities_header" style="width:100%;">
+			<div class="left" style="width:100px;">FS Profile ID</div>
+			<div class="left" style="width:200px;">Label</div>
+			<div class="left" style="width:200px;">Updated at</div>
+			<div class="left" style="width:250px;">Actions</div>
+			<div class="adm_new_entity right" style="width:100px;border-bottom:none;">New Template</div>
+		</div>
+		
+		<% @templates.each do |template| %>
+		
+			<div class="db_entity_row clear" style="width:100%;">
+				<div id="entity_id" class="left" style="width:100px;"><%= template.id %></div>
+				<div class="adm_entity_title left" style="width:200px;font-weight:bold;"><%= template.label.to_s %>&nbsp;</div>
+				<div class="left" style="width:200px;"><%= template.updated_at.strftime("%d %b, %Y - %I:%M %p") %></div>
+				<div class="adm_actions_col">
+					<div class="adm_single_action" id="action_delete_template">Delete</div>
+					<div class="adm_single_action" id="action_clone_template">Clone</div>
+				</div>
+			</div>
+			
+		<% end %>
+
+	</div>
+	
+</div>

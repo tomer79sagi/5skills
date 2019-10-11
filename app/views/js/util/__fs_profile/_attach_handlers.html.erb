@@ -1,0 +1,74 @@
+<script type="text/javascript">
+
+    // 'td_id' holds the 'div_id'
+  	function attach_yrs_field_binders(td_id, is_blank) {
+  		// Remove 'previous' event handlers
+  		$("#" + td_id).unbind('click');
+  		
+  		// Add 'new' event handlers
+  		if (!is_blank) {
+	  		$("#" + td_id).bind('click', function(e) {
+		    	convert_yrsexp_to_input($(this));
+	  		});
+	  		
+	  		$("#" + td_id).bind('dblclick', function(e) {
+	  			var skill_index = $(this).parents("[orig_value]").attr("id").split("_")[1];
+	  			
+	  			remove_skill(skill_index);
+	  		});
+  		}
+  	}
+  	
+  	// 'td_id' holds the 'div_id'
+  	function attach_name_field_binders(td_id, is_blank) {
+  		// Remove 'previous' event handlers
+  		$("#" + td_id).unbind('click');
+  		
+  		// Add 'new' event handlers
+  		$("#" + td_id).bind('click', function(e) {
+	    	convert_primary_skill_to_input($(this));
+  		});
+  		
+  		$("#" + td_id).bind('dblclick', function(e) {
+  			var skill_index = $(this).attr("id").split("_")[1];
+  			
+  			remove_skill(skill_index);
+  		});
+  	}
+  	
+  	function attach_primary_field_binders(skill_index, is_blank) {
+  		
+  		// First 'unbind' all events
+  		$("#skill_" + skill_index).unbind('mouseover');
+  		$("#skill_" + skill_index).unbind('mouseout');
+  		
+  		// Attach the 'hover' states
+  		$("#skill_" + skill_index).bind('mouseover', function() { 
+			$(this).find(".single_top_skill_container_left").attr("class", "hover-single_top_skill_container_left");
+			$(this).find(".single_top_skill_name").attr("class", "hover-single_top_skill_name");
+			$(this).find(".single_top_skill_container_right").attr("class", "hover-single_top_skill_container_right");
+		});
+		
+		$("#skill_" + skill_index).bind('mouseout', function() {
+			$(this).find(".hover-single_top_skill_container_left").attr("class", "single_top_skill_container_left");
+			$(this).find(".hover-single_top_skill_name").attr("class", "single_top_skill_name");
+			$(this).find(".hover-single_top_skill_container_right").attr("class", "single_top_skill_container_right");
+		});
+  		
+		attach_yrs_field_binders("skill_" + skill_index + "_yrs", is_blank);
+		attach_name_field_binders("skill_" + skill_index + "_name", is_blank);
+  	}
+  	
+  	function attach_sub_skill_field_binders(li_obj) {
+  		li_obj.bind('dblclick', function() {
+	    	$(this).remove();
+	    	ajax_it("fs_profile_updated");
+	    	// _dirty('job_fs_profile');
+	    });
+	    
+	    li_obj.bind('click', function() {
+	    	convert_skill_to_input($(this), false);
+	    });
+  	}
+
+</script>

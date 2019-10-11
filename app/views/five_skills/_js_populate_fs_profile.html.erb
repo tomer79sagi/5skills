@@ -1,0 +1,79 @@
+
+<% 5.times do |i| %>
+	
+	// --- IF FS_PROFILE EXISTS, USE IT
+	
+	<% if @active_fs_profile %>
+	
+		// --- Populate primary skills
+		
+		<% if !@active_fs_profile[:skill_names_matrix][i][0].blank? %>
+			
+			$("#sortable<%= i * 2 + 1 %>").html(create_primary_skill(
+					<%= (i + 1) %>, {
+						id: "<%= @active_fs_profile[:skill_ids_matrix][i][0] %>",
+						name: "<%= @active_fs_profile[:skill_names_matrix][i][0] %>",
+						years_exp: "<%= @active_fs_profile[:skill_names_matrix][i][1] %>"
+						
+						<% if @active_fs_profile[:skill_ids_matches_matrix] %>
+						
+							<% if @active_fs_profile[:skill_ids_matches_matrix][i][0] == -2 %>
+								, name_state: 2
+							<% end %>
+							
+							<% if @active_fs_profile[:skill_ids_matches_matrix][i][1] == -2 %>
+								, years_exp_state: 2
+							<% end %>
+							
+						<% end %>
+					},
+					true).html());
+					
+			attach_primary_field_binders(<%= (i + 1) %>);
+		
+		<% else %>
+		
+			$("#sortable<%= i * 2 + 1 %>").html(create_blank_primary_skill(<%= (i + 1) %>));
+	
+			attach_primary_field_binders(<%= (i + 1) %>, true);
+		
+		<% end %>
+	
+	
+		// --- Populate secondary skills
+		
+		<% if @active_fs_profile[:skill_ids_matrix] && @active_fs_profile[:skill_ids_matrix][i] && @active_fs_profile[:skill_ids_matrix][i][2] %>
+			
+			<% @active_fs_profile[:skill_ids_matrix][i][2].each_index do |j| %>
+				add_sub_skill(
+					<%= @active_fs_profile[:skill_ids_matrix][i][2][j] %>, 
+					"<%= @active_fs_profile[:skill_names_matrix][i][2][j] %>", 
+					$("#sortable<%= i * 2 + 2 %>"));
+			<% end %>
+			
+		<% end %>
+	
+	
+	// --- IF FS_PROFILE DOES NOT EXIST, DISPLAY BLANK PRIMARY SKILLS
+	
+	<% else %>
+	
+		$("#sortable<%= i * 2 + 1 %>").html(create_blank_primary_skill(<%= (i + 1) %>));
+	
+		attach_primary_field_binders(<%= (i + 1) %>, true);
+	
+	<% end %>
+	
+	
+	// --- Add 'add skill' field
+	
+	add_add_sub_skill(<%= 0 - (i + 1) %>, $("#sortable<%= i * 2 + 2 %>"));
+	
+	<% i = i + 2 %>
+	
+<% end %>
+
+
+// Add hard-coded location and job type elements
+add_sub_skill(33, "Full time", $("#job_type"));
+add_sub_skill(33, "Tel aviv", $("#location"));

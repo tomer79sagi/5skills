@@ -1,0 +1,184 @@
+<script type="text/javascript">
+
+// Common functions
+// ------------------------------------------------------------
+function _REQ_start_up_actions() {
+	return {ajax_actions: ["<%= params[:ajax_start_up_actions].join('","') if params[:ajax_start_up_actions] %>"]};
+}
+
+function _REQ_redirect(data) {
+	document.location.href = g_server_url + data.url;
+}
+
+
+<% if params[:controller] == "fs_job" || params[:controller] == "fs_job_seeker" %>
+
+	function _REQ_fs_profile_updated() {
+		<% if params[:controller] == "fs_job" %>
+			return {ajax_actions: ["search_job_seekers"]};
+		<% elsif params[:controller] == "fs_job_seeker" %>
+		 	return {ajax_actions: ["search_jobs"]};
+		<% end %>
+	}
+
+<% end %>
+
+// ------------------------------------------------------------
+// SEARCH
+
+function _REQ_search_organizations(data){
+	var json_arr = {};
+	
+	json_arr.organization_name = data.request.term;
+	
+	return {action: "ajax/organization/all/search", data: json_arr};
+
+}
+
+function _RES_search_organizations(data, status_i) {
+	// The 'response' function requires an array of hash elements, each hash element has a 'label' and a 'value' attribute
+	g_ajax_obj_cache.response(data.results);
+}
+
+function _REQ_convert_input_to_div(data){
+	convert_input_field_to_div_label(data.field_o, data);
+}
+
+function _RES_convert_input_to_div(data, status_i){ }
+
+
+function _REQ_search_skills(data){
+	var json_arr = {};
+	
+	json_arr.skill_name = data.request.term;
+	
+	return {action: "ajax/skill/all/search", data: json_arr};
+
+}
+
+function _RES_search_skills(data, status_i){
+	// The 'response' function requires an array of hash elements, each hash element has a 'label' and a 'value' attribute
+	g_ajax_obj_cache.response(data.results);    
+}
+
+function _REQ_change_skill(data){
+	convert_input_to_skill(data.field_o, data);
+}
+
+function _RES_change_skill(data, status_i){ }
+
+function _REQ_change_primary_skill(data){
+	convert_input_to_primary_skill(data.field_o, data);
+}
+
+function _RES_change_primary_skill(data, status_i){ }
+
+// Aggregate functions
+// ------------------------------------------------------------
+function _REQ_save_job_seeker_fs_and_view_job(data) {
+	return {ajax_actions: ["save_job_seeker_fs_profile", "redirect"], data: data};
+}
+// ------------------------------------------------------------
+
+
+
+function _REQ_search_job_matches() {
+	var json_arr = {};
+	
+	json_arr.skills_profile = parse_five_skills_from_view();
+	
+	return {action: "job/search", data: json_arr};	
+}
+
+function _RES_search_job_matches(data, status_i) {
+	var a_job_seeker;
+	h_results = {};
+	
+	// Remove elements
+	$("#results_table tr:not([id='results_row_titles'])").remove();
+	
+	// Add new rows
+	for (job in data.results) {
+		$("#results_table>tbody").append(
+			create_job_result_row_as_html(data.results[job]));
+	}
+}
+
+function _REQ_search_job_seeker_matches() {
+	var json_arr = {};
+	
+	json_arr.skills_profile = parse_five_skills_from_view();
+	
+	return {action: "job_seeker/search", data: json_arr};	
+}
+
+function _RES_search_job_seeker_matches(data, status_i) {
+	var a_job_seeker;
+	h_results = {};
+	
+	// Remove elements
+	$("#results_table tr:not([id='results_row_titles'])").remove();
+	
+	// Add new rows
+	for (job_seeker in data.results) {
+		$("#results_table>tbody").append(
+			create_job_seeker_result_row_as_html(data.results[job_seeker]));
+	}
+}
+
+function _REQ_create_template(){
+	var json_arr = {};
+	
+	json_arr.template_name = $("#create_template-name").val();
+	json_arr.skills_profile = parse_five_skills();
+	
+	return {action: "template/create", data: json_arr};
+}
+
+function _RES_create_template(data, status_i) {
+	
+}
+
+function _REQ_view_company_summary() {
+	var json_arr = {};
+	
+	json_arr.organisation_id = $("#search_company-id").val();
+	
+	return {action: "company/view/summary", data: json_arr};
+}
+
+function _RES_view_company_summary(data, status_i) {
+	view_organisation_summary(data, <%= Fs2Organisation::ORGANISATION_TYPES[:company] %>);
+}
+
+function _REQ_view_agency_summary() {
+	var json_arr = {};
+	
+	json_arr.organisation_id = $("#search_agency-id").val();
+	
+	return {action: "agency/view/summary", data: json_arr};
+}
+
+function _RES_view_agency_summary(data, status_i) {
+	view_organisation_summary(data, <%= Fs2Organisation::ORGANISATION_TYPES[:agency] %>);
+}
+
+function _REQ_view_template(){
+	var json_arr = {};
+	
+	json_arr.template_id = $("#search_template-id").val();
+	
+	return {action: "template/view", data: json_arr};
+}
+
+function _RES_view_template(data, status_i) {
+	if (data.skills_profile_matrix) {
+		populate_skills_fields(data.skills_profile_matrix);
+	}
+}
+
+function _REQ_view_template_and_search(){
+	return {ajax_actions: ["view_template", "<%= params[:default_search_ajax_call] %>"]};
+}
+
+</script>

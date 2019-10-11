@@ -1,0 +1,87 @@
+<!--[form: ]-->
+
+<div style="width:750px;float:left;min-height:80px;padding:1em 0em 0em 0em;">
+	
+	<!-- Job Application Details -->
+	<table style="width:100%;text-align:left;border-collapse:collapse;">
+		<tr style="vertical-align:top;">
+			<td class="template_cell_title_content" 
+					style="text-align:center;width:148;padding:0em .5em 0em 1em;">
+				<div style="background-color:<%= session[:organisation_color] %>;padding:.7em 0em .7em 0em;margin:0em 0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<b><%= session[:organisation_type_name] %></b>
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em .5em 0em .5em;">
+				<div style="background-color:<%= session[:organisation_color_dark] %>;padding:.7em 0em .7em 0em;margin:0em 0em 0em .5em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<%= link_to 'Contacts', view_organisation_contacts_url(:organisation_id => @organisation.id) %>
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em 1em 0em .5em;">
+				&nbsp;
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em .5em 0em .5em;">
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em 1em 0em .5em;">
+				&nbsp;
+			</td>
+		</tr>
+	</table>
+	
+	  <div style="background-color:<%= session[:organisation_color] %>;width:100%;text-align:left;border:1px solid <%= session[:organisation_color] %>;padding:0em 0em 0em 1em;margin:-1px 0px 20px 0px;">
+	  
+	  	<div style="margin:1em 1em 1em 0em;text-align:right;border-bottom:1px gray solid;">
+			<%= link_to 'Edit ' + session[:organisation_type_name], edit_organisation_url(:organisation_id => @organisation.id), :class => "tab_link" %>
+		</div>
+
+		<table style="width:100%;margin:0px 10px 0px 0px;">
+			<tr>
+				<td style="padding:1em 0em 0em 0em;text-align:right;width:200px;"><%= session[:organisation_type_name] %>:</td>
+				<td style="padding:1em 0em 0em 0em;vertical-align:middle;text-align:left;width:200px;">
+					<b style="font-size:20px;"><%= @organisation.name %></b>
+				</td>
+				<td colspan="2" style="padding:1em 0em 0em 0em;text-align:right;width:200px;">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">Phone Number:</td>
+				<td><b><%= @organisation.phone %></b></td>
+				
+				<td colspan="2" style="text-align:right;">&nbsp;</td>
+			</tr>		
+			<tr>
+				<td style="text-align:right;">Fax:</td>
+				<td><b><%= @organisation.fax %></b></td>
+				
+				<td colspan="2" style="text-align:right;">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">Email:</td>
+				<td><b><%= @organisation.email %></b></td>
+				
+				<td colspan="2" style="text-align:right;">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">Website:</td>
+				<td><b><%= @organisation.website %></b></td>
+				
+				<td colspan="2" style="text-align:right;">&nbsp;</td>
+			</tr>
+		</table>
+
+		<div style="margin:1em 1em 1em 0em;text-align:right;border-top:1px gray solid;">
+			<%= link_to 'Edit ' + session[:organisation_type_name], edit_organisation_url(:organisation_id => @organisation.id), :class => "tab_link" %>
+		</div>
+	</div>
+	
+	<div style="width:750px;text-align:right;padding:0em 0em 1em 0em;">
+		<%= link_to 'Delete ' + session[:organisation_type_name], delete_organisation_url(:organisation_id => @organisation_summary.organisation_id), :confirm => "Are you sure you want to delete organisation '#{@organisation_summary.organisation_name}'?", :class => "tab_link" %>
+	</div>
+</div>
+	  
+  <!--[eoform:organisation]-->

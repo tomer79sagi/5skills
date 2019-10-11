@@ -1,0 +1,74 @@
+<h1>Applications</h1>
+
+<%= render :partial => '/main/candidate_header' %>
+<%= render :partial => '/main/messages' %>
+
+</p>
+
+<table border="1" cellpadding="2">
+  <tr align="center">
+	<td></td>
+  	<td>Title</td>
+	<td>Company</td>
+	<td>Agency</td>
+	<td>Primary<br/>Contact</td>
+	<td>Contact<br/>Phone</td>
+	<td>Contact<br/>Email</td>
+	<td>Close Date</td>
+	<td>Status</td>
+	<td>Created Date</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+  </tr>
+
+<% if @role_applications.nil? %>
+
+	No Applications found!
+	
+<% else %>
+
+	<% @role_applications.each do |application| %>
+	
+		<% @agent = Person.find(application.role.agent_id) if application.role.agent_id %>
+		<% @agency = Organisation.find(application.role.agency_id) if application.role.agency_id %>
+		<% @company = Organisation.find(application.role.company_id) if application.role.company_id %>
+	 
+	  <tr>
+	  	<td>.</td>
+	  	<td><%= link_to application.role.title, show_application_url(:application_id => application.id) %></td>
+		<td><%= @company.name if @company %></td>
+		<td><%= @agency.name if @agency %></td>
+		<td>
+			<% if @agent %>
+				<%= @agent.first_name if @agent.first_name %> <%= @agent.last_name if @agent %>		
+			<% else %>
+				<% @company_contact = Organisation.find(application.role.company_contact_id) if application.role.company_contact_id %>
+				<%= @company_contact.first_name if @company_contact.first_name %> <%= @company_contact.last_name if @agent %>
+			<% end %>
+		</td>
+		<td>
+			<% if @agent %>
+				<%= @agent.phone_work if @agent.phone_work %>
+			<% else %>
+				<%= @company_contact.phone_work if @company_contact.phone_work %>
+			<% end %>
+		</td>
+		<td>
+			<% if @agent %>
+				<%= @agent.primary_email if @agent.primary_email %>
+			<% else %>
+				<%= @company_contact.primary_email if @company_contact.primary_email %>
+			<% end %>
+		</td>
+		<td><%= application.role.close_date %></td>
+		<td></td>
+		<td><%= application.created_at.strftime '%B %d, %Y' %></td>
+	    <td><%= link_to 'Edit', edit_application_main_url(:application_id => application.id) %></td>
+	    <td><%= link_to 'Remove', remove_application_url(:application_id => application.id), :confirm => 'Are you sure?' %></td>	
+	  </tr>
+	  
+	<% end %>
+
+<% end %>
+
+<br />

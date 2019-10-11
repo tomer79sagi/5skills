@@ -1,0 +1,30 @@
+- 'do_linkedin' (access_token, access_secret) performs all calls to the LinkedIn API
+ + Retrieve default values from 'session' (token & secret)
+ + [keys = nil] 
+
+1. do_linkedin
+2. init_linkedin_session
+ - do_linkedin(0) ; check basic access
+3. linkedin_auth_accept
+4. do_linkedin_login
+ - Set 'session[:request_token]
+ - get_linkedin_consumer() ; default = 1 -> full profile details with connections
+ 
+ 
+----------- do_linkedin() -----------
+
+1. do_linkedin
+2. [permission_exception] ->  get_provider_request_token
+3. [other_exception] -> 
+
+
+--- Entry points ---
+
+-> Homepage
+
+/fs_job/a_recruiter_home
+/layouts/a_recruiter_home_layout
+> document.ready - /five_skills/_site_header_js_binders
+> #lnk_login.click() - ~do_linkedin_login
+fs_login_controller > do_linkedin_login
+fs_login_controller > init_linkedin_tokens

@@ -1,0 +1,23 @@
+<!--[partial:left_side_bar]-->
+
+<!--
+<span style="filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/phase_1/u2.png',sizingMethod='scale');">
+	<img style="width:119px; height:49px; filter:progid:DXImageTransform.Microsoft.Alpha(opacity=0);"src="images/phase_1/u2.png" border="0" alt=""/>
+</span>
+-->
+
+<p>
+
+	<% if session[:user] %>
+		<p>Hi <b><%= session[:user].first_name %></b>!</p>
+		<p><span style=" color:#000000; font-size:14px;"><b><%= link_to 'Logout', logout_url %></b></span></p>
+	<% else %>
+		<!--
+			<p><span style=" color:#000000; font-size:14px;"><b><%= link_to 'Login', login_url %></b></span></p>
+			<p><span style=" color:#000000; font-size:14px;"><b><%= link_to 'Register Job Seeker', register_candidate_url %></b></span></p>
+			<p><span style=" color:#000000; font-size:14px;"><b><%= link_to 'Register Agent', register_candidate_url %></b></span></p>
+		-->
+	<% end %>
+</p>
+	
+<!--[eopartial:left_side_bar]-->

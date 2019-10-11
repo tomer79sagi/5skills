@@ -1,0 +1,28 @@
+
+<table style="border-collapse:collapse;">
+	<tr style="line-height:20px;">
+		<td colspan="3" style="text-align:left;background-color:#00923F;color:white;">Candidate 5skills profile</td>
+	</tr>
+	<tr>
+		<td style="border-bottom:2px solid #00923F;font-weight:bold;text-align:left;">Priority</td>
+		<td style="border-bottom:2px solid #00923F;font-weight:bold;text-align:left;">Skill</td>
+		<td style="border-bottom:2px solid #00923F;font-weight:bold;text-align:left;">Years experience</td>
+	</tr>
+	
+	<% 5.times do |i| %>
+	
+		<% @skill_key = "skill_" + (i + 1).to_s %>
+	
+		<% if @skills_profile_matrix[:skill_names_matrix][i] %>
+		
+			<tr style="line-height:18px;">
+				<td style="font-size:14px;width:75px;text-align:center;vertical-align:middle;"><%= i + 1 %></td>
+				<td style="font-size:14px;width:220px;text-align:left;" id="<%= @skill_key %>-name"><%= @skills_profile_matrix[:skill_names_matrix][i][0] %></td>
+				<td style="font-size:14px;width:120px;text-align:center;" id="<%= @skill_key %>-years_experience"><%= @skills_profile_matrix[:skill_names_matrix][i][1] %></td>
+			</tr>
+			
+		<% end %>
+		
+	<% end %>
+	
+</table>

@@ -1,0 +1,133 @@
+<!--[form:agency]-->
+  
+<div style="padding:2em 0em 6em 0em;">	
+	<div style="width:750px;float:left;min-height:80px;">
+	
+		<!-- Job Application Details -->
+		<table style="width:100%;text-align:left;border-collapse:collapse;">
+			<tr style="vertical-align:top;">
+				<td class="template_cell_title_content" 
+						style="text-align:center;width:148;padding:0em .5em 0em 1em;">
+					<div style="background-color:#dfefff;padding:.7em 0em .7em 0em;margin:0em 0em 0em .5em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+						<b>Job Details</b>
+					</div>
+				</td>
+				<td class="template_cell_title_content"
+						style="text-align:center;width:148;padding:0em .5em 0em .5em;">
+					<div style="background-color:#dfe3ff;padding:.7em 0em .7em 0em;margin:0em 0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+						Agency
+					</div>
+				</td>
+				<td class="template_cell_title_content"
+						style="text-align:center;width:148;padding:0em 1em 0em .5em;">
+					<div style="background-color:#dfe3ff;padding:.7em 0em .7em 0em;margin:0em 0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+						Company
+					</div>
+				</td>
+				<td class="template_cell_title_content"
+						style="text-align:center;width:148;padding:0em .5em 0em .5em;">
+				</td>
+				<td class="template_cell_title_content"
+						style="text-align:center;width:148;padding:0em 1em 0em .5em;">
+						<div style="background-color:#dfe3ff;padding:.7em 0em .7em 0em;margin:0em .0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+							Notes (8)
+						</div>
+				</td>
+			</tr>
+		</table>
+		
+		  <div style="background-color:#dfefff;width:100%;text-align:left;border:1px solid #dfefff;padding:1em 0em 0em 1em;margin:-1px 0px 20px 0px;">
+		  
+		  	<div style="padding:0em 1em 1em 0em;text-align:right;">
+				<%= submit_tag 'Save & View', :name => "update" %>
+				<%= submit_tag 'Save & Close', :name => "update_close" %>
+				<%= submit_tag "Cancel", :type => 'button', :action => :view_applications %>
+			</div>  
+
+<table>
+	<tr>
+		<td>
+			<h4>Existing Agencies</h4>
+			<% if @agencies %>
+				<%= select_tag "agencies[agency_id]", 
+					options_for_select(@agencies.collect {|agency| [ agency.name, agency.id ]},
+					@agency.id), 
+					"onChange" => "form.action = '#{:agency}?pa=agency'; form.submit();",
+					:size => 9, "name" => "agencies", "id" => "agencies", "style" => "width:250px;"  %>
+			<% else %>
+				<%= select_tag "agencies[agency_id]", 
+					options_for_select([]), 
+					:size => 9, "style" => "width:250px;" %>
+			<% end %>								
+		</td>
+		<td>
+			<h4>Agency Contact Details</h4>
+			<%= render :partial => '/main/contact_details_agency' %>		
+		</td>
+		<td>
+			<%= button_to_function "New Agency",
+				"form.agencies.options[form.agencies.length] = new Option('[NEW AGENCY]', '-1', false, true);" +
+				"document.getElementById('agency_name').value = '[NEW AGENCY]';" +
+				"document.getElementById('agency_phone').value = '';" +
+				"document.getElementById('agency_email').value = '';" +
+				"document.getElementById('agency_fax').value = '';" +
+				"document.getElementById('agency_website').value = '';" + 
+				"document.getElementById('agency_name').select();" +
+
+				"form.agents.options.length = 0;" +
+				"document.getElementById('agent_first_name').value = '';" +
+				"document.getElementById('agent_last_name').value = '';" +
+				"document.getElementById('agent_mobile').value = '';" +
+				"document.getElementById('agent_primary_email').value = '';" +
+				"document.getElementById('agent_phone_work').value = '';" +
+				"document.getElementById('agent_fax').value = '';" + 
+				"document.getElementById('agent_website').value = '';" +
+
+				"this.disabled = true"%>
+		</td>
+	</tr>
+	<tr>
+		<td valign="top" width="300">
+			<h4>Existing Agents</h4>
+			<% if @agents %>
+				<%= select_tag "agents[agent_id]", 
+					options_for_select(@agents.collect {|agent| [ agent.first_name + " " + agent.last_name, agent.id ]},
+					@agent.id), 
+					"onChange" => "form.action = '#{:agency}?pa=agent'; form.submit();",
+					:size => 9, "name" => "agents", "id" => "agents", "style" => "width:250px;" %>
+			<% else %>
+				<%= select_tag "agents[agent_id]", 
+					options_for_select([]), 
+					:size => 9, "style" => "width:250px;" %>
+			<% end %>
+		</td>		
+		<td>
+			<h4>Agent Contact Details</h4>
+			<%= render :partial => '/main/contact_details_agent' %>
+		</td>
+		<td valign="center">
+			<%= button_to_function "New Agent", 
+				"form.agents.options[form.agents.length] = new Option('[NEW AGENT]', '-1', false, true);" +
+				"document.getElementById('agent_first_name').value = '[NEW AGENT]';" +
+				"document.getElementById('agent_last_name').value = '';" +
+				"document.getElementById('agent_mobile').value = '';" +
+				"document.getElementById('agent_primary_email').value = '';" +
+				"document.getElementById('agent_phone_work').value = '';" +
+				"document.getElementById('agent_fax').value = '';" + 
+				"document.getElementById('agent_website').value = '';" +
+				"document.getElementById('agent_first_name').select();" +
+				"this.disabled = true"%>
+		</td>
+	</tr>
+</table>
+
+			<div style="padding:1em 1em .5em 0em;text-align:right;">
+				<%= submit_tag 'Save & View', :name => "update" %>
+				<%= submit_tag 'Save & Close', :name => "update_close" %>
+				<%= submit_tag "Cancel", :type => 'button', :action => :view_applications %>
+			</div>
+		</div>
+	</div>
+</div>
+	  
+  <!--[eoform:agency]-->

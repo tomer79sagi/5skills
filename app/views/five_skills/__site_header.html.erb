@@ -1,0 +1,28 @@
+<div class="header">
+	<div class="header_content">
+		<div id="btn_logo" class="header_logo" style="float:left;">
+			<div class="header_logo_beta">Beta</div>
+			<div class="header_logo_slogan">anonymous job seeking</div>	
+		</div>
+		
+		<% if session[:user].nil? || session[:user].email.nil? %>
+		
+			<div class="header_menu">
+				<% if 1 == 2 %>
+					<div id="lnk_find_talent" class="header_menu_item">Find talent</div>
+				<% end %>
+				<div id="lnk_login" class="header_menu_item">Login</div>
+			</div>
+			
+		<% else %>
+		
+			<div class="header_menu" style="margin-left:500px;">
+				<div class="logged_in_anonymous_icon">
+					<%= session[:user].email %>
+					<div class="log_out_link"><%= link_to "Log out", :action => :do_logout, :controller => :fs_login %></div>
+				</div>
+			</div>
+		
+		<% end %>
+	</div>
+</div>

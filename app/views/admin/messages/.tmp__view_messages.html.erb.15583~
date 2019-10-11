@@ -1,0 +1,90 @@
+<div style="width:750px;float:left;min-height:80px;padding:1em 0em 0em 0em;">
+
+	<%= render :partial => 'messages/header' %>
+	
+	<div style="background-color:#cef5c2;width:100%;text-align:left;border:1px solid #cef5c2;padding:1em 1em 1em 1em;margin:-1px 0px 20px 0px;">
+	  
+		<div style="text-align:right;padding:0px 0px 0px 0px;font-size:14px;border-bottom:1px solid gray;">
+			New Message	
+		</div>
+		
+		<% if !@messages or @messages.blank? %>
+		
+			<div style="padding:2em 0em 2em 0em;">
+				No Messages found!
+			</div>
+			
+		<% else %>
+		
+			<% @local_counter = 1 %>
+		
+			<% @messages.each do |message| %>
+		
+				<div style="clear:left;text-align:left;">
+				
+				<div class="top_padding_1">
+				
+				<table style="width:100%;">
+					<tr style="vertical-align:top;">
+						
+						<td style="padding:0em 0em 1em 0em;margin:0px 0px 0px 1px;">
+						
+							<div style="width:30px;text-align:center;font-size:18px;float:left;min-height:80px;">
+								<b><%= @local_counter %></b>
+							</div>
+						
+							<div style="width:705px;border:1px solid #ceffc2;float:right;min-height:80px;background-color:#ceffc2;">
+							
+								<!-- Job Application Details -->
+								<table style="width:100%;text-align:left;">
+									<tr style="vertical-align:top;">
+										
+										<td class="template_cell_title_content" style="width:150px;font-size:14px;line-height:24px;vertical-align:top;">
+											<%= message.recipient_first_name %> <%= message.recipient_last_name %>
+										</td>
+										<td class="template_cell_title_content" style="width:405px;font-size:14px;line-height:24px;vertical-align:top;">
+										
+											<% if session[:page] == "inbox" %>
+												<b><%= link_to message.subject, view_inbox_message_url(:message_id => message.id) %></b>
+											<% elsif session[:page] == "sent_messages" %>
+												<b><%= link_to message.subject, view_sent_message_url(:message_id => message.id) %></b>
+											<% end %>
+											
+										</td>
+										<td class="template_cell_last_updated_date_content" style="width:150px;text-align:center;">
+											<b><%= message.created_at.to_datetime.strftime '%d %b %y' %></b>,
+											<%= message.created_at.to_datetime.strftime '%I:%M%p' %><br/>
+											<%= message.created_at.to_datetime.strftime '%A' %>
+										</td>
+										
+									</tr>
+									<tr style="vertical-align:top;">
+									
+										<td colspan="3" class="template_cell_title_content" style="padding:0em 0em 0em 2em;width:150px;font-size:12px;line-height:24px;vertical-align:top;">
+											<i><%= message.message_summary %></i>
+										</td>
+										
+									</tr>
+								</table>
+							</div>
+						</td>	
+						
+					</tr>
+				</table>
+				</div>
+				
+				</div>
+				
+			<% @local_counter = @local_counter + 1 %>
+		
+			<% end %>
+			
+		<% end %>
+		
+		<div style="text-align:right;padding:0px 0px 0px 0px;font-size:14px;border-top:1px solid gray;">
+			New Message	
+		</div>
+		
+	</div>
+	
+</div>

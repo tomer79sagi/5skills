@@ -1,0 +1,67 @@
+Emailing in 5skills - CORE CONCEPTS
+------------------------
+
+
+Core functions
+---------------
+
+send_message(metadata_params_h, body_params_h, transaction_params_h) | /controllers/fs_base_controler
+ - metadata_params_h : holds the recipients's contact information
+ - body_params_h : holds the data to be used in the email's body
+ - transaction_params_h : holds transaction-related information (e.g. email_type, exchange_type)
+ 
+ * type : Email type, e.g. "Contact us", "Action missing" etc. | extracted from the 'transaction_params_h' Hash
+ * exchange_type : An indication of who is the sender and who is the recipient | extracted from the 'transaction_params_h' Hash
+ 
+send_message_delayed (metadata_params_h, body_params_h, is_reply, type = 0, exchange_type = 0) | /models/my_mailer/my_mailer.rb
+
+
+Wrapper functions
+-----------------
+email_cv_to_recruiter | /controllers/five_skills_controller
+
+
+Template information
+-----------------
+/views/fs2_mailer/... - root folder for all email templates
+/views/fs2_mailer/_header.erb : header information for all emails
+/views/fs2_mailer/_footer.erb : footer information for all emails
+
+
+The Daemon
+-----------------
+fs2_mailer (daemon) : The email 'daemon' - enabling delayed email messaging
+
+
+Models
+-----------------
+Fs2Mailer < ActionMailer::Base : the core model that is used to dispatch the messages
+Fs2MailerEmail : Raw data for the email to be sent, includign the metadata_id and template_name of the email
+Fs2MailerAction : Conversion table for unique keys to controller, action and parameters
+
+
+Fs2MailerEmail - explained
+--------------------
+ - headers : sender, reply-to, recipients
+ - body_attributes : template-specific data
+ - template : template name / 
+ 
+ 
+Config / environment - Configuration
+----------------------
+/config/environment.rb
+
+The following code is required to enable the 'remote' SMTP delivery of emails.
+This is called from the fs2_mailer (daemon).
+
+ActionMailer::Base.delivery_method = :smtp  
+ActionMailer::Base.smtp_settings = {   
+ :address => "5skills.me", 
+ :domain => "5skills.me",
+ :port  => 25,  
+ :authentication => :login,   
+ :user_name => "dev_smtp@flyc.co.nz",   
+ :password => "tomer66" }  
+ActionMailer::Base.perform_deliveries = true  
+ActionMailer::Base.raise_delivery_errors = true  
+ActionMailer::Base.default_charset = "utf-8"

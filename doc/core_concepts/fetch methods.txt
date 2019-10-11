@@ -1,0 +1,16 @@
+'FETCH' functions
+------------------
+
+fetch_job_seeker_profile(job_seeker_id, match_with_job_id = nil, flags = {:include_skills_profile => true})
+-------------------
+
+returned_job_seeker = {
+	:job_seeker_obj => Fs2JobSeeker,
+	:user_obj => Fs2User,
+	:fs_profiles => fetch_skills_profiles({:job_seeker_id => _id_}),
+	:files => fetch_files(_entity_id_, [_file_types_])
+}
+
+if 
+
+

@@ -1,0 +1,34 @@
+Applying for job process:
+--------
+
+--- Displaying the job details (arriving from LinkedIn)
+~ http://5skills.me/job_post/164
++ routes
+	_ fs_job_seeker
+		fs_job_seeker.view_job_post 'job_post/:job_ref_key', :action => 'view_job_post'
++ fs_job_seeker_controller
+	_ view_job_post
+		add_ajax_start_up_actions("first_time_access")
+		render 'MVP2_apply_to_job_post.html', :layout => '__job_seeker_apply_layout'
++ __job_seeker_apply_layout | /views/layouts/
+~ HTML
++ <head>
+	<%= render :partial => '/js/framework/_ajax_functions' %> ==> _REQ_start_up_actions
+	<%= render :partial => '/js/ajax/_apply_to_job_post' %> ==> _REQ_first_time_access
+	<%= render :partial => '/js/binders/_apply_to_job_post' %>
+	$(document).ready(function() {
+	<%= render :partial => '/js/framework/_onload_post_components' %> ==> <% if params[:ajax_start_up_actions] %> ==> ajax_it('start_up_actions');
++ MVP2_apply_to_job_post | /views/fs_job_seeker/
+~ JS
+	_ $(document).ready(function() {
+		ajax_it('start_up_actions');
++ __ajax_functions | /views/js/framework/
+	_ _REQ_start_up_actions
+		return {ajax_actions: ["<%= params[:ajax_start_up_actions].join('","') if params[:ajax_start_up_actions] %>"]};
++ __apply_to_job_post | /views/js/ajax/		
+	_ _REQ_first_time_access
+		$.prompt(tourStates);
+		bind__apply_to_job_post();
++ __apply_to_job_post | /views/js/binders/		
+	_ bind__apply_to_job_post
+		

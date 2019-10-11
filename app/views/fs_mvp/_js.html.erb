@@ -1,0 +1,221 @@
+<script type="text/javascript">
+
+var skills = [
+	{ dirty: false, default_text: "Start typing your 1st skill here..." },
+	{ dirty: false, default_text: "Start typing your 2nd skill here..." },
+	{ dirty: false,
+		
+		<% if session[:language] && session[:language] == 1 %>
+			default_text: "@ your email address..."
+		<% elsif session[:language] && session[:language] == 2 %>
+			default_text: "...כתובת האימייל שלך @"
+		<% end %>
+		
+		}];
+	
+var fields_states = {
+	'btn_sign_up': 1
+	
+	<% if session[:user_type_id] == 1 %>
+		, 'btn_job_seeker': 0
+	<% else %>
+		, 'btn_job_seeker': 1
+	<% end %>
+	
+	<% if session[:user_type_id] == 4 %>
+		, 'btn_recruiter': 0
+	<% else %>
+		, 'btn_recruiter': 1
+	<% end %>
+};
+
+var signup_action =
+	<% if session[:user_type_id] == 1 %>
+		'MVP_s_js_i_want_in'
+	<% elsif session[:user_type_id] == 4 %>
+		'MVP_s_r_i_want_in'
+	<% end %>;
+
+function field_keyup(obj, target_obj) {
+	if ($(obj).val() != "") {
+		$("#" + target_obj).removeAttr("disabled");
+	} else {
+		$("#" + target_obj).attr("disabled", "disabled");
+	}
+}
+
+function field_blur(obj) {
+	var skill_num = parseInt($(obj).attr("id").split("-")[0].split("_")[1]) - 1;
+		
+	if ($(obj).val() == "") {
+		$(obj).addClass("input_3");
+		$(obj).removeClass("input_3_text_entered");
+		$(obj).val(skills[skill_num]['default_text']);
+		skills[skill_num]['dirty'] = false;
+	} else {
+		skills[skill_num]['dirty'] = true;
+	}
+}
+
+function field_click(obj) {
+	var skill_num = parseInt($(obj).attr("id").split("-")[0].split("_")[1]) - 1;
+	
+	if (!skills[skill_num]['dirty']) {
+		$(obj).addClass("input_3_text_entered");
+		$(obj).removeClass("input_3");
+		$(obj).val("");
+	} else {
+		obj.select();
+	} 
+}
+
+function field_file_changed(obj, target_fld_id) {
+	$('#' + target_fld_id).html($(obj).attr('value').split('\\').pop().substring(0,20));
+	
+	// alert('s');
+	$('#' + target_fld_id).tipsy({html: true, trigger: 'manual', title: get_error_message()});
+	$('#' + target_fld_id).tipsy('show');
+}
+
+function _FLD_btn_job_seeker(state) {
+	var fld_name = "btn_job_seeker";
+	var fld_obj = $("#" + fld_name);
+	if (state != 1 && fields_states[fld_name] == 0) { return; }
+		
+	switch (state) {
+		
+		case 1: // enabled
+			// console.log('hover');
+			fields_states[fld_name] = 1;
+			fld_obj.css("background-image", "url(../../images/mvp/job_but_off.png)");
+			break;
+			
+		case 2: // hover
+			// console.log('hover');
+			fld_obj.css("background-image", "url(../../images/mvp/job_but_on.png)");
+			$("#" + fld_name + " span").css("color", "#fff");
+			break;
+			
+		case 3: // out
+			// console.log('out');
+			fld_obj.css("background-image", "url(../../images/mvp/job_but_off.png)");
+			$("#" + fld_name + " span").css("color", "#b1b1b1");
+			break;
+			
+		case 4: // click
+			// console.log('click');
+			fields_states[fld_name] = 0;
+			
+			<% if session[:language] && session[:language] == 1 %>
+				var redirect_s = 'job_seeker/en';
+			<% elsif session[:language] && session[:language] == 2 %>
+				var redirect_s = 'job_seeker/he';
+			<% end %>
+			
+			doRedirect(redirect_s);
+			break;
+	}
+}
+
+function _FLD_btn_recruiter(state) {
+	var fld_name = "btn_recruiter";
+	var fld_obj = $("#" + fld_name);
+	if (state != 1 && fields_states[fld_name] == 0) { return; }
+		
+	switch (state) {
+		
+		case 1: // enabled
+			// console.log('hover');
+			fields_states[fld_name] = 1;
+			fld_obj.css("background-image", "url(../../images/mvp/cand_but_off.png)");
+			break;
+			
+		case 2: // hover
+			// console.log('hover');
+			fld_obj.css("background-image", "url(../../images/mvp/cand_but_on.png)");
+			$("#" + fld_name + " span").css("color", "#fff");
+			break;
+			
+		case 3: // out
+			// console.log('out');
+			fld_obj.css("background-image", "url(../../images/mvp/cand_but_off.png)");
+			$("#" + fld_name + " span").css("color", "#b1b1b1");
+			break;
+			
+		case 4: // click
+			// console.log('click');
+			fields_states[fld_name] = 0;
+			
+			<% if session[:language] && session[:language] == 1 %>
+				var redirect_s = 'recruiter/en';
+			<% elsif session[:language] && session[:language] == 2 %>
+				var redirect_s = 'recruiter/he';
+			<% end %>
+			
+			doRedirect(redirect_s);
+			break;
+	}
+}
+	
+function _FLD_btn_sign_up(state) {
+	var fld_obj = $("#btn_sign_up");
+	if (state != 1 && fields_states['btn_sign_up'] == 0) { return; }
+		
+	switch (state) {
+		
+		case 1: // enabled
+			// console.log('hover');
+			fields_states['btn_sign_up'] = 1;
+			
+			<% if session[:language] && session[:language] == 1 %>
+				$("#btn_sign_up span").html("Sign me up!");
+			<% elsif session[:language] && session[:language] == 2 %>
+				$("#btn_sign_up span").html("!תרשמו אותי");
+			<% end %>
+			
+			fld_obj.css("background-image", "url(../../images/mvp/signup_2_but_not_pressed.png)");
+			break;
+			
+		case 2: // hover
+			// console.log('hover');
+			fld_obj.css("background-image", "url(../../images/mvp/signup_2_but_hover.png)");
+			break;
+			
+		case 3: // out
+			// console.log('out');
+			fld_obj.css("background-image", "url(../../images/mvp/signup_2_but_not_pressed.png)");
+			break;
+			
+		case 4: // click
+			// console.log('click');
+			fields_states['btn_sign_up'] = 0;
+			
+			<% if session[:language] && session[:language] == 1 %>
+				$("#btn_sign_up span").html("Please wait..");
+			<% elsif session[:language] && session[:language] == 2 %>
+				$("#btn_sign_up span").html("..אנא המתן");
+			<% end %>
+			
+			fld_obj.css("background-image", "url(../../images/mvp/signup_but_disabled.png)");
+			
+			ajax_it(signup_action);
+			break;
+	}
+}
+	
+function parse_two_skills() {
+	var skill_prefix = "skill_";
+	var skills_profile = {};
+	var element_prefix;
+	
+	for (i=1 ; i<=5 ; ++i) {
+		element_prefix ="[name='skills_profile[" + skill_prefix + i + "]";
+		
+		skills_profile[skill_prefix + i] = {};
+		skills_profile[skill_prefix + i].name = $(element_prefix + "[name]']").val();
+	}
+	
+	return skills_profile;
+}
+
+</script>

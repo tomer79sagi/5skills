@@ -1,0 +1,13 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+<% content_for :title do %>
+	View job matches
+<% end %>
+
+<%= render :partial => '/five_skills/view_job_seeker_header' %>
+	
+<%= render :partial => '/five_skills/view_job_seeker_five_skills' %>
+
+<%= render :partial => '/five_skills/jobs_search_results' %>

@@ -1,0 +1,131 @@
+<% content_for :head do %>
+  <title>FLYC: Agencies</title>
+<% end %>
+
+<% @quick_add_agency = Organisation.new if !@quick_add_agency %>
+<% @quick_add_agent = Person.new if !@quick_add_agent %>
+
+<div style="padding:0px 0px 20px 0px;">
+	<div style="width:50%;text-align:left;float:left;">
+		<span class="content-title">My Agencies</span>
+	</div>
+	<div style="width:50%;text-align:right;float:left;">
+		<%= link_to 'Feedback for this page (3)', view_applications_url, :class => "content_link" %>
+	</div>
+</div>
+	
+<div style="padding:15px 0px 0px 0px;font-size:14px;font-weight:bold;border-bottom:1px solid gray;">
+	<%= link_to 'New Agency', new_agency_url, :class => "content_link" %>	
+</div>
+
+<%= render :partial => '/main/messages', :locals => {:action => "general"} %>
+
+<%= render :partial => '/main/header_3_agencies' %>
+
+<!--
+<div class="content_actions">
+	<table class="content_actions_table-body">
+		<tr>
+			<td><%= link_to 'New Application', add_application_url(:application_id => 0) %> </td>
+		</tr>
+  	</table>
+</div>
+-->
+
+<!-- APPLICATIONS -->
+
+<% if @agencies.nil? %>
+
+	No Agencies found!
+	
+<% else %>
+	
+	<% @prev_agency = @current_agency = @agencies.shift %>
+
+	<% loop do  %>
+
+		<div style="clear:left;text-align:left;">
+		
+		<div class="top_padding_1">	
+		<table style="width:100%;">
+			<tr style="vertical-align:top;">
+				
+				<td style="margin:0px 0px 0px 1px;">
+					<div style="width:864px;border:1px solid #00ffff;float:left;min-height:80px;background-color:#cef5c2;">
+					
+						<table style="width:100%;text-align:left;">
+							<tr>
+								<td class="template_cell_title_content" style="width:160px;font-size:20px;line-height:24px;vertical-align:top;">
+									<%= link_to @current_agency.agency_name, view_agency_url(:agency_id => @current_agency.agency_id) %>
+								</td>
+								
+								<td>
+							
+									<table style="width:100%;text-align:left;">
+									
+										<% until (!@current_agency || @current_agency.agency_id != @prev_agency.agency_id) %>
+									
+											<tr style="vertical-align:top;">
+				
+												<td class="template_cell_title_content" style="width:110px;vertical-align:top;">
+													<b>
+														<% if @current_agency.agent_first_name %>
+															<%= link_to @current_agency.agent_first_name,  
+																view_agency_contacts_url(:agency_id => @current_agency.agency_id, 
+																	:pa => "agent", :agents => @current_agency.agent_id.to_s) %>
+														<% end %>
+													</b>
+												</td>
+												<td class="template_cell_agency_content" style="width:170px;vertical-align:top;">
+													<b>
+														<% if @current_agency.agent_last_name %>
+															<%= link_to @current_agency.agent_last_name,  
+																view_agency_contacts_url(:agency_id => @current_agency.agency_id, 
+																	:pa => "agent", :agents => @current_agency.agent_id.to_s) %>
+														<% end %>
+													</b>
+												</td>
+												<td class="template_cell_company_content" style="width:170px;vertical-align:top;">
+													<%= @current_agency.agent_work_phone if @current_agency.agent_work_phone %>
+												</td>
+												<td class="template_cell_closing_date_content" style="vertical-align:top;">
+													<%= @current_agency.agent_mobile_phone if @current_agency.agent_mobile_phone %>
+												</td>
+												<td class="template_cell_last_updated_date_content" style="width:99px;text-align:left;vertical-align:top;">
+													<%= @current_agency.agent_email if @current_agency.agent_email %>
+												</td>
+												
+											</tr>
+										
+											<% @current_agency = @agencies.shift %>
+											
+										<% end %>
+										
+									</table>
+									
+								</td>
+							</tr>
+						</table>
+					</div>
+					
+					<div style="padding:1em 0em 0em 0em;">
+						<div style="padding:.5em 0em .5em 0em;width:100px;border-top:1px solid gray;border-bottom:1px solid gray;border-right:1px solid gray;float:left;text-align:center;">
+							<%= link_to 'Contacts', view_agency_contacts_url(:agency_id => @prev_agency.agency_id) %>
+						</div>
+					</div>
+					
+				</td>	
+				
+			</tr>
+		</table>
+		</div>
+		
+		</div>
+		
+		<% break if !@current_agency %>
+		
+		<% @prev_agency = @current_agency %>
+		
+	<% end %>
+	
+<% end %>

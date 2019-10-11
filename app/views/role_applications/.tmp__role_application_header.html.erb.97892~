@@ -1,0 +1,25 @@
+  <!--[partial:header]-->
+
+	<% if session[:person_id] %>
+			
+	<table>
+
+		<tr>
+				<td><%= link_to '1) Application & Role Details', edit_application_main_url %> </td>
+				<td> | </td>
+				<td><%= link_to '2) Agency Details', edit_application_agency_url %> </td>
+				<td> | </td>
+				<td><%= link_to '3) Company Details', edit_application_company_url %> </td>
+				<td> | </td>
+				<td><%= link_to '4) Messages', edit_application_messages_url %> </td>
+				<td> | </td>
+				<td><%= link_to '5) Notes', edit_application_notes_url %> </td>
+				<td> | </td>
+				<td><%= link_to '6) Notifications', edit_application_notifications_url %> </td>
+		</tr>
+						
+  	</table>
+	
+	<% end %>
+		
+  <!--[eopartial:header]-->

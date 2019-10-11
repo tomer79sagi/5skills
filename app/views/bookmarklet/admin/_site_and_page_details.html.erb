@@ -1,0 +1,54 @@
+<table style="direction:ltr;">
+	<tr>
+		<td style='text-align:left;height:20px;vertical-align:top;'>Site detected: </td>
+		<td id='site_detected' style='text-align:left;height:20px;vertical-aling:top;'>
+			<input type="text" id="organisation_name" name="" value="<%= @organisation.name if @organisation %>" style="padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;"/>
+			<div id='name_error' style='font-size:10pt;'></div>
+			<br/>
+			<select id="s_organisation_type" style="width:75px;vertical-align:bottom;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;">
+				<% Organisation.organisation_types.each do |organisation_type| %>
+					<option value="<%= organisation_type[1] %>"
+						<%= ' selected="true"' if organisation_type[1] == @site_organisation_type %>
+						><%= organisation_type[0] %></option>
+				<% end %>
+			</select>
+		</td>
+	</tr>
+</table>
+
+<hr/>
+
+<table style="direction:ltr;">
+	<tr>
+		<td style='text-align:left;height:20px;vertical-align:top;'>Page type path: </td>
+		<td id='page_type_path' style='text-align:left;height:20px;vertical-aling:top;'>
+			<select id="s_page_type_path" style="width:130px;vertical-align:bottom;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;" onChange="checkBlankSelection(this);">
+				<% @page_type_path_arr.each do |page_type_path| %>
+					<option value="<%= page_type_path[1] %>"
+						<%= ' selected="true"' if @page && page_type_path[1] == @page.id %>
+						><%= page_type_path[0] %></option>
+				<% end %>
+			</select>
+			<br/>
+			<input type="text" id="i_page_type_path" name="" 
+				value="<%= @page.uri_string if @page %>" 
+				style="padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;"
+				<%= ' disabled="true"' if @page_type_path == "{blank}" %>/>
+			<div id='uri_string_error' style='font-size:10pt;'></div>
+		</td>
+	</tr>
+	<tr>
+		<td style='text-align:left;height:20px;vertical-align:top;'>Page type: </td>
+		<td id='page_detected' style='text-align:left;height:20px;vertical-align:bottom;'>
+			<select id="page_type" style="vertical-align:bottom;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;" onChange="changePageTypeWidget(this);">
+				<% @page_type_options_arr.each do |option| %>
+					<option value="<%= option[1] %>"
+						<%= ' selected="true"' if option[1] == @page_type %>
+						><%= option[0] %></option>
+				<% end %>
+			</select>
+			&nbsp;
+			<button id="btn_save_page" style="width:80px;height:25px;" onClick="ajax_it('admin-save_page'); return false;">Save Page</button>
+		</td>
+	</tr>
+</table>

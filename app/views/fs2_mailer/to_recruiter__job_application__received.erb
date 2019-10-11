@@ -1,0 +1,55 @@
+<img src="http://5skills.me/5skills-160x49.png">
+
+<br/><br/>
+
+<span style="font-weight:bold;"><%= @person_name %></span>,
+
+<br><br>
+
+A <span style="font-weight:bold;font-style:italic;">new candidate</span> (that is a great match!) just applied to your published job <span style="font-weight:bold;font-style:italic;"><%= @job[:title] %></span>.
+
+<br/><br/>
+
+Their details are below and their CV attached.
+Please feel free to contact them via the information provided.
+
+<br/><br/>
+
+<table style="border-collapse:collapse;">
+	<tr style="line-height:20px;">
+		<td style="width:115px;text-align:left;background-color:#00923F;color:white;">Candidate details</td>
+		<td style="width:300px;text-align:right;font-style:italic;background-color:#00923F;">
+			<% if 1 == 2 %>
+				<a style="color:white;" href="http://<%= @http_host %>/job_seeker/<%= @job_seeker[:id].to_s %>/view">view full profile</a>
+			<% end %>
+		</td>
+	</tr>
+	<tr style="line-height:16px;">
+		<td style="width:115px;text-align:left;">Email</td>
+		<td style="width:300px;text-align:left;font-weight:bold;"><%= @job_seeker[:map][:user_obj][:email] %></td>
+	</tr>
+	<tr style="line-height:16px;">
+		<td style="width:115px;text-align:left;">Phone</td>
+		<td style="width:300px;text-align:left;font-weight:bold;"><%= @job_seeker[:map][:job_seeker_obj][:phone_number_1] %></td>
+	</tr>
+</table>
+
+<br/><br/>
+
+<% @skills_profile_matrix = @job_seeker[:skills_profile] %>
+<% if @skills_profile_matrix %>
+	<%= render :partial => 'display_fs_profile' %>
+<% end %>
+
+<br/><br/><br/>
+
+<table>
+	<tr>
+		<td style="width:40px;text-align:center;">
+			<img src="http://5skills.me/5_only-32x36.png">
+		</td>
+		<td style="width:400px;font-size:16px;font-weight:bold;font-style:italic;">
+			Use 5skills and gain a x10 wider reach to those passive job seekers!
+		</td>
+	</tr>
+</table>

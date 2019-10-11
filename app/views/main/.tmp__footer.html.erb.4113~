@@ -1,0 +1,13 @@
+<div class="footer">
+	
+	<div class="footer_left">
+		<span class="template_h_link"><b>Privacy Policy</b></span>
+		|
+		<span class="template_h_link"><b>Terms & Conditions</b></span>		
+	</div>
+	
+	<div class="footer_right">
+		Copyright &copy; Flyc 2010
+	</div>
+	
+</div>

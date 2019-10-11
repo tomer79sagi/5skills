@@ -1,0 +1,50 @@
+<% content_for :head do %>
+	5skills.me
+<% end %>
+
+<% content_for :title do %>
+	Admin - Manage Job Seekers
+<% end %>
+
+
+<div class="clear"></div>
+
+<div class="middle">
+	
+	<%= render :partial => '/fs_admin/header' %>
+	
+	<div style="width:100%;float:left;">
+		
+		<h1><%= yield :title %></h1>
+		
+		<div class="db_entities_header" style="width:100%;">
+			<div class="left" style="width:100px;">Job Seeker ID</div>
+			<div class="left" style="width:100px;">User ID</div>
+			<div class="left" style="width:200px;">Full name</div>
+			<div class="left" style="width:200px;">Updated at</div>
+			<div class="left" style="width:250px;">Actions</div>
+		</div>
+		
+		<% @job_seekers.each do |job_seeker| %>
+		
+			<div class="db_entity_row clear" style="width:100%;">
+				<div id="entity_id" class="left" style="width:100px;"><%= job_seeker.id %></div>
+				<div id="user_id" class="left" style="width:100px;">
+					<% if job_seeker.user_id && job_seeker['email'] %>
+						<%= job_seeker.user_id %>
+					<% else %>
+						-
+					<% end %>
+				</div>
+				<div class="adm_entity_title left" style="width:200px;font-weight:bold;"><%= job_seeker.full_name_secret %>&nbsp;</div>
+				<div class="left" style="width:200px;"><%= job_seeker.updated_at.strftime("%d %b, %Y - %I:%M %p") if job_seeker.updated_at %></div>
+				<div class="adm_actions_col">
+					<span>Login as...</span>
+				</div>
+			</div>
+			
+		<% end %>
+
+	</div>
+	
+</div>

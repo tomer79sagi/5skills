@@ -1,0 +1,3 @@
+  $.throbberHide({parent: $("#processing_indicator")});
+
+} catch(e){ var ee = e.message || 0; alert('Error: \n\n'+e+'\n'+ee); }

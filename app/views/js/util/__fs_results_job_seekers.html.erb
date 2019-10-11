@@ -1,0 +1,192 @@
+<script type="text/javascript">
+
+function ___create_job_seeker_result_div(js_result) {
+	
+	// alert(js_result[0] + ' ; ' + js_result[1].pct);
+	var new_job_seeker_result = $("#templates [id='template_job_seeker_result']").clone();
+	var job_seeker_data = js_result[1];
+	
+	// Change the 'id' attribute
+	new_job_seeker_result.attr("id", "job_seeker_result");
+	new_job_seeker_result.attr("job_seeker_id", js_result[0]);
+	
+	// Update the 'pct'
+	new_job_seeker_result.find("[id='pct']").html(job_seeker_data._pct[1]);
+	
+	// --- CURRENTLY COMMENTED OUT!!!
+	// if (job_seeker_data.current_positions__titles) {
+		// // Update the top 2 current skills
+		// for (position_index in job_seeker_data.current_positions__titles) {
+			// if (job_seeker_data.current_positions__titles[position_index]) {
+				// new_job_seeker_result.find("div[position_priority=" + (parseInt(position_index) + 1) + "]").html(job_seeker_data.current_positions__titles[position_index]);
+			// }
+		// }
+	// }
+	// --- CURRENTLY COMMENTED OUT!!!
+	
+	// Update the top 5 skills
+	if (job_seeker_data.skills) {
+		var single_skill;
+		for (var i = 0 ; i < job_seeker_data.skills.length ; ++i) {
+			if (job_seeker_data.skills[i]) {
+				single_skill = new_job_seeker_result.find("div[skill_priority=" + (i + 1) + "]");
+				single_skill.find("div[id='skill_name']").html(job_seeker_data.skills[i].skill[1]);
+				single_skill.find("div[id='skill_yrs']").html(job_seeker_data.skills[i].years_exp[1]);
+			}
+		}
+	}
+	
+	
+	// --- Set the LinkedIn public profile URL
+	
+	// new_job_seeker_result.find("[id='lnk_linkedin_url'] a").attr("href", job_seeker_data.linkedin_public_profile_url);
+	// new_job_seeker_result.find("[id='lnk_linkedin_url'] a").attr("target", "linkedin_profile");
+
+
+	return new_job_seeker_result;	
+}
+
+// 
+// --- This is the main method that creates 1 single job seeker result
+//
+//
+function create_job_seeker_result_div(js_result) {
+	var new_job_seeker_result = $("#templates [id='template_job_seeker_result']").clone();
+	var job_seeker_data = js_result[1];
+	
+	// Change the 'id' attribute
+	new_job_seeker_result.attr("id", "job_seeker_result");
+	new_job_seeker_result.attr("job_seeker_id", js_result[0]);
+	
+	// Update the 'pct'
+	new_job_seeker_result.find("[id='pct']").html(job_seeker_data.match_pct + "%");
+	
+	// --- CURRENTLY COMMENTED OUT!!!
+	if (job_seeker_data.current_positions__titles) {
+		// Update the top 2 current skills
+		for (position_index in job_seeker_data.current_positions__titles) {
+			if (job_seeker_data.current_positions__titles[position_index]) {
+				new_job_seeker_result.find("div[position_priority=" + (parseInt(position_index) + 1) + "]").html(job_seeker_data.current_positions__titles[position_index]);
+			}
+		}
+	}
+	// --- CURRENTLY COMMENTED OUT!!!
+	
+	// Update the top 5 skills
+	var single_skill;
+	for (skill_index in job_seeker_data.fs_result_match_names_matrix) {
+		if (job_seeker_data.fs_result_match_names_matrix[skill_index][0]) {
+			single_skill = new_job_seeker_result.find("div[skill_priority=" + (parseInt(skill_index) + 1) + "]");
+			single_skill.find("div[id='skill_name']").html(job_seeker_data.fs_result_match_names_matrix[skill_index][0]);
+			single_skill.find("div[id='skill_yrs']").html(job_seeker_data.fs_result_match_names_matrix[skill_index][1]);
+		}
+	}
+	
+	
+	// --- Set the LinkedIn public profile URL
+	
+	new_job_seeker_result.find("[id='lnk_linkedin_url'] a").attr("href", job_seeker_data.linkedin_public_profile_url);
+	new_job_seeker_result.find("[id='lnk_linkedin_url'] a").attr("target", "linkedin_profile");
+
+
+	return new_job_seeker_result;
+}
+
+function create_job_seeker_result_box(js_result) {
+	// Create the 'HTML' box placeholder
+	var new_box = $("#search_results_templates").find("#-1").clone();
+	var js_id = js_result[0];
+	var js_data = js_result[1];
+	
+	new_box.attr("id", js_id);
+	
+	if (js_data.skill_display_matrix) {
+		
+		// *** TITLE
+		var div_header = new_box.find(".result_header");
+		var div_header_title = new_box.find(".result_header_title span");
+		var div_header_updated_at = new_box.find(".result_header_updated_at span");
+		
+		// Add binders
+		div_header_title.html("Job seeker - " + js_id);
+		div_header.bind('click', function(e) {
+			ajax_it("redirect", {url: "job_seeker/" + js_id + "/view"});
+			// ajax_it("save_job_seeker_fs_and_view_job", {url: "job/" + js_id + "/view"});
+			// doRedirect();
+		});
+		
+		// *** Updated at
+		div_header_updated_at.html(js_data.sp_updated_at_time_ago);
+		
+		// *** PROFILE IMAGE (ANONYMOUS OF COURSE)
+		var a_medium_dimensions = [50, 50];
+		
+		if (js_data.files.profile_photo) {
+				
+			if (js_data.files.profile_photo.medium_dimensions) {
+				a_medium_dimensions = js_data.files.profile_photo.medium_dimensions.split('x');
+			}
+			
+			new_box.find(".result_header_logo img").attr("src", g_server_url + "file/" + js_data.files.profile_photo.id + "/show");
+			
+		}
+		
+		
+		// *** PCT
+		new_box.find(".result_left_top span").html(js_data.match_pct);
+		
+		// *** SKILLS BREAKDOWN
+		var i = 0;
+		
+		new_box.find(".result_right_skill_row").each(function() {
+			
+			if (js_data.fs_result_match_ids_matrix[i]) {
+				var span_name = $(this).find(".result_right_skill_name span");
+				// var div_yrs = $(this).find(".result_right_skill_yrs");
+				var div_total_sub_skills = $(this).find(".result_right_skill_total_sub_skills");
+				var div_total_matched_sub_skills = $(this).find(".result_right_skill_total_matched_sub_skills");
+				
+				// -- SKILL NAME
+				if (js_data.fs_result_match_ids_matrix[i][0] == -2) { span_name.css("font-weight", "bold"); }
+				span_name.html(js_data.skill_display_matrix[i][0]);
+				
+				// -- SKILL YRS EXPERIENCE
+				// ** Temporary fix: displaying the number of years in the 1st colored box
+				// div_yrs.html(js_data.skill_display_matrix[i][1]);
+				if (js_data.fs_result_match_ids_matrix[i][1] == -2) { div_total_sub_skills.css("font-weight", "bold"); }
+				div_total_sub_skills.html(js_data.skill_display_matrix[i][1] + "y");
+				
+				
+				// -- SUB SKILLS
+				if (js_data.fs_result_match_ids_matrix[i][2] != null) {
+					var skill_details_arr = js_data.skill_display_matrix[i][2].split(",");
+					// var count_sub_skills = 0;
+					var count_matched_sub_skills = 0;
+					
+					if (!(skill_details_arr instanceof Array)) {
+						skill_details_arr = new Array(js_data.skill_display_matrix[i][2]);
+					}
+					
+					// ** temporary: count the number of matching sub skills, i.e. containing '-2' (a match)
+					for (var o=0 ; o<js_data.fs_result_match_ids_matrix[i][2].length ; ++o) {
+						if (js_data.fs_result_match_ids_matrix[i][2][o] == -2) { ++count_matched_sub_skills; }
+					}
+					
+					// In case there are a few matches, 
+					if (count_matched_sub_skills>0) {
+						div_total_matched_sub_skills.css("font-weight", "bold");
+					} else {
+						div_total_matched_sub_skills.css("font-weight", "normal");
+					}
+					div_total_matched_sub_skills.html(skill_details_arr.length);
+				}
+			}
+			
+			++i;
+		});
+	}
+    
+    return new_box;
+}
+
+</script>

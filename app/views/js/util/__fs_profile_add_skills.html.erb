@@ -1,0 +1,32 @@
+<script type="text/javascript">
+
+//
+// Adds a skill from the 'add skill' list to the 'skills_profile'
+//
+function add_skill_to_profile(skill_name, skill_id, skill_index) {
+	
+	if (parseInt(skill_index) <= 5) {
+		var skill_obj = $(".skills_profile_top_5 li[id='skill_" + skill_index + "']");
+		
+		skill_obj.replaceWith(create_primary_skill(skill_index, {
+  			id: skill_id,
+  			name: skill_name,
+  			years_exp: 1,
+  			blank: false
+  		}));
+  		attach_primary_field_binders(skill_index, false);
+		
+		// skill_obj.find(".single_top_skill_name").html(skill_name);
+		// skill_obj.attr("skill_id", skill_id);
+		// skill_obj.removeAttr("blank");
+	} else if (1 == 2) {
+		var skill_obj = $("#templates [id='template_additional_skill']").clone();
+		
+		skill_obj.find(".single_additional_skill_name").html(skill_name);
+		skill_obj.css("display", "block");
+		skill_obj.attr("skill_id", skill_id);
+		$(".skills_profile_additional").append(skill_obj);
+	}
+}
+
+</script>

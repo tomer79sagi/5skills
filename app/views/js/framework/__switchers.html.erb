@@ -1,0 +1,85 @@
+<script type="text/javascript">
+
+function switch_to(switcher_name) {
+	
+	
+	// First, clear the _vhook array
+	// _vhooks = [];
+	
+	
+	// -- 1 - Initialization stuff
+
+	var switcher_splitted = switcher_name.split("__"); 
+	
+	// Extract the type of switcher ('w' for Workspace or 'c' for Content)
+	var switcher_type = switcher_splitted[1];
+	
+	// Extract the workspace name
+	var context_name = switcher_splitted.slice(2).join("__");
+	
+	// -- 2 - PRE operations (bind, unbind etc)
+	
+	if (switcher_type == 'w') {
+		unbind_fields(context["workspace"]["_selected"]);
+		
+		// Flag the selected workspace
+		context["workspace"]["_selected"] = switcher_name;
+		console.log("_selected_workspace: " + context["workspace"]["_selected"]);
+		
+		// First, clear the deck
+		panel__fs_profile_choose_skills.close('west');
+		panel__fs_profile.close('west');
+		
+	} else if (switcher_type == 'c') {
+		unbind_fields(context["main_content"]["_selected"]);
+		
+		context["main_content"]["_selected"] = switcher_name;
+		console.log("_selected_content: " + context["main_content"]["_selected"]);
+		
+	}
+	
+	
+	// -- 3 - Execute the relevant 'SWITCHER'
+	// Perform the renders
+	
+	var event_func_name = '__' + switcher_type.toUpperCase() + '__' + context_name + '__SWITCHER__';
+	if (eval("typeof " + event_func_name) === 'function') {
+		eval(event_func_name)();
+		// console.log("'" + event_func_name + "' is a function!");
+	} else {
+		// console.log("'" + event_func_name + "' is not a function!");
+	}
+	
+	
+	// -- 4 - POST operations (bind, unbind etc)
+	
+	if (switcher_type == 'w') {
+		bind_fields(context["workspace"]["_selected"]);
+	} else if (switcher_type == 'c') {
+		bind_fields(context["main_content"]["_selected"]);
+		
+		// -- 5 - SYNC -----
+	
+		// Only if the _core attribute has been synced
+		// Indicating the first _skeleton call was made and waiting for data to be retrieved
+		// ONLY then, allow invoking SYNC when finished with switching the workspace
+		if (_core["_synced"] == true) {
+			
+			// Clear the '_vhook' associative array first
+			// _vhooks = [];
+			
+			// sync();
+		}
+	}
+	
+	
+	// -- 6 - Google analytics -----
+	
+	ga('send', {
+	  'hitType': 'pageview',
+	  'page': 'ajax/' + switcher_name
+	});	
+		
+}
+
+</script>

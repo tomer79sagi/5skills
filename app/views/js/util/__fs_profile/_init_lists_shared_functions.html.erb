@@ -1,0 +1,34 @@
+<script type="text/javascript">
+
+	function init_s_start(list_obj, item_obj) {
+  		var id_digit = parseInt(item_obj.attr("id"));
+            	 
+    	// if ((!isNaN(id_digit) && id_digit < 0) || item_obj.attr("blank") == "true") {
+    		// //list_obj.sortable('cancel');
+    		// item_obj.attr("prevent", "true");
+    		// return;
+		// }
+        		
+  		g_cache.start_list_id = list_obj.attr("id");
+  		g_cache.start_skill_id = item_obj.attr("skill_id");
+    	g_cache.item_id = item_obj.attr("id");
+    	g_cache.prev_target_list_id = g_cache.start_list_id;
+    	
+    	// Capture the start HTML
+		g_cache.start_source_content = g_cache.prev_target_html_content = item_obj;
+    	g_cache.start_skill_name = item_obj.attr("orig_value"); 
+    	
+    	// console.log('start: ' + g_cache.start_list_id + " ; " + g_primaries.indexOf(g_cache.start_list_id));
+    	console.log("item_id: " + g_cache.item_id);
+  	}
+  	
+  	function init_s_over(list_obj) {
+  		// console.log('over');
+  		
+  		if (g_cache.curr_target_list_id) { g_cache.prev_target_list_id = g_cache.curr_target_list_id; }
+    	g_cache.curr_target_list_id = list_obj.attr("id");
+    	
+    	// console.log("target_ids [start ; prev ; curr]: " + g_cache.start_list_id + " ; " + g_cache.prev_target_list_id + " ; " + g_cache.curr_target_list_id);
+  	}
+
+</script>

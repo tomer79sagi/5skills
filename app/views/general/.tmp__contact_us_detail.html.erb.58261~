@@ -1,0 +1,53 @@
+<div style="width:750px;float:left;min-height:80px;padding:1em 0em 0em 0em;">
+
+	<div style="background-color:#dfefff;width:100%;text-align:left;border-top:1px solid #dfe1ff;padding:1em 0em 1em 1em;margin:-1px 0px 20px 0px;">
+	
+		You can contact us using 3 methods:<br/>
+		<ul>
+		  <li style="padding:1em 0em 0em 0em;"><b>Feedback forms</b>. Link appears on each page on the site</li>
+		  <li style="padding:1em 0em 0em 0em;"><b>Email</b>. You can email us directly at <%= mail_to "tomer@flyc.co.nz", nil, 
+				:subject => "FLYC - Contact Us Form", :cc => @contact_us.sender_email, :encode => "hex" %></li>
+		  <li style="padding:1em 0em 0em 0em;"><b>Online form</b>. Please use the form below</li>
+		</ul>
+		
+	</div>
+	
+	<div style="width:100%;background-color:#dfefcf;padding:.5em 0em .5em 1em;">
+		<div style="text-align:left;margin:0em 0em 0em .5em;font-size:20px;">
+			Online Form
+		</div>
+	</div>
+
+  	<div style="background-color:#dfefff;width:100%;text-align:left;border-top:1px solid #dfe1ff;padding:1em 0em 0em 1em;margin:-1px 0px 20px 0px;">
+	  
+	  	<div style="padding:0em 1em .5em 0em;margin:0em 1em 0em 0em;text-align:right;border-bottom:1px gray solid;">
+			<%= submit_tag 'Send', :name => "send" %>
+			<%= submit_tag 'Cancel', :name => "cancel" %>
+		</div>
+		
+		<table style="width:100%;margin:0px 10px 0px 0px;padding:0em 0em 1em 0em;">
+			<tr>
+				<td style="vertical-align:top;text-align:right;padding:1em 0em 0em 0em;">Name:</td>
+				<td style="vertical-align:top;text-align:left;padding:1em 0em 0em 0em;"><b><%= @contact_us.sender_name %></b></td>
+			</tr>
+			<tr>
+				<td style="vertical-align:top;text-align:right;padding:1em 0em 0em 0em;">Email Address:</td>
+				<td style="vertical-align:top;text-align:left;padding:1em 0em 0em 0em;"><b><%= @contact_us.sender_email %></b></td>
+			</tr>
+			<tr>
+				<td style="vertical-align:top;text-align:right;padding:1em 0em 0em 0em;">Message:</td>
+				<td colspan="3" style="padding:1em 0em 1em 0em;padding:1em 0em 0em 0em;">
+					<%= fckeditor_textarea( "contact_us", "message", {:toolbarSet => 'Jobby_Default', :width => '580', :height => '350'} ) %>
+					<%= error_message_on "contact_us", "message", {:prepend_text => "Message ", :css_class => "error_message_field"} %>
+				</td>
+			</tr>		
+		</table>
+		
+		<div style="padding:.5em 1em 1em 0em;margin:0em 1em 0em 0em;text-align:right;border-top:1px gray solid;">
+			<%= submit_tag 'Send', :name => "send" %>
+			<%= submit_tag 'Cancel', :name => "cancel" %>
+		</div>
+		
+	</div>
+	
+</div>

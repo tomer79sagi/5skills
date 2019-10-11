@@ -1,0 +1,106 @@
+<html>
+	<head></head>
+	<body>
+
+<div id="fb-root"></div>      		
+<iframe id="test_inner" src="http://localhost:3002/general/iframe_test" width="200" height="35" scrolling="no" frameborder="0"></iframe>
+
+<script type="text/javascript" src="http://localhost:3002/javascripts/bl/easyXDM/easyXDM.min.js"></script>
+<script type="text/javascript" src="http://localhost:3002/javascripts/jquery-1.5.1.min.js"></script>
+<script type="text/javascript">
+	
+	function a(id, accessToken) {
+//		alert('called parent function from the iframe!: ' + accessToken);
+//		alert("https://graph.facebook.com/" + id + "?access_token=" + accessToken);
+		
+		if (socket) {
+			socket.postMessage('facebook-token:' + id + "," + accessToken);
+		}
+	}
+	
+//		(function(d){
+//	         var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+//	         if (d.getElementById(id)) {return;}
+//	         js = d.createElement('script'); js.id = id; js.async = true;
+//	         js.src = "//connect.facebook.net/en_US/all.js";
+//	         ref.parentNode.insertBefore(js, ref);
+//	       }(document));
+//	
+//	      // Init the SDK upon load
+//	      window.fbAsyncInit = function(){
+//		  	FB.init({
+//		  		appId: '156127131075698',
+//		  		status: true,
+//		  		cookie: true,
+//		  		xfbml: true,
+//		  		oauth: true,
+//		  	});
+//		  }
+	
+//	alert('reached server');
+
+	var socket = new easyXDM.Socket({
+	    onMessage: function(message, origin){
+			
+			
+//			alert('message: ' + message);
+
+			var params = null;
+						
+			if (!message) {
+				
+				alert("[SERVER] Received 'null' 'message' object from '" + origin + "' !!");
+				return;
+			}
+			
+			// ------------------------
+			//   ACTIONS
+			// ------------------------
+			var message_content = message.split("?");
+			
+//			alert('message length: ' + message_content.length);
+			
+			if (message_content.length == 1) {
+//				alert('no client parameters');
+			} else {
+				params = message_content[1].split("&");
+				message = message_content[0];
+//				alert('message: ' + message);
+			}
+			
+//			alert('params: ' + params);
+				
+			if (message == "facebook_post") {
+				
+				alert('test');
+				
+				socket.postMessage("<%= @server_response %>");
+				
+			} else if (message == "check_session" || message == "notify_login" || message == "notify_logout") {
+				
+				// Do the Facebook checks
+				
+				socket.postMessage("<%= @server_response %>");
+				
+			} else if (message == "social_login") {
+				
+				  var path = 'https://www.facebook.com/dialog/oauth?';
+			   var queryParams = ['client_id=' + '156127131075698',
+			     'redirect_uri=/',
+			     'response_type=token'];
+			   var query = queryParams.join('&');
+			   var url = path + query;
+			   window.open(url);
+				
+			} else {
+				
+				alert("[SERVER] Received an invalid 'action': action = '" + message + "' !!");
+				return;
+				
+			}
+	    }
+	});
+
+</script>
+</body>
+</html>

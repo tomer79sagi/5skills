@@ -1,0 +1,28 @@
+<% if flash[:notice] %>
+	$("#message_notice").show('slow');
+<% end %>
+
+<% if flash[:error] %>
+	$("#message_error").show('slow');
+<% end %>
+
+$.ajaxSetup({
+    beforeSend: function (xhr) {
+            xhr.setRequestHeader("Accept", "application/json, text/javascript, text/html, application/xml, text/xml, */*");
+    }
+});
+
+
+// --------------------------------------------------------------------
+// Initialize FS profile - new design
+// --------------------------------------------------------------------
+<%= render :partial => 'five_skills/js_populate_fs_profile_no_sub_skills' %>
+// -----------------------------------------------------------
+
+
+attach_field_binders();
+
+
+<% if params[:ajax_start_up_actions] %>
+	ajax_it('start_up_actions');
+<% end %>

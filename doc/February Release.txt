@@ -1,0 +1,194 @@
+LAST POINT:
+* Add encryption in registration
+* Remove BETA password
+* Change password_change implementation to take hash/salt into account (don't send password via email)
+* Simply 'action email' / activity thing (my_mailer_controller and base_controller)
+* Add admin login and first inbox/sent interface
+* Add force password change for admin first time
+
+ADDED FUNCTIONALITY:
+* Added 'valid_attribute?' method as a ruby file under 'config/initializers' to support validation of individual attributes
+* Added functionality to load all sub-directories under the 'app' folder and not just the 'app/models' folder in 'config/environment.rb'
+* Added 'notice_hold', 'error_hold' and 'action_hold' to support 'redirect' from a controller but still keeping the flash notifications for 1 additional controller action. In the future, could add different levels of holds if needed (e.g. [:notice_hold_2] etc
+
+* Installed 'Addressable' gem for parsing URLs: Go to the project folder and 'gem install addressable' (v.2.2.4 installed on local machine)
+* Added 'Throbber' for the 'processing' symbol to appear ('javascripts\jquery.throbber.js' and 'images\ajax-loader.gif')
+* Configure Eclipse to run a particular workspace on start-up: \eclipse 3.4.2\configuration\config.ini file. Make sure this line appears:
+ - 'osgi.instance.area.default=C\:\\Applications\\Ruby\\projects'
+ 
+* Installed 'Nokogiri' gem for parsing HTML pages: Go to the project folder and
+ 'gem install nokogiri -- --with-xml2-include=/usr/local/include/libxml2 --with-xml2-lib=/usr/local/lib' (v.1.4.4.1)
+ 
+--------------- OPTION 1 - using existing plugins to run 'delayed_jobs' and 'email polling daemon' - they are causing problems -------
+ * Installed 'delayed_jobs' [PROBLEMS WITH IT] to enable sending 'delayed' emails: Go to the project folder and
+ 'cd script; ruby plugin install git://github.com/collectiveidea/delayed_job.git -r v2.0'
+ + Go to Eclipse, choose 'Generators' -> select 'delayed_job' and hit 'play' (leave 'Parameters:' blank) (This will create the delayed_jobs table)
+ + run 'rake db:migrate' (command prompt or through Eclipse - I tested through Eclipse only)
+ + Add the 'plugin' reference to 'config/environment.rb' -> 'config.plugins = ..., 'delayed_job'
+ ++++ Started removing delayed_jobs as it doesn't do what I want, so:
+  1. rake db:rollback - to drop the 'delayed_jobs' table
+  2. from project folder, 'cd script; ruby plugin remove delayed_job' - will remove the 'vendor/plugins/delayed_job' folder and its contents
+  3. Remove the 'migration' from 'db/migrate' (named 'create_delayed_job')
+  4. Remove the 'plugin' reference from 'config/environment.rb' file
+  
+* Installed 'fetcher' to create a daemon for polling incoming emails and processing them:
+ + 'script/plugin install git://github.com/look/fetcher.git' (to install the plugin)
+ + 'ruby script/generate fetcher_daemon mail' (to enable the 'config/mail.yml' etc)
+ ++++ Started removing fetcher as it doesn't do what I want, so:
+  1. from project folder, 'cd script; ruby plugin remove fetcher' - will remove the 'vendor/plugins/fetcher' folder and its contents
+  2. Remove the 'plugin' reference from 'config/environment.rb' file
+  
+* Installed 'daemons' gem to support the fetcher and delayed jobs
+ + 'gem install daemons'
+ *** On windows, there is no 'fork()' method and an exception is thrown
+ *** Trying to use as a windows service: 'start "spec_server" /min ruby.exe script\delayed_job' (STILL not working)
+ 
+* ??? Install 'SystemTimer' gem to support 'fetcher'. Can't do it on windows though
+
+--------------- OPTION 2 - Installing them all by myself -------
+* After installing the 'daemons' gem (see above under option 1), install the daemon generator:
+* 'ruby script/plugin install git://github.com/kozy/daemon_generator.git'
+ + 'ruby script/generate daemon flyc_mailer' (installing the 'flyc_mailer')
+ + RUNNING ON LINUX: (NEED TESTING) 'ruby lib/daemons/flyc_mailer_ctl start' 
+   + OR run as a cronjob
+   + RUNNING on linux with the following comand: 'ruby ~/{env}/script/runner ~/{env}/lib/daemons/flyc_mailer.rb'
+    - Testing environment: 'ruby ~/jobby_test/script/runner ~/jobby_test/lib/daemons/flyc_mailer.rb'
+   + Once running, you can Ctrl-C to 'sleep' it and continue running it in the background
+ + Running on Windows: 'start "spec_server" /min ruby.exe lib/daemons/flyc_mailer.rb'
+  +++ Temporary running it directly from the command prompt: 'ruby.exe lib/daemons/flyc_mailer.rb'
+   - flyc_mailer.rb uses 'config/mail.yml' for configuration
+   - flyc_mailer.rb relies on the 'environment' parametesr in 'config/environment.rb' etc
+   - process running size is approx. 35KB
+   ? Need to still test IMAP
+   ? Need to test authentication flag
+   ? Need to parse the HTML (pernhaps using the 'Nokogiri' for parsing HTML)
+   
+------------------------------------------------------------------------------------
+* Installed 'mechanize' for background processing of websites:
+ - 'cd script; gem install mechanize'
+ 
+------------------------------------------------------------------------------------
+* Timezone stuff
+ - Installed TZone gem
+ - Added 'ip_to_countries' table
+ - Downloaded latest ip_to_countries database
+ - Remove all comment fields in file
+ - Remove double-quotes from all fields
+ - Changed line 106378 to "3642613760,3642617855,ripencc,1162771200,AX,ALA,Aland Islands" (changed 'A' in 'Aland' to standard english 'A')
+ - Import the 'CSV' file into MySQL: 
+	 "LOAD DATA LOCAL INFILE 'C:/Applications/Ruby/projects/flyc/db/IpToCountry.csv'
+		INTO TABLE ip_to_countries
+		FIELDS TERMINATED BY ','
+		LINES TERMINATED BY '\n'
+		(ip_from, ip_to, registry, assigned, ctry, cntry, country);"
+
+
+LEARNINGS:
+- Any file placed in 'config/initializers' (.rb file that is) will be automatically loaded when rails starts
+ + I can define methods ('def ... end') and then straight-up ruby code underneath to be executed
+   
+ARCHITECTURAL DECISIONS:
+* Duplicate temporarily the messages code for future role-specific enhancements
+
+DATABASE CHANGES:
+* Added status_id for both mailer_metadatas and mailer_recipients as each 'user' (either sender or receiver) will have their own status (i.e. 'Read', 'Unread' etc)
+* Converted 'my_mailer_messages' : 'message_html' column size from VARCHAR(255) to VARCHAR(10000) - similar to the 'description' column in the 'role_applications' table
+ - Need to manually perform this task on 'test' and 'production' environments. Command used:
+ - "ALTER TABLE `testdb1_development`.`my_mailer_messages` MODIFY COLUMN `message_html` VARCHAR(10000) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL;"
+* Added table 'my_mailer_emails' to hold emails temporarily until the email daemon will deliver them. At that point they will be deleted
+ - Had to manually increase the 'body' column again to VARCHAR 10,000: 'ALTER TABLE `testdb1_development`.`my_mailer_emails` MODIFY COLUMN `body` VARCHAR(10000) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL;'
+
+TESTING-TODO:
+2. Test widget sliding onto Flash objects (z-index problems)
+1. test contact us send when not logged in
+2. test message statuses (unread / read) for sent_messages and especially in correspondences
+3. Reading 'action' friendly name in feedback screens. Sometimes appears to be inconsistent when refreshing pages etc
+4. Test new implementation of 'process_login' and remove old commented method if it works
+
+TODO:
+- February
+3. Convert page-type auto selection loop '@page_type_options_arr', line 44 approx. to use the 'each' and not
+ - 'each_index' and keep consistent with remainder of the page (see file: 'bookmark_site.js.erb')
+ + Explore use of 'helpers' instead of direct access from views to models (samples page: 'bookmark_site.js.erb')
+9. Dynamic forms: add functionality to support defining of 'field maps' which will be used for validation in dynamic forms
+ - 'Dynamic forms' = Multiple forms that form a 'single' request to the server when the whole entity is saved or updated
+6. Remove Beta login functionality
+15. Upload and change a CV and allow download from BL
+16. Allow HTML link to the CV (temporarily??)
+17. [NOTIFICATION ENGINE] Add actions to BL
+18. Add actions to main site
+19. Enable email sender as notificiation (asynchronous system to not slow down the system)
+20. Tidy-up applications creen
+21. Split applications screen to 'My Roles' and 'My Jobs'
+
+3. DONE - Apply pagination to entire system (except 'Activities' functionality)
+4. DONE - Sort out general sorting
+7. DONE - Consolidate Contact-us, Feedback for this page to use 'send message' interfaces
+12. DONE - Add 'quick add' bookmarklet functionality
+16. [BUG] Notification counters (i.e. Messages()) is blank in 'general 'pages'
+5. DONE - Add 'About Us' section
+6. DONE - Add check for "RE: " string in the subject line to avoid multiple "RE:" in messages
+7. DONE (currently supports only system-to-admin- notification messages - Add 'System message' type support in 'MyMailer'. Need to re-jig the order of message and myMailer creation
+8. DONE - Send system notification to admin once an 'action' which is not mapped was used by a user
+7. DONE - Convert admin messages code to support the new structure introduced by the 'user_messages' controller
+2. DONE - Add security for admin interface (currently anyone can access the messages interface)
+5. [BUG] Tried firefox to login and when the username was wrong, an exception was thrown to do with the hashed password
+8. DONE - Enable selection of text and push it into the right field in the flyc widget
+
+- March
+4. Rationalise the position of the titles of the view_applications etc views to include 'Quick Create' labels etc
+6. Create system for identifying 'context' (i.e. bookmarklet, normal, admin etc) and allow each 'context' to execute standard methods.
+   E.g. Login, process_login, logout etc (This will allow re-use of core logic)
+7. Change all CSS stuff to be prefixed with 'flyc' something to not clash with Flyc site styles
+   when accidently using the bookmarklet on the site
+4. Add '...' to concatenated message summary and last email summary in all 'messages' interfaces
+17. Cater for user '0' in the admin interface (when reading messages)
+4. Fix-up change password functionality to include password change screen
+3. Remove single bread-crumbs (same level as the page being displayed). Duplication of information
+9. Add SSL to support encryption for bookmarklet login and main site
+9. Auto-save the location of the 'selected' field from the site and allow easy 'toggle' for the admin to
+ enable it for review and enabling it for all users (see 'selection text' from Feb release)
+1. Ensure 'last_5_urls' (in base_controller) are rationalized or removed. I think removed as can't think they add any value
+1. Consolidate 'switch' between major functional areas on the site (e.g. Main user, Admin and Bookmarklet), perhaps
+   create a function that returns a flag that indicates which controller is now used
+1. Add 'Correspondence between XX and YY' in the title of a correspondence page
+1. Add titles to 'message_view' and other details (i.e. message type etc)
+2. Enable 'delete message' in both 'inbox' and 'sent_messages' interfaces for both admin and user_messages
+1. Centralize the 'type_value' method in the 'application_helper' to cover for role_application code in the system
+5. Facebook login
+8. Consolidate 'registration' process to use 'send_message' interfaces
+9. Add support for display of Agents and Company contacts
+10. Add search through-out site (and split the results by type)
+11. Add 'Actions' (as per Tim's suggestion)
+12. Fix-up bread-crumbs for 'messages' interfaces
+13. Fix-up the 'feedback on page' information in reply messages. Currently it only displays on the initial message created by the user
+14. [BUG] If received more than 1 messages from a user (in this case the admin) before slotting in a reply, when viewing the 'latest' message, only the last one is flagged as 'read' and the previous one is still 'unread'. It's also impossible to set it as 'unread' as you can't access it directly. Perhaps need to flag 'all' messages as 'read' in case there are a few of them before a reply was made by the other user
+
+14. Add personalized email (@flyc...) and process incoming messages automatically
+16. Ability to share files
+17. Ability to split between Role and Application (i.e. "My Roles" and "My Applications")
+18. Agent login
+19. Ability to create a job (by agent)
+20. Ability to share job with candidates
+21. Ability to 'forward' or link a job with candidates (via email) - forward emails from agent's system to flyc for auto-processing
+22. Clean-up 'Activities' functionality
+23. Ability to store sorting order for particular views in session (or DB) to maintain consistency when the user nagivates around the site
+24. Hide 'table names' from sort, currently URI includes the actual column name of a table for sorting
+25. Add pagination to 'Activities' functionality
+27. Add sorting to messages system
+28. Add Help for each screen (?) or generic help
+29. Validate that all flags in 'activity.rb' file are accurately reflecting their entity type etc
+20. Process 'login' actions in 'Activity.rb' 
+21. [BUG] cookie token timer might not be working (currently set to 1 minute but seems to go forever)
+22. Consolidate all places that matches logged on user to admin user (id = 0 and primary_email = "admin@flyc.co.nz" (e.g. 'application_controller' and 'my_mailer'
+23. Add 'Notification' interface for admin (similar to messages interface just without a 'reply' option
+24. Add 'asynchronous email dispatcher'. Create a table to hold emails before sending them off. This will allow the system to operate faster and not 'wait' for the emails to be sent
+25. Ensure pagination is consistent through-out site (top and bottom)
+26. Remove 'hidden' fields in 'reply_to_message' in both admin and user_messages interfaces. Store them in a session object temporarily for this purpose
+
+
+Release notes for Feb release:
+------------------------------
+
+1. User passwords are encrypted
+2. Commented 'doX' method in 'Organistion' model. Not sure if this will have any impact on existing code

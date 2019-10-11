@@ -1,0 +1,19 @@
+
+panel__workspace
+,	north__paneSelector: 	'.header'  ->  top header
+,	west__paneSelector: 	'.col1'   ->  id : workspace__left_nav
+,	center__paneSelector: 	'.col234' 
+
+	panel__fs_profile_choose_skills
+	,	north__paneSelector: 	'.2nd_north'
+	,	west__paneSelector: 	'.col2'
+	,	center__paneSelector: 	'.col3'
+
+		panel__fs_profile
+		,	north__paneSelector: 	'.3rd_north'  ->  id : workspace__3rd_header
+		,	west__paneSelector: 	'.aa'  ->  fs_profile
+		,	center__paneSelector: 	'.bb'  ->  main content area!
+		,	east__paneSelector: 	'.cc'
+		,	south__paneSelector: 	'.3rd_south'  ->  id : workspace__3rd_footer
+
+,	east__paneSelector: 	'.col5'

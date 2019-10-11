@@ -1,0 +1,43 @@
+<script type="text/javascript">
+
+var g_editing = false;
+
+function create_keyword_result_row_as_html(js_result, entity_type){
+	var js_id = js_result[0];
+	var js_data = js_result[1];
+	
+	var tr_row_start = '<tr id="' + js_id + '" style="border-top:1px solid black;background-color:#33D685">';
+	var tr_row_end = '</tr>';	
+	var td_keyword_name = '<td style="text-align:left;">' + js_data.keyword + '</td>';
+	var td_keyword_skill = '<td id="skill_td" style="text-align:left;">' + js_data.replacement_skill_name + '</td>';
+	row_as_html = 
+		tr_row_start + 
+		td_keyword_name +
+		td_keyword_skill +   
+		tr_row_end;
+	
+	return row_as_html;
+}
+
+function toggle_search_by(entity_type) {
+	switch (entity_type) {
+		case 1: // Job
+			$("#search_templates_by_job_seekers").removeClass("adm_search_by_selected");
+			$("#search_templates_by_job").addClass("adm_search_by_selected");
+			
+			g_cache['search_by'] = 1;
+			
+			break;
+		case 2: // Job seeker
+			$("#search_templates_by_job").removeClass("adm_search_by_selected");
+			$("#search_templates_by_job_seekers").addClass("adm_search_by_selected");
+			
+			g_cache['search_by'] = 2;
+			
+			break;
+	}
+	
+	ajax_it("fs_profile_updated");
+}
+
+</script>

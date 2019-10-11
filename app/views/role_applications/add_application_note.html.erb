@@ -1,0 +1,30 @@
+<!--[form:edit_application_status]-->
+	
+<div class="content-title">
+	Add Application Note
+</div>
+
+<%= render :partial => '/main/messages' %>
+
+<div class="content-body" id="role_application_details">
+
+<% form_tag({:action => :create_application_note, :application_id => @role_application_id, :page => "add_application_note"}) do %>
+  	
+	<table valign="top">
+	<tr>
+		<td>Add a Note:</td>	
+		<td>
+			<%= fckeditor_textarea( "note", "note_contents", {:toolbarSet => 'Jobby_Default', :width => '600', :height => '500'} ) %>
+		</td>
+	</tr>
+	</table>
+	
+	<div class="content-footer">
+		<%= submit_tag 'Update & Close' %>
+	</div>	
+	   
+<% end %>
+
+</div>
+		  
+  <!--[eoform:edit_application_status]-->

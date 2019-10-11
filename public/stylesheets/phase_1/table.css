@@ -1,0 +1,53 @@
+table.table-body {
+	border-width: 1px;
+	border-color: gray;
+	border-style: solid;
+	background-color: #FFF5EE;
+	border-collapse: collapse;
+}
+table.table-body th {
+	border-width: thin;
+	padding: 3px;
+	border-style: dotted;
+	border-color: green;
+	background-color: rgb(255, 245, 238);
+}	
+table.table-body td {
+	padding: 4px;
+	border-width: 1px;
+	border-style: dotted;
+}
+
+.c_id {
+	width: 10px;
+}
+.c_title {
+	width: 100px;
+}
+.c_company {
+	width: 100px;
+}
+.c_agency {
+	width: 100px;
+}
+.c_agent {
+	width: 100px;
+}
+.c_role_close_date {
+	width: 100px;
+}
+.c_role_status {
+	width: 60px;
+}
+.c_role_created_date {
+	width: 100px;
+}
+.c_role_shortcut {
+	width: 50px;
+	text-align:center;
+}
+.c_role_tab {
+	width: 10px;
+	font-size: 20px;
+	text-align:center;
+}

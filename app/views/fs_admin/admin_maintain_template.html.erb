@@ -1,0 +1,15 @@
+<% content_for :head do %>
+	5skills.me
+<% end %>
+
+<% content_for :title do %>
+	
+	<% if @active_fs_profile && @active_fs_profile[:label] && !@active_fs_profile[:label].blank? %>
+		<div class="title_main" id="template_title" blank_value="[Untitled Template]*"><%= @active_fs_profile[:label] %></div>
+	<% else %>
+		<div class="title_main title_main_untitled" id="template_title" blank="true" blank_value="[Untitled Template]*">[Untitled Template]*</div>
+	<% end %>
+	
+<% end %>
+
+<%= render :partial => '/five_skills/fs_profile' %>

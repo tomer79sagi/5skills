@@ -1,0 +1,38 @@
+
+<script type="text/javascript">
+
+var g_editing = false;
+
+function attach_field_binders(field_id) {
+	
+	// Call common functions
+	attach_common_field_binders(field_id);
+	
+	// --- Bind all fields (if no 'field_id' is provided)
+	
+	if (!field_id) {
+		attach_field_binders("btn_find_jobs");
+		
+		return;
+	}
+	
+	
+	// --- Bind the field
+	
+	switch (field_id) {
+			
+		case "btn_find_jobs":
+		
+			$("[id='btn_find_jobs']").bind('click', function(e) {
+				$("[id='btn_find_jobs']").html("Please wait...");
+				$("[id='btn_find_jobs']").attr("disabled", "disabled");
+				
+				ajax_it("save_job_seeker_fs_profile");
+			});	
+			break;
+						
+	}
+			
+}
+
+</script>

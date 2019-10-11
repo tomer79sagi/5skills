@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  
+  <title><%= yield :head %></title>
+  
+  <%= render :partial => '/layouts/fs_layout_core_js_and_styles' %>
+  
+  <%= render :partial => '/fs_job/js_apply_for_job' %>
+  <%= render :partial => '/fs_job/js_apply_for_job_ajax_functions' %>
+  
+  <script type="text/javascript">
+	$(document).ready(function() {
+  		<%= render :partial => '/fs_job/js_apply_for_job_document_ready' %>
+	});
+  </script>
+    
+</head>
+<body>
+
+<%= render :partial => '/five_skills/header' %>
+
+<div class="middle">
+			
+	<%= yield %>
+	
+</div>
+
+<%= render :partial => '/five_skills/footer' %>
+
+</body>
+</html>

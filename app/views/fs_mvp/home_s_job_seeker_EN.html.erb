@@ -1,0 +1,113 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+	<%= render :partial => '/fs_mvp/mvp_s_header' %>
+
+	<div class="middle">
+		<div class="middle_bg">
+			
+			<div class="title clear"><%= image_tag("mvp/jobs_lrg_ENG.png") %></div>
+			<div class="sub_title clear"><%= image_tag("mvp/sub_heading_job_seeker_eng.png") %></div>
+			
+			<div class="sub_title clear left">
+			
+				<% if session[:user_type_id] == 1 %>
+					<div id="btn_job_seeker" class="job_but_pressed left" onclick="fld_toggle(this, 4);" onmouseover="fld_toggle(this, 2);" onmouseout="fld_toggle(this, 3);">
+				<% else %>
+					<div id="btn_job_seeker" class="job_but_off left" onclick="fld_toggle(this, 4);" onmouseover="fld_toggle(this, 2);" onmouseout="fld_toggle(this, 3);">
+				<% end %>
+				
+					<% if session[:language] && session[:language] == 1 %>
+						<span>I need a job!</span>
+					<% elsif session[:language] && session[:language] == 2 %>
+						<span>!אני צריך עבודה</span>
+					<% end %>
+				
+				 </div>
+				 
+				<% if session[:user_type_id] == 4 %>
+					<div id="btn_recruiter" class="cand_but_pressed left" onclick="fld_toggle(this, 4);" onmouseover="fld_toggle(this, 2);" onmouseout="fld_toggle(this, 3);">
+				<% else %>
+					<div id="btn_recruiter" class="cand_but_off left" onclick="fld_toggle(this, 4);" onmouseover="fld_toggle(this, 2);" onmouseout="fld_toggle(this, 3);">
+				<% end %>
+				
+				 	<% if session[:language] && session[:language] == 1 %>
+						<span>I need candidates!</span>
+					<% elsif session[:language] && session[:language] == 2 %>
+						<span style="padding-left:17px;">!אני צריך מועמדים</span>
+					<% end %>
+				
+				 </div>
+			 
+			 </div>
+			
+			<div class="girl"><%= image_tag("mvp/girl_1.png") %></div>	
+			<div class="main_box">
+				
+				<% form_tag({:action => :mvp_s_test}, :id => "fs_form", :multipart => true) do %>
+			
+				<%= render :partial => '/fs_mvp/mvp_slider' %>	
+				
+				<div class="content">
+					<div class="steps">
+					<div class="steps_number left">1</div>
+					<p>Choose your top 5 skills</p>
+					</div>
+					
+					<!-- Email -->
+					<div class="steps ptop_10 pleft_40">Your email address</div>
+					<div class="tbl_su_form left pleft_45" style="width:300px;">
+     					<div id="user_login-email" style="margin-left:-10px;">
+						<input id="field_3-email" name="user_login[email]" type="text" class="input_3 mright_10" value="@ your email address..." onkeyup="field_keyup(this, 'btn_i_want_in');" onblur="field_blur(this);" onclick="field_click(this);" />
+						</div>
+					</div>
+					
+										
+					<!-- CV -->
+					<div class="steps clear ptop_10 pleft_40">Your CV [optional]</div>
+					<div class="tbl_su_form left pleft_45" id="field_4-cv" style="width:150px;padding-top:2px;" onclick="$('#field_5-cv_submit').click(); $(this).blur();">
+						<div id="cv-flyc_file" style="padding-top:13px;margin-left:-10px;"></div>
+					</div>
+					<div class="submit_but_wrapper" style="margin-left:235px;margin-top:3px;">
+						<input id="field_5-cv_submit" name="cv[flyc_file]" type="file" class="submit_but_off" onchange="field_file_changed(this, 'field_4-cv');">
+					</div>
+					<div class="steps clear pleft_40">200kb limit, .doc or .docx only</div>
+					
+					<!-- Sign-up -->
+					<div class="ptop_15 pleft_40 left" style="width:185px;font-size:12px;">
+						Your CV will be stored securely, will not be published without your permission and will be used to create your 5skills profile.
+					</div>
+					<div id="btn_sign_up" class="sighup_but left" onclick="fld_toggle(this, 4);" onmouseover="fld_toggle(this, 2);" onmouseout="fld_toggle(this, 3);">
+						<span>Create my 5skills profile!</span>
+					</div>
+					<div class="input_3_error left" id="user_login-email_error"></div>
+					
+					<div class="steps clear" style="padding-top:17px;">
+						<div class="steps_number left">2</div>
+						<p>View matching jobs</p>
+					</div>
+					
+					<div class="steps clear" style="padding-top:14px;">
+						<div class="steps_number left">3</div>
+						<p>Send your CV</p>
+					</div>
+					
+					<!-- <div class="arrow"><%= image_tag("mvp/arrow_2.png") %></div> -->
+					
+				</div>	
+				
+				<% end %>
+				
+				<div class="footer">
+					
+					<div class="right">
+						<%= render :partial => '/fs_mvp/mvp_social_share' %>
+					</div>					
+					
+				</div>			
+				
+			</div>
+		
+		</div>
+	</div>

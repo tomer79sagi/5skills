@@ -1,0 +1,20 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+	<head>
+  		<meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+	</head>
+<body>
+	
+<html>
+<body>
+	Yo <%= @person_name %> !
+	<br><br>
+	To activate your JOBBY account, please click on the following link: (if it doesn't work, copy the link into your browser)
+	<br><br>
+	<a href="http://localhost:3000/confirm/<%= @confirmation_email_key %>">CONFIRM REGISTRATION</a>
+</body>
+</html>
+
+

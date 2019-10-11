@@ -1,0 +1,30 @@
+<div class="content-body">
+				
+	<%= render :partial => '/main/messages', :locals => {:action => "login"} %>
+	
+	<% form_tag :action => :process_login, :controller => :admin_login do %>
+	
+		<table>
+		  <tr>
+		  	<td style="width:120px;">Email:</td>
+			<td>
+				<%= text_field 'person_login', 'email'%>
+				<%= error_message_on "person_login", "email", {:prepend_text => "Email ", :css_class => "error_message_field"} %>
+			</td>
+		  </tr>
+		  <tr>
+			<td>Password:</td>
+			<td>
+				<%= password_field 'person_login', 'password'%>
+				<%= error_message_on "person_login", "password", {:prepend_text => "Password ", :css_class => "error_message_field"} %>
+			</td>
+		  </tr>
+		  <tr>
+		  	<td></td>
+			<td style="text-align:left;"><%= submit_tag 'Login' %></td>
+		  </tr>
+		</table>
+	
+	<% end %>
+	
+</div>

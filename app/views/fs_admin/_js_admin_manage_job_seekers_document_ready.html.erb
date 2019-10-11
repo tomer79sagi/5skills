@@ -1,0 +1,17 @@
+$(".db_entity_row div.adm_actions_col").bind('click', function(e) {
+	alert('tomer');
+	return;
+	
+	var user_id = $(this).parent().find("[id=user_id]").html().replace(/[^\d]/g, '');
+	//var job_obj = $(this).parent().find("[id=job_id]");
+	//var job_id = null;
+	
+	//if (job_obj) { job_id = $.trim(job_obj.html()); }
+	
+	if (user_id == "-") {
+		alert("No 'user_id' exists, can't use this profile!");
+	} else {
+		window.open(g_server_url + 'admin/' + user_id + '/clone_login');
+	}
+});
+

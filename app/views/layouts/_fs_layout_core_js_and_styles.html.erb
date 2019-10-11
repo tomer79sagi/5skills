@@ -1,0 +1,36 @@
+<%= stylesheet_link_tag 'phase_1/messages' %>
+<%= stylesheet_link_tag 'jquery-ui/jquery-ui-1.8.20.custom' %>
+<%= stylesheet_link_tag 'impromptu/examples' %>
+  
+<%= stylesheet_link_tag 'styles' %>
+  
+<%= javascript_include_tag 'jquery-1.7.2.min', 'jquery-ui/jquery-ui-1.8.20.custom.min', 'application' %>
+<%= javascript_include_tag 'impromptu/jquery-impromptu.4.0.min' %>
+<%= javascript_include_tag 'bxSlider/jquery.bxSlider.min' %>
+
+  
+<%= render :partial => '/fs_ui/global_vars' %>
+
+<%= render :partial => '/fs_ui/list_field_creators' %>
+<%= render :partial => '/fs_ui/list_field_binders' %>
+<%= render :partial => '/fs_ui/list_field_event_handlers' %>
+
+<%= render :partial => '/fs_ui/input_field_creators' %>  
+<%= render :partial => '/fs_ui/input_field_removers' %>    
+
+<%# render :partial => '/fs_ui/init_lists' %>
+<%= render :partial => '/fs_ui/init_lists_simplified' %>
+<%= render :partial => '/fs_ui/init_lists_shared_functions' %>
+<%= render :partial => '/fs_ui/list_utilities' %>
+
+<%= render :partial => '/fs_ui/utilities' %>
+
+
+  
+<%= render :partial => '/five_skills/js' %>
+<%= render :partial => '/five_skills/js_ajax_functions' %>
+
+<%= render :partial => '/fs_job/js_ajax_functions' %>
+<%= render :partial => '/fs_job/js' %>
+<%= render :partial => '/fs_job_seeker/js_ajax_functions' %>
+<%= render :partial => '/fs_job_seeker/js' %>

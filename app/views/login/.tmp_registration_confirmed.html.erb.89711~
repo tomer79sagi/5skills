@@ -1,0 +1,8 @@
+<h1>Registration Complete!</h1>
+
+<%= render :partial => '/main/candidate_header' %>	
+<%= render :partial => '/main/messages' %>
+  
+<p/>
+
+Your registration is now complete. Please login to the site.

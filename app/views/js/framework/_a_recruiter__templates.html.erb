@@ -1,0 +1,18 @@
+<div id="templates">
+	
+	<%= render :partial => '/js/html_template/__fs_profile/_fs_profile' %>
+	<%= render :partial => '/js/html_template/__fs_profile/_bit__fs_profile' %>
+	
+	<% if params[:controller] == 'fs_job' %>
+	
+		<%= render :partial => '/js/html_template/recruiter/a_recruiter__headers' %>	
+		<%= render :partial => '/js/html_template/recruiter/a_recruiter__publish_job' %>
+	
+		<%= render :partial => '/js/html_template/recruiter/a_recruiter__left_nav' %>
+		<%= render :partial => '/js/html_template/recruiter/a_recruiter__publish_to_groups' %>
+		
+		<%= render :partial => '/js/html_template/recruiter/_workspace__social_posting' %>
+	
+	<% end %>
+	
+</div>

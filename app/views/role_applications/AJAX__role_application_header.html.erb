@@ -1,0 +1,105 @@
+  <!--[partial:header]-->
+
+	<% if session[:person_id] %>
+	
+	<% @url_action = 'create_application' if session[:page] == "main" && session[:mode] == 1 %>
+	<% @url_action = 'update_application' if session[:mode] == 2 %>
+			
+	<table class="header_3_table-body">
+
+		<tr>
+				<td><%= link_to '1. Role Details', edit_application_main_url %></td>
+					
+					<!--<td>
+						<%= link_to_remote('1. Role Details', 
+							:url => {:action => @url_action, :next => 'edit_application_main'},
+							:before => (fckeditor_before_js('role', 'description') if session[:page] == "main"), 
+							:success => %q(window.location.href = request.responseText), 
+							:submit => "role_application_details") %>
+					</td>-->
+					
+				<td> | </td>
+				<td><%= link_to '2. Agency Details', edit_application_agency_url %></td>
+					
+					<!--<td>
+						<%= link_to_remote('2. Agency Details', 
+							:url => {:action => @url_action, :next => 'edit_application_agency'},
+							:before => (fckeditor_before_js('role', 'description') if session[:page] == "main"), 
+							:success => %q(window.location.href = request.responseText), 
+							:submit => "role_application_details") %>					
+					</td>-->
+					
+				<td> | </td>
+				<td><%= link_to '3. Company Details', edit_application_company_url %></td>
+				
+					<!--<td>
+						<%= link_to_remote('3. Company Details', 
+							:url => {:action => @url_action, :next => 'edit_application_company'},
+							:before => (fckeditor_before_js('role', 'description') if session[:page] == "main"), 
+							:success => %q(window.location.href = request.responseText), 
+							:submit => "role_application_details") %>					
+					</td>-->				
+				
+				</td>
+				<td> | </td>
+				<td><%= link_to '4. Messages', edit_application_messages_url %></td>
+				
+					<!--<td>
+						<%= link_to_remote('4. Messages', 
+							:url => {:action => @url_action, :next => 'edit_application_messages'},
+							:before => (fckeditor_before_js('role', 'description') if session[:page] == "main"), 
+							:success => %q(window.location.href = request.responseText), 
+							:submit => "role_application_details") %>					
+					</td>-->					
+				
+				</td>
+				<td> | </td>
+				<td><%= link_to '5. Notes', edit_application_notes_url %></td>
+				
+					<!--<td>
+						<%= link_to_remote('5. Notes', 
+							:url => {:action => @url_action, :next => 'edit_application_notes'},
+							:before => (fckeditor_before_js('role', 'description') if session[:page] == "main"), 
+							:success => %q(window.location.href = request.responseText), 
+							:submit => "role_application_details") %>					
+					</td>-->					
+				
+				</td> 
+				
+				<td> | </td>
+				<td><!--<%= link_to '6. Notifications', edit_application_notifications_url %>-->
+				
+					<!--
+				
+					<td>
+						<%= link_to_remote('6. Notifications', 
+							:url => {:action => @url_action, :next => 'edit_application_notifications'},
+							:before => (fckeditor_before_js('role', 'description') if session[:page] == "main"), 
+							:success => %q(window.location.href = request.responseText), 
+							:submit => "role_application_details") %>					
+					</td>
+					
+					-->					
+				
+				</td>
+		</tr>
+						
+  	</table>
+	
+	<!--
+	<%= link_to_remote('Save', 
+		:url => {:action => @url_action, :next => 'edit_application_main'},
+		:before => (fckeditor_before_js('role', 'description') if session[:page] == "main"), 
+		:success => %q(window.location.href = request.responseText), 
+		:submit => "role_application_details") %>
+		
+	<%= link_to_remote('Save & Close', 
+		:url => {:action => @url_action, :next => 'view_applications'},
+		:before => (fckeditor_before_js('role', 'description') if session[:page] == "main"), 
+		:success => %q(window.location.href = request.responseText), 
+		:submit => "role_application_details") %>
+	-->		
+	
+	<% end %>		
+		
+  <!--[eopartial:header]-->

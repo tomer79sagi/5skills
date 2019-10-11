@@ -1,0 +1,34 @@
+<% if @total == 0 %>
+
+<p>No items found...</p>
+
+<% else %>
+
+<p>Number of items found : <b><%= @total %></b></p>
+
+<p>
+<%# if @keywords_pages.page_count > 1 %>
+Page&nbsp;:
+<%# pagination_links_remote @keywords_pages %>
+<%# end %>
+</p>
+
+
+<table>
+  <thead>
+    <tr>
+      <td>
+        Keyword
+      </td>
+    </tr>
+  </thead>
+  <tbody>
+    <% @keywords.each do |i| %>
+    <tr class="<%= cycle("even","odd") %>">
+      <td><%= i.keyword %></td>
+    </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<% end %>

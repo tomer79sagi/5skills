@@ -1,0 +1,387 @@
+<script type="text/javascript">
+
+var map_context_switches = [
+
+	// -- Core --
+	"__w__core",
+	
+	// -- Workspace --
+	"__w__a_recruiter__publish_job",
+	"__w__a_recruiter__job_publishing_home",
+	
+	"__w__recruiter_home", 
+	"__w__manage_company", 
+	"__w__manage_job", 
+	"__w__my_account",
+	
+	// -- Main content --
+	"__c__a_recruiter__publish_job",
+	"__c__a_recruiter__job_publishing_home",
+	
+	"__c__job__results",
+	"__c__job__job_seeker_match",
+	"__c__job__social_publishing",
+	"__c__company__general",
+	"__c__company__media"
+	
+];
+
+var context = {
+	"workspace": {
+		"_default": "__w__manage_job",
+		"_selected": "__w__manage_job"
+	},
+	"main_content": {
+		"_default": "__c__job__results",
+		"_selected": "__c__job__results"
+	},
+	
+	"a_recruiter_workspace": {
+		"_default": "__w__a_recruiter__publish_job",
+		"_selected": "__w__a_recruiter__publish_job"
+	},
+};
+
+
+
+// ALPHA LAUNCH section
+// ------------------------------------------
+
+function __W__a_recruiter__publish_job__SWITCHER__() {
+	
+	render('template__a_recruiter__header__1_line', '.header');
+	panel__workspace.open('north');
+	
+	panel__workspace.sizePane('north', 41);
+	
+	// Create the main content area
+	switch_to("__c__a_recruiter__publish_job");
+}
+
+function __C__a_recruiter__publish_job__SWITCHER__() {
+	
+	render('template__a_recruiter__publish_job', '.bb');
+	
+	for (var i = 0 ; i<5 ; ++i) {
+		$(".skills_profile_top_5").append(create_blank_primary_skill((i + 1).toString()));
+		attach_primary_field_binders((i + 1).toString(), true);
+	}
+	
+	$(".bb #btn_add_skills_panel").hide(); // Hide '+' and 'C' buttons
+	$(".bb #template__fs_profile:first #header_info").hide();
+	$(".bb #template__fs_profile:first #fld_fs_profile").css("padding-left", "0px");
+	$(".bb #template__fs_profile:first").show();
+	
+	$(".bb #template__fs_profile").show();
+	
+		
+	// -- 3 - Run the 'search'
+	// if (is_dirty('job_fs_profile') || extract_skills_from_flat_profile()) {
+		// ajax_it("search_job_seekers");
+	// }
+}
+
+
+function __W__a_recruiter__job_publishing_home__SWITCHER__() {
+
+	$(".header").css("border", "none");
+	
+	panel__workspace.sizePane('north', 90);
+	panel__workspace.open('north');
+	panel__workspace.open('west');
+	
+	render('template__a_recruiter__header__2_lines', '.header');
+	render('template__a_recruiter__left_nav', '#workspace__left_nav');
+	
+	// Create the main content area
+	switch_to("__c__a_recruiter__job_publishing_home");
+}
+
+function __C__a_recruiter__job_publishing_home__SWITCHER__() {
+	
+	// Render the main content area
+	
+	// Render top naviation - 3rd level
+	render('template__a_recruiter__top_nav__3rd_level', '.3rd_north');
+	// render('template__a_recruiter__footer__3rd_level', '.3rd_south');
+	render('template__a_recruiter__publish_to_groups', '.bb');
+	
+	panel__fs_profile.open('north');
+	// panel__fs_profile.open('south');
+	
+		
+	// -- X. Get the LinkedIn groups
+	
+	ajax_it("get_linkedin_groups");
+	ajax_it("get_job_status");
+}
+
+// ------------------------------------------
+
+
+
+function __W__core__SWITCHER__() {
+	render('template__notifications_bar', '#_notifications_bar', 'notification-job_applications', true);
+}
+
+function __W__recruiter_home__SWITCHER__() {
+	alert('no HOME workspace defined yet!');
+}
+
+function __W__manage_company__SWITCHER__() {
+	$("#header_title").css("color", "#000");
+	$("#header_title").css("font-style", "normal");
+	$("#header_title").html("My Company");
+
+	// Update the left nav
+	render('template__left_nav__recruiter__manage_company', '#workspace__left_nav');
+	
+	switch_to("__c__company__general");
+}
+
+function __W__manage_job__SWITCHER__() {
+	$("#header_title").css("color", "#fff");
+	$("#header_title").css("font-style", "italic");
+	// $("#header_title").html("Leading Client Developer");
+
+	// Update the left nav
+	render('template__left_nav__recruiter__single_job', '#workspace__left_nav');
+	switch_to("__c__job__results");
+}
+
+function __W__my_account__SWITCHER__() {
+	$("#header_title").css("color", "#000");
+	$("#header_title").css("font-style", "normal");
+	$("#header_title").html("My Account");
+	
+	// Update the left nav
+	alert('not implemented yet');
+}
+
+
+
+function __C__job__results__SWITCHER__() {
+	// Stop the refreshing of the search
+	// _reset_action_timer(1);
+	
+	unbind_fields("__c__job__fs_profile");
+	
+	panel__fs_profile_choose_skills.close('west');
+	panel__fs_profile.open('west');
+	
+	// -- 1 - Render (first, display skeleton, to show that there's something there)
+	render('template__results', '.bb', 'job-active fs_profile-active job_seeker-all', true);
+	
+	// -- Set active entity (either visible or not)
+	// alert(_get("active__job__id"));
+	
+	// -- Initialize fs_profile	
+	render('template__fs_profile', '#workspace__left_fs_profile', 'job-active fs_profile-active');
+	
+	// Initialize the SORTABLE functionality
+	_init_template("#workspace__left_fs_profile .skills_profile_top_5");
+	
+	// -- 2 - Initialize (if needed)
+	$("#btn_add_skills_panel").show();
+	
+	// Bind the '+', 'C' and '<<' buttons
+	// NB: The reason this 'binding' is done here, is because CURRENTLY the 'switcher' binders for the search results
+	// 	   unbind and bind the search results and they are executed during the _REQ_ and _RES_ of the 'search job seekers' call
+	bind_fields("__c__job__fs_profile");
+	
+	// -- 3 - Run the 'search'
+	// if (is_dirty('job_fs_profile') || extract_skills_from_flat_profile()) {
+		// ajax_it("search_job_seekers");
+	// }
+}
+
+function __C__job__job_seeker_match__SWITCHER__() {
+	
+	// Change the header (show match % and header info in the 2nd header)
+	
+	
+	panel__fs_profile_choose_skills.close('west');
+	panel__fs_profile.open('west');
+	panel__fs_profile.open('east');
+	
+	render('template__job_seeker_match', '.bb');
+	render('template__right_nav__job_seeker__match', '#panel__stats');
+	
+	// alert('t');
+	
+	// if (is_dirty('job_fs_profile') || extract_skills_from_flat_profile()) {
+		// ajax_it("search_job_seekers");
+	// }
+}
+
+function __C__job__social_publishing__SWITCHER__() {
+	// Stop the refreshing of the search
+	// _reset_action_timer(1);
+	
+	panel__fs_profile_choose_skills.close('west');
+	panel__fs_profile.close('west');
+	render('template__social_posting', '.bb');
+	
+	// ------------------ Accordion test ------------------
+	//$( "#accordion" ).accordion({
+		//heightStyle: "fill" 
+	//});
+	// ------------------ Accordion test ------------------
+	
+	ajax_it("get_social_groups");
+}
+
+function __C__job__new_publishing__SWITCHER__() {
+	// Stop the refreshing of the search
+	// _reset_action_timer(1);
+	
+	panel__fs_profile_choose_skills.close('west');
+	panel__fs_profile.close('west');
+	render('template__job__new_publishing', '.bb');
+	
+	ajax_it("get_job_publishing_info");
+}
+
+function __C__publishing_job__SWITCHER__() {
+	
+	render('template__publishing_job', '.bb');
+	
+	ajax_it("publish_job");
+}
+
+function __C__company__general__SWITCHER__() {
+	// Stop the refreshing of the search
+	// _reset_action_timer(1);
+	
+	panel__fs_profile_choose_skills.close('west');
+	panel__fs_profile.close('west');
+	
+	render('template__recruiter__company', '.bb');
+	
+	// ajax_it("get_social_groups");
+}
+
+function __C__company__media__SWITCHER__() {
+	// Stop the refreshing of the search
+	// _reset_action_timer(1);
+	
+	panel__fs_profile_choose_skills.close('west');
+	panel__fs_profile.close('west');
+	render('template__recruiter__media', '.bb');
+	
+	// ajax_it("get_social_groups");
+}
+
+
+
+function _init_template(_element_obj) {
+		
+	$(_element_obj).sortable({
+		connectWith: ".skills_profile_additional",
+	    axis: "y",
+	    cancel: "li[blank=true]",
+	    tolerance: "pointer",
+	    cursorAt: {top:10, left: 15},
+	    
+	    start: function(event, ui) {
+	    	
+			init_s_start($(this), $(ui.item));
+			
+	    }, update: function( event, ui ) {
+	    	
+	    	console.log('list update');
+	    	
+	    	// ajax_it("fs_profile_updated");
+	    	_dirty('job_fs_profile');
+	    	if (_st) { console.log('in_clear: '); clearTimeout(_st); }
+	    	
+			
+	    }, over: function (event, ui) {
+	    	
+	    	init_s_over($(this));
+	    	
+	    	if (g_primaries.indexOf(g_cache.prev_target_list_id) != -1) {
+	    		replace_prev_primary_skill();
+	    	}
+	    	
+	    	// IF arrived from secondary and into primary AND start is PRIMARY or SECONDARY = cache existing primary, change helper into primary
+	    	// console.log('xxxxxxx: ' + g_primaries.indexOf(g_cache.curr_target_list_id) + ' ; ' + g_primaries.indexOf(g_cache.prev_target_list_id)+ ' ; ' + g_secondaries.indexOf(g_cache.prev_target_list_id));
+	    	if (g_primaries.indexOf(g_cache.curr_target_list_id) != -1) {
+	    		
+	    		convert_item_to_skill($(this), $(ui.item), 3);
+	    		
+	    	// IF arrived from primary and into secondary AND start is PRIMARY or SECONDARY = CHANGE to secondary
+	    	} else if (g_secondaries.indexOf(g_cache.curr_target_list_id) != -1) {
+	    		
+	    		convert_item_to_skill($(this), $(ui.item), 2);
+	    		
+	    	}    
+	    		
+	    }, sort: function(event, ui) {
+	    	// console.log("sort");
+	    	
+		}, stop: function(event, ui) {
+	    	
+	    	// In case the previous sortable was primary, attach the appropriate binders
+	    	if (g_primaries.indexOf(g_cache.prev_target_list_id) != -1) {
+	    		var skill_index = g_primaries.indexOf(g_cache.prev_target_list_id) + 1;
+	    		
+	    		if (g_cache.start_list_id != g_cache.prev_target_list_id) {
+	    			attach_primary_field_binders(skill_index);
+	    		} else if (g_cache.start_list_id == g_cache.prev_target_list_id) {
+	    			attach_primary_field_binders(skill_index, true);
+	    		}
+	    		
+	    	} else if (g_primaries.indexOf(g_cache.start_list_id) != -1) {
+	    		if (g_cache.start_list_id != g_cache.prev_target_list_id) {
+	    			attach_primary_field_binders(g_primaries.indexOf(g_cache.start_list_id) + 1, true);
+	    		}
+	    	}         	
+	    	
+	    	// Attach the appropriate 'event binders' to the fields (if current sortable is primary))
+	    	if (g_primaries.indexOf(g_cache.curr_target_list_id) != -1) {
+	    		
+	    		// Remove the previous 'click' event handler
+	    		$(ui.item).unbind('click');
+	    		
+	    		// Add the primary event handlers
+	    		attach_primary_field_binders(g_primaries.indexOf(g_cache.curr_target_list_id) + 1);
+	    		
+	    	// If the current sortable is secondary, attach the subskill binders 
+	    	} else if (g_secondaries.indexOf(g_cache.curr_target_list_id) != -1) {
+	    		// console.log("start [secondary]: " + $(ui.item).html());
+	    		attach_sub_skill_field_binders($(ui.item));
+	    	}
+	    	
+	    	if ($(ui.item) && $(ui.item) != undefined && g_cache.curr_target_html_content) {
+	        	$(ui.item).css("width", g_cache.curr_target_html_content.css("width"));
+	        	$(ui.item).attr("id", "skill_" + parseInt(g_primaries.indexOf(g_cache.curr_target_list_id) + 1));
+	    	}
+	    	
+	    	g_cache.curr_target_list_id = null;
+	    	g_cache.curr_target_html_content = null;
+	    	
+	    }
+	}).disableSelection();
+	
+	
+	$( ".skills_profile_additional" ).sortable({
+		connectWith: ".skills_profile_top_5",
+	    axis: "y",
+	    tolerance: "pointer",
+	    cursorAt: {top:10, left: 15},
+	    update: function( event, ui ) {
+	    	// console.log('update');
+	    	
+	    	// ajax_it("fs_profile_updated");
+	    	_dirty('job_fs_profile');
+			
+	    }, over: function (event, ui) {
+	    	
+	    	
+	    }
+	}).disableSelection();
+}
+
+
+</script>

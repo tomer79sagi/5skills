@@ -1,0 +1,112 @@
+<% content_for :head do %>
+  <title>FLYC: Job Applications</title>
+<% end %>
+
+<div style="padding:0px 0px 20px 0px;">
+	<div style="width:50%;text-align:left;float:left;">
+		<span class="content-title">My Job Applications</span>
+	</div>
+	<div style="width:50%;text-align:right;float:left;">
+		<%= link_to 'Feedback for this page (3)', view_applications_url, :class => "content_link" %>
+	</div>
+</div>
+
+<%= render :partial => '/main/messages', :locals => {:action => "general"} %>
+
+<%= render :partial => '/main/header_3' %>
+
+<!--
+<div class="content_actions">
+	<table class="content_actions_table-body">
+		<tr>
+			<td><%= link_to 'New Application', add_application_url(:application_id => 0) %> </td>
+		</tr>
+  	</table>
+</div>
+-->
+
+<!-- APPLICATIONS -->
+
+<% if @role_applications.nil? %>
+
+	No Applications found!
+	
+<% else %>
+
+	<% @role_applications.each do |application| %>
+
+		<div style="clear:left;text-align:left;">
+		
+		<div class="top_padding_1">	
+		<table style="width:100%;">
+			<tr style="vertical-align:top;">
+				
+				<td style="margin:0px 0px 0px 1px;">
+					<div style="width:864px;border:1px solid #00ffff;float:left;min-height:80px;background-color:#cef5c2;">
+					
+						<!-- Job Application Details -->
+						<table style="width:100%;text-align:left;">
+							<tr style="vertical-align:top;">
+								
+								<td class="template_cell_title_content" style="width:200px;font-size:20px;line-height:24px;vertical-align:top;">
+									<%= link_to application.role_title, view_application_url(:application_id => application.application_id) %>
+								</td>
+								<td class="template_cell_title_content" style="width:110px;">
+									<% if application.application_status_id %>
+										<%= ['Created', 'Sent', 'Short Listed', 
+											'Interview Scheduled', 'Waiting Decision', 'Offer Made',
+											'Accepted Offer', 'Rejected Offer', 'Application Declined'][application.application_status_id.to_i]%>
+									<% end %>
+								</td>
+								<td class="template_cell_agency_content" style="width:170px;">
+									<b>
+										<% if application.agency_name %>
+											<%= link_to application.agency_name, view_application_agency_url(:application_id => application.application_id) %>
+										<% end %>
+									</b><br/>
+									&nbsp;<%= application.agent_first_name %> <%= application.agent_last_name %><br/>
+									&nbsp;&nbsp;<%= application.agent_work_phone %><br/>
+									&nbsp;&nbsp;<%= application.agent_mobile %>
+								</td>
+								<td class="template_cell_company_content" style="width:170px;">
+									<b>
+										<% if application.company_name %>
+											<%= link_to application.company_name, view_application_company_url(:application_id => application.application_id) %>
+										<% end %>
+									</b><br/>
+									&nbsp;<%= application.company_contact_first_name %> <%= application.company_contact_last_name %><br/>
+									&nbsp;&nbsp;<%= application.company_contact_work_phone %><br/>
+									&nbsp;&nbsp;<%= application.company_contact_mobile %>
+								</td>
+								<td class="template_cell_closing_date_content">
+								<% if application.role_close_date %>
+									<b><%= application.role_close_date.to_datetime.strftime '%A' %></b><br/>
+									&nbsp;<%= application.role_close_date.to_datetime.strftime '%d %b %y' %><br/>
+									&nbsp;&nbsp;<%= application.role_close_date.to_datetime.strftime '%I:%M%p' %>
+								<% end %>
+								</td>
+								<td class="template_cell_last_updated_date_content" style="width:99px;text-align:left;">
+									<b><%= application.application_updated_at.to_datetime.strftime '%A' %></b><br/>
+									&nbsp;<%= application.application_updated_at.to_datetime.strftime '%d %b %y' %><br/>
+									&nbsp;&nbsp;<%= application.application_updated_at.to_datetime.strftime '%I:%M%p' %>
+								</td>
+								
+							</tr>
+						</table>
+					</div>
+					<div style="padding:1em 0em 0em 0em;">
+						<div style="padding:.5em 0em .5em 0em;width:100px;border-top:1px solid gray;border-bottom:1px solid gray;border-right:1px solid gray;float:left;text-align:center;">
+							<%= link_to 'Notes (??)', view_application_notes_url(:application_id => application.application_id) %>
+						</div>
+					</div>
+				</td>	
+				
+			</tr>
+		</table>
+		</div>
+		
+		</div>
+
+	<% end %>
+	
+<% end %>

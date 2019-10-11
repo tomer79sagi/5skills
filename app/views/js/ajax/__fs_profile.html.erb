@@ -1,0 +1,146 @@
+<script type="text/javascript"> 
+
+function _REQ_save_job_fs_profile(){
+	var json_arr = {};
+
+	$("#job_update_status").html("Saving...");
+	$("#job_update_status").fadeIn("slow");
+	
+	json_arr.skills_profile = extract_skills_from_flat_profile();
+	
+	// ------- Instruction to send emails to matches! -------
+	// json_arr.send_emails = true;
+	
+	// ------- Grab the 'job_id' -------
+	json_arr.job_id = $("#job").attr("job_id"); 
+	console.log("job_id: " + $("#job").attr("job_id"));
+	
+	return {action: "ajax/job/save", data: json_arr};
+}
+
+function _RES_save_job_fs_profile(data, status_i) {
+	$("#job_update_status").css("background-color", "green");
+	$("#job_update_status").css("color", "white");
+	$("#job_update_status").html("Saved!").fadeIn("slow").delay(2000).fadeOut("slow");
+	
+	$("#job").attr("job_id", data.job_id);
+	$("#btn_publish").removeAttr("disabled");
+}
+
+function _RES_ERR_save_job_fs_profile(data, status_i) {
+	$("#job_update_status").css("background-color", "red");
+	alert('error!');
+}
+
+function _REQ_search_job_seekers(){
+	var json_arr = {};
+	
+	// -- 1 - Unbind the current click handlers
+	unbind_fields("__c__job__results");
+
+	// $(".bb .fs_results").fadeTo("slow", 0.5);
+	_loading("template__fs_profile__results", $(".bb ._loading"));
+	
+	json_arr.skills_profile = extract_skills_from_flat_profile();
+	
+	return {action: "ajax/job_seeker/search", data: json_arr};
+}
+
+function _RES_search_job_seekers(data, status_i) {
+	
+	var curr_element;
+	
+	// Remove the 'loading' spinning thing
+	_ready("template__fs_profile__results", $(".bb ._loading"));
+	
+	// Update the total number of job seekers
+	$("#panel__stats div[id='total_job_seekers']").html(data.results.length);
+	
+	// Clear the deck
+    $(".bb .fs_results").empty();
+	
+	if (!data || !data.results || !data.results.length || data.results.length == 0) {
+		// $("#total_matches span").html("0");
+		var no_results = $('<div></div>');
+		
+		$(no_results).css("font-size", "24px");
+		$(no_results).css("color", "#228B22");
+		$(no_results).css("margin-top", "10px");
+		$(no_results).html("No results found");
+		
+		no_results.appendTo(".bb .fs_results").show();
+		return;
+	} else {
+	    	
+    	// Add new rows
+		var i = 0;
+		var job_seeker = null;
+		
+		for (var i = 0 ; i < data.results.length ; ++i) {
+			job_seeker = create_job_seeker_result_div(data.results[i]);
+			job_seeker.appendTo(".bb .fs_results").show();
+		}
+		
+		// Fade them in
+		$(".bb .fs_results").fadeTo("fast", 1);
+		
+		// -- 1 - Unbind the current click handlers
+		bind_fields("__c__job__results");
+	}
+	
+}
+
+function pop(collection) {
+	
+}
+
+function _REQ_save_job_seeker_fs_profile(data){
+	var json_arr = {};
+	
+	json_arr.skills_profile = extract_skills_from_lists();
+	// json_arr.send_emails = true;
+	
+	return {action: "ajax/job_seeker/save", data: json_arr};
+}
+
+function _RES_save_job_seeker_fs_profile(data, status_i) {
+	$("#save_fs_button").html("Save");
+	$("#save_fs_button").removeAttr("disabled");
+}
+
+function _RES_ERR_save_job_seeker_fs_profile(data, status_i) {
+	// alert('fail');
+}
+
+function _REQ_fs_profile_updated() {
+	
+	renumber_fs_profile();
+	
+	// _dirty('job_fs_profile');
+	
+	<% if params[:controller] == "fs_job_seeker_controller" && params[:action] == "home" %>
+	
+		return {ajax_actions: ["search_job_seekers", "save_job_fs_profile"]};
+	
+	<% else %>
+	
+		// alert('test');
+	
+	<% end %>
+}
+
+function _REQ_change_primary_skill(data){
+	// Hop to the years experience block
+	var skill_index = data.field_o.parents("[orig_value]").attr("id").split("_")[1];
+
+	// Manual 'hopping' to next element
+	// convert_yrsexp_to_input($("#skill_" + skill_index + "_yrs"));
+	convert_input_to_primary_skill(data.field_o, data);
+	
+	// Jump through to the years component
+	hop_to_next_element(data.field_o);
+}
+
+function _RES_change_primary_skill(data, status_i){ }
+
+</script>

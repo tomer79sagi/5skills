@@ -1,0 +1,85 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+<% content_for :title do %>
+	Job seeker
+<% end %>
+
+<div class="header" style="padding:0px;border:none;">
+	
+	<%= render :partial => '/fs_admin/_admin_site_header' %>
+
+	<div id="job" job_id="" is_published="false" style="padding:5px;padding-left:10px;height:40px;background-color:#808080;border:none;">
+		<div id="img_logo" style="float:left;width:100px;margin-top:7px;margin-left:10px;">
+			
+		</div>
+		<div style="width:500px;float:left;">
+			<div id="header_title" style="margin-left:7px;margin-top:7px;width:390px;font-size:24px;float:left;font-style:italic;color:#fff;"></div>
+		</div>
+		
+		<div id="job_update_status" style="background-color:yellow;display:none;text-align:center;padding-left:30px;padding-top:3px;margin-top:10px;margin-left:25px;height:20px;width:100px;font-size:12px;float:left;font-weight:bold;text-align:left;color:#000;"></div>
+	</div>
+</div>
+
+<!-- WEST - LEFT NAV -->
+
+<div id="workspace__left_nav" class="col1" style="padding:0px;text-align:center;border:none;border-right:1px solid #BDDCBD;"></div>
+
+
+<!-- CENTER --> 
+
+<div class="ui-layout-center col234" style="padding:0px;border:none;">
+	
+	<!-- WEST : Select skills from list -->
+	
+	<div class="col2" style="background-color:#D3E8D3;border:none;padding:0px 0px 0px 4px;">
+
+		<div class="" style="margin-left:0px;padding-left:0px;padding-top:9px;width:297px;float:left;">
+			
+			<%= render :partial => '/js/html_template/__fs_profile/_fs_profile_choose_skills' %>
+			
+		</div>
+	</div>
+	
+	<!-- CENTER -->
+	
+	<div class="ui-layout-center col3" style="width:300px;border:none;padding:0px;"> 
+		
+		<!-- WEST : 5skills profile -->
+		
+		<div class="aa" style="width:300px;border:none;background-color:#D3E8D3;">
+			
+			<div id="btn_add_skills_panel" style="width:20px;font-size:30px;cursor:pointer;float:left;text-align:center;">
+				<div style="font-size:30px;">+</div>
+				<div style="font-size:30px;margin-top:5px;">C</div>
+			</div>
+			<div style="width:260px;float:left;">
+				
+				<%= render :partial => '/js/html_template/__fs_profile/_fs_profile' %>
+				
+			</div>
+			
+		</div>
+		
+		<!-- CENTER : Search results -->
+		
+		<div class="ui-layout-center bb" style="border:none;background-color:#E9F3E9;">
+			
+		</div>
+	</div>
+</div>
+
+<!-- EAST : Statistics -->
+
+<div id="panel__stats" class="col5" style="border:none;text-align:center;border-left:1px solid #BDDCBD;">
+	<div id="total_job_seekers" style="font-size:36px;font-weight:bold;">
+		?
+	</div>
+	<div style="font-size:16px;font-weight:normal;">
+		Job seekers found
+	</div>
+</div>
+
+
+

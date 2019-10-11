@@ -1,0 +1,17 @@
+
+div#dhtmlgoodies_listOfItems{
+	display:none;
+}
+body{
+	background-color:#FFF;
+}
+img{
+	display:none;
+}
+#dhtmlgoodies_dragDropContainer{
+	border:0px;
+	width:100%;
+}
+p{
+	margin-bottom:0px;
+}

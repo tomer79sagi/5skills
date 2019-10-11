@@ -1,0 +1,25 @@
+<% content_for :head do %>
+  <title>FLYC: PHP Developer</title>
+<% end %>
+
+<% content_for :title do %>
+	<span class="content-title">'PHP Developer'</span>
+<% end %>
+
+<% content_for :bread_crumbs do %>
+
+	<div style="width:100%;padding:0em 0em .5em 0em;float:right;text-align:left;">
+		<span class="content-title" style="font-size:12px;font-weight:normal;">My Roles</span>
+		>
+		<span class="content-title" style="font-size:12px;font-weight:normal;">'PHP Developer' (role)</span>
+		>
+		<span class="content-title" style="font-size:12px;font-weight:bold;">Details</span>
+	</div>
+	
+<% end %>
+
+<%= render :partial => 'company_contact/company_contact_role_summary' %>
+
+<%= render :partial => '/main/messages', :locals => {:action => "general"} %>
+
+<%= render :partial => 'company_contact/company_contact_role_details' %>

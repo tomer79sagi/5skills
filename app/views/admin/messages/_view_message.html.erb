@@ -1,0 +1,85 @@
+<div style="width:750px;float:left;min-height:80px;padding:1em 0em 0em 0em;">
+	
+	<%= render :partial => 'admin/messages/header' %>
+	
+	<div style="background-color:#cef5c2;width:100%;text-align:left;border:1px solid #cef5c2;padding:1em 0em 0em 1em;margin:-1px 0px 20px 0px;">
+		
+		<%= paginate %>
+		
+		<% @local_counter = @pagination_info[:starting_point].to_i + 1 %>
+		
+		<% if session[:page] == "inbox" %>
+		
+			<div style="margin:0em 1em 1em 0em;text-align:right;border-bottom:1px gray solid;">
+				<%= link_to 'Reply', admin_reply_to_message_url(:message_id => @message_id), :class => "content_link" %>
+			</div>
+		
+		<% end %>
+		
+		<% @messages.each do |message| %>
+		
+			<div style="width:30px;text-align:center;font-size:18px;float:left;min-height:80px;">
+				<b><%= @local_counter %></b>
+			</div>
+	
+			<% if message.message_status_id == 1 # Unread %>
+				<% @bg_color = "cefff6" %>
+			<% elsif message.message_status_id == 2 # Read %>
+				<% @bg_color = "ceffd6" %>
+			<% end %>
+			
+			<% if message.sender_id == session[:user].id # I'm the sender %>
+				<% @margin = "0em -1.35em 1em 5em" %>
+				<% @bg_color = "ceffc2" %>
+			<% else # I'm the reciever %>
+				<% @margin = "0em 1em 1em 0em" %>
+			<% end %>
+			
+			<table valign="top" style="background-color:#<%= @bg_color %>;margin:<%= @margin %>;">
+			
+				<tr style="vertical-align:top;">
+											
+					<td class="template_cell_title_content" style="width:150px;font-size:14px;line-height:24px;vertical-align:top;">
+						<%= message.sender_first_name %> <%= message.sender_last_name %>
+					</td>
+					<td class="template_cell_title_content" style="width:405px;font-size:14px;line-height:24px;vertical-align:top;">
+						<b><%= message.subject %></b>
+					</td>
+					<td class="template_cell_title_content" style="width:100px;font-size:14px;line-height:24px;vertical-align:top;">
+						<%= type_value(MyMailerMetadata.message_statuses, message.message_status_id) %>
+					</td>
+					<td class="template_cell_last_updated_date_content" style="width:100px;text-align:left;">
+						<b><%= message.created_at.to_datetime.strftime '%d %b %y' %></b><br/>
+						<%= message.created_at.to_datetime.strftime '%I:%M%p' %><br/>
+						<%= message.created_at.to_datetime.strftime '%A' %>
+					</td>
+					
+				</tr>
+				<tr style="vertical-align:top;">
+				
+					<td colspan="3" class="template_cell_title_content" style="padding:2em 0em 0em 2em;width:150px;font-size:12px;line-height:24px;vertical-align:top;">
+						<%= message.message_html %>
+					</td>
+					
+				</tr>
+						
+			</table>
+			
+		<% @local_counter = @local_counter + 1 %>
+	
+		<% end %>
+		
+		<% if session[:page] == "inbox" %>
+		
+			<div style="margin:0em 1em 1em 0em;text-align:right;border-top:1px gray solid;">
+				<%= link_to 'Reply', admin_reply_to_message_url(:message_id => @message_id), :class => "content_link" %>
+			</div>
+			
+		<% end %>
+		
+	</div>
+	
+	<div style="width:750px;text-align:right;padding:0em 0em 1em 0em;">
+		Delete Message
+	</div>
+</div>

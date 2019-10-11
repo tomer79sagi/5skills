@@ -1,0 +1,200 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+<% content_for :title do %>
+	Job seeker
+<% end %>
+
+<div class="body_container">
+	
+	<div class="message_main mtop_15">
+		<div class="message_main_container_left ptop_10"></div>
+		<div class="message_main_container_body ptop_10">
+			<div class="message_main_h1">Done! <span>below is your anonymous professional profile</span></div>
+			<div class="message_main_h2">
+				5skills is in early BETA, we will email you shortly. <span><%= mail_to 'tomer@5skills.me', 'Contact us.', :style => "color:white;" %></span>
+			</div>
+		</div>
+		<div class="message_main_container_right ptop_10"></div>
+	</div>
+	
+	<div class="left_panel">
+		
+		<div class="panel_h1">Job preferences</div>
+		<div class="left_panel_body mtop_5 ptop_5 pleft_10">
+			
+			<div class="left_panel_h2 mtop_10 mleft_10">Top 5 skills</div>
+			<div class="">
+				<% 5.times do |i| %>
+				
+					<div class="single_top_skill">
+						<div class="single_top_skill_container_left"></div>
+						<div class="single_top_skill_name">
+							<% if @my_profile['skills'] && @my_profile['skills']['values'][i] %>
+								<%= @my_profile['skills']['values'][i]['skill']['name'] %>
+							<% else %>
+								?
+							<% end %>
+						</div>
+						<div class="single_top_skill_container_right"></div>
+					</div>
+					
+				<% end %>
+			</div>
+			
+			
+			<% if @my_profile['skills'] && @my_profile['skills']['values'].length > 5 %>
+			
+				<div class="left_separator">
+					<hr style="width:200px;"/>
+				</div>
+				
+				<div class="left_panel_h2 mtop_5 mbottom_10 mleft_10">Additional skills</div>
+				<div class="">
+					<% 5.times do |i| %>
+					
+						<% if @my_profile['skills']['values'][i + 5] %>
+						
+							<div class="single_additional_skill">
+								<div class="additional_skill_container_left"></div>
+								<div class="single_additional_skill_name" style="width:<%= width_for_additional_skill(@my_profile['skills']['values'][i + 5]['skill']['name'], 27) %>px;"><%= @my_profile['skills']['values'][i + 5]['skill']['name'] %></div>
+								<div class="additional_skill_container_right"></div>
+							</div>
+							
+						<% else %>
+						
+						<% end %>
+					
+					<% end %>
+					
+					<% if @my_profile['skills']['values'].length > 10 %>
+						<div class="more_label pleft_10 ptop_5">+<%= (@my_profile['skills']['values'].length - 10).to_s %> skills</div>
+					<% end %>
+				</div>
+				
+			<% end %>
+			
+			
+			<div class="left_separator">
+				<hr style="width:200px;"/>
+			</div>
+			
+			<div class="left_panel_h2 mtop_5 mleft_10" style="margin-bottom:3px;">Additional requirements</div>
+			<div class="">
+				<div class="additional_req_title ptop_5">Job types</div>
+				<div class="additional_req_name">Full time</div>
+			</div>
+			<div class="">
+				<div class="additional_req_title ptop_5">Locations</div>
+				<div class="additional_req_name">Tel Aviv (Israel)</div>
+			</div>
+			<div class="">
+				<div class="additional_req_title ptop_5">Company types</div>
+				<div class="additional_req_name">Small, Medium, Large, Very Large</div>
+			</div>
+			<div class="">
+				<div class="additional_req_title ptop_5">Salary range</div>
+				<div class="additional_req_name">No minimum</div>
+			</div>
+			<div class="">
+				<div class="additional_req_title ptop_5">Industries</div>
+				<div class="additional_req_name">Information technology and services</div>
+			</div>
+			
+		</div>
+		
+	</div>
+	
+	<div class="right_panel">
+		
+		<div class="panel_h1">Anonymous cv</div>
+		<div class="right_panel_body mtop_5">
+			
+			<div class="right_panel_header">
+				<div class="right_panel_header_top mtop_5 mleft_10 ">
+					<div class="right_panel_header_top_left">
+						
+						<% @anon_current_positions.each do |position| %>
+							<div class="right_panel_header_top_left_position">
+								<span class="position_title_summary"><%= position[:title] %></span> at <span class="company_size_summary"><%= position[:company_size] %></span> <span class="company_industry_summary"><%= position[:company_industry] %></span> company 
+							</div>
+						<% end %>
+						
+					</div>
+					<div class="right_panel_header_top_right">
+						<% if @my_profile['industry'] %>
+							<span class="company_industry_summary" style="font-size:11px;">
+								<%= @my_profile['industry'].to_s %>
+							</span>
+						<% end %>
+						|
+						<% if @my_profile['location'] %>
+							<%= @my_profile['location']['name'].to_s %>
+						<% end %>
+					</div>
+				</div>
+			</div>
+			
+			<div class="right_panel_header_2">
+				<div class="right_panel_header_top ptop_5 mleft_10 ">
+					
+					<% if @my_profile['educations'] && @my_profile['educations']['values'] %>
+					
+						<% @my_profile['educations']['values'].each do |education| %>
+							<div class="right_panel_header_top_left_education">
+								<span class="education_title_summary"><%= education['degree'] %></span> in <span class="education_field_summary"><%= education['fieldOfStudy'] %></span> from <%= education['schoolName'] %> 
+							</div>
+						<% end %>
+						
+					<% end %>
+					
+				</div>
+			</div>
+			
+			<div class="cv_body">
+				
+				<div class="cv_body_title_container">
+					<div class="cv_body_title_text">Experience</div>
+				</div>
+				
+				<div class="cv_rows">
+					
+					<% @anon_positions.each do |position| %>
+						<div class="cv_row">
+							<div class="cv_row_left">
+								<div class="cv_row_title">
+									<%= position[:title] %>
+								</div>
+								<div class="cv_row_duration">
+									<%= position[:start_year] + " - " + position[:end_year] %>
+									<% if position[:duration] %>
+										(<%= position[:duration] %> months)
+									<% end %>
+								</div>
+							</div>
+							<div class="cv_row_right">
+								<div class="cv_row_company">
+									<span class="company_size"><%= position[:company_size] %></span> <span class="company_industry"><%= position[:company_industry] %></span> company
+								</div>
+							</div>
+						</div>
+					<% end %>
+				
+				</div>
+				
+			</div>
+			
+		</div>
+		
+	</div>
+	
+	<div style="padding-top:10px;padding-bottom:3px;clear:both;">
+		<hr style="width:1024px;"/>
+	</div>
+				
+	<div class="footer mbottom_10">
+		<%= mail_to 'tomer@5skills.me', 'Contact' %> | 5skills.me (c) 2013 All Rights Reserved.
+	</div>
+	
+</div>

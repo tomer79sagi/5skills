@@ -1,0 +1,83 @@
+<div id="d_main_panel" style="direction:ltr;text-align:left;">
+	
+	<hr/>
+	
+	<b>Preview</b><br/>
+		<table width="100%">
+			<tr>
+				<td colspan="2" style="width:100%;">
+					<div id="d_preview_comments"></div>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:120px;padding:0em 0em 0em 0em;">
+					<div id="d_obj_preview" style="width:150px;height:70px;overflow:hidden;"></div>
+				</td>
+				<td style="width:250px;padding:0em 0em 0em 0em;">
+					<div id="d_flyc_name" style="width:250px;height:13px;overflow:hidden;"></div><br/>
+					<div id="d_flyc_caption" style="width:250px;height:10px;overflow:hidden;font-size:8px;"></div><br/>
+					<div id="d_flyc_description" style="width:250px;height:20px;overflow:hidden;"></div><br/>
+				</td>
+			</tr>
+		</table>
+	
+	<hr/>
+		
+	<b>Comments</b><br/>
+	<span style='font-size:9px;'>Please enter your comments here</span>
+    <textarea id="comment_text" style='width:90%;height:30px;' rows="8" onkeyup='$("#d_preview_comments").html($(this).val());'></textarea>
+	
+	<hr/>
+	
+	<b>Tags</b><br/>
+	<div id="d_tags">
+		<table width="100%">
+			<tr>
+				<td style="width:60%;">
+					<b><i>Tags</i></b>
+				</td>
+				<td style="width:30%;">
+					<b><i>Recent Tags</i></b>
+				</td>
+			</tr>
+			<tr>
+				<td style="width:60%;">
+					<textarea style='width:200px;height:30px;'>Sport,Running,Sprinting</textarea>
+				</td>
+				<td style="width:30%;">
+					<textarea style='width:100px;height:30px;'>Sport,Running,Sprinting</textarea>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+</div>
+
+<hr/>
+	
+<div id='buttons_panel' style="padding:.5em 0em 0em 0em;"></div>
+
+<hr/>
+
+<b>Other Flycs</b>&nbsp;<i>show all</i>
+<div id="d_other_flycs">
+	<table width="100%">
+		<tr>
+			<td style="width:80px;">
+				Flyc 1<br/>{image}
+			</td>
+			<td style="width:80px;">
+				Flyc 2<br/>{image}
+			</td>
+			<td style="width:80px;">
+				Flyc 3<br/>{image}
+			</td>
+			<td style="width:80px;">
+				Flyc 4<br/>{image}
+			</td>
+			<td style="width:80px;">
+				Flyc 5<br/>{image}
+			</td>
+		</tr>
+	</table>
+</div>

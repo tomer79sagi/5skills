@@ -1,0 +1,135 @@
+<div id="template__a_recruiter__publish_job" style="width:100%;padding:0px 0px 0px 0px;float:left;overflow:hidden;display:none;">
+	
+	<div class="homepage_5_headline_2" style="padding-top:50px;text-align:center;"><highlight>Automatic publishing.</highlight></div>
+	<div style="text-align:center;padding-left:5px;padding-top:10px;line-height:28px;">
+		<div style="text-align:center;font-size:20px;font-style:normal;font-weight:normal;">
+			Quickly create a 5skills job profile and send it to your LinkedIn groups. 
+		</div>
+	</div>
+	
+	<div style="width:100%;text-align:center;margin:20px 0px 20px 0px;"><img src="/images/mvp-1/sep-horizontal.png"/></div>
+	
+	
+	<% form_tag({:action => :fajax__publish_job, :controller => :fs_job}, :id => 'frm__publish_job', :remote => true, :multipart => true, :target => 'upload_frame') do %>
+	
+		
+		<%= render :partial => '/js/html_template/_a_recruiter__framework__session_ids' %>
+	
+	
+		<div style="width:350px;height:350px;margin:0px auto;">
+				
+			<div style="width:350px;height:350px;">
+				<div>
+					<div style="font-weight:bold;font-size:18px;">About your JOB</div>
+				</div>
+				<div class="page_intro_1__row" style="width:350px;height:230px;">
+					<div style="width:100px;float:left;text-align:left;margin-top:20px;">
+						<div style="font-size:16px;font-style:italic;">Top 5 skills required</div>
+					</div>
+					<div style="width:250px;float:left;">
+						<%= render :partial => '/js/html_template/__fs_profile/_fs_profile' %>
+					</div>
+				</div>
+				<div class="page_intro_1__row" style="width:350px;height:20px;margin-top:10px;">
+					<div style="width:100px;float:left;text-align:left;margin-top:2px;">
+						<div style="font-size:16px;font-style:italic;">Title</div>
+					</div>
+					<div style="width:250px;float:left;">
+						<%= text_field_tag "job__title", ".NET developer", :style => "width:250px;height:20px;" %>
+					</div>
+				</div>
+				<div class="page_intro_1__row" style="width:350px;height:20px;margin-top:10px;">
+					<div style="width:100px;float:left;text-align:left;margin-top:5px;">
+						<div style="font-size:16px;font-style:italic;">Location</div>
+					</div>
+					<div style="width:250px;float:left;">
+						<%= text_field_tag "job__location", "Tel Aviv", :style => "width:250px;height:20px;" %>
+					</div>
+				</div>
+				<div class="page_intro_1__row" style="width:350px;height:40px;margin-top:10px;">
+					<div style="width:100px;float:left;text-align:left;margin-top:5px;">
+						<div style="font-size:16px;font-style:italic;">Teaser</div>
+					</div>
+					<div style="width:250px;float:left;">
+						<%= text_area_tag "job__teaser", "This is a test teaser", {:rows => 7, :cols => 29 } %>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+			
+		<div style="width:100%;text-align:center;margin:20px 0px 20px 0px;"><img src="/images/mvp-1/sep-horizontal.png"/></div>
+		
+		<div style="width:350px;height:140px;margin:0px auto;">
+				
+			<div style="width:350px;height:140px;">
+				<div>
+					<div style="font-weight:bold;font-size:18px;">About your ORGANIZATION</div>
+				</div>
+				<div class="page_intro_1__row" style="width:350px;height:20px;padding-top:10px;">
+					<div style="width:100px;float:left;text-align:left;">
+						<div style="font-size:16px;font-style:italic;">Type</div>
+					</div>
+					<div style="width:250px;float:left;">
+						<div style="float:left;">
+							<div style="float:left;width:20px;">
+								<%= radio_button_tag 'recruiting_company__type', Fs2Organisation::ORGANISATION_TYPES[:agency], true %>
+							</div>
+							<div style="float:left;width:100px;">
+								Agency
+							</div>
+						</div>
+						<div style="float:left;">
+							<div style="float:left;width:20px;">
+								<%= radio_button_tag 'recruiting_company__type', Fs2Organisation::ORGANISATION_TYPES[:company] %>
+							</div>
+							<div style="float:left;width:100px;">
+								Employer
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="page_intro_1__row" style="width:350px;height:20px;padding-top:10px;">
+					<div style="width:100px;float:left;text-align:left;margin-top:5px;">
+						<div style="font-size:16px;font-style:italic;">Name</div>
+					</div>
+					<div style="width:250px;float:left;">
+						<%= text_field_tag "recruiting_company__name", "Manpower", :style => "width:250px;height:20px;" %>
+					</div>
+				</div>
+				<div class="page_intro_1__row" style="width:350px;height:20px;padding-top:10px;">
+					<div style="width:100px;float:left;text-align:left;margin-top:5px;">
+						<div style="font-size:16px;font-style:italic;">Logo</div>
+					</div>
+					<div style="width:250px;float:left;margin-top:5px;">
+						<%= file_field 'upload_logo', 'fs2_file', :style => "width:250px;height:20px;" %>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		
+		<div style="width:100%;text-align:center;margin:20px 0px 20px 0px;"><img src="/images/mvp-1/sep-horizontal.png"/></div>
+		
+		<div style="width:350px;height:70px;margin:0px auto;">
+				
+			<div style="width:350px;height:70px;">
+				<div class="page_footer__row" style="width:350px;height:40px;padding-top:20px;margin-left:150px;">
+					<div style="width:50px;float:left;text-align:left;margin-top:8px;">
+						<a href="/a/recruiter" style="font-size:12px;font-style:italic;text-decoration:underline;">Cancel</a>
+					</div>
+					<div style="width:150px;float:left;">
+						<div>
+							<input type="submit" class="btn__send_application" style="background-color:green;width:220px;height:50px;font-weight:bold;font-size:20px;color:white;" value="Publish my job >">
+						</div>
+					</div>
+				</div>
+			</div>
+			
+		</div>
+		
+		
+	<% end %>
+	
+	
+</div>

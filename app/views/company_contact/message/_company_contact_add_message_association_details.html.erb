@@ -1,0 +1,378 @@
+<div style="width:100%;float:left;min-height:80px;padding:1em 0em 0em 0em;">
+		
+	<table style="border-collapse:collapse;width:100%;text-align:left;padding:0em 0em 0em 0em;">
+		<tr>
+			<td style="background-color:#cef5c2;width:500px;text-align:left;padding:0em 0em 0em 1em;margin:0px 0px 0px 0px;">
+				<table>
+					<tr>
+						<td style="width:500px;">
+							&nbsp;
+						</td>
+						<td style="background-color:#cef5c2;width:400px;text-align:right;padding:0em 0em 0em 1em;margin:0px 0px 0px 0px;">
+					  		<button onClick="document.location.href='<%= invite_company_contact_agents_by_search_step_2_url %>'";>Finish and categorise another</button>
+					  		<button onClick="document.location.href='<%= invite_company_contact_agents_by_search_step_2_url %>'";>Finish and close</button>
+							&nbsp;<button>Cancel</button>
+						</td>
+					</tr>
+				</table>
+			</td>
+			
+		</tr>
+		
+		<tr>
+			<td style="background-color:#cef5c2;border-top:1px solid black;">
+		  		&nbsp;
+			</td>
+		</tr>
+		<tr>
+			
+			<td style="background-color:#cef5c2;width:800px;text-align:left;border:1px solid #cef5c2;padding:0em 0em 0em 1em;margin:0px 0px 0px 0px;">
+			
+				<!-- ******************* -->
+				<!-- HEADER 			 -->
+				<!-- ******************* -->
+				
+				<table style="width:100%;border-collapse:collapse;">
+					<tr style="vertical-align:top;">
+						
+						<td style="width:500px;text-align:left;font-size:18px;">
+						
+							<table style="width:100%;">
+								<tr>
+									<td>
+										<input type="text">
+										<select style="width:100px;">
+											<option selected="true">- All -</option>
+											<option>Agencies</option>
+											<option>Agents</option>
+											<option>Candidates</option>
+											<option>Roles</option>
+										</select>
+										<button>Search</button>
+										
+										<br/>
+										OR
+										<br/>
+										
+										<select style="width:100px;">
+											<option>Agency</option>
+											<option>Agent</option>
+											<option>Candidate</option>
+											<option>Role</option>
+										</select>
+										<button>Create</button>
+									</td>
+								</tr>
+								
+								<tr>
+									<td style="background-color:#cef5c2;border-bottom:1px solid black;">
+								  		&nbsp;
+									</td>
+								</tr>
+								
+								<tr>
+									<td>
+										<ul id="tree" class="tree" style="text-align:left;margin-left: 15px;"> 
+											<li>
+												<input type="checkbox">
+												<label>
+													<b>Agents (13)</b>
+												</label>
+											    <ul>
+											    	<table style="border-collapse:collapse;">
+														<tr>
+															<td style="border-bottom:1px solid black;width:120px;font-weight:bold;">
+																Agent name
+															</td>
+															<td style="border-bottom:1px solid black;width:120px;font-weight:bold;">
+																Agency
+															</td>
+															<td style="border-bottom:1px solid black;width:120px;font-weight:bold;">
+																Email
+															</td>
+														</tr>
+													</table> 
+													<li style="height:20px;">
+														<input type="checkbox">
+														<label>
+															<table>
+																<tr>
+																	<td style="width:120px;">
+																		John Smith
+																	</td>
+																	<td style="width:100px;">
+																		Hudson
+																	</td>
+																	<td style="width:120px;">
+																		john.smith@hudson.co.nz
+																	</td>
+																</tr>
+															</table>
+														</label>
+												    </li> 
+												</ul>
+												<ul> 
+													<li style="height:20px;">
+														<input type="checkbox">
+														<label>
+															<table>
+																<tr>
+																	<td style="width:120px;">
+																		Michael Jordan
+																	</td>
+																	<td style="width:100px;">
+																		Hudson
+																	</td>
+																	<td style="width:120px;">
+																		mica.jordan@hudson.co.nz
+																	</td>
+																</tr>
+															</table>
+														</label>
+												    </li> 
+												</ul>
+												<ul> 
+													<li style="height:20px;">
+														<input type="checkbox">
+														<label>
+															<table>
+																<tr>
+																	<td style="width:120px;">
+																		- Info -
+																	</td>
+																	<td style="width:100px;">
+																		&nbsp;
+																	</td>
+																	<td style="width:120px;">
+																		info@hudson.co.nz
+																	</td>
+																</tr>
+															</table>
+														</label>
+												    </li> 
+												</ul>  
+											</li>
+											<li>
+												<input type="checkbox">
+												<label>
+													<b>Agencies (7)</b>
+												</label>
+											    <ul> 
+													<table style="border-collapse:collapse;">
+														<tr>
+															<td style="border-bottom:1px solid black;width:115px;font-weight:bold;">
+																Agency
+															</td>
+															<td style="border-bottom:1px solid black;width:200px;font-weight:bold;">
+																Location
+															</td>
+														</tr>
+													</table> 
+													<li style="height:20px;">
+														<input type="checkbox">
+														<label>
+															<table>
+																<tr>
+																	<td style="width:100px;">
+																		Hudson
+																	</td>
+																	<td style="width:200px;">
+																		Wellington
+																	</td>
+																</tr>
+															</table>
+														</label>
+												    </li> 
+												</ul>
+												<ul> 
+													<li style="height:20px;">
+														<input type="checkbox">
+														<label>
+															<table>
+																<tr>
+																	<td style="width:100px;">
+																		920
+																	</td>
+																	<td style="width:200px;">
+																		Wellington
+																	</td>
+																</tr>
+															</table>
+														</label>
+												    </li> 
+												</ul>
+											</li>
+											<li>
+												<input type="checkbox">
+												<label>
+													<b>Roles (3)</b>
+												</label>
+											    <ul> 
+													<table style="border-collapse:collapse;">
+														<tr>
+															<td style="border-bottom:1px solid black;width:115px;font-weight:bold;">
+																Role
+															</td>
+															<td style="border-bottom:1px solid black;width:200px;font-weight:bold;">
+																Location
+															</td>
+															<td style="border-bottom:1px solid black;width:200px;font-weight:bold;">
+																Salary
+															</td>
+														</tr>
+													</table> 
+													<li style="height:20px;">
+														<input type="checkbox">
+														<label>
+															<table>
+																<tr>
+																	<td style="width:150px;">
+																		PHP Developer
+																	</td>
+																	<td style="width:200px;">
+																		Auckland
+																	</td>
+																	<td style="width:200px;">
+																		$15,000 - $17,000
+																	</td>
+																</tr>
+															</table>
+														</label>
+												    </li> 
+												</ul>
+												<ul> 
+													<li style="height:20px;">
+														<input type="checkbox">
+														<label>
+															<table>
+																<tr>
+																	<td style="width:150px;">
+																		Project Manager
+																	</td>
+																	<td style="width:200px;">
+																		Auckland
+																	</td>
+																	<td style="width:200px;">
+																		$15,000 - $17,000
+																	</td>
+																</tr>
+															</table>
+														</label>
+												    </li> 
+												</ul>
+											</li>
+										</ul>
+									</td>
+								</tr>
+								
+							</table>
+							
+						</td>
+						<td style="width:500px;text-align:left;font-size:18px;">
+							<table>
+								
+								<tr>
+									<td style="width:250px;vertical-align:top;">
+										Sender: <b>Tomer Sagi</b>
+									</td>
+									<td style="width:250px;">
+										Type: <b>Agent | Hudson</b>
+									</td>
+								</tr>
+								<tr>
+									<td style="width:250px;vertical-align:top;">
+										Subject: <b>Hello there...</b>
+									</td>
+									<td style="width:250px;">
+										Received: <b>18 Sep, 2011 | 12:03 pm</b>
+									</td>
+								</tr>
+								<tr style="vertical-align:top;">
+						
+									<td colspan="2" style="width:500px;text-align:left;font-size:18px;border:1px solid blue;height:200px;">
+										<p>Hello there</p>
+										<p>How are you today? what's up? How's everything going?</p>
+										<p>Yours, <br/>Tomer</p>
+									<td>
+											
+								</tr>
+								<tr style="vertical-align:top;">
+
+									<td colspan="2">
+										
+										<table>
+											<tr>
+												<td colspan="4">
+													<b><u>Attachments</u></b>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<b>Filename</b>
+												</td>
+												<td>
+													<b>File type</b>
+												</td>
+												<td>
+													<b>File size</b>
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<b>cv.doc</b>
+												</td>
+												<td>
+													Word doc
+												</td>
+												<td>
+													80 kb
+												</td>
+											</tr>
+											<tr>
+												<td>
+													<b>test.pdf</b>
+												</td>
+												<td>
+													Adobe PDF
+												</td>
+												<td>
+													70 kb
+												</td>
+											</tr>
+										</table>
+										
+									</td>
+								</tr>
+								
+							</table>
+						</td>
+								
+					</tr>
+					
+				</table>
+
+			</td>
+		</tr>
+		<tr>
+			<td style="background-color:#cef5c2;border-bottom:1px solid black;">
+		  		&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td style="background-color:#cef5c2;width:250px;text-align:right;padding:0em 0em 0em 1em;margin:0px 0px 0px 0px;">
+		  		<table>
+					<tr>
+						<td style="width:500px;">
+							&nbsp;
+						</td>
+						<td style="background-color:#cef5c2;width:400px;text-align:right;padding:0em 0em 0em 1em;margin:0px 0px 0px 0px;">
+							<button onClick="document.location.href='<%= invite_company_contact_agents_by_search_step_2_url %>'";>Finish and categorise another</button>
+					  		<button onClick="document.location.href='<%= invite_company_contact_agents_by_search_step_2_url %>'";>Finish and close</button>
+							&nbsp;<button>Cancel</button>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+</div>

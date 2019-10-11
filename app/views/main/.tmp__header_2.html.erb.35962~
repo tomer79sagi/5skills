@@ -1,0 +1,34 @@
+  <!--[partial:header]-->
+
+<% if session[:user] %>
+			
+<div class="header_2" style="width:100%;">
+
+<div style="padding:.5em 0em .5em 0em;">
+	<span class="text_highlight_2">Tomer Sagi</span><%= link_to 'Logout', logout_url, :class => "content_link" %>
+</div>
+
+<table class="template_h2t" style="width:100%;border:3px solid black;border-collapse:collapse;">
+	<tr style="vertical-align:left;width:100%;">
+		
+		<td class="template_h2c1" style="width:200px;border-right:1px solid black;">
+			<div style="text-align:center;font-weight:bold;font-size:16px;padding:.5em .5em .5em .5em"><%= link_to 'My Jobs', view_applications_url %></div>
+		</td>
+		<td style="width:200px;border-right:1px solid black;">
+			<div style="text-align:center;font-weight:bold;font-size:16px;padding:.5em .5em .5em .5em"><%= link_to 'My Agencies', view_agencies_url %></div>
+		</td>
+		<td style="width:200px;border-right:1px solid black;">
+			<div style="text-align:center;font-weight:bold;font-size:16px;padding:.5em .5em .5em .5em">My Companies</div>
+		</td>
+		<td style="width:600px;">
+			&nbsp;
+		</td>		
+		
+	</tr>
+</table>
+
+</div>
+	
+<% end %>
+		
+  <!--[eopartial:header]-->

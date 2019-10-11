@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  
+  <title><%= yield :head %></title>
+  
+  <%= render :partial => '/layouts/fs_layout_core_js_and_styles' %>
+  
+  <%= render :partial => '/fs_job_seeker/js_create_job_seeker' %>
+  <%= render :partial => '/fs_job_seeker/js_create_job_seeker_ajax_functions' %>
+  
+  <script type="text/javascript">
+	$(document).ready(function() {
+  		<%= render :partial => '/fs_job_seeker/js_create_job_seeker_document_ready' %>
+	});
+  </script>
+    
+</head>
+<body>
+
+<%= render :partial => '/five_skills/header' %>
+
+<div id="messages_pane" style="width:100%;">
+	<div id="message_notice" class="messages_area_good" style="display:none;"><%= flash[:notice].to_s %></div>
+	<div id="message_error" class="messages_area_bad" style="display:none;"><%= flash[:error].to_s %></div>
+</div>
+
+<div class="middle">
+			
+	<%= yield %>
+	
+</div>
+
+<%= render :partial => '/five_skills/footer' %>
+
+</body>
+</html>

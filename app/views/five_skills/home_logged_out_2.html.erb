@@ -1,0 +1,28 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+<% content_for :title do %>
+	
+<% end %>
+
+<div class="body_container">
+	<div class="homepage_body_top">
+		<div class="homepage_body_top_top" style="padding-top:80px;padding-bottom:30px;padding-left:380px">
+			<div class="homepage_headline_2">Become anonymous,<br/>and let your next job find you.</div>
+			<div class="homepage_headline_1 mtop_20">The first ever <span style="font-weight:bold;font-size:21px;">anonymous professional profile</span>.</div>
+		</div>
+		<div class="homepage_body_strip">
+			<div id="btn_login" class="homepage_login_button" style="padding-left:60px;">Make me anonymous</div>
+		</div>
+	</div>
+	<div class="homepage_body_bottom">
+		<div class="homepage_notes">
+			* We don’t post any status updates anywhere. We use your email to send you job matches. We use your employment history and skills to create your anonymous profile
+		</div>
+		<div class="footer">
+			<%= mail_to 'tomer@5skills.me', 'Contact' %> | 5skills.me (c) 2013 All Rights Reserved.
+		</div>
+	</div>
+</div>
+

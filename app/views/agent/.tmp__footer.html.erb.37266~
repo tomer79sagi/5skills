@@ -1,0 +1,27 @@
+<div class="footer">
+	
+	<div class="footer_left">
+		<span class="template_h_link"><b>Privacy Policy</b></span>
+		|
+		<span class="template_h_link"><b>Terms & Conditions</b></span>		
+	</div>
+	
+	<div class="footer_right">
+		Copyright &copy; Flyc 2010
+	</div>
+	
+</div>
+
+<div style="padding:1em .5em 0em .5em;">
+	
+	<div class="footer_left" style="font-size:7pt;color:black;">
+		Rendering: 
+		<span class="template_h_link">Server <%= Time.now - session[:perf] %>s</span>, 
+		<span class="template_h_link">Client <%= Time.now - @rendering_start %>s</span>		
+	</div>
+	
+	<div class="footer_right" style="font-size:7pt;color:black;">
+		Version: 1.0.1, 30 Sep 2010
+	</div>
+	
+</div>

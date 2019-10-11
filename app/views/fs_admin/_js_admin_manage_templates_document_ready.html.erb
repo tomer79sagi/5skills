@@ -1,0 +1,15 @@
+$(".adm_new_entity").bind('click', function(e) {
+	doRedirect('admin/template/new');
+});
+
+$(".adm_entity_title").bind('click', function(e) {
+	doRedirect("admin/template/" + $(this).parent().find("[id=entity_id]").html() + "/edit");
+});	
+
+$("[id='action_delete_template']").bind('click', function(e) {
+	alert("Delete action - TBD");
+});	
+
+$("[id='action_clone_template']").bind('click', function(e) {
+	alert("Clone action - TBD");
+});	

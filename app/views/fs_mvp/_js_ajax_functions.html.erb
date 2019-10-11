@@ -1,0 +1,123 @@
+<script type="text/javascript">
+
+function _REQ_MVP_search_jobs(){
+	var json_arr = {};
+	
+	json_arr.skills_profile = parse_two_skills();
+	
+	return {action: "search_jobs", data: json_arr};
+}
+
+function _RES_MVP_search_jobs(data, status_i) {
+	$("#jobs_available").html(data.count + " jobs available!");
+}
+
+function _REQ_MVP_search_jobs(){
+	var json_arr = {};
+	
+	json_arr.skills_profile = parse_two_skills();
+	
+	return {action: "search_jobs", data: json_arr};
+}
+
+function _RES_MVP_search_jobs(data, status_i) {
+	$("#jobs_available").html(data.count + " jobs available!");
+}
+
+function _REQ_MVP_search_job_seekers(){
+	var json_arr = {};
+	
+	json_arr.skills_profile = parse_two_skills();
+	
+	return {action: "search_job_seekers", data: json_arr};
+}
+
+function _RES_MVP_search_job_seekers(data, status_i) {
+	$("#job_seekers_available").html(data.count + " job seekers available!");
+}
+
+function _REQ_MVP_find_jobs(){
+	var json_arr = {};
+	
+	json_arr.skills_profile = parse_two_skills();
+	
+	return {action: "find_jobs", data: json_arr};
+}
+
+function _RES_MVP_find_jobs(data, status_i){
+	slider2.goToSlide(1);
+}
+
+function _REQ_MVP_find_job_seekers(){
+	return _RES_MVP_find_jobs();
+}
+
+function _RES_MVP_find_job_seekers(data, status_i){
+	return _RES_MVP_find_jobs(data, status_i);
+}
+
+function _REQ_MVP_js_i_want_in(){
+	var json_arr = {};
+	
+	json_arr.user_login = {};
+	json_arr.user_login.email = $("[name='user_login[email]']").val();
+	
+	return {action: "job_seeker/i_want_in", data: json_arr};
+}
+
+function _REQ_MVP_hm_i_want_in(){
+	var json_arr = {};
+	
+	json_arr.user_login = {};
+	json_arr.user_login.email = $("[name='user_login[email]']").val();
+	
+	return {action: "hiring_manager/i_want_in", data: json_arr};
+}
+
+function _REQ_MVP_ra_i_want_in(){
+	var json_arr = {};
+	
+	json_arr.user_login = {};
+	json_arr.user_login.email = $("[name='user_login[email]']").val();
+	
+	return {action: "recruitment_agent/i_want_in", data: json_arr};
+}
+
+function _REQ_MVP_s_js_i_want_in(){
+	// var json_arr = {};
+	// if (skills[2]['dirty']) {
+		// json_arr.user_login = {};
+		// json_arr.user_login.email = $("[name='user_login[email]']").val();
+	// }
+	// return {action: "job_seeker/i_want_in", data: json_arr};
+	return {form_submit: "fs_form"};
+}
+
+function _REQ_MVP_s_r_i_want_in(){
+	// var json_arr = {};
+	// if (skills[2]['dirty']) {
+		// json_arr.user_login = {};
+		// json_arr.user_login.email = $("[name='user_login[email]']").val();
+	// }
+	// return {action: "recruiter/i_want_in", data: json_arr};
+	
+	return {form_submit: "fs_form"};
+}
+
+function _RES_ERR_MVP_s_js_i_want_in(data, status_i){
+	fld_toggle($("#btn_sign_up"), 1);
+}
+
+function _RES_ERR_MVP_s_r_i_want_in(data, status_i){
+	fld_toggle($("#btn_sign_up"), 1);
+}
+
+function _RES_MVP_s_js_i_want_in(data, status_i){
+	doRedirect('job_seeker/thanks');
+}
+
+function _RES_MVP_s_r_i_want_in(data, status_i){
+	doRedirect('recruiter/thanks');
+}
+
+</script>

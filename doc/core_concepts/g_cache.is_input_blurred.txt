@@ -1,0 +1,16 @@
+g_cache.is_input_blurred
+--------------------------
+
+convert_yrsexp_to_input -> false
+convert_primary_skill_to_input -> false
+_EVENT_primary_skill_blur -> false
+
+bind_field / keyup -> true
+bind_field / blur -> 
+	[true] - false
+	[false] - true & flags.onblur - (_EVENT_primary_skill_blur) -> false
+autocomplete.close ->
+	[true] - false
+	[false] & [!ui.item] & flags.onblur - (_EVENT_primary_skill_blur) -> false
+autocomplete.change ->
+	[true] - false

@@ -1,0 +1,120 @@
+fs_profile - core concepts
+-------------------------
+
+
+External dependencies
+-------------------
+__workspace | /js/util/__workspace (includes the 'bind_field' function)
+
+
+Framework
+---------------
+1. layout - '__job_seeker_apply_layhout'
+	References the key components described below
+	
+ - css - mvp-fs_profile | /public/stylesheets/mvp-fs_profile.css
+ - ajax - fs_profile | /js/ajax/_fs_profile
+ - util - fs_profile | /js/util/_fs_profile
+  + global_vars 					global parameters
+  + list_field_creators  			create_primary_skill, create_blank_primary_skill ...
+  + list_field_binders  			attach_primary_field_binders, attach_name_field_binders ...
+  + list_field_event_handlers  		_EVENT_primary_skill_keyup, _EVENT_primary_skill_blur ...
+  + input_field_creators  			convert_primary_skill_to_input, convert_yrsexp_to_input ...
+  + input_field_removers 			convert_input_to_primary_skill, convert_input_to_yrsexp ...
+  + init_lists_shared_functions  	init_s_start, init_s_over
+  + list_utilities  				extract_skills_from_flat_profile, convert_item_to_skill ...
+  + utilities						measureText
+ - binders - fs_profile | /js/binders/_fs_profile
+ - onload - fs_profile | /js/onload/fs_profile
+ 
+2. view - 'MVP2_apply_to_job_post'
+
+ - References partial 'fs_profile' html template | /js/html_template/__fs_profile/__fs_profile
+ 
+3. view (partial) - '__fs_profile'
+
+ - within a div 'fld_fs_profile'
+ - contains a '<ul>' tag, with class 'skills_profile_top_5'
+ 
+4. onload | document.ready
+
+ - Invoke binders | 'bind__fs_profile'
+  + 'btn_save_fs_profile' | disabled for this MVP
+  + 'click_open_add_skills_panel' | button handler for opening the choose skills panel
+  + 'populate_fs_profile' | populates the skills profile based on an fs_profile object
+  
+5. 'populate_fs_profile' explained
+
+  - iterates 5 times
+  - check if the '@active_fs_profile' exists
+  - Run the css selector ".skills_profile_top_5", the 'ul' class
+  - 'create_primary_skill' for each skill
+  - 'attach_primary_field_binders()' for each newly added skill
+  
+6. Initializes the 'sortable' object for the list
+  - $( ".skills_profile_top_5" ).sortable({
+	}).disableSelection();
+   
+   
+Creators
+-------------
+- create_primary_skill(), attributes
+ + skill_index			1-based skill index number, e.g. 1st skill = 1
+ + skill_info_hash		Hash of the following attributes
+	id						skill id
+	name					skill name
+	years_experience		years experience
+	name_state				Name field state, state options are: 1 - normal (default), 2 - match (special color), 3 - disabled
+	years_exp_state			Years exprience state (same as above)
+	
+
+Changing a skill - mouse click
+------------------------------
+- convert_primary_skill_to_input(field_o)
+ + field_o is the $object reference of the <div>
+ + create a new 'input' tag element | b
+ + g_cache.is_input_blurred = false;
+ + bind_field - with the following parameters:
+	$(<input>) element
+	"fs_profile_updated"
+	null
+	bind_params | hash
+		autocomplete:		true
+		onsearch:			search_skills
+		onkeyup:			primary_skill_keyup
+		onblur:				primary_skill_blur
+		onselect:			change_primary_skill
+ + unbind 'click' from the 'field_o' object (the <div> element)
+ + Change the innerHTML with the b content
+ + invoke the 'select()' function to get the focus
+ 
+ 
+Skill - HTML structure
+------------------------
+<li id="skill_1" skill_id="1093" orig_value="Agile Project Management" skill_yrsexp="1" class="single_top_skill" blank="false">
+	<div class="single_top_skill_container_left"></div>
+	<div class="single_top_skill_name">
+		<div id="skill_1_name" class="title2">
+			<span>Agile Project Management</span>
+		</div>
+		<div class="skill_separator"></div>
+		<div id="skill_1_yrs" class="position">
+			<span>1y</span>
+		</div>
+	</div>
+	<div class="single_top_skill_container_right"></div>
+</li>
+
+
+'fs_profile_updated' - when it's invoked
+-------------------------------------
+- 'convert_skill_to_input'
+	'bind_field' / 
+- 'convert_yrsexp_to_input'				|	'_convert_to_input'			|	/js/util/__fs_profile
+	'keyup' binder where the ENTER key was pressed ('e.which == 13)')
+	
+
+Automatic shifting of 'focus' to next profile element
+----------------------------------
+- '_REQ_change_primary_skill'
+	Invokes a 'click' event on the next element -> '$("#skill_" + skill_index + "_yrs").click();'

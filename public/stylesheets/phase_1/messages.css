@@ -1,0 +1,57 @@
+/* 
+ * -------------------------
+ * ERROR MESSAGES
+ * -------------------------
+ */
+
+  	.fieldWithErrors {
+	  padding: 2px;
+	  background-color: red;
+	  display: table;
+  	}
+
+	div.error_messages_padding_container {
+		/* To control padding and also use 100% of the width, I've had to separate the padding into the 'parent' */
+		/* bounding box and include a child bounding box without padding and with the 100% width. */
+		
+		padding-left:0em;
+		padding-right:0em;
+		padding-bottom:0.7em;
+		padding-top:0.7em;
+	}
+
+	div.error_messages_box { /* DIV: Container */
+		width:100%;
+		text-align:center;
+		word-wrap:break-word;
+	}
+
+	div.error_message_field { /* DIV: Container */
+		padding:0.0em;
+		color:black;
+		clear:left;
+		font-size: 10px;
+		font-style: italic;
+	}
+	
+	div.messages_area_good { /* DIV: header_level_2 */
+		color:black;
+		background-color:yellow;
+		clear:left;
+		font-size: 12px;
+		font-weight: bold;
+		text-align: center;
+		padding:0.7em;
+		word-wrap:break-word;
+	}
+	
+	div.messages_area_bad { /* DIV: header_level_2 */
+		color:white;
+		background-color:red;
+		clear:left;
+		font-size: 12px;
+		font-weight: bold;
+		text-align: center;
+		padding:0.7em;
+		word-wrap:break-word;
+	}		

@@ -1,0 +1,200 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+<% content_for :title do %>
+	<%= params[:form_label] %> job profile
+<% end %>
+
+<% form_tag({:action => params[:form_action]}, :multipart => true) do %>
+
+	<input type="hidden" id="job-id" name="job-id" value="<%= @job[:j_id] %>"/>
+	
+	<table style="width:100%;">
+		<tr>
+			<td style="text-align:right;width:20%;">
+				Company:
+			</td>
+			<td style="text-align:left;width:30%;">
+				<input type="text" id="search_company-name" name="company[name]" value="<%= @job[:c_name] %>">
+				<input type="hidden" id="search_company-id"/>
+				<%= error_message_on "company", "name", {:prepend_text => "Company name ", :css_class => "error_message_field"} %>
+			</td>
+
+			<td id="company_logo" style="text-align:center;width:100px;">
+				<% if is_edit %>	
+					<% if @upload_files[:company_logo] %>
+						<%= fs_image_tag(@upload_files[:company_logo].id, @upload_files[:company_logo].large_dimensions) %>
+					<% else %>
+						N/A
+					<% end %>
+				<% end %>
+			</td>
+			
+			<td style="text-align:right;width:20%;">
+				Agency:
+			</td>
+			<td style="text-align:left;width:30%;">
+				<input type="text" id="search_agency-name" name="agency[name]" value="<%= @job[:a_name] %>">
+				<input type="hidden" id="search_agency-id"/>
+				<%= error_message_on "agency", "name", {:prepend_text => "Agency name ", :css_class => "error_message_field"} %>
+			</td>
+
+			<td id="agency_logo" style="text-align:center;width:100px;">
+				<% if is_edit %>		
+					<% if @upload_files[:agency_logo] %>
+						<%= fs_image_tag(@upload_files[:agency_logo].id, @upload_files[:agency_logo].large_dimensions) %>
+					<% else %>
+						N/A
+					<% end %>			
+				<% end %>
+			</td>
+			
+		</tr>
+			
+	</table>
+	
+		<div id="accordion">
+		<h3><a href="#" style="text-align:left;">Company and agency details</a></h3>
+		<div>
+			<p>
+				<table>
+					<tr>
+						<td>
+							<table>
+								<tr>
+									<td colspan="2" style="text-align:left;font-weight:bold;padding-bottom:.5em;">Company details</td>
+								</tr>
+								<tr>
+									<td style="text-align:right;">Company logo:</td>
+									<td style="text-align:left;">
+										<% if is_edit %>
+											<% if @upload_files[:company_logo] %>
+												<%= link_to squeeze_c(@upload_files[:company_logo].name, 35), download_file_url(:file_id => @upload_files[:company_logo].id) %>
+											<% else %>
+												N/A
+											<% end %>
+											<br/>
+										<% end %>
+										<%= file_field 'upload_company_logo', 'fs2_file' %>
+										<div class="error_message_field"><%= @upload_files[:company_logo].errors.on("fs2_file") if @upload_files[:company_logo] %></div>
+									</td>
+								</tr>
+								<tr>	
+									<td style="text-align:right;">Company website:</td>
+									<td style="text-align:left;">
+										<%= text_field 'company', 'website' %>
+										<%= error_message_on "company", "website", {:prepend_text => "Website ", :css_class => "error_message_field"} %>
+									</td>
+								</tr>
+								<tr>
+									<td style="text-align:right;">Contact full name:</td>
+									<td style="text-align:left;">
+										<input type="text" id="search_company_contact-name" name="company_contact[full_name]" value="<%= @job[:cc_full_name] %>">
+										<input type="hidden" id="search_company_contact-id"/>
+										<%= error_message_on "company_contact", "full_name", {:prepend_text => "Full name ", :css_class => "error_message_field"} %>
+									</td>
+								</tr>
+								<tr>
+									<td style="text-align:right;">Contact mobile:</td>
+									<td style="text-align:left;">
+										<%= text_field 'company_contact', 'mobile_phone' %>
+										<%= error_message_on "company_contact", "mobile_phone", {:prepend_text => "Mobile phone ", :css_class => "error_message_field"} %>
+									</td>
+								</tr>
+								<tr>
+									<td style="text-align:right;">Contact email:</td>
+									<td style="text-align:left;">
+										<%= text_field 'company_contact', 'email' %>
+										<%= error_message_on "company_contact", "email", {:prepend_text => "Email ", :css_class => "error_message_field"} %>
+									</td>
+								</tr>
+							</table>
+						</td>
+						<td>
+							<table>
+								<tr>
+									<td colspan="2" style="text-align:left;font-weight:bold;padding-bottom:.5em;">Agency details</td>
+								</tr>
+								<tr>
+									<td style="text-align:right;">Agency logo:</td>
+									<td style="text-align:left;">
+										<% if is_edit %>
+											<% if @upload_files[:agency_logo] %>
+												<%= link_to squeeze_c(@upload_files[:agency_logo].name, 35), download_file_url(:file_id => @upload_files[:agency_logo].id) %>
+											<% else %>
+												N/A
+											<% end %>
+											<br/>
+										<% end %>
+										<%= file_field 'upload_agency_logo', 'fs2_file' %>
+										<div class="error_message_field"><%= @upload_files[:agency_logo].errors.on("fs2_file") if @upload_files[:agency_logo] %></div>
+									</td>
+								</tr>
+								<tr>	
+									<td style="text-align:right;">Agency website:</td>
+									<td style="text-align:left;">
+										<%= text_field 'agency', 'website' %>
+										<%= error_message_on "agency", "website", {:prepend_text => "Website ", :css_class => "error_message_field"} %>
+									</td>
+								</tr>
+								<tr>
+									<td style="text-align:right;">Contact full name:</td>
+									<td style="text-align:left;">
+										<input type="text" id="search_agency_contact-name" name="agency_contact[full_name]" value="<%= @job[:ac_full_name] %>">
+										<input type="hidden" id="search_agency_contact-id"/>
+										<%= error_message_on "agency_contact", "full_name", {:prepend_text => "Full name ", :css_class => "error_message_field"} %>
+									</td>
+								</tr>
+								<tr>
+									<td style="text-align:right;">Contact mobile:</td>
+									<td style="text-align:left;">
+										<%= text_field 'agency_contact', 'mobile_phone' %>
+										<%= error_message_on "agency_contact", "mobile_phone", {:prepend_text => "Mobile phone ", :css_class => "error_message_field"} %>
+									</td>
+								</tr>
+								<tr>
+									<td style="text-align:right;">Contact email:</td>
+									<td style="text-align:left;">
+										<%= text_field 'agency_contact', 'email' %>
+										<%= error_message_on "agency_contact", "email", {:prepend_text => "Email ", :css_class => "error_message_field"} %>
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</p>
+		</div>
+	</div>
+	
+	<table style="margin-top:1em;padding:.7em 0em .5em 0em;border-top:1px solid gray;width:100%;">
+		<tr>
+			<td style="width:100px;text-align:right;">Template:</td>
+			<td style="width:150px;text-align:left;">
+				<input type="text" id="search_template-name" name="search_template-name">
+				<input type="hidden" id="search_template-id"/>
+			</td>
+			<td style="width:70%;"></td>
+		</tr>
+	</table>
+		
+	<%= render :partial => '/five_skills/job_seeker_five_skills' %>
+		
+	<table>
+		<tr>
+			<td>
+				<table>
+					<tr>
+						<td style="width:950px;text-align:right;">
+							<%= submit_tag params[:form_update_label] + ' Profile', :name => params[:form_update_label].downcase + '_profile' %>
+							&nbsp;
+							<%= submit_tag 'Cancel', :name => "cancel" %>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+
+<% end %>

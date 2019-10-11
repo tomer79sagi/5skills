@@ -1,0 +1,145 @@
+<script type="text/javascript">
+
+
+// Common functions
+// ------------------------------------------------------------
+function _REQ_fs_profile_updated() {
+	
+	switch (g_cache['search_by']) {
+		case 1: // Job
+			return {ajax_actions: ["search_jobs"]};
+			break;
+		case 2: // Job seeker
+			return {ajax_actions: ["search_job_seekers"]};
+			break;
+	}
+	
+}
+// ------------------------------------------------------------
+
+
+function _REQ_save_job_fs_profile(data){
+	var json_arr = {};
+	
+	json_arr = data;
+	json_arr.skills_profile = extract_skills_from_lists();
+	
+	return {action: "ajax/admin/job/save", data: json_arr};
+}
+
+function _RES_save_job_fs_profile(data, status_i) {
+	$("[id='btn_save_fs_profile']").html("Save");
+	$("[id='btn_save_fs_profile']").removeAttr("disabled");
+	
+	$("[id='btn_cancel']").html("Close");
+	$("[id='btn_cancel']").removeAttr("disabled");
+}
+
+function _RES_ERR_save_template_fs_profile(data, status_i) {
+	$("#btn_save_fs_profile").html("Save");
+	$("#btn_save_fs_profile").removeAttr("disabled");
+	
+	$("#btn_cancel").removeAttr("disabled");
+	
+	alert('fail');
+}
+
+function _REQ_save_template_fs_profile(data){
+	var json_arr = {};
+	
+	json_arr.skills_profile = extract_skills_from_lists();
+	json_arr.template_data = {
+		title: data.template_title
+	};
+	
+	<% if params[:template_id] %>
+		json_arr.entity_ids_to_save = {
+			template_id: <%= params[:template_id] %>
+		};
+		// json_arr.send_emails = true;
+	<% end %>
+	
+	return {action: "ajax/admin/template/save", data: json_arr};
+}
+
+function _RES_save_template_fs_profile(data, status_i) {
+	$("#btn_save_fs_profile").html("Save");
+	$("#btn_save_fs_profile").removeAttr("disabled");
+	
+	$("#btn_cancel").html("Close");
+	$("#btn_cancel").removeAttr("disabled");
+}
+
+function _RES_ERR_save_template_fs_profile(data, status_i) {
+	// alert('fail');
+}
+	
+	
+function _REQ_save_keyword_replacement(data){
+	var json_arr = {};
+	
+	json_arr.keyword_id = data.entity_id;
+	json_arr.skill_id = data.selected_item_id; // the selection
+	
+	return {action: "admin/keyword/replacement", data: json_arr};
+}
+
+function _RES_save_keyword_replacement(data, status_i){
+	var text = $("#skill_field").attr("value");
+	$("#skill_field").remove();
+	
+	$("#" + data.keyword_id + ">td[id='skill_td']").html(text);
+	
+	g_editing = false;
+}
+
+function _REQ_search_keywords(){
+	var json_arr = {};
+	
+	json_arr.keyword_name = $("#search_keyword-name").val();
+	
+	return {action: "admin/keywords/search", data: json_arr};
+}
+
+function _RES_search_keywords(data, status_i) {
+	h_results = {};
+	
+	// Remove elements
+	$("#results_table tr:not([id='results_row_titles'])").remove();
+	
+	// Add new rows
+	for (keyword in data.results) {
+		// Create the row elements
+		$("#results_table>tbody").append(
+			create_keyword_result_row_as_html([keyword, data.results[keyword]]));
+		
+		// Bind click events to it
+		$("#" + keyword + ">td[id='skill_td']").bind('click',  function() {
+		  if (g_editing) { 
+		  	event.preventDefault();
+		  	$("#skill_field").focus();
+		  	return; 
+		  }
+		  
+		  g_editing = true;
+		  
+		  var a = $( document.createElement('input') );
+		  a.attr("type", "text");
+		  a.attr("id", "skill_field");
+		  a.attr("value", $(this).html());
+
+		  bind_field(a, 
+		 	"save_keyword_replacement", 
+		 	null, 
+		 		{autocomplete: "true", 
+		 		onsearch: "search_skills",
+		 		entity_id: $(this).parent().attr("id")});
+		 		 
+		  $(this).html(a);
+		  a.focus();
+		  
+		});
+	}
+}
+
+</script>

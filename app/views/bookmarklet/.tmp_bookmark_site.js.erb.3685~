@@ -1,0 +1,89 @@
+try{
+
+	$('#flyc_token').attr('value', '<%= session[:flyc_token] %>');
+
+	<% # Load %>
+	
+	<% if @state && @state == 1 %>
+	
+		<% if session[:user] %>
+			$('#logged_in_details').replaceWith("<b><%= session[:user].first_name %> <%= session[:user].last_name %></b>\
+				, <i><a id='btn_logout' href=\"/\" onClick=\"ajax_it('logout'); return false;\">Logout</a></i>");
+			$("#btn_logout").throbber("click", {parent: $("#processing_indicator"), image: "http://localhost:3002/images/ajax-loader.gif"});
+			$('#logged_in_bar').show();
+		<% end %>
+		
+		$.throbberHide({parent: $("#processing_indicator")});
+		
+		$('#primary_messages').replaceWith("<p id='primary_messages'>Logged in successfully</p>");
+	
+		$('#content_panel').replaceWith("\
+			<div id='content_panel'>\
+				\
+				<div id='site_parsing_panel' style='padding:.5em 0em .5em 0em;'>\
+					<table>\
+						<tr>\
+							<td colspan=\"2\" style='font-size:8pt;font-weight:bold;'>Please ensure this page is a job ad page</td>\
+						</tr>\
+						<tr>\
+							<td style='text-align:left;height:20px;'>Site detected: </td>\
+							<td id='site_detected' style='text-align:left;height:20px;vertical-aling:top;'>\
+								<b><%= @site_detected %></b>\
+							</td>\
+						</tr>\
+					</table>\
+				</div>\
+				\
+				<p><hr/></p>\
+				\
+				<div id='content_panel_messages'></div>\
+				\
+				<p><b><u>Job Details</u></b></p>\
+				\
+				<table>\
+					<tr>\
+						<td style=\"vertical-align:top;\"><b>Title</b>:</td>\
+						<td><input id=\"title\" type=\"text\" size=\"30\"></td>\
+					</tr>\
+					<tr>\
+						<td style=\"vertical-align:top;\">Salary:</td>\
+						<td><input id=\"salary_max\" type=\"text\"></td>\
+					</tr>\
+					<tr>\
+						<td style=\"vertical-align:top;\">Location:</td>\
+						<td><input id=\"role_location\" type=\"text\"></td>\
+					</tr>\
+				</table>\
+				\
+				<p><hr/></p>\
+				\
+				<div id='buttons_panel' style=\"padding:.5em 0em 0em 0em;\">\
+					<button id=\"btn_save\" style=\"width:50px;height:25px;z-index:1500;\" onClick=\"ajax_it('process_bookmark_site'); return false;\">Save</button>&nbsp;\
+					<button id=\"btn_close\" style=\"width:50px;height:25px;\" onClick=\"ajax_it('close'); return false;\">Close</button>&nbsp;\
+					<button id=\"btn_extent\" style=\"width:50px;height:25px;\" onClick=\"ajax_it('extend'); return false;\">Extend</button>\
+				</div>\
+			</div>");
+	
+	<% elsif @state && @state == 0 %>
+
+		$("#content_panel_messages").attr("display", "inline");
+		$("#content_panel_messages").replaceWith("<div id=\"field_error\">Errors found in this form!</div>");
+		
+		<% if @quick_add_role.errors %>
+	
+			<% @quick_add_role.errors.each do |attr, msg| %>
+				
+				$("#<%= attr %>").after("<div id=\"field_error\">Error in this field</div>");
+				
+			<% end %>
+			
+		<% end %>
+		
+	<% elsif @state && @state == 2 %>
+	
+		$("#content_panel_messages").attr("display", "inline");
+		$("#content_panel_messages").replaceWith("<div id=\"field_success\">Form submitted successfully!</div>");
+		
+	<% end %>
+
+} catch(e){ var ee = e.message || 0; alert('Error: \n\n'+e+'\n'+ee); }

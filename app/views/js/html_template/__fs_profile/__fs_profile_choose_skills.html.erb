@@ -1,0 +1,60 @@
+<div onmouseover="$('body').css('overflow', 'hidden');" onmouseout="$('body').css('overflow', 'auto');">
+	
+	<div style="margin-left:10px;">
+		<div style="height:36px;">
+			<div style="font-size:24px;float:left;">
+				Common skills
+			</div>
+			<div id="btn_close_skills_panel" style="padding-left:85px;width:20px;font-size:30px;cursor:pointer;float:left;text-align:center;">
+				<div style="font-size:30px;"><<</div>
+			</div>
+		</div>
+		<div style="font-size:12px;color:gray;font-style:italic;">
+			Click on a skill to add to your profile
+		</div>
+	</div>
+	
+	<div class="add_skill_panel_body pleft_10" style="margin-top:20px;">
+		
+		<div style="width:279px;height:20px;border-bottom:1px solid gray;padding:0px;">
+			<div style="width:251px;float:left;padding-left:5px;">
+				<img src="/images/mvp-2/fs_profile_choose_skills/controls-alt-1.png" style="border:none;">
+			</div>
+			<div style="width:16px;float:left;">
+				<img src="/images/mvp-2/fs_profile_choose_skills/users-alt.png" style="border:none;">
+			</div>
+		</div>
+		
+		<div class="ui-layout-content add_skills_list" style="padding-top:5px;padding-left:0px;">
+			
+			<% i = 1 %>
+			<% @sorted_skills.each do |sorted_skill| %>
+			
+				<% if i == 5 %>
+					<div style="height:6px;clear:both;"></div>
+					<% i = 1 %>
+				<% end %>
+			
+				<div class="add_skill_container" skill_id="<%= sorted_skill.keyword_id %>" skill_added="no">
+					<div class="add_skill_left">
+						<%= sorted_skill.name %>
+					</div>
+					
+					<% if @include_counters %>
+					
+						<div class="add_skill_right">
+							<%= sorted_skill.cnt_profiles if sorted_skill.cnt_profiles %>
+						</div>
+					
+					<% end %>
+				</div>
+				
+				<% i += 1 %>
+				
+			<% end %>
+			
+		</div>
+		
+	</div>
+	
+</div>

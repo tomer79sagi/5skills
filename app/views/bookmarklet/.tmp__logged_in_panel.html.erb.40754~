@@ -1,0 +1,8 @@
+<% if session[:user] %>
+
+	<div style='direction:ltr;'>
+		<b><%= session[:user].first_name %> <%= session[:user].last_name %></b>, 
+		<i><a id="btn_logout" href="/" onClick="ajax_it('logout'); return false;">Logout</a></i>
+	</div>
+	
+<% end %>

@@ -1,0 +1,143 @@
+<div id="template__job__new_publishing" style="padding:2px 0px 2px 2px;overflow:hidden;display:none;">
+	
+	<div style="height:40px;">
+		<div style="float:left;font-weight:bold;font-size:24px;">Publish a new job.</div>
+		<div id="" class="_loading loading-indicator" style="margin-left:5px;width:100px;float:left;display:none;"></div>
+	</div>
+	
+	<div style="weight:1000px;">
+		<div style="font-size:12px;font-style:italic;padding-top:10px;width:800px;float:left;">
+			Publishing a job on 5skills.me entails creating discussions, job discussion and status updates on various social networks.
+			<br/>
+			Below are the social networks provided by 5skills.me. You can add or remove social networks by checking or unchecking the checkbox next to each social network. 
+		</div>
+		<div style="width:200px;float:right;padding-top:10px;">
+			<button id="btn__publish_final" style="width:150px;height:40px;">Publish!</button>
+		</div>
+	</div>
+	
+	<% social_networks = ["../images/logos/linkedin-trans.png", "../images/logos/facebook-logo.png", "../images/logos/twitter-trans.png", "../images/logos/xing.png", "../images/logos/viadeo.png"] %>
+	
+	<% 5.times do |i| %>
+	
+		<div class="social_network__panel" <%= "style='opacity:0.3;'" if i > 0 %>>
+			<div id="_check" class="_logo" style="">
+				X
+			</div>
+			<div id="social_network__summary" class="_network_name" style="">
+				<div style="padding:5px 0px 0px 10px;">
+					<img src="<%= social_networks[i] %>" style="width:90px;">
+				</div>
+			</div>
+			<div id="social_network__stats" class="_group_stats" style="">
+				
+				<!-- HEADER -->
+				
+				<div class="_header" style="">
+					<div class="_header__data_block" style="">
+						<div class="_header__data_block__title">
+							<span style="font-weight:bold;">Selected</span>
+						</div>
+						<div class="_header__data_block__data">
+							<div class="_header__data_block__number" style="color:#F3FF33;">?</div>
+						</div>
+					</div>
+					<div class="_header__data_block" style="">
+						<div class="_header__data_block__title">
+							<span style="font-weight:bold;">Required</span>
+						</div>
+						<div class="_header__data_block__data">
+							<div class="_header__data_block__number" style="">?</div>
+						</div>
+					</div>
+					<div class="_header__data_block" style="">
+						<div class="_header__data_block__title">
+							<span style="font-weight:bold;">Missing</span>
+						</div>
+						<div class="_header__data_block__data">
+							<div class="_header__data_block__number" style="color:red;">?</div>
+						</div>
+					</div>
+				</div>
+				
+				
+				<!-- FOOTER -->
+				
+				<div class="_footer" style="">
+					
+					<!-- DATA BLOCK -->
+					
+					<div class="_footer__data_block" style="">
+						
+						<div class="_header__data_block__title">
+							<span style="font-weight:bold;font-size:13px;">Now</span>
+						</div>
+						
+						<div class="_footer__data_block__data">
+							<div class="_footer__sub_data_block" style="">
+								<div class="_footer__sub_data_block__title">
+									Wall post
+								</div>
+								<div class="_header__data_block__data">
+									<div class="_footer__data_block__number" style="color:#F3FF33;">?</div>
+								</div>
+							</div>
+							<div class="_footer__sub_data_block" style="">
+								<div class="_footer__sub_data_block__title">
+									Discussions
+								</div>
+								<div class="_header__data_block__data">
+									<div class="_footer__data_block__number" style="color:#F3FF33;">?</div>
+								</div>
+							</div>
+							<div class="_footer__sub_data_block" style="">
+								<div class="_footer__sub_data_block__title">
+									Jobs
+								</div>
+								<div class="_header__data_block__data">
+									<div class="_footer__data_block__number" style="color:#F3FF33;">?</div>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+					
+					<!-- DATA BLOCK -->
+					
+					<div class="_footer__data_block" style="width:100px;">
+						
+						<div class="_header__data_block__title" style="">
+							<span style="font-weight:bold;font-size:13px;color:#000;">Later</span>
+						</div>
+						
+						<div class="_footer__data_block__data" style="width:100px;">
+							<div class="_footer__sub_data_block" style="width:50px;">
+								<div class="_footer__sub_data_block__title" style="color:#000;">
+									Discussions
+								</div>
+								<div class="_header__data_block__data">
+									<div class="_footer__data_block__number" style="color:red;">?</div>
+								</div>
+							</div>
+							<div class="_footer__sub_data_block" style="width:50px;">
+								<div class="_footer__sub_data_block__title" style="color:#000;">
+									Jobs
+								</div>
+								<div class="_header__data_block__data">
+									<div class="_footer__data_block__number" style="color:red;">?</div>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+					
+				</div>
+				
+			</div>
+		</div>
+	
+	<% end %>
+		
+</div>
+
+

@@ -1,0 +1,23 @@
+defaults: &defaults
+  type: pop                # pop OR imap
+  server: www.flyc.co.nz  # server hostname
+  port:  43                   # 993 for IMAPs
+  ssl:                  # Remove if not using SSL
+  username: member_catcher@flyc.co.nz                # Username
+  password: tomer66                # Password
+  receiver:                 # ActionMailer that will receive mail
+  use_login:            # Required for GMAIL
+  sleep_time:               # Poll Frequency. 60 seconds by default
+  authentication:           # LOGIN, CRAM-MD5, PASSWORD (IMAP Only)
+
+development:
+  <<: *defaults
+  # Override other values here
+  
+test:
+  <<: *defaults
+  # Override other values here
+  
+production:
+  <<: *defaults
+  # Override other values here

@@ -1,0 +1,75 @@
+<div id="fb-root"></div>
+
+<script type="text/javascript" src="http://localhost:3002/javascripts/bl/easyXDM/easyXDM.min.js"></script>
+<script type="text/javascript">
+	
+//	alert('reached server');
+
+	var socket = new easyXDM.Socket({
+	    onMessage: function(message, origin){
+			
+			(function(d){
+		         var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+		         if (d.getElementById(id)) {return;}
+		         js = d.createElement('script'); js.id = id; js.async = true;
+		         js.src = "//connect.facebook.net/en_US/all.js";
+		         ref.parentNode.insertBefore(js, ref);
+		       }(document));
+		
+		      // Init the SDK upon load
+		      window.fbAsyncInit = function(){
+			  	FB.init({
+			  		appId: '156127131075698',
+			  		status: true,
+			  		cookie: true,
+			  		xfbml: true,
+			  		oauth: true,
+			  	});
+			  }
+			
+			alert('message: ' + message);
+			
+			if (!message) {
+				
+				alert("[SERVER] Received 'null' 'message' object from '" + origin + "' !!");
+				return;
+				
+			} else if (message == "check_session" || message == "notify_login" || message == "notify_logout") {
+				
+				// listen for and handle auth.statusChange events
+        FB.Event.subscribe('auth.statusChange', function(response) {
+          if (response.authResponse) {
+            // user has auth'd your app and is logged into Facebook
+            FB.api('/me', function(me){
+              if (me.name) {
+                alert('name: ' + me.name);
+              }
+            })
+            alert (response.authResponse.accessToken);
+          } else {
+            // user has not auth'd your app, or is not logged into Facebook
+            alert('not logged in');
+          }
+        });
+				
+				socket.postMessage("<%= @server_response %>");
+				
+			} else if (message == "social_login") {
+	                var path = 'https://www.facebook.com/dialog/oauth?';
+					   var queryParams = ['client_id=' + '156127131075698',
+					     'redirect_uri=' + 'http://localhost:3002/',
+					     'response_type=token'];
+					   var query = queryParams.join('&');
+					   var url = path + query;
+					   window.open(url);
+				
+			} else {
+				
+				alert("[SERVER] Received an invalid 'action': action = '" + message + "' !!");
+				return;
+				
+			}
+	    }
+	});
+
+</script>

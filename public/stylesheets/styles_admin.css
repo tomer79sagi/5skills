@@ -1,0 +1,142 @@
+/*=============================  Admin =============================*/
+
+.title_main {
+	font-size: 22px;
+	line-height: 60px;
+	color: #393f42;		
+}
+
+.title_main_untitled {
+	color:gray;
+}
+
+.db_entity_row {
+	
+}
+
+.db_entities_header div {
+	text-align:left;
+	font-weight:bold;
+	border-bottom:1px solid lime;
+}
+
+.db_entity_row div {
+	font-size:14px;
+}
+
+.admin_menu_item {
+	float:left;
+	width:130px;
+	text-align:center;
+	font-style:italic;
+}
+
+.adm_actions_col {
+	width:200px;
+	float:left;
+}
+
+.adm_single_action {
+	float:left;
+	width:75px;
+	font-style:italic;
+}
+
+.adm_search_by_selected {
+	background-color:blue;
+	color:white;
+}
+
+
+
+/* CONVERT STYLES */
+
+
+.convert_main_title {
+	padding-left:5px;
+	margin-bottom:15px;
+	margin-top:15px;
+	width:100px;
+	height:26px;
+	border:1px solid lightgray;
+}
+
+.convert_field {
+	width:75px;
+	height:13px;
+	font-size:12px;
+	border:0px;
+}
+
+
+/* PANELS */
+
+.adm_details_panel_heading_title {
+	font-size:13px;
+	font-weight:bold;
+}
+
+.adm_details_panel_heading {
+	width:250px;
+	border:1px solid #00FF00;
+	height:70px;
+	padding-top:.5em;
+	padding-left:.5em;
+}
+
+.adm_field_title {
+	font-size:10px;
+	font-style:italic;
+	color:#A9A9A9;
+}
+
+.adm_field {
+	width:120px;
+}
+
+.adm_panel_block {
+	width:122px;
+}
+
+
+
+/* HOVER STATES */
+
+.admin_menu_item:hover {
+	background-color:green;
+}
+
+.adm_entity_title:hover {
+	background-color:black;
+	color:white;
+	cursor:default;
+}
+
+.adm_new_entity:hover {
+	background-color:gray;
+	color:white;
+	cursor:default;
+}
+
+.adm_single_action:hover {
+	background-color:blue;
+	cursor:default;
+}
+
+.adm_search_by_toggle div:hover {
+	background-color:white;
+	cursor:default;
+}
+
+.title_main:hover {
+	font-style:italic;
+	color:black;
+	cursor:default;
+}
+
+.adm_field:hover {
+	font-style:italic;
+	background-color:black;
+	color:white;
+	cursor:default;
+}

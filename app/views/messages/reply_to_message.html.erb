@@ -1,0 +1,33 @@
+<% content_for :head do %>
+
+	<title>FLYC: Messages > Message</title>
+	
+<% end %>
+
+<% content_for :title do %>
+	<span class="content-title">Message</span>
+<% end %>
+
+<% content_for :bread_crumbs do %>
+
+	<div style="width:100%;padding:0em 0em .5em 0em;float:right;text-align:left;">
+		<span class="content-title" style="font-size:12px;font-weight:normal;">Messages</span>
+		>
+		<span class="content-title" style="font-size:12px;font-weight:normal;">Message</span>
+	</div>
+	
+<% end %>
+
+<%= render :partial => '/main/messages', :locals => {:action => "general"} %>
+
+<% form_tag({:action => :send_reply_to_message, :controller => :user_messages}) do %>
+
+	<%= hidden_field(:message_id, @message.id) %>
+	<%= hidden_field(:message_subject, @subject) %>
+	<%= hidden_field(:message_recipient_id, @message.sender_id) %>
+	<%= hidden_field(:parent_message_id, @message.parent_message_id) %>
+	<%= hidden_field(:message_type_id, @message.message_type_id) %>
+	
+	<%= render :partial => 'messages/reply_to_message' %>	   
+	
+<% end %>

@@ -1,0 +1,41 @@
+<% content_for :head do %>
+  <title>FLYC: <%= @application_summary.role_title %> | Agency Details</title>
+<% end %>
+
+<%= render :partial => '/main/messages', :locals => {:action => "general"} %>
+
+<% content_for :title do %>
+	<span class="content-title">Job Company</span>
+	<span class="content-title"> |</span>
+	<span class="content-title" style="font-size:18px;font-weight:normal;">Editing</span>
+<% end %>
+
+<% content_for :bread_crumbs do %>
+
+	<div style="width:100%;padding:0em 0em .5em 0em;float:right;text-align:left;">
+	
+		<% if @is_new %>
+			<span class="content-title" style="font-size:12px;font-weight:normal;">My Jobs</span>
+			>
+			<span class="content-title" style="font-size:12px;font-weight:normal;">'<%= truncate(@application_summary.role_title, :options => {nil, 9}) %>'</span>
+			>
+			<span class="content-title" style="font-size:12px;font-weight:bold;">Company</span>
+		<% else %>
+			<span class="content-title" style="font-size:12px;font-weight:normal;"><%= link_to 'My Jobs', view_applications_url %></span>
+			>
+			<span class="content-title" style="font-size:12px;font-weight:normal;">'<%= truncate(@application_summary.role_title, :options => {nil, 9}) %>'</span>
+			>
+			<span class="content-title" style="font-size:12px;font-weight:bold;">Company</span>
+		<% end %>
+		
+	</div>
+	
+<% end %>
+
+<%= render :partial => 'application_summary' %>
+
+<% form_tag({:action => :update_application_company, :application_id => @application_id}) do %>
+
+	<%= render :partial => 'edit_application_company_details' %>
+   
+<% end %>

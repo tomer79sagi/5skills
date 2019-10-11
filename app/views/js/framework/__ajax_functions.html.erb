@@ -1,0 +1,52 @@
+<script type="text/javascript">
+
+// TODO: Change the '_REQ_start_up_actions' to be independent of the ajax_it functions. It should be a separate function
+// Common functions
+// ------------------------------------------------------------
+function _REQ_start_up_actions() {
+	return {ajax_actions: ["<%= params[:ajax_start_up_actions].join('","') if params[:ajax_start_up_actions] %>"]};
+}
+
+
+// ---- Sync
+//
+function _REQ__sync(data){
+	var json_arr = {};
+	 
+	json_arr._sync_entities = data.entities;
+	
+	if (data.header) { json_arr._header = data.header; }
+	
+	return {action: "ajax/sync", data: json_arr};
+}
+
+function _RES__sync(data, status_i){
+	// synced(data);
+	
+	___synced(data);
+}
+
+function _RES_ERR__sync(data, status_i){
+	// The 'response' function requires an array of hash elements, each hash element has a 'label' and a 'value' attribute
+	alert(status_i + ' ; ' + data.message);
+}
+
+
+
+// ---- Lookups
+//
+function _REQ_search_skills(data){
+	var json_arr = {};
+	
+	json_arr.skill_name = data.request.term;
+	
+	return {action: "ajax/skill/all/search", data: json_arr};
+
+}
+
+function _RES_search_skills(data, status_i){
+	// The 'response' function requires an array of hash elements, each hash element has a 'label' and a 'value' attribute
+	g_ajax_obj_cache.response(data.results);    
+}
+
+</script>

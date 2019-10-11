@@ -1,0 +1,49 @@
+<div style="width:750px;float:left;min-height:80px;padding:1em 0em 0em 0em;">
+
+  	<div style="background-color:#dfefff;width:100%;text-align:left;border-top:1px solid #dfe1ff;padding:1em 1em 0em 1em;margin:-1px 0px 20px 0px;">
+		
+		<% @activities.each do |activity| %>
+		
+			<div style="clear:left;text-align:left;">
+			
+			<table style="width:100%;">
+				<tr style="vertical-align:top;">
+					
+					<td style="padding:0em 0em .5em 0em;margin:0px 0px 0px 1px;">
+						<div style="width:100%;border:1px solid #ceffc2;float:left;min-height:20px;background-color:#ceffc2;">
+						
+							<!-- Job Application Details -->
+							<table style="width:100%;text-align:left;">
+								<tr style="vertical-align:top;">
+									
+									<td class="template_cell_title_content" style="width:200px;font-size:14px;line-height:24px;vertical-align:top;">
+										
+										<%= link_to activity.action, options = activity.to_link_to_options, :class => "content_link" %>
+										
+									</td>
+									<td class="template_cell_title_content" style="width:200px;font-size:14px;line-height:24px;vertical-align:top;">
+										<% if activity.parameter_values %>
+											<%= activity.parameter_values %>
+										<% end %>
+									</td>
+									<td class="template_cell_last_updated_date_content" style="width:200px;text-align:left;">
+										<b><%= activity.updated_at.to_datetime.strftime '%d %b %y' %></b>,
+										<%= activity.updated_at.to_datetime.strftime '%I:%M%p' %>,
+										<%= activity.updated_at.to_datetime.strftime '%A' %>
+									</td>
+									
+								</tr>
+							</table>
+						</div>
+					</td>	
+					
+				</tr>
+			</table>
+			
+			</div>
+	
+		<% end %>
+		
+	</div>
+	
+</div>

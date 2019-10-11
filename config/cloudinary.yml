@@ -1,0 +1,21 @@
+---
+development:
+  cloud_name: fiveskills
+  api_key: '485714497348157'
+  api_secret: uyqHJ0inMXFS2c8f5WHfERsmXv4
+  enhance_image_tag: true
+  static_image_support: false
+  
+production:
+  cloud_name: fiveskills
+  api_key: '485714497348157'
+  api_secret: uyqHJ0inMXFS2c8f5WHfERsmXv4
+  enhance_image_tag: true
+  static_image_support: true
+  
+test:
+  cloud_name: fiveskills
+  api_key: '485714497348157'
+  api_secret: uyqHJ0inMXFS2c8f5WHfERsmXv4
+  enhance_image_tag: true
+  static_image_support: false

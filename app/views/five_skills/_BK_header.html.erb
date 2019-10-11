@@ -1,0 +1,86 @@
+<% if !session[:user] || session[:user].user_type_id == Fs2User::USER_TYPES[:job_seeker] %>
+  <div class="header">
+<% else %>
+  <div class="header_contact">
+<% end %>	
+	
+	<div class="header_main">
+		
+		<div class="logo left">
+			<%= link_to(image_tag("/images/logo.png", :alt => "5skills.me", :id => 'fs_logo'),
+			    { :controller => :five_skills, :action => :home }) %>
+		</div>
+		
+		<% if session[:user] && session[:person] %>
+		
+			<div class="header_user_info right">
+					
+				Hi <span style="font-weight:bold;"><%= session[:person].full_name %></span>,
+				
+				<% if session[:user].user_type_id == Fs2User::USER_TYPES[:job_seeker] %>
+					JOB SEEKER
+				<% elsif session[:user].user_type_id == Fs2User::USER_TYPES[:recruitment_agent] %>
+					RECRUITMENT AGENT
+				<% elsif session[:user].user_type_id == Fs2User::USER_TYPES[:hiring_manager] %>
+					HIRING MANAGER
+				<% end %>
+				
+				<% if session[:user].user_type_id == Fs2User::USER_TYPES[:recruitment_agent] && session[:agency] %>
+					[<%= session[:agency].name %>]
+				<% elsif session[:user].user_type_id == Fs2User::USER_TYPES[:hiring_manager] && session[:company] %>
+					[<%= session[:company].name %>]
+				<% end %>
+				
+				<br/>
+				
+				<%= link_to 'Logout', do_logout_url, :class => "content_link" %>, 
+				<a href="/" onClick="help(); return false;">Help</a>
+				
+			</div>	
+		
+			<div class="header_menu">
+				
+				<% if session[:user].user_type_id == Fs2User::USER_TYPES[:job_seeker] %>
+	
+					<div>
+						<%= link_to 'Profile', view_job_seeker_profile_url({:job_seeker_id => session[:person].id}) %>
+						( <%= link_to 'Edit', edit_job_seeker_profile_url({:job_seeker_id => session[:person].id}) %> )
+					</div>
+					
+					<div class="disabled"><%= link_to 'Job matches', view_job_matches_url %></div>
+					<div class="disabled"><%= link_to 'Find jobs', find_jobs_url %></div>
+					<div class="disabled"><%= link_to 'CV delivery log', jobs_cv_delivery_log_url %></div>
+					<div class="disabled"><%= link_to 'Settings', manage_job_seeker_settings_url %></div>
+					
+				<% elsif session[:user].user_type_id == Fs2User::USER_TYPES[:recruitment_agent] || session[:user].user_type_id == Fs2User::USER_TYPES[:hiring_manager] %>
+					
+					<div>
+						
+						<% if session[:job] %>
+						
+							<%= link_to 'Job profile', view_job_profile_url({:job_id => session[:job].id}) %>
+							
+							<% if session[:job].nil? %>
+								( <%= link_to 'Create', create_job_profile_url %> )
+							<% else %>
+								( <%= link_to 'Edit', edit_job_profile_url({:job_id => session[:job].id}) %> )
+							<% end %>
+							
+						<% end %>
+						
+					</div>			
+					
+					<div class="disabled"><%= link_to 'Job seeker matches', view_job_seeker_matches_url %></div>
+					<div class="disabled"><%= link_to 'Find job seekers', find_job_seekers_url %></div>
+					<div class="disabled"><%= link_to 'CV delivery log', job_seekers_cv_delivery_log_url %></div>
+					<div class="disabled"><%= link_to 'Settings', manage_job_settings_url %></div>
+					
+				<% end %>
+					
+			</div>
+		
+		<% end %>
+			
+	</div>		
+	
+</div>

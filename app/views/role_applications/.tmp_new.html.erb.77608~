@@ -1,0 +1,26 @@
+<h1>New Application</h1>
+
+<%= render :partial => '/main/candidate_header' %>	
+<%= render :partial => '/main/messages' %>
+  
+<p/>
+
+<% form_tag(:action => :create_application, :candidate_id => @person.id) do %>
+  
+    <%= submit_tag 'Create' %>
+	  
+  	<%= render :partial => 'application_details' %>
+	<%= render :partial => 'role_details' %>
+
+	<table>
+		<tr>
+			<td><%= render :partial => 'agency_details' %></td>
+			<td><%= render :partial => 'company_details' %></td>
+		</tr>
+	</table>
+	
+    <%= submit_tag 'Create' %>
+   
+<% end %>
+
+<%= render :partial => '/main/candidate_header' %>

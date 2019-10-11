@@ -1,0 +1,34 @@
+<table class="template_h2t" style="width:100%;border:3px solid black;border-collapse:collapse;">
+	<tr style="vertical-align:left;width:100%;">
+		
+		<td class="template_h2c1" style="min-width:150px;border-right:1px solid black;">
+			<div style="text-align:center;font-weight:bold;font-size:16px;padding:.5em .5em .5em .5em">
+				<%= link_to 'Home', company_contact_view_home_url %>
+			</div>
+		</td>
+		<td class="template_h2c1" style="min-width:150px;border-right:1px solid black;">
+			<div style="text-align:center;font-weight:bold;font-size:16px;padding:.5em .5em .5em .5em">
+				<%= link_to 'My Roles', company_contact_view_roles_url %>
+			</div>
+		</td>
+		<td class="template_h2c1" style="min-width:150px;border-right:1px solid black;">
+			<div style="text-align:center;font-weight:bold;font-size:16px;padding:.5em .5em .5em .5em">
+				My Agencies
+				<br/>My Agents
+			</div>
+		</td>
+		<td style="min-width:150px;border-right:1px solid black;">
+			<div style="text-align:center;font-weight:bold;font-size:16px;padding:.5em .5em .5em .5em">
+				My Candidates
+			</div>
+		</td>
+		<td style="width:100%;">
+			<div style="text-align:right;font-weight:bold;font-size:12px;padding:.5em .5em .5em .5em">
+				<%= link_to 'Invite agents', invite_company_contact_agents_by_email_step_1_url %>
+				&nbsp;|&nbsp;<u>Invite candidates</u><br/>
+				Search:<input type="text"/><button>Search</button>
+			</div>
+		</td>		
+		
+	</tr>
+</table>

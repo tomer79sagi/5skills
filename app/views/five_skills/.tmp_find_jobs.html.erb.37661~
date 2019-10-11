@@ -1,0 +1,48 @@
+<% content_for :head do %>
+	5skills.me
+<% end %>
+
+<% content_for :title do %>
+	Search job seekers
+<% end %>
+
+<% form_tag({:action => :search_job_seekers}) do %>
+
+	<table>
+		<tr>
+			<td>
+				<table>
+					<tr>
+						<td>Template:</td>
+						<td>
+							<input type="text" id="search_template-name" name="search_template-name">
+							<input type="hidden" id="search_template-id"/>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	
+	<%= render :partial => '/five_skills/job_seeker_five_skills' %>
+	
+	<table style="width:100%;text-align:right;">
+		<tr>
+			<td>
+				<table>
+					<tr>
+						<td style="width:200px;">Template name:</td>
+						<td><input type="text" id="create_template-name" name="create_template-name"></td>
+						<td><button style="width:150px;" onClick="ajax_it('create_template'); return false;">Create template</button></td>
+						<td style="width:650px;">&nbsp;</td>
+						<td style="text-align:right;"><%= submit_tag 'Reset to job requirements', :name => "reset_to_job_requirements" %></td>
+						<td style="text-align:right;"><button style="width:150px;" onClick="ajax_it('search'); return false;">Find matches</button></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+
+<% end %>
+
+<%= render :partial => '/five_skills/job_seekers_search_results' %>

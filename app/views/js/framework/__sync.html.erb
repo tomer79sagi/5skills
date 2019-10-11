@@ -1,0 +1,1000 @@
+<script type="text/javascript">
+
+
+// --- DEMO stuff
+// The following are attributes used for DEMO purposes only
+var _demo__job_id;
+var _demo__job__company__logo_url;
+
+
+// -- array of 
+var res_array = [];
+
+var s_parents = {
+	"job": "jobs",
+	"fs_profile": "fs_profiles",
+	"notification": "notifications",
+	"job_seeker": "job_seekers"
+};
+
+// --- Holding the core session / request infromation necessary to perform calls and interact with the server
+var _core = {
+	"_fsession_id": null,
+	"_synced": false,
+	"user_id": <%= @_user_id.to_i %>,
+	"person_id": null,
+	"person_type": null
+};
+var _skeleton = {}; // --- holding the data structure with ids
+var _server = {}; // --- Holding the '_server' object just received
+var _vhooks = []; // --- client 'session' array of hooks. the '_RES_sync' call reads the 'vhooks' from this array
+var _vhooks_realtime = []; // --- Array of _vhooks that need updating next SYNC '_tick'
+
+
+function sync_rt() {
+	
+	console.log("\n[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[   REALTIME   ]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]");
+	
+	var rt_elments_to_sync = ___get_rt_elements();
+	
+	if (rt_elments_to_sync.entities) { sync(rt_elments_to_sync.entities); }
+	
+}
+
+// --- The core 'sync' function
+//
+// entities is expected to be a hash of the following format: {entity_name}: {entity_id}
+//
+function sync(_entities) {
+	
+	for (var a in _entities) { console.log('\n<----- sync: ' + a + ' ; ' + _entities[a]); }
+	
+	// If there are no _entities defined (specific ones), use the _vhooks array
+	if (!_entities) {
+		// _entities = _get_elements_to_sync().entities;
+		_entities = ___get_elements_to_sync().entities;
+	}
+	
+	if (!_entities) { _entities = {}; }
+	var data_arr = {};
+	
+	// -- In case '_core' is NOT synced, ask the server to sync it
+	if (_core["_synced"] == false) {		
+		_entities._core = true;
+		// _entities._skeleton = true;
+		
+	// -- In case '_core' IS synced, include it in the request
+	} else {
+		data_arr.header = {
+			user_id: _core.user_id
+		};
+	}
+	
+	if (_entities) {
+		
+		// --- DEMO
+		_entities._demo__job_id = _demo__job_id;
+		
+		data_arr.entities = _entities;
+	
+		ajax_it('_sync', data_arr);
+	}
+}
+
+function calculateAspectRatioFit(srcWidth, srcHeight, maxWidth, maxHeight) {
+
+    var ratio = [maxWidth / srcWidth, maxHeight / srcHeight ];
+    ratio = Math.min(ratio[0], ratio[1]);
+
+    return { width:srcWidth*ratio, height:srcHeight*ratio };
+ }
+
+// --- Function with data received from server
+//
+function synced(data) {
+	
+	if (!data.entities) {
+		console.log('* NOTE: no "entities" object returned from server.');
+		return;
+	}
+	
+	
+	// --- DEMO
+		
+	if (data._demo__job_id) {
+		_demo__job_id = data.entities[entity];
+	}
+	if (data._demo__job__title) {
+		$("#job #header_title").html(data._demo__job__title);
+	}
+	if (data._demo__job__company__logo_url) {
+		var img_obj = $("#job #img_logo img");
+		var new_dimensions;
+		
+		img_obj.attr("src", data._demo__job__company__logo_url);
+		
+		// new_dimensions = calculateAspectRatioFit(parseInt(img_obj.css("width")), parseInt(img_obj.css("height")), 100, 35);
+		new_dimensions = { width: 100, height: 30 };
+		
+		img_obj.css("width", new_dimensions.width);
+		img_obj.css("height", new_dimensions.height);
+		img_obj.show();
+	}
+		
+	
+	// -- 1 - ENTITIES -> UPDATE TEMPLATES, based on data received
+	
+	// This flag indicates if there is entity data that is required by the client templates
+	// (and not a '_core', '_skeleton' or any other meta-data information)
+	var server_data_exists = false;
+	
+	for (var entity in data.entities) {
+		
+		// Skip the 'entities' iteration if the current entity is one of 3 types:
+		// 1. '_core'
+		// 2. '_skeleton'
+		// 3. entity starting with '_demo'...
+		if (entity == '_core' || entity == '_skeleton' || entity.indexOf('_demo') == 0) { continue; }
+		
+		server_data_exists = true;
+		
+		console.log('\n-----> synced: ' + entity + ' ; ' + data.entities[entity]);
+		if (data[entity]) { console.log('    >> updated_at: ' + data[entity].updated_at); }
+			
+		// -- A - Update the '_server' object
+		//  e.g. '_server[fs_profile] = fs_profile (JSON object received from server)
+		_server[entity] = data[entity];
+		
+		// -- B - Update 'updated_at' -> Find _skeleton objects with the right id
+		//
+		//  e.g. 'fs_profile' with id 2194
+		// -- 'entity' -> 'fs_profile'
+		// -- 'data.entities[entity]' -> '2194'
+		
+		
+		// !!! TEST - Try not to use skeleton, compare the updated_at directly with the relevant template 
+		
+		if (_server[entity]) {
+			_update__skeleton__updated_at(entity, data.entities[entity], _server[entity].updated_at);
+		}
+
+	}
+	
+	if (server_data_exists) {
+		// Get templates to update
+		// !!! TEST - templates are required to sync if the template 'updated_at' is null or different from the server one
+		templates_to_sync = _get_elements_to_sync().templates;
+	
+		// Update templates
+		if (templates_to_sync) { _update__templates__with_server_data(templates_to_sync); }
+	}
+	
+	
+	// -- 2 - CORE check, update the _core
+	
+	if (data.entities._core && data.entities._core == true) {
+
+		_core["_fsession_id"] = data._core._fsession_id;
+		_core["person_id"] = data._core.person_id;
+		_core["person_type"] = data._core.person_type;
+		_core["user_id"] = data._core.user_id;
+		
+		_core["_synced"] = true;
+	}
+	
+		
+	// -- 3 - SKELETON check, update the skeleton
+	
+	var entities_to_update = null;
+	if (data.entities._skeleton && data.entities._skeleton == true) {
+		
+		_skeleton = data._skeleton;
+		
+		// Get entities that requires sync
+		entities_to_sync = _get_elements_to_sync().entities;
+		
+		// console.log(entities_to_sync);
+		
+		// Call 'SYNC' for the entities
+		if (entities_to_sync) { sync(entities_to_sync); }
+		
+		
+		// -- Start the DELAYED REALTIME-SYNC
+		
+		// ** Start or Re-start the 'SYNC' timer -> Only when the _skeleton is refreshed
+		// ** with a 'timer' delay, as the previous line executes the 'sync' for the first time
+		_init_action_timer('sync_rt');
+		_tick('sync_rt', false);
+			
+	}
+	
+	
+	
+	
+	
+// The 'response' function requires an array of hash elements, each hash element has a 'label' and a 'value' attribute
+	
+// Update the visual components based on the vhooks
+// doHooks();
+}
+
+
+// --- Function with data received from server
+//
+function ___synced(data) {
+	
+	if (!data.entities) {
+		console.log('* NOTE: no "entities" object returned from server.');
+		return;
+	}
+	
+	
+	// --- DEMO
+		
+	if (data._demo__job_id) {
+		_demo__job_id = data.entities[entity];
+	}
+	if (data._demo__job__title) {
+		$("#job #header_title").html(data._demo__job__title);
+	}
+	if (data._demo__job__company__logo_url) {
+		var img_obj = $("#job #img_logo img");
+		var new_dimensions;
+		
+		img_obj.attr("src", data._demo__job__company__logo_url);
+		
+		// new_dimensions = calculateAspectRatioFit(parseInt(img_obj.css("width")), parseInt(img_obj.css("height")), 100, 35);
+		new_dimensions = { width: 100, height: 30 };
+		
+		img_obj.css("width", new_dimensions.width);
+		img_obj.css("height", new_dimensions.height);
+		img_obj.show();
+	}
+		
+	
+	// -- 1 - ENTITIES -> UPDATE TEMPLATES, based on data received
+	
+	// This flag indicates if there is entity data that is required by the client templates
+	// (and not a '_core', '_skeleton' or any other meta-data information)
+	var server_data_exists = false;
+	
+	for (var entity in data.entities) {
+		
+		// Skip the 'entities' iteration if the current entity is one of 3 types:
+		// 1. '_core'
+		// 2. '_skeleton'
+		// 3. entity starting with '_demo'...
+		if (entity == '_core' || entity == '_skeleton' || entity.indexOf('_demo') == 0) { continue; }
+		
+		server_data_exists = true;
+		
+		console.log('\n-----> synced: ' + entity + ' ; ' + data.entities[entity]);
+		// if (data[entity]) { console.log('    >> updated_at: ' + data[entity].updated_at); }
+			
+		// -- A - Update the '_server' object
+		//  e.g. '_server[fs_profile] = fs_profile (JSON object received from server)
+		_server[entity] = data[entity];
+		
+		// -- B - Update 'updated_at' -> Find _skeleton objects with the right id
+		//
+		//  e.g. 'fs_profile' with id 2194
+		// -- 'entity' -> 'fs_profile'
+		// -- 'data.entities[entity]' -> '2194'
+
+	}
+	
+	if (server_data_exists) {
+		
+		// Get templates to update
+		// !!! TEST - templates are required to sync if the template 'updated_at' is null or different from the server one
+		templates_to_sync = ___get_elements_to_sync().templates;
+	
+		// Update templates
+		if (templates_to_sync) { ___update__templates__with_server_data(templates_to_sync); }
+	}
+	
+	
+	// -- 2 - CORE check, update the _core
+	
+	if (data.entities._core && data.entities._core == true) {
+
+		_core["_fsession_id"] = data._core._fsession_id;
+		_core["person_id"] = data._core.person_id;
+		_core["person_type"] = data._core.person_type;
+		_core["user_id"] = data._core.user_id;
+		
+		_core["_synced"] = true;
+		
+		// Get entities that requires sync
+		entities_to_sync = ___get_elements_to_sync().entities;
+		
+		// console.log(entities_to_sync);
+		
+		// Call 'SYNC' for the entities
+		if (entities_to_sync) { sync(entities_to_sync); }
+		
+		
+		// -- Start the DELAYED REALTIME-SYNC
+		
+		// ** Start or Re-start the 'SYNC' timer -> Only when the _skeleton is refreshed
+		// ** with a 'timer' delay, as the previous line executes the 'sync' for the first time
+		_init_action_timer('sync_rt');
+		_tick('sync_rt', false);
+	}
+}
+
+function ___get_server_object(vhook_obj) {
+	
+	var is_attr_match = true;
+	var is_object_match = true;
+	var log_s = '\n__ FINDING SERVER OBJECT: ' + vhook_obj[0];
+	var returned_val = null;
+	
+	// -- 1 - Iterate through all of the '_server' entities
+	for (var server_o in _server) {
+		
+		// log_s += '\n..  server attr: ' + server_o + ' ; ' + _server + ' ; ' + vhook_obj[0];
+		
+		// -- 2 - If the 'entity_name' is a MATCH --> e.g. 'fs_profile' == 'fs_profile'
+		if (vhook_obj[0] == server_o) {
+			
+			// Reset the 'is_object_match' flag --> in case more than one entity is returned (same name, different associated parameters)
+			is_object_match = true;
+			
+			// -- 3 - Iterate through all 'vhook_obj' associated objects (starting with '_')
+			for (var req_o in vhook_obj[1]) {
+
+				// -- 4 - Identify an associated parameter (starting with '_')
+				//        If the '_' was detected --> indicating that this object is associated (a child of) another object
+				if (req_o.indexOf('_') == 0) {
+					
+					// log_s += '\n..  checking _ param: ' + req_o + ' ; ' + server_o + ' ; ' + _server[server_o];
+					
+					is_attr_match = false;
+					
+					// -- 5 - Iterate through all 'response' --> server parameters
+					for (var res_o in _server[server_o]) {
+						
+						// log_s += '\n..  iterating over: ' + res_o + ' ; ' + _server[server_o][res_o];
+						
+						// Identify a MATCH of a parameter
+						if (req_o == res_o) {
+							// log_s += '\n..  ATTR FOUND: ' + req_o + ' ; ' + res_o;
+							is_attr_match = true; break; }
+					}
+					
+					// -- 6 - FAIL
+					if (!is_attr_match) {
+						// log_s += '\n..  ATTR NOT FOUND!';
+						is_object_match = false; break; }
+				}
+			}
+			
+			// Return the found object, if it was found. If it wasn't, we need to continue and check the other objects
+			if (is_object_match) { 
+				log_s += '  ---> FOUND: ' + server_o;
+				returned_val = [ server_o, _server[server_o] ];
+				break; }
+		}
+	}
+	
+	if (!is_object_match) { log_s += '  ---> NOT FOUND!'; }
+	
+	console.log(log_s);
+	
+	return returned_val;
+}
+
+function ___update__templates__with_server_data(templates_to_sync) {
+	// 1. Iterate over _vhooks
+	// 2. Alert if _vhooks' entities don't appear in _skeleton
+	// 3. Alert if _vhooks' entities don't appear in _server
+	// 4. Update all _vhooks' entities with _server data
+	
+	// -- 3 - Alert on templates that cannot be updated
+	
+	console.log("\n------------------------- SYNCING TEMPLATES -------------------------");
+	
+	for (var k = 0 ; k < templates_to_sync.length ; ++k) {
+		
+		console.log('\n((((((((((   TEMPLATE: name -> ' + 
+			$(templates_to_sync[k]).attr("_template") + ' | _vhook -> ' + 
+			$(templates_to_sync[k]).attr("_vhook") + ' | updated_at -> ' + 
+			$(templates_to_sync[k]).attr("_vhook__updated_at") + '   ))))))))))');
+		
+		var vhook_obj = _construct_vhook_request($(templates_to_sync[k]).attr("_vhook"));
+		var vhook_server_obj = ___get_server_object(vhook_obj);
+		
+		console.log("\n------------------------- REQUEST -------------------------");
+		// _print_vhook_obj(vhook_obj);
+		
+		console.log("\n------------------------- RESPONSE -------------------------");
+		
+		if (vhook_server_obj) {
+			var event_func_name = '__SYNC__' + $(templates_to_sync[k]).attr("_template");
+			
+			// _print_vhook_obj(vhook_server_obj);
+			
+			// Check if the 'event' / 'function' exists, if so, execute the SYNC function
+			if (eval("typeof " + event_func_name) === 'function') {
+				
+				// -- 1 - Call the 'update' function
+				eval(event_func_name)(templates_to_sync[k], vhook_server_obj[1].__server);
+				
+				// -- 2 - Update the 'update_at' attribute
+				$(templates_to_sync[k]).attr("_vhook__updated_at", vhook_server_obj[1].__server.updated_at);
+				
+				// -- 3 - Debug
+				console.log('\n__SYNCED: name -> ' + 
+					$(templates_to_sync[k]).attr("_template") + ' | _vhook -> ' + 
+					$(templates_to_sync[k]).attr("_vhook") + ' | updated_at -> ' + 
+					$(templates_to_sync[k]).attr("_vhook__updated_at"));
+				
+				// Hide the 'loading' image
+				_ready($(templates_to_sync[k]).attr("_template"), templates_to_sync[k]);
+				
+			} else {
+				console.log("! WARNING: '" + event_func_name + "' function does not exist!");
+			}
+		} else {
+			console.log('! WARNING: "' + vhook_server_obj + '" not found.');
+		}
+	}
+}
+
+
+function _update__templates__with_server_data(templates_to_sync) {
+	// 1. Iterate over _vhooks
+	// 2. Alert if _vhooks' entities don't appear in _skeleton
+	// 3. Alert if _vhooks' entities don't appear in _server
+	// 4. Update all _vhooks' entities with _server data
+	
+	// -- 3 - Alert on templates that cannot be updated
+	
+	var skeleton_obj;
+	for (var k = 0 ; k < templates_to_sync.length ; ++k) {
+		
+		// skeleton_obj = _get__skeleton_object($(templates_to_sync[k]).attr("_vhook"));
+		event_func_name = '__SYNC__' + $(templates_to_sync[k]).attr("_template");
+		
+		if (skeleton_obj.entity_obj) {
+			console.log('__SYNC: ' + $(templates_to_sync[k]).attr("_template") + ' | ' + skeleton_obj.entity_name + ' | ' + skeleton_obj.entity_id + ' | ' + skeleton_obj.entity_obj.updated_at);
+		}
+	
+		// Check if the 'event' / 'function' exists, if so, execute the SYNC function
+		if (eval("typeof " + event_func_name) === 'function') {
+			
+			// -- 1 - Call the 'update' function
+			eval(event_func_name)(templates_to_sync[k]);
+			
+			// -- 2 - Update the 'update_at' attribute
+			$(templates_to_sync[k]).attr("_vhook__updated_at", skeleton_obj.entity_obj.updated_at);
+			
+			// -- 3 - Debug
+			console.log('__SYNCED: ' + $(templates_to_sync[k]).attr("_template") + ' | ' + $(templates_to_sync[k]).attr("_vhook") + ' | ' + $(templates_to_sync[k]).attr("_vhook__updated_at"));
+			
+			// Hide the 'loading' image
+			_ready($(templates_to_sync[k]).attr("_template"), templates_to_sync[k]);
+			
+		} else {
+			console.log("! WARNING: '" + event_func_name + "' function does not exist!");
+		}
+	}
+}
+
+
+function _get_rt_elements_to_sync() {
+	
+	var rt_elements_to_sync = {
+		templates: null,
+		entities: null
+	};
+	
+	console.log('..rt_elements_to_sync: ' + _vhooks_realtime);
+	
+	for (var i = 0 ; i < _vhooks_realtime.length ; ++i) {
+		
+		var skeleton_obj = _get__skeleton_object(_vhooks_realtime[i]);
+		var _templates = $("[_vhook__realtime='true']");
+		
+		// SKIP to next _vhook
+		// IF the _skeleton doesn't have the _vhook requested
+		// OR the _server doesn't have the entity requested
+		if (!skeleton_obj || !skeleton_obj.entity_obj) {
+			console.log('! ERROR - RT: _vhook "' + _vhooks_realtime[i] + '" does not exist in _skeleton.. skipping _vhook..');
+			continue;
+		}
+		
+		for (var j = 0 ; j < _templates.length ; ++j) {
+					
+			// Populate 'entities'
+			if (!rt_elements_to_sync.entities) { rt_elements_to_sync.entities = {}; }
+			if (!rt_elements_to_sync.entities[skeleton_obj.entity_name]) {						
+				rt_elements_to_sync.entities[skeleton_obj.entity_name] = skeleton_obj.entity_id;
+			}
+			
+			// Populate 'templates'
+			if (!rt_elements_to_sync.templates) { rt_elements_to_sync.templates = []; }						
+			rt_elements_to_sync.templates.push(_templates[j]);
+			
+		}
+	}
+	
+	return rt_elements_to_sync;	
+}
+
+
+function ___get_rt_elements() {
+	
+	var rt_elements = {
+		templates: null,
+		entities: null
+	}
+	
+	// -- 1 - Iterate through all _vhooks
+	for (var i = 0 ; i < _vhooks.length ; ++i) {
+		var request = _construct_vhook_request(_vhooks[i]);
+		var _templates = $("[_vhook='" + _vhooks[i] + "']");
+		
+		// -- 2 - Iterate through all templates (related to the _vhooks)
+		for (var j = 0 ; j < _templates.length ; ++j) {
+			
+			// -- 3 - Distill the 'REALTIME' elements
+			if ( $(_templates[j]).attr("_vhook__realtime") == 'true' ) {
+				// Populate 'entities'
+				if (!rt_elements.entities) { rt_elements.entities = {}; }
+				if (!rt_elements.entities[request[0]]) { rt_elements.entities[request[0]] = request[1]; }
+				
+				// Populate 'templates'
+				if (!rt_elements.templates) { rt_elements.templates = []; }						
+				rt_elements.templates.push(_templates[j]);
+			}
+		}
+	}
+	
+	return rt_elements;
+}
+
+
+// -- Combined function for retrieving either ENTITIES or TEMPLATES that requires syncing
+//
+// Check -> SKELETON updated_at <-> TEMPLATE updated_at
+// Return an array of elements that require 
+//
+function ___get_elements_to_sync() {
+	
+	// 'core' elements to sync are based on UPDATED_AT
+	// 'realtime' elements to sync are based on a TIMER (60 seconds say) and a SERVER TIMESTAMP
+	var elements_to_sync = {
+		templates: null,
+		entities: null
+	};
+	var log_s = '';
+	
+	console.log("\n------------------------- FINDING ELEMENTS TO SYNC -------------------------");
+	
+	for (var i = 0 ; i < _vhooks.length ; ++i) {
+		
+		var request = _construct_vhook_request(_vhooks[i]);
+		var vhook_server_obj = ___get_server_object(request);
+		var _templates = $("[_vhook='" + _vhooks[i] + "']");
+		
+		
+		// Debugging
+		// _print_vhook_obj(request);
+		
+		for (var j = 0 ; j < _templates.length ; ++j) {
+			
+			log_s = '  --->  Comparing "updated_at" dates:  ' + 
+				'TEMPLATE -> ' + $(_templates[j]).attr("_vhook__updated_at") + ' ; ' + 
+				'SERVER -> ';
+			
+			if (vhook_server_obj && vhook_server_obj[1].__server && vhook_server_obj[1].__server.updated_at) {
+				log_s += vhook_server_obj[1].__server.updated_at;
+			} else {
+				log_s += 'N/A';
+			}
+			
+			// -- A - Check if a 'sync' is required (and wait until it's 'synced' before proceeding with updates)
+			//        Logic -> 'template' updated_at == null OR
+			//			       'template' updated_at != _skeleton object 'updated_at' AND _server doesn't contain the relevant data
+			//
+			if ( ( $(_templates[j]).attr("_vhook__updated_at") == null || $(_templates[j]).attr("_vhook__updated_at") == undefined ) ||
+				( vhook_server_obj && vhook_server_obj[1].__server.updated_at != $(_templates[j]).attr("_vhook__updated_at") ) ) {
+					
+					log_s += '  --->  "' + $(_templates[j]).attr("_template") + '" requires SYNC';
+					
+					// Populate 'entities'
+					if (!elements_to_sync.entities) { elements_to_sync.entities = {}; }
+					if (!elements_to_sync.entities[request[0]]) { elements_to_sync.entities[request[0]] = request[1]; }
+					
+					// Populate 'templates'
+					if (!elements_to_sync.templates) { elements_to_sync.templates = []; }						
+					elements_to_sync.templates.push(_templates[j]);
+			}
+			
+			console.log(log_s);
+			
+		}
+	}
+	
+	return elements_to_sync;
+}
+
+function _print_vhook_obj(node) {
+	if (!node) { console.log('\n* Empty node'); return; }
+	
+	console.log(node[0] + ' ==>');
+	_print_hash(node[1]);
+}
+
+// -- Combined function for retrieving either ENTITIES or TEMPLATES that requires syncing
+//
+// Check -> SKELETON updated_at <-> TEMPLATE updated_at
+// Return an array of elements that require 
+//
+function _get_elements_to_sync() {
+	
+	// 'core' elements to sync are based on UPDATED_AT
+	// 'realtime' elements to sync are based on a TIMER (60 seconds say) and a SERVER TIMESTAMP
+	var elements_to_sync = {
+		templates: null,
+		entities: null,
+		realtime: {
+			templates: null,
+			realtime: null
+		}
+	};
+	
+	console.log('..elements_to_sync: ' + _vhooks);
+	
+	for (var i = 0 ; i < _vhooks.length ; ++i) {
+		
+		var skeleton_obj = _get__skeleton_object(_vhooks[i]);
+		var _templates = $("[_vhook='" + _vhooks[i] + "']");
+		
+		// SKIP to next _vhook
+		// IF the _skeleton doesn't have the _vhook requested
+		// OR the _server doesn't have the entity requested
+		if (!skeleton_obj || ( !skeleton_obj.entity_obj && skeleton_obj.entity_id > 0 ) ) {
+			console.log('! ERROR: _vhook "' + _vhooks[i] + '" does not exist in _skeleton.. skipping _vhook..');
+			continue;
+		}
+		
+		for (var j = 0 ; j < _templates.length ; ++j) {
+			
+			// -- A - Check if a 'sync' is required (and wait until it's 'synced' before proceeding with updates)
+			//        Logic -> 'template' updated_at == null OR
+			//			       'template' updated_at != _skeleton object 'updated_at' AND _server doesn't contain the relevant data
+			//
+			if ( ( $(_templates[j]).attr("_vhook__updated_at") == null || 
+				( $(_templates[j]).attr("_vhook__updated_at") != skeleton_obj.entity_obj.updated_at ) ) ) {
+					
+					// Populate 'entities'
+					if (!elements_to_sync.entities) { elements_to_sync.entities = {}; }
+					if (!elements_to_sync.entities[skeleton_obj.entity_name]) {						
+						elements_to_sync.entities[skeleton_obj.entity_name] = skeleton_obj.entity_id;
+					}
+					
+					// Populate 'templates'
+					if (!elements_to_sync.templates) { elements_to_sync.templates = []; }						
+					elements_to_sync.templates.push(_templates[j]);
+			}
+			
+			
+			// ---- REALTIME
+			// Realtime templates MUST have a '_vhook' as well, therefore, it's OK to collect the RT ones here
+			
+			if ($(_templates[j]).attr("_vhook__realtime") == 'true') {
+				// Populate 'entities'
+				if (!elements_to_sync.realtime.entities) { elements_to_sync.realtime.entities = {}; }
+				if (!elements_to_sync.realtime.entities[skeleton_obj.entity_name]) {						
+					elements_to_sync.realtime.entities[skeleton_obj.entity_name] = skeleton_obj.entity_id;
+				}
+				
+				// Populate 'templates'
+				if (!elements_to_sync.realtime.templates) { elements_to_sync.realtime.templates = []; }						
+				elements_to_sync.realtime.templates.push(_templates[j]);
+			}
+		}
+	}
+	
+	return elements_to_sync;
+}
+
+
+// --
+//
+// 'node' --> Array of 2 elements: [0] = 'name' (e.g. 'fs_profile'), [1] = 'Associative array' containing the id and attributes
+//
+function _construct_vhook_request(field_selector, node) {
+	var node_path = field_selector.split(" "); // Split hierarchy levels (similar to css selectors)
+	var node_level = node_path.pop(); // Extract last element of the array -> 'job'
+	var node_pair = node_level.split("-"); // Split vhook from id, s[0] = vhook object, s[1] = vhook attribute
+	
+	if (!node) {
+		node = [
+			node_pair[0],
+			{ id: node_pair[1] }
+		]
+	} else {
+		node[1]['_' + node_pair[0]] = node_pair[1];
+	}
+	
+	// If no more levels exist
+	if (node_path.length == 0) {
+		return node;
+	} else {
+		// Recursively populate node
+		return _construct_vhook_request(node_path.join(" "), node);
+	}
+}
+
+//
+// --- Functions used by SYNC functions
+
+// --- GET SKELETON OBJECT
+//
+// This function receives two attributes:
+// (1) 'field_selector' -> 
+//    Samples:
+//		'job-active' -> Retrieve the ID and Update info for the 'active' job (flagged as 'active' in the skeleton structure)
+//		'job-active fs_profile-active' -> Retrieve the ID and Update info for the 'active' fs_profile (a child of the 'active' job)
+//		'job-164' -> Retrieve the ID and Update info for the 'job' where id = 164
+//
+//		'notification-job_applications' -> Retrieve the ID and Update info for the 'notification' labeled / titled 'job_applications'
+//
+//		'job-active fs_profile-active job_seeker-all'
+//
+function _get__skeleton_object(field_selector, root) {
+	
+	if (!root) { root = _skeleton; }
+	
+	var arr = field_selector.split(" "); // Split hierarchy levels (similar to css selectors)
+	var second = arr.shift(); // Extract first element of the array -> 'job'
+	
+	var vhook = second.split("-"); // Split vhook from id, s[0] = vhook object, s[1] = vhook attribute
+	var collection = root[s_parents[vhook[0]]]; // -> 'jobs'
+	var node_found = {};
+	
+	// console.log('...processing: root - ' + s_parents[vhook[0]] + ' | ' + field_selector + ' | ' + vhook[0] + ' ; ' + vhook[1]);
+	// console.log('--Collection-- ' + collection);
+	// alert(second + ' ; ' + vhook[0] + ' ; ' + collection["_active"]);
+	
+	// If the ROOT contains the plural for the vhook -> 'job' => 'jobs'
+	if (collection) {
+		
+		// If the LEFT attribute is 'active'
+		if (vhook[1] == "active" && collection["_active"]) {
+			node_found = {
+				entity_name: vhook[0],
+				entity_id: collection["_active"],
+				entity_obj: collection["_data"][collection["_active"]]
+			}; // 'job'
+		
+		
+		// ALL -> if the collection has the 'collection_data', return it
+		} else if (vhook[1] == "all") {
+			// console.log('--ALL--');
+			node_found = {
+				entity_name: vhook[0],
+				entity_id: 0,
+				entity_obj: collection["_data"]
+			}; // 'job'
+			
+			
+		// If the LEFT attribute is all BUT 'active', i.e. 'entity_id' or 'entity_name', e.g. '2194' or 'job_applications'
+		// AND if the ROOT object contains the LEFT plural, i.e. 'jobs'
+		} else if (collection["_data"][vhook[1]]) {
+			// console.log('FOUND');
+			node_found = {
+				entity_name: vhook[0],
+				entity_id: vhook[1],
+				entity_obj: collection["_data"][vhook[1]]
+			};
+			
+		} else {
+			console.log('NOT FOUND: ' + s_parents[vhook[0]] + ' ; ' + vhook[1]);
+		}
+			
+		if (arr.length == 0) {
+			return node_found;
+		} else {
+			return _get__skeleton_object(arr.join(" "), node_found.entity_obj);
+		}
+	} else {
+		console.log('--NULL-- collection');
+		return null;
+	}
+}
+
+
+// --- Update a DEEP entity, found on ANY leaf in the _skeleton object
+//
+function _update__skeleton__updated_at(_name, _id, _value, root) {
+	
+	var attribute_found = false;
+	var _log_str = "";
+	
+	
+	// Check if this is the first time, iterate through all _skeleton objects
+	if (!root) {
+		for (var _skeleton_attr in _skeleton) {
+			_update__skeleton__updated_at(
+				_name,
+				_id,
+				_value,
+				{ name: _skeleton_attr, object: _skeleton[_skeleton_attr] });
+		}
+		
+		return;
+	}
+	
+	
+	// --- LOGIC
+	
+	// Find the '_data' object
+	// IF current element is the PARENT of the requested element
+	// -> iterate through all child IDs elements
+	// -> match the keys (e.g. IDs) to the _id attribute, success -> Break
+	// IF not a PARENT match OR a failure from previous step
+	// -> Iterate through all child nodes (keys are IDs, values are Objects)
+	// -> Iterate through all Object child nodes
+	// -> Find out if any VALUE is an Object
+	// ---> call 'update' again with the OBJECT as the root
+	
+	
+	if (root.object && root.object._data) {
+		
+		if (root.name == s_parents[_name]) {
+			_log_str += ' -> MATCH!';
+
+			// console.log('__root.data exists: ' + root.name + ' ; ' + s_parents[_name] + ' -> PARENT MATCH!');
+			
+			for (var _root_field in root.object._data) {
+				
+				if (_root_field == _id) {
+					root.object._data[_root_field].updated_at = _value;
+					console.log('__SKELETON object \'' + root.name + '[' + _root_field + ']\' touched (\'updated_at\')');
+					attribute_found = true;
+				}
+				
+				if (attribute_found) { break; }
+			}
+		}
+		
+		if (root.name != s_parents[_name] || !attribute_found) {
+			
+			// console.log('__root.data exists: ' + root.name + ' ; ' + s_parents[_name]);
+			
+			for (var _root_field in root.object._data) {
+				for (var _entity_field in root.object._data[_root_field]) {
+					_update__skeleton__updated_at(
+						_name,
+						_id,
+						_value, 
+						{ name: _entity_field, object: root.object._data[_root_field][_entity_field] });
+				}
+			}
+		}
+	}
+	
+}
+
+
+
+// -- DEPRECATED
+//
+function doHooks() {
+	
+	var waiting_sync;
+	var entities_to_sync = {};
+	
+	// Iterate through all 'vhooks' (the '_vhook' array)
+	for (var i = 0 ; i < _vhooks.length ; ++i) {
+		
+		waiting_sync = false;
+
+		// Get the SKELETON object (holds the object's ID, NAME, UPDATED_AT and CHILD OBJECTS attributes)
+		var skeleton_obj = _get__skeleton_object(_vhooks[i]);
+		
+		// SKIP to next _vhook
+		// IF the _skeleton doesn't have the _vhook requested
+		// OR the _server doesn't have the entity requested
+		if (!skeleton_obj || !skeleton_obj.entity_obj) {
+			console.log('! ERROR: _vhook "' + _vhooks[i] + '" does not exist in _skeleton');
+			continue;
+		}
+		if (!_server[skeleton_obj.entity_name]) {
+			console.log('* NOTE: _vhook/entity "' + skeleton_obj.entity_name + '" does not exist in _server');
+			continue;
+		}
+		
+		// if 'updated_at' is null -> first time on the page
+		// perform the SYNC, continue to next 'vhook'
+		if (skeleton_obj.entity_obj.updated_at == null) {
+			waiting_sync = true;
+			sync({fs_profile: skeleton_obj.entity_id});
+		}
+		
+		// Find all '_template' elements based on the _vhook
+		var _templates = $("[_vhook='" + _vhooks[i] + "']");
+		
+		// -- 1 - Check to see if the templates are not UPDATED
+		var _requires_sync = false;
+		for (var j = 0 ; j < _templates.length ; ++j) {
+			
+			// -- A - Check if a 'sync' is required (and wait until it's 'synced' before proceeding with updates)
+			//        Logic -> 'template' updated_at == null OR
+			//			       'template' updated_at != _skeleton object 'updated_at' AMD _server doesn't contain the relevant data
+			//  
+			if ( $(_templates[j]).attr("_vhook__updated_at") == null || 
+				($(_templates[j]).attr("_vhook__updated_at") != skeleton_obj.entity_obj.updated_at && (!_server[skeleton_obj.entity_name] || !_server[skeleton_obj.entity_id])) ) {
+					
+					// -- B - Display the 'loading' sign
+					//
+					event_func_name = '__SYNC_LOADING__' + $(_templates[j]).attr("_template");
+					if (eval("typeof " + event_func_name) === 'function') {
+						eval(event_func_name)(_templates[j]);
+					} else {
+						// console.log("'" + event_func_name + "' is not a function!");
+					}
+					
+					// -- C - Run the SYNC
+					//
+					// entities_to_sync[]
+					sync({fs_profile: skeleton_obj.entity_id});
+					
+					_requires_sync = true;
+			}
+			
+		}
+		
+		// Iterate through all 'hook' instances
+		for (var j = 0 ; j < e.length ; ++j) {
+			
+			
+			
+			if (waiting_sync) {
+				__SYNC_LOADING__template__fs_profile(e[j]);
+				continue;
+			}
+						
+			// console.log('_comparing "updated_at": template / ' + e.attr("_vhook__updated_at") + ' || _skeleton / ' + vh.entity_obj.updated_at);
+
+			
+			// ***** Check if updated_at is null is different from the vhook one (_skeleton)
+			// ***** Try and read the data from the _server object (in case it's the 2nd template on page using the same data)
+			// ***** _server not there, run the sync 
+			
+			
+			// --- COMPARE 'updated_at' attribute
+			//
+			if ($(e[j]).attr("_vhook__updated_at") != vh.entity_obj.updated_at) {
+				console.log('__SYNC: ' + $(e[j]).attr("_template") + ' | ' + vh.entity_name + ' | ' + vh.entity_id + ' | ' + vh.entity_obj.updated_at);
+				
+				event_func_name = '__SYNC__' + $(e[j]).attr("_template");
+	
+				// Check if the 'event' / 'function' exists, if so, execute the SYNC function
+				if (eval("typeof " + event_func_name) === 'function') {
+					
+					// -- 1 - Call the 'update' function
+					eval(event_func_name)(e[j]);
+					
+					// -- 2 - Update the 'update_at' attribute
+					$(e[j]).attr("_vhook__updated_at", vh.entity_obj.updated_at);
+					
+					// -- 3 - Debug
+					console.log('__SYNCED: ' + $(e[j]).attr("_template") + ' | ' + $(e[j]).attr("_vhook") + ' | ' + $(e[j]).attr("_vhook__updated_at"));
+				} else {
+					// console.log("'" + event_func_name + "' is not a function!");
+				}
+			}
+		}
+	}
+	
+	// Clear the '_server' cache
+	_server = {};
+}
+
+</script>

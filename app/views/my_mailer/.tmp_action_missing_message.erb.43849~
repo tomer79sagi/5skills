@@ -1,0 +1,13 @@
+Hey <%= @person_name %> !
+
+<br><br>
+
+A user stumbled upon a page without an action.
+
+The following action was used: "<%= @missing_action %>".
+
+Please add this action to the activities mapping to enable accurate redirections of the system pages.
+
+<br><br>
+
+<a href="http://<%= @http_host %>/admin">Go to Flyc's Admin interface</a>

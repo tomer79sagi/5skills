@@ -1,0 +1,56 @@
+<% content_for :head do %>
+  <title>FLYC: <%= @agency_summary.agency_name %> | Agency Details</title>
+<% end %>
+
+<div style="padding:.5em 0em 6em 0em;">	
+	<div style="width:980px;border:1px solid #333fff;float:left;min-height:80px;background-color:#dfe6ff;">
+	
+		<!-- Job Application Details -->
+		<table style="width:100%;text-align:left;">
+			<tr style="vertical-align:top;">
+				
+				<td class="template_cell_title_content" style="width:270px;padding:0em 2em 0em 0em;">
+					<span style="width:170px;font-size:20px;padding:0em 2em 0em 0em;"><%= @agency_summary.agency_name %></span>
+				</td>
+				<td class="template_cell_company_content" style="width:170px;">
+					<b>Wellington</b><br/>
+					&nbsp;Level 8, 24 Lambton Quay<br/>
+					&nbsp;&nbsp;<%= @agency_summary.agency_phone %><br/>
+					&nbsp;&nbsp;<%= @agency_summary.agency_fax %>
+				</td>
+				<td class="template_cell_closing_date_content">
+					&nbsp;
+				</td>
+				<td class="template_cell_last_updated_date_content" style="width:99px;text-align:left;">
+					<div style="width:225px;border:1px solid #gray;min-height:80px;max-height:120px;font-size:12px;">
+						<table>
+							<tr>
+								<td style="padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;text-align:right;font-size:11px;">Agents:</td>
+								<td style="padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;text-align:left;font-size:11px;"><b>5</b></td>
+							</tr>
+							<tr>
+								<td style="padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;text-align:right;font-size:11px;">Jobs:</td>
+								<td style="padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;text-align:left;font-size:11px;"><b>3</b></td>
+							</tr>
+							<tr>
+								<td style="padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;text-align:right;font-size:11px;">Rating:</td>
+								<td style="padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;text-align:left;font-size:11px;"><b>5/10</b></td>
+							</tr>
+							<tr>
+								<td style="padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;text-align:right;font-size:11px;">&nbsp;</td>
+								<td style="padding:0px 0px 0px 0px;margin:0px 0px 0px 0px;text-align:left;font-size:11px;"><b>&nbsp;</b></td>
+							</tr>
+						</table>
+					</div>
+				</td>
+				
+			</tr>
+		</table>
+	</div>
+</div>
+
+<%= render :partial => '/main/messages', :locals => {:action => "general"} %>
+
+<% form_tag({:action => :save_agency_contact, :agent_id => @agent.id, :page => "save_agency_contact"}) do %>
+	<%= render :partial => 'new_agency_contact_details' %>	   
+<% end %>

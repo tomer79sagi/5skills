@@ -1,0 +1,77 @@
+Autocomplete / 'bind_field' function - explained
+-----------------------------
+/js/util/__workspace.html
+
+External dependencies
+-------------------
+__lookups   | /js/ajax/__lookups (holding the '_REQ_search_skills' function that makes the 'ajax' call to retrieve the list of skills)
+
+
+- field_jq_obj		input element
+- ajax_action		ajax action to invoke if a custom 'autocomplete' (i.e. ajax call) information structure is retrieved and the 'select' event is invoked
+- field_source
+- flags				additional flags that control
+
+
+Process
+-------------
+- 'keyup' event binding and processing:
+	'TAB' key disabling while the autocomplete menu is open
+	'flags.autocomplete' check
+		If set to 'false', execute the 'ajax_action' to retrieve the automcomplete information
+		If set to 'true', use the default jQuery 'autocomplete' pluging implementation
+	'flags.onenter' processing. Check if the 'ENTER' (13) key was pressed
+	'flags.keyup' processing. Use the '_EVENT_' JS function prefix
+
+- 'blur' event binding and procesing:
+	'flags.onblur' processing. If 'g_cache.is_input_blurred' is set to 'false'		'primary_skill_blur'		_EVENT_primary_skill_blur
+	
+- 'flags.autocomplete' check. If it's 'true'
+	'field_jq_obj.autocomplete({' - initialize the 'autocomplete' jquery plugin
+		open ( event, ui )
+		close ( event, ui )
+			if [ !ui.item
+				&& flags.onblur!g_cache.is_input_blurred
+				&& flags.onblur ]
+					'_EVENT_' + flags.onblur is invoked
+					g_cache.is_input_blurred = false; - if [ g_cache.is_input_blurred ]
+		change ( event, ui )
+			if [ !ui.item ]
+				return
+		source ( request, response )
+			if [ 'flags.remote' is set to 'false' ]
+				response( $.ui.autocomplete.filter(field_source, extractLast( request.term ) ) );
+			else
+				'g_ajax_obj_cache' is cleared and reset to a new Hash
+				'g_ajax_obj_cache.response' is set to the 'response' object
+				ajax_it('flags.onsearch') is invoked with the 'request' object
+		focus
+		select
+			Convert the 'input' text value into an array (to used to swap the content)
+			'data_h' is created, holding
+				field_o					jquery object ref.
+				selected_item_id		id of selected item
+				selected_item_name		value of selected item
+			ajax('flags.onselect') is invoked.										'change_primary_skill'		_REQ_change_primary_skill (/js/ajax/__fs_profile)
+			replace current text value with selected value	
+			ajax('ajax_action') is invoked.											'fs_profile_updated'		_REQ_fs_profile_updated (/js/ajax/__fs_profile)
+			
+	'.data( "autocomplete" )._renderItem = function( ul, item ) {' - specify how the data is displayed in the list
+
+	
+Scenario 1
+-----------------
+- 'mouse click' / name field
+	convert_primary_skill_to_input			|	_convert_to_input			|		attach_name_field_binders / _attach_handlers
+- 'key press' - "proj" typing (4 characters)
+	source
+	remote
+	ajax_it('search_skills')
+	in: search_skills 
+	__post_it: ajax/skill/all/search 
+	 -> async -> response (successful)
+	open
+- 'mouse move'
+	focus
+	
+	

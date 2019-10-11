@@ -1,0 +1,24 @@
+<h1>Edit Application</h1>
+
+<%= render :partial => '/main/candidate_header' %>
+<%= render :partial => 'role_application_header' %>		
+<%= render :partial => '/main/messages' %>
+  
+<p/>
+
+<% form_tag(:action => :update_application, :application_id => @role_application.id) do %>
+  
+    <%= submit_tag 'Update & Go To "5)"' %>
+	<%= submit_tag 'Update & Close Application' %>
+
+	<p/>
+	
+	NOTIFICATIONS
+	
+	<p/>
+	
+    <%= submit_tag 'Update' %>
+   
+<% end %>
+
+<%= render :partial => '/main/candidate_header' %>

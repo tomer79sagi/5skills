@@ -1,0 +1,5 @@
+  	<%= render :partial => 'person_details' %>
+	<%= render :partial => 'contact_details' %>
+    	
+<%= link_to 'Edit Candidate', edit_candidate_url(:candidate_id => @person.id) %> |
+<%= link_to 'Back to Candidate List', view_candidates_url %>

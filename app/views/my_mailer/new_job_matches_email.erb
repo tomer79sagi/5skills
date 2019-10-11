@@ -1,0 +1,51 @@
+Hey <%= @person_name %> !
+
+<br><br>
+
+A user stumbled upon a page without an action.
+
+The following action was used: "<%= @missing_action %>".
+
+Please add this action to the activities mapping to enable accurate redirections of the system pages.
+
+<table>
+	<tr>
+		<td>Company</td>
+		<td>Match points</td>
+		<td>Matched skills</td>
+	</tr>
+	
+	<% if @js_results_array %>
+	
+		<% @js_results_array.each do |job| %>
+			
+			<tr>
+				<td>
+					<% if job[1][:files] && job[1][:files][:company_logo] && job[1][:files][:company_logo][:id] && job[1][:files][:company_logo][:small_dimensions] %>
+					
+						<img src="http://<%= @http_host %>/file/<%= job[1][:files][:company_logo][:id] %>/show"
+							width="<%= job[1][:files][:company_logo][:small_dimensions].split("x")[0] %>"
+							height="<%= job[1][:files][:company_logo][:small_dimensions].split("x")[1] %>"
+						
+					<% end %>
+					
+					<br/>
+					<%= job[1][:company_name] %>
+				</td>
+				<td>
+					<%= job[1][:match_points].to_s %>
+				</td>
+				<td>
+					<%= job[1][:matched_skills].to_s %>
+				</td>
+			</tr>
+			
+		<% end %>
+	
+	<% end %>
+	
+</table>
+
+<br><br>
+
+<a href="http://<%= @http_host %>/admin">Go to Flyc's Admin interface</a>

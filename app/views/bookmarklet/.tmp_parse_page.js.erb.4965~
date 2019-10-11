@@ -1,0 +1,47 @@
+<%= render :partial => '/bookmarklet/bl_header' %>
+
+	<% # Load %>
+	
+	<% if @state && (@state == 1 || @state == 4) # Initial behavior %>
+	
+		$('#content_panel').replaceWith("\
+			<div id='content_panel'>\
+				\
+				<div id='site_parsing_panel' style='padding:.5em 0em .5em 0em;'>\
+					<table>\
+						<tr>\
+							<td style='text-align:left;height:20px;'>Title: </td>\
+							<td id='site_detected' style='text-align:left;height:20px;vertical-aling:top;'>\
+								<%= @parsed_page_h[:title] %>\
+							</td>\
+						</tr>\
+						<tr>\
+							<td style='text-align:left;height:20px;'>Company: </td>\
+							<td id='site_detected' style='text-align:left;height:20px;vertical-aling:top;'>\
+								<%= @parsed_page_h[:company] %>\
+							</td>\
+						</tr>\
+						<tr>\
+							<td style='text-align:left;height:20px;'>Location: </td>\
+							<td id='site_detected' style='text-align:left;height:20px;vertical-aling:top;'>\
+								<%= @parsed_page_h[:location] %>\
+							</td>\
+						</tr>\
+					</table>\
+				</div>\
+				\
+				<p><hr/></p>\
+				\
+				<div id='buttons_panel' style=\"padding:.5em 0em 0em 0em;\">\
+					<button id=\"btn_parse_page\" style=\"width:50px;height:25px;\" onClick=\"ajax_it('parse_page'); return false;\">Parse</button>&nbsp;\
+					<button id=\"btn_populate_apply_fields\" style=\"width:50px;height:25px;\" onClick=\"ajax_it('populate_apply_fields'); return false;\">Populate</button>&nbsp;\
+				</div>");
+				
+	<% end %>
+	
+	// Enable the buttons
+	$("#btn_save").attr('disabled', '');
+	$("#btn_save_and_close").attr('disabled', '');
+	$("#btn_close").attr('disabled', '');
+
+<%= render :partial => '/bookmarklet/bl_footer' %>

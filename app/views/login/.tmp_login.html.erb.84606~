@@ -1,0 +1,37 @@
+<div class="content-title">
+	Login
+</div>
+
+<%= render :partial => '/main/candidate_header' %>
+
+<%= render :partial => '/main/messages' %>
+  
+<p/>
+
+<div class="content-body">
+	
+<% form_tag :action => :process_login do %>
+
+	<table>
+	  <tr>
+	  	<td>Email:</td>
+		<td><%= text_field 'login', 'email'%></td>
+	  </tr>
+	  <tr>
+		<td>Password:</td>
+		<td><%= password_field 'login', 'password'%></td>
+		
+	  </tr>
+	  <tr>
+	  	<td></td>
+		<td><%= link_to 'Forgot your password?', forgot_password_url %></td>
+	  </tr>
+	</table>
+
+<div class="content-footer">
+	<%= submit_tag 'Login' %>
+</div>
+   
+<% end %>
+
+</div>

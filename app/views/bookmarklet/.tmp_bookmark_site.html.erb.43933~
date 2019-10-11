@@ -1,0 +1,38 @@
+<div id='content_panel' style='direction:ltr;'>
+	
+	<div id='site_parsing_panel' style='padding:.5em 0em 0em 0em;'>
+		<table>
+			<tr>
+				<td style='text-align:left;height:20px;'>Site detected: </td>
+				<td id='site_detected' style='text-align:left;height:20px;vertical-aling:top;'>
+					<b><%= @site_detected["name"] %></b>
+				</td>
+			</tr>
+			<tr>
+				<td style='text-align:left;height:20px;vertical-align:top;'>Page type: </td>
+				<td id='page_detected' style='text-align:left;height:20px;vertical-align:bottom;'>
+					<%= @page_detected %>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<hr/>
+	
+	<div id='d_clip_container' style='position:relative;direction:ltr;'>
+	   <button id='d_clip_button' onClick='return false;'>><</button>
+	   <textarea>http://localhost:3002/uploads/Letter.txt</textarea>
+	</div>
+	
+	<div id='content_panel_messages'></div>
+	
+	<p>
+	<div id='content_panel_body' style='padding:.5em 0em 0em 0em;min-height:350px;'>
+	
+	</div>
+	
+	<p><hr/></p>
+	
+	<div id='buttons_panel' style="padding:.5em 0em 0em 0em;"></div>
+	
+</div>

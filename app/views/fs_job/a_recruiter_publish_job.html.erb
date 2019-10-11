@@ -1,0 +1,109 @@
+<% content_for :head do %>
+	Recruiter | 5skills.me
+<% end %>
+
+<% content_for :title do %>
+	Job seeker
+<% end %>
+
+
+<!-- NORTH : 1st level header -->
+
+<div class="header" style="padding:0px;border:none;border-bottom:1px solid #BEDA98;">
+	
+	<%= render :partial => '/fs_job/a_recruiter_site_header' %>
+
+	<div id="job" job_id="" is_published="false" style="padding:5px 0px 5px 0px;height:40px;background-color:#64AE64;border:none;">
+		<div id="img_logo" style="float:left;width:119px;margin-top:8px;text-align:center;font-size:20px;">
+			JOB
+		</div>
+		
+		<div style="width:1px;height:34px;margin-top:3px;background-color:#228B22;float:left;">&nbsp;</div>
+		
+		<div style="width:600px;margin-top:8px;padding-left:20px;float:left;font-size:20px;font-weight:bold;font-style:italic;">
+			.NET Developer
+		</div>
+		
+		<div style="width:1px;height:34px;margin-top:3px;background-color:#228B22;float:left;">&nbsp;</div>
+		
+		<div style="margin-top:12px;margin-left:15px;width:140px;font-size:14px;float:left;font-style:italic;text-align:left;color:#BEE3C2;">
+			Not published
+		</div>
+		
+		<% if 1 == 2 %>
+		
+			<div id="job_published_status" style="margin-top:3px;width:100px;float:left;text-align:center;">
+				<div style="font-size:18px;color:#fff;">Published</div>
+				<div style="margin-top:-2px;font-size:11px;font-style:italic;color:#D3E8D3;">2 days ago</div>
+			</div>
+			
+			<div id="job_update_status" style="background-color:yellow;display:none;text-align:center;padding-left:30px;padding-top:3px;margin-top:10px;margin-left:25px;height:20px;width:100px;font-size:12px;float:left;font-weight:bold;text-align:left;color:#000;"></div>
+		
+		<% end %>
+	</div>	
+	
+</div>
+
+
+<!-- WEST - LEFT NAV -->
+
+<div id="workspace__left_nav" class="col1" style="padding:0px;text-align:center;border:none;border-right:1px solid #BDDCBD;"></div>
+
+
+<!-- CENTER --> 
+
+<div class="ui-layout-center col234" style="padding:0px;border:none;">
+	
+	
+	<!-- WEST : Select skills from list -->
+	
+	<div class="col2" style="background-color:#D3E8D3;border:none;padding:0px 0px 0px 4px;"></div>
+	
+	
+	<!-- CENTER -->
+	
+	<div class="ui-layout-center col3" style="width:300px;border:none;padding:0px;">
+		
+		
+		<!-- NORTH : 3rd level header -->
+		
+		<div id="workspace__3rd_header" class="3rd_north" style="padding:0px 0px 0px 0px;border:none;background-color:#D3E8D3;"></div> 
+		
+		
+		<!-- WEST : 5skills profile -->
+		
+		<div id="workspace__left_fs_profile" class="aa" style="width:300px;border:none;background-color:#D3E8D3;"></div>
+		
+		
+		<!-- CENTER : Search results -->
+		
+		<div class="ui-layout-center bb" style="border:none;background-color:#fff;"></div>
+		
+		
+		<!-- EAST: MATCH - 5skills profile -->
+		
+		<div class="cc" style="width:300px;border:none;background-color:#D3E8D3;"></div>
+		
+		
+		<!-- SOUTH : 3rd level footer -->
+		
+		<div id="workspace__3rd_footer" class="3rd_south" style="border:none;border-top:1px solid #BEDA98;background-color:#D3E8D3;padding:6px;overflow:hidden;"></div> 
+		
+		
+	</div>
+	
+</div>
+
+<!-- EAST : Statistics -->
+
+<div id="panel__stats" class="col5" style="padding:0px;border:none;text-align:center;border-left:1px solid #BDDCBD;">
+	<div id="total_job_seekers" style="font-size:36px;font-weight:bold;">
+		?
+	</div>
+	<div style="font-size:16px;font-weight:normal;">
+		Job seekers found
+	</div>
+</div>
+
+
+

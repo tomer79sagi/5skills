@@ -1,0 +1,29 @@
+<h1>Edit Application</h1>
+
+<%= render :partial => '/main/candidate_header' %>
+<%= render :partial => 'role_application_header' %>		
+<%= render :partial => '/main/messages' %>
+  
+<p/>
+
+<% form_tag(:action => :update_application, :application_id => @role_application.id) do %>
+  
+    <%= submit_tag 'Update & Close' %>
+	<%= submit_tag 'Update & Go To "2) Agency Details"' %>
+
+	<table>
+		<tr>
+		  	<%= render :partial => 'application_details' %>
+		</tr>
+		<tr>
+			<%= render :partial => 'role_details' %>
+		</tr>
+	</table>
+		
+			
+	
+    <%= submit_tag 'Update' %>
+   
+<% end %>
+
+<%= render :partial => '/main/candidate_header' %>

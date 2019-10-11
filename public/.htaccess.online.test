@@ -1,0 +1,34 @@
+#set rails to be the root of the website
+RailsBaseURI /
+#rails app to be main page
+PassengerAppRoot /home/jobbyco/jobby_test
+
+### FLYC ADDITIONS ###
+
+# - 29 Jul 2010
+# To stop all the attempts at downloading "/download/Wait_for_You.mp3" files. Probably spamming. Instead
+# of blocking IP's which I'll have to continuously modify and add, I decided to blcok a file type and see if it works
+<FilesMatch "\.(htaccess|htpasswd|ini|log|sh|mp3)$">
+ Order Allow,Deny
+ Deny from all
+</FilesMatch>
+
+# - 29 Jul 2010
+# Try limiting IPs as the above doesn't seem to make a difference
+<Limit GET POST PUT>
+ order allow,deny
+ allow from all
+ deny from 218.168.228.86
+</Limit>
+
+## maintenance.html file (as per Capistrano scripts) ##
+
+# Please add something like this to your site's htaccess to redirect users to the maintenance page.
+# More Info: http://www.shiftcommathree.com/articles/make-your-rails-maintenance-page-respond-with-a-503
+
+ErrorDocument 503 /system/maintenance.html
+RewriteEngine On
+RewriteCond %{REQUEST_URI} !.(css|gif|jpg|png)$
+RewriteCond %{DOCUMENT_ROOT}/system/maintenance.html -f
+RewriteCond %{SCRIPT_FILENAME} !maintenance.html
+RewriteRule ^.*$  -  [redirect=503,last]

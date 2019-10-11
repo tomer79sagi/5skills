@@ -1,0 +1,96 @@
+<div id='content_panel' style='direction:ltr;'>
+	
+	<div id='site_parsing_panel' style='padding:.5em 0em 0em 0em;direction:ltr;'>
+		<table>
+			<tr>
+				<td style='text-align:left;height:20px;'>Site url: </td>
+				<td id='site_url' style='text-align:left;height:20px;vertical-aling:top;'>
+					<%= @organisation.website %>
+				</td>
+			</tr>
+			<tr>
+				<td style='text-align:left;height:20px;'>Site detected: </td>
+				<td id='site_detected' style='text-align:left;height:20px;vertical-aling:top;'>
+					<input type="text" id="organisation_name" name="" value="<%= @organisation.name %>" style="padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;"/>
+				</td>
+			</tr>
+			<tr>
+				<td style='text-align:left;height:20px;'>Page type path: </td>
+				<td id='page_type_path' style='text-align:left;height:20px;vertical-aling:top;'>
+					<input type="text" id="i_page_type_path" name="" value="<%= @page_type_path %>" style="padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;"/>
+				</td>
+			</tr>
+			<tr>
+				<td style='text-align:left;height:20px;vertical-align:top;'>Page type: </td>
+				<td id='page_detected' style='text-align:left;height:20px;vertical-align:bottom;'>
+					<select id="page_type" style="vertical-align:bottom;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;">
+						<% @page_type_options_arr.each_index do |option_index| %>
+							<option value="<%= @page_type_options_arr[option_index][1] %>"
+								<%= ' selected="true"' if option_index == @page_detected %>
+								><%= @page_type_options_arr[option_index][0] %></option>
+						<% end %>
+					</select>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<hr/>
+	
+	<div id='d_field_type' style='position:relative;direction:ltr;padding:.5em 0em .5em 0em;'>
+		Field type:
+		<select id="s_field_type" style="vertical-align:bottom;">
+			<% @field_type_options_arr.each_index do |option_index| %>
+				<option value="<%= @page_type_options_arr[option_index][1] %>"
+					<%= ' selected="true"' if option_index == @field_type_options_arr[1][1] %>
+					><%= @field_type_options_arr[option_index][0] %></option>
+			<% end %>
+		</select>
+		<br/>
+		Field css selector:
+		<textarea id='ta_field_css_selector' style='text-align:left;width:90%;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;'><%= @website_fields_db[0].jquery_css_selector %></textarea>
+		<br/>
+	</div>
+	
+	<div id='d_job_selection' style='position:relative;direction:ltr;'>
+		<b>Select jobs</b><br/>
+		<span style='font-size:9px;'>Please select one or more jobs to save in your flyc!</span>
+	</div>
+	
+	<div id='d_actions' style='position:relative;direction:ltr;text-align:right;'>
+		<button id='btn_parse_text' style='width:50px;height:25px;' onClick='' return false;'>
+			Save
+		</button>
+	</div>
+	
+	<div id='content_panel_messages'></div>
+	
+	<p>
+		
+	<div id='content_panel_body' style='padding:.5em 0em 0em 0em;min-height:350px;direction:ltr;'>
+		<hr/>
+		<b>Page parsing test</b>
+		<br/>
+		<textarea id='parse_text' style='width:90%;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;'></textarea>
+		<br/>
+		<div style="text-align:right;">
+			<button id='btn_selector_gadget' style='width:70px;height:25px;' onClick='load_selector_gadget(); return false;'>
+				Selector
+			</button>
+			&nbsp;
+			<button id='btn_parse_text' style='width:50px;height:25px;' onClick='testParsing(); return false;'>
+				Parse
+			</button>
+		</div>
+		<select id='parse_select' size='6' onClick='testScroll(this);' style='width:90%;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;'>
+		</select>
+		<br/>
+		<input id='chk_collapsable' type='checkbox' style=''>
+		Collapse / expand
+		<br/>
+		<button id="btn_move_widget" style="width:100px;height:25px;" onClick="ajax_it('move_widget'); return false;">Move widget</button>&nbsp;
+	</div>
+	
+	<div id='buttons_panel' style="padding:.5em 0em 0em 0em;"></div>
+	
+</div>

@@ -1,0 +1,26 @@
+  <!--[form:contact_detail]-->
+
+	<table>
+		<tr>
+			<td>Name:</td>
+			<td><%= text_field 'agency', 'name' %></td>
+		</tr>
+		<tr>
+			<td>Phone Number:</td>
+			<td><%= text_field 'agency', 'phone' %></td>
+		</tr>
+		<tr>
+			<td>Email Address:</td>
+			<td><%= text_field 'agency', 'email' %></td>
+		</tr>		
+		<tr>
+			<td>Fax Number:</td>
+			<td><%= text_field 'agency', 'fax' %></td>
+		</tr>
+		<tr>
+			<td>Website:</td>
+			<td><%= text_field 'agency', 'website' %></td>
+		</tr>				
+  	</table>
+		
+  <!--[eoform:contact_detail]-->

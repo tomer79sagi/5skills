@@ -1,0 +1,105 @@
+<!--[form:agency]-->
+  
+<div style="width:750px;float:left;min-height:80px;padding:1em 0em 0em 0em;">
+	
+	<!-- Job Application Details -->
+	<table style="width:100%;text-align:left;border-collapse:collapse;">
+		<tr style="vertical-align:top;">
+			<td class="template_cell_title_content" 
+					style="text-align:center;width:148;padding:0em .5em 0em 1em;">
+				<div style="background-color:#e1e1e1;padding:.7em 0em .7em 0em;margin:0em 0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					Agency Details
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em .5em 0em .5em;">
+				<div style="background-color:#e1e1e1;padding:.7em 0em .7em 0em;margin:0em 0em 0em .5em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					Contacts
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em 1em 0em .5em;">
+				&nbsp;
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em .5em 0em .5em;">
+				&nbsp;
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em 1em 0em .5em;">
+				<div style="background-color:#00fb00;padding:.7em 0em .7em 0em;margin:0em .0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<b>New Contact</b>
+				</div>
+			</td>
+		</tr>
+	</table>
+	
+	  <div style="background-color:#00fb00;width:100%;text-align:left;border:1px solid #00fb00;padding:1em 0em 0em 1em;margin:-1px 0px 20px 0px;">
+	  
+	  	<div style="padding:0em 0em .5em 0em;margin:0em 1em 1em 0em;text-align:right;border-bottom:1px gray solid;">
+			<%= submit_tag 'Save & View', :name => "save" %>
+			<%= submit_tag 'Save & Close', :name => "save_close" %>
+			<%= submit_tag 'Cancel', :name => "cancel" %>
+		</div>
+
+		<table style="width:100%;margin:0px 10px 0px 0px;">
+			<tr>
+				<td style="padding:1em 0em 0em 0em;text-align:right;width:200px;"><%= session[:organisation_contact_type_name] %>:</td>
+				<td style="padding:1em 0em 0em 0em;vertical-align:middle;text-align:left;width:200px;">
+					<b style="font-size:20px;"><%= @contact.first_name %> <%= @contact.last_name %></b>
+				</td>
+				<td colspan="2">&nbsp;</td>
+			</tr>
+			<tr>
+				<td colspan="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">First Name:</td>
+				<td><b><%= text_field 'contact', 'first_name' %></b></td>
+				<td><%= error_message_on "contact", "first_name", {:prepend_text => "First Name ", :css_class => "error_message_field"} %></td>
+				
+				<td style="text-align:right;">&nbsp;</td>
+			</tr>		
+			<tr>
+				<td style="text-align:right;">Last Name:</td>
+				<td><b><%= text_field 'contact', 'last_name' %></b></td>
+				
+				<td colspan="2" style="text-align:right;">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">Email:</td>
+				<td><b><%= text_field 'contact', 'primary_email' %></b></td>
+				<td><%= error_message_on "contact", "primary_email", {:prepend_text => "Email ", :css_class => "error_message_field"} %></td>
+				
+				<td style="text-align:right;">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">Work Phone:</td>
+				<td><b><%= text_field 'contact', 'phone_work' %></b></td>
+				
+				<td colspan="2" style="text-align:right;">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">Mobile Phone:</td>
+				<td><b><%= text_field 'contact', 'mobile' %></b></td>
+				
+				<td colspan="2" style="text-align:right;">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">Website:</td>
+				<td><b><%= text_field 'contact', 'website' %></b></td>
+				<td><%= error_message_on "contact", "website", {:prepend_text => "Website ", :css_class => "error_message_field"} %></td>
+				
+				<td style="text-align:right;">&nbsp;</td>
+			</tr>
+		</table>
+
+		<div style="padding:.5em 0em 0em 0em;margin:1em 1em 1em 0em;text-align:right;border-top:1px gray solid;">
+			<%= submit_tag 'Save & View', :name => "save" %>
+			<%= submit_tag 'Save & Close', :name => "save_close" %>
+			<%= submit_tag 'Cancel', :name => "cancel" %>
+		</div>
+	</div>
+</div>
+	  
+  <!--[eoform:agency]-->

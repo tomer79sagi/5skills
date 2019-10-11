@@ -1,0 +1,93 @@
+'fajax' functionality
+-------------------------
+
+Form setup
+----------------
+- Create the form:
+
+	<% form_tag(
+		{:action => :fajax_send_job_post_application, 
+		:controller => :fs_job_seeker}, 
+			:id => 'frm_send_application', 
+			:remote => true, 
+			:multipart => true, 
+			:target => 'upload_frame') do %>
+		
+- The following is a way to submit the 'above' form (notice the 'submit_form_id' attribute, linking the button to the form to submit)
+
+	<button class="btn__send_application" submit_form_id="frm_send_application" style="margin-left:15px;background-color:green;width:220px;height:50px;">
+		<span style="font-weight:bold;font-size:20px;color:white;">Send application >></span>
+	</button>
+	
+- Attach the binder for the button
+
+	bind__apply_to_job_post("click__send_applications");
+	
+  (currently appears in the 'response' to the 'apply_to_job_post' event handler)
+  
+	function _RES_apply_to_job_post(data, status_i){
+	
+  (included as part of the '__apply_to_job_post' binder)
+  
+	case "click__check_match":
+		$("#btn_check_match").bind('click', function(e) {
+			ajax_it("apply_to_job_post");
+		});
+		break;	
+	
+- Include the 'iframe' tag at the bottm of the layout (e.g. '__job_seeker_apply_layout.html.erb')
+  (notice the 'name="upload_frame"', linking the above form's 'target' attribute to the 'iframe' below)
+
+	<!-- IFrame -->
+	<iframe id='upload_frame' name="upload_frame" style="width:1px;height:1px;border:0px" src="about:blank"></iframe>
+
+
+New 'ajax' framework functions
+------------------
+- new 'ajax_it' equivalent function
+
+	function fajax_it(action, data) {
+	
+- new 'post_it' function
+
+	function fpost_it(h_ajax_data, attempt_no) {
+	
+	
+Controller setup
+-------------------
+- Setup the recieving action
+
+	fajax_send_job_post_application
+	
+- Construct the @arr object appropriately (mimicing the ajax call response) and call the 'render_js_parent' function to render the correct JS for the callback
+
+	render_js_parent(@arr.to_json)
+	
+  (this function outputs the right js content to invoke the 'ajax' functions:
+  
+	callbackSuccess(' + json_s + ');
+
+
+Retry mechanism
+----------------
+As there is no way to 'receive' a response (either successful or failed - ajax calls return a 'fail' response in case a 'timeout' exception occured),
+I've created the following mechanism for testing if a response was received every 4 seconds
+
+- First, there is a new global var that holds a 'flag' indicating if the fajax system is used adn the other indicating if a 'response' was received or not
+
+	var g_fajax = { flag: false, response: false }
+	
+- Second, 'fajax_it' function sets the 'flag' to true
+
+	g_fajax.flag = true;
+	
+- Third, the 'fpost_it' function submits the form if there was no response registered
+- Otherwise, call 'fpost_it' in another 4 seconds:
+
+	setTimeout(fpost_it, 4000, h_ajax_data, ++attempt_no);
+	
+- Fourth, 'ajax_it' function sets the 'flag' to false, disabling the 'response' triggering a 'delayed' fajax request
+- Last, the 'callbackSuccess()' core function sets the 'response' flag to 'true' if the 'flag' was set to true,
+  Indicating that a 'fajax' response needs to be processed
+  
+	g_fajax.response = true;

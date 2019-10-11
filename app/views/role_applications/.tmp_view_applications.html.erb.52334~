@@ -1,0 +1,120 @@
+<% content_for :head do %>
+  <title>FLYC: My Jobs</title>
+<% end %>
+
+<% content_for :title do %>
+	<span class="content-title">My Jobs</span>
+<% end %>
+
+<% content_for :bread_crumbs do %>
+
+	<div style="width:100%;padding:0em 0em .5em 0em;float:right;text-align:left;">
+		<span class="content-title" style="font-size:12px;font-weight:bold;">My Jobs</span>
+	</div>
+	
+<% end %>
+
+<div style="text-align:left;padding:15px 0px 0px 0px;font-size:14px;font-weight:bold;border-bottom:1px solid gray;">
+	<%= link_to 'New Job', new_job_url, :class => "content_link" %>			
+</div>
+
+<%= render :partial => '/main/messages', :locals => {:action => "general"} %>
+
+<%= render :partial => '/main/header_3' %>
+
+<!-- APPLICATIONS -->
+
+<% if @role_applications.nil? %>
+
+	No Applications found!
+	
+<% else %>
+
+	<%= paginate %>
+		
+	<% @local_counter = @pagination_info[:starting_point].to_i + 1 %>
+
+	<% @role_applications.each do |application| %>
+
+		<div style="clear:left;text-align:left;">
+		
+		<div class="top_padding_1">	
+		<table style="width:100%;">
+			<tr style="vertical-align:top;">
+				
+				<td style="margin:0px 0px 0px 1px;">
+				
+					<div style="width:30px;text-align:center;font-size:18px;float:left;min-height:80px;">
+						<b><%= @local_counter %></b>
+					</div>
+				
+					<div style="width:834px;border:1px solid #00ffff;float:left;min-height:80px;background-color:#cef5c2;">
+					
+						<!-- Job Application Details -->
+						<table style="width:100%;text-align:left;">
+							<tr style="vertical-align:top;">
+								
+								<td class="template_cell_title_content" style="width:200px;font-size:20px;line-height:24px;vertical-align:top;">
+									<%= link_to application.role_title, view_application_url(:application_id => application.application_id) %>
+								</td>
+								<td class="template_cell_title_content" style="width:110px;">
+									<% if application.application_status_id %>
+										<%= Role.type_value(Role.application_statuses, application.application_status_id) %>
+									<% end %>
+								</td>
+								<td class="template_cell_agency_content" style="width:170px;">
+									<b>
+										<% if application.agency_name %>
+											<%= link_to application.agency_name, view_application_agency_url(:application_id => application.application_id) %>
+										<% end %>
+									</b><br/>
+									&nbsp;<%= application.agent_first_name %> <%= application.agent_last_name %><br/>
+									&nbsp;&nbsp;<%= application.agent_work_phone %><br/>
+									&nbsp;&nbsp;<%= application.agent_mobile %>
+								</td>
+								<td class="template_cell_company_content" style="width:170px;">
+									<b>
+										<% if application.company_name %>
+											<%= link_to application.company_name, view_application_company_url(:application_id => application.application_id) %>
+										<% end %>
+									</b><br/>
+									&nbsp;<%= application.company_contact_first_name %> <%= application.company_contact_last_name %><br/>
+									&nbsp;&nbsp;<%= application.company_contact_work_phone %><br/>
+									&nbsp;&nbsp;<%= application.company_contact_mobile %>
+								</td>
+								<td class="template_cell_closing_date_content">
+								<% if application.role_close_date %>
+									<b><%= application.role_close_date.to_datetime.strftime '%A' %></b><br/>
+									&nbsp;<%= application.role_close_date.to_datetime.strftime '%d %b %y' %><br/>
+									&nbsp;&nbsp;<%= application.role_close_date.to_datetime.strftime '%I:%M%p' %>
+								<% end %>
+								</td>
+								<td class="template_cell_last_updated_date_content" style="width:99px;text-align:left;">
+									<b><%= application.application_updated_at.to_datetime.strftime '%A' %></b><br/>
+									&nbsp;<%= application.application_updated_at.to_datetime.strftime '%d %b %y' %><br/>
+									&nbsp;&nbsp;<%= application.application_updated_at.to_datetime.strftime '%I:%M%p' %>
+								</td>
+								
+							</tr>
+						</table>
+					</div>
+					<div style="padding:1em 0em 0em 0em;">
+						<div style="padding:.5em 0em .5em 0em;width:100px;border-top:1px solid gray;border-bottom:1px solid gray;border-right:1px solid gray;float:left;text-align:center;">
+							<%= link_to 'Notes', view_application_notes_url(:application_id => application.application_id) %>
+						</div>
+					</div>
+				</td>	
+				
+			</tr>
+		</table>
+		</div>
+		
+		</div>
+		
+		<% @local_counter = @local_counter + 1 %>
+
+	<% end %>
+	
+	<%= paginate(2) %>
+	
+<% end %>

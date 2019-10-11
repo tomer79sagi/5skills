@@ -1,0 +1,40 @@
+<!--[form:edit_application_status]-->
+	
+<div class="content-title">
+	Update Application Status
+</div>
+
+<%= render :partial => '/main/messages' %>
+
+<div class="content-body" id="role_application_details">
+
+<% form_tag({:action => :update_application_status, :application_id => @role_application.id, :page => "edit_application_status"}) do %>
+  	
+	<table valign="top">
+	<tr>
+		<td>Change Status:</td>	
+		<td>
+			<%= select_tag "role_application[status_id]", options_for_select(			
+				{'Created' => 0, 'Sent' => 1, 'Short Listed' => 2, 
+				'Interview Scheduled' => 3, 'Waiting Decision' => 4, 'Offer Made' => 5,
+				'Accepted Offer' => 6, 'Rejected Offer' => 7, 'Application Declined' => 8},
+				@role_application.status_id), :size => 9, "style" => "width:200px;" %>				
+		</td>
+	</tr>
+	<tr>
+		<td>Add a Note:</td>	
+		<td>
+			<%= text_area "note", "note_contents", "cols" => 40, "rows" => 20%>
+		</td>
+	</tr>
+	</table>
+	
+	<div class="content-footer">
+		<%= submit_tag 'Update & Close' %>
+	</div>	
+	   
+<% end %>
+
+</div>
+		  
+  <!--[eoform:edit_application_status]-->

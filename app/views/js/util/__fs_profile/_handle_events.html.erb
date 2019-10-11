@@ -1,0 +1,44 @@
+<script type="text/javascript">
+
+function _EVENT_primary_skill_keyup(e, input_obj) {
+	if (e.which == 13) {
+		// convert_input_to_primary_skill(input_obj);
+
+	} else if (e.which == 27) {
+		input_obj.attr("value", input_obj.parents("[orig_value]").attr("orig_value"));
+		convert_input_to_primary_skill(input_obj);
+	}
+}
+
+function _EVENT_primary_skill_blur(e, input_obj) {
+	console.log('_EVENT_ onblur');
+	input_obj.attr("value", input_obj.parents("[orig_value]").attr("orig_value"));
+	convert_input_to_primary_skill(input_obj);
+	
+	g_cache.is_input_blurred = false;
+}
+
+function _EVENT_sub_skill_keyup(e, input_obj) {
+	if (e.which == 13) {
+		// convert_input_to_skill(input_obj);
+
+	} else if (e.which == 27) {
+		if (input_obj.attr("blank")) {
+			input_obj.parents("li:first").remove();
+		} else {
+			input_obj.attr("value", input_obj.parents("[orig_value]").attr("orig_value"));
+			convert_input_to_skill(input_obj);
+		}
+	}
+}
+
+function _EVENT_sub_skill_blur(e, input_obj) {
+	if (input_obj.attr("blank")) {
+		input_obj.parents("li:first").remove();
+	} else {
+		input_obj.attr("value", input_obj.parents("[orig_value]").attr("orig_value"));
+		convert_input_to_skill(input_obj);
+	}
+}
+
+</script>

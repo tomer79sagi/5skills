@@ -1,0 +1,97 @@
+<!-- Headings -->
+<div class="top_padding_1">
+	
+<% form_tag({:action => :create_application_quick}) do %>
+
+	<table class="template_h3t" style="border-collapse:collapse;">
+		<tr style="vertical-align:middle;">
+			
+			<td class="template_cell_title_heading">
+				<%= link_to 'Title', :action => :view_applications, :sort_by => "title", :sort_dir => @sort_dir %>
+				<span style="font-size:15px;color:black;background-color:yellow;"><%= @sort_dir_icon if @sort_by == "title" %></div>
+			</td>
+			<td class="template_cell_status_heading">
+				<%= link_to 'Status', :action => :view_applications, :sort_by => "status", :sort_dir => @sort_dir %>
+				<span style="font-size:15px;color:black;background-color:yellow;"><%= @sort_dir_icon if @sort_by == "status" %></div>
+			</td>
+			<td class="template_cell_agency_heading">
+				<%= link_to 'Agency', :action => :view_applications, :sort_by => "agency", :sort_dir => @sort_dir %>
+				<span style="font-size:15px;color:black;background-color:yellow;"><%= @sort_dir_icon if @sort_by == "agency" %></div>
+			</td>
+			<td class="template_cell_company_heading">
+				<%= link_to 'Company', :action => :view_applications, :sort_by => "company", :sort_dir => @sort_dir %>
+				<span style="font-size:15px;color:black;background-color:yellow;"><%= @sort_dir_icon if @sort_by == "company" %></div>
+			</td>
+			<td class="template_cell_closing_date_heading">
+				<%= link_to 'Closing Date', :action => :view_applications, :sort_by => "closing_date", :sort_dir => @sort_dir %>
+				<span style="font-size:15px;color:black;background-color:yellow;"><%= @sort_dir_icon if @sort_by == "closing_date" %></div>
+			</td>
+			<td class="template_cell_last_updated_date_heading">
+				<%= link_to 'Updated At', :action => :view_applications, :sort_by => "update_date", :sort_dir => @sort_dir %>
+				<span style="font-size:15px;color:black;background-color:yellow;"><%= @sort_dir_icon if @sort_by == "update_date" %></div>
+			</td>
+			<td class="template_cell_last_updated_date_heading">
+				
+			</td>
+			
+		</tr>
+		<tr style="vertical-align:top;background-color:#a0dc8f;">
+			
+			<td class="template_cell_title_content" style="border-top:3px solid gray;border-bottom:3px solid gray;border-left:3px solid gray;padding:4px 0px 4px 4px;margin:0px 0px 0px 0px;">
+				<%= text_field 'quick_add_role', 'title', :style => "width:166px;text-align:left;" %>
+				<%= error_message_on "quick_add_role", "title", {:prepend_text => "Title ", :css_class => "error_message_field"} %>
+			</td>
+			<td class="template_cell_status_content" style="border-top:3px solid gray;border-bottom:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+				<%= select :quick_add_role_application, :status_id, Role.application_statuses_for_select, {}, {"size" => "1", "style" => "width:110px;"} %>	
+				<%= error_message_on "quick_add_role_application", "status_id", {:prepend_text => "Status ", :css_class => "error_message_field"} %>
+			</td>
+			<td class="template_cell_agency_content" style="border-top:3px solid gray;border-bottom:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+				<% if @quick_add_agencies %>
+					<%= select :quick_add_role, :agency_id, @quick_add_agencies, {}, {"size" => "1", "style" => "width:170px"} %>
+					<%= error_message_on "quick_add_role", "agency_id", {:prepend_text => "Agency ", :css_class => "error_message_field"} %>
+				<% else %>
+					<%= select :quick_add_role, :agency_id, [], {}, {"size" => "1", "style" => "width:170px"} %>
+				<% end %>
+				<div style="padding: 2px 0px 0px 0px;">
+					<%= text_field 'quick_add_agency', 'name', :style => "width:166px;text-align:left;" %>
+					<%= error_message_on "quick_add_agency", "name", {:prepend_text => "Name ", :css_class => "error_message_field"} %>
+				</div>
+			</td>
+			<td class="template_cell_company_content" style="border-top:3px solid gray;border-bottom:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+				<% if @quick_add_companies %>
+					<%= select :quick_add_role, :company_id, @quick_add_companies, {}, {"size" => "1", "style" => "width:170px"} %>
+					<%= error_message_on "quick_add_role", "company_id", {:prepend_text => "Company ", :css_class => "error_message_field"} %>
+				<% else %>
+					<%= select :quick_add_role, :company_id, [], {}, {"size" => "1", "style" => "width:170px"} %>
+				<% end %>	
+				<div style="padding: 2px 0px 0px 0px;">
+					<%= text_field 'quick_add_company', 'name', :style => "width:166px;text-align:left;" %>
+					<%= error_message_on "quick_add_company", "name", {:prepend_text => "Name ", :css_class => "error_message_field"} %>
+				</div>
+			</td>
+			<td class="template_cell_closing_date_content" style="border-top:3px solid gray;border-bottom:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+				<div style="">
+					<% @role_close_date = "" %>
+					<% @role_close_date = @quick_add_role.close_date.strftime('%B %d, %Y') if @quick_add_role.close_date %>
+					
+					<%= calendar_date_select_tag "quick_add_role[close_date]", nil, 
+						:popup => :force, :month_year => 'label', 
+						:year_range => 1.years.ago..0.years.ago,
+						:value => @role_close_date, :style => "width:92px;" %>
+				</div>
+			</td>
+			<td class="template_cell_last_updated_date_content" style="border-top:3px solid gray;border-bottom:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+			</td>
+			<td class="template_cell_last_updated_date_content" style="border-top:3px solid gray;border-bottom:3px solid gray;border-right:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+				<div style="padding: 2px 0px 0px 0px;">
+					<%= submit_tag 'Add', :name => "add", :style => "width:85px;" %>
+					<%= submit_tag 'Add & Edit', :name => "add_edit", :style => "width:85px;" %>
+				</div>
+			</td>
+			
+		</tr>
+	</table>
+
+<% end %>
+
+</div>

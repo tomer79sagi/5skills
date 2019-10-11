@@ -1,0 +1,16 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+<% content_for :title do %>
+	View job seeker profile 
+	
+	<% if session[:user].user_type_id  == Fs2User::USER_TYPES[:job_seeker] %>
+		&nbsp; ( &nbsp; <%= link_to 'Edit profile', edit_job_seeker_profile_url(:job_seeker_id => @job_seeker.id) %> &nbsp; )
+	<% end %>
+	
+<% end %>
+
+<%= render :partial => '/five_skills/view_job_seeker_header' %>
+	
+<%= render :partial => '/five_skills/view_job_seeker_five_skills' %>

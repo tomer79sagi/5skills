@@ -1,0 +1,39 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+	<%= render :partial => '/fs_mvp/mvp_s_header' %>
+
+	<div class="middle">
+		<div class="middle_bg">
+			
+			<div class="title left" style="margin-top:17px;text-align:left;"><%= image_tag("mvp/jobs_sml_ENG.png") %></div>
+			<div class="title" style="text-align:right;"><%= image_tag("mvp/jobs_HEB.png") %></div>
+			
+			<div class="girl"><%= image_tag("mvp/girl_1.png") %></div>	
+			<div class="main_box_tnx">
+			
+				<%= render :partial => '/fs_mvp/mvp_slider' %>	
+				
+				<div class="content text_rtl">
+					<h1>אהלן! אנחנו כמעט מוכנים.</h1>
+					<div class="word"><p> אנחנו עובדים מאד קשה להשיק את גרסאת ה<span style="font-weight:bold;">בטא</span> של השירות בהקדם האפשרי! בבקשה תבדוק את האימייל שלך כדי למצוא מה אתה מקבל עבור הצטרפות לפני ההשקה ומה השלבים הבאים בתהליך. בנוסף, ככל שיותר אנשים נרשמים, נוכל להשיק מוקדם יותר! אז בבקשה, תפיץ את השמועה...</p></div>
+					<div class="ptop_50 right" style="padding-right:30px;"><%= image_tag("mvp/tell_your_friends-HEB.png") %></div>
+					<div class="ptop_50 pleft_75 right flip_he"><%= image_tag("mvp/arrow_reg.png") %></div>
+				</div>	
+				
+				<div class="footer_thanks">
+					<div id="likebox-frame" class="left">
+						<%= render :partial => '/fs_mvp/mvp_footer' %>
+					</div>
+					
+					<div class="right">
+						<%= render :partial => '/fs_mvp/mvp_social_share' %>
+					</div>					
+					
+				</div>			
+				
+			</div>
+		
+		</div>
+	</div>

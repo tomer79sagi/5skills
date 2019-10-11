@@ -1,0 +1,66 @@
+<div id="template_job_seeker_result" class="job_seeker_result" style="background-color:#fff;padding:4px;margin:3px;width:150px;float:left;height:180px;overflow:hidden;display:none;border-left:1px solid #D3E8D3;border-top:1px solid #D3E8D3;border-right:2px solid #D3E8D3;border-bottom:2px solid #D3E8D3;">
+	<div id="badge" style="padding:0px 0px 0px 0px;width:150px;font-size:30px;height:20px;text-align:right;font-weight:bold;transform:rotate(30deg);">
+		
+		<% if params[:c] == "puzzlehead" %>
+			<img src="/images/mvp-1/puzzlehead-logo.png" style="border:none;width:90px;display:none;"/>
+		<% elsif params[:c] == "wix" %>
+			<img src="/images/mvp-1/wix-logo.png" style="border:none;width:40px;display:none;"/>
+		<% elsif params[:c] == "manpower" %>
+			<img src="/images/mvp-1/manpower-logo.png" style="border:none;width:20px;display:none;"/>
+		<% elsif params[:c] == "bediyuk" %>
+			<img src="/images/mvp-1/bediyuk-logo.png" style="border:none;width:60px;display:none;"/>
+		<% elsif params[:c] == "i-potentials" %>
+			<img src="/images/mvp-1/i-potentials.png" style="border:none;width:40px;display:none;"/>
+		<% else %>
+			<img src="/images/mvp-1/wix-logo.png" style="border:none;width:40px;display:none;"/>
+		<% end %>
+			
+	</div>
+	<div id="pct" style="padding:0px 0px 10px 0px;width:150px;font-size:30px;text-align:center;font-weight:bold;"></div>
+	
+	<% if 1 == 2 %>
+	
+		<div id="top_2_current_positions" style="height:40px;overflow:hidden;">
+			<div id="single_position" position_priority="1" style="width:150px;font-size:12px;text-align:left;height:15px;font-weight:bold;overflow:hidden;"></div>
+			<div id="single_position" position_priority="2" style="width:150px;font-size:12px;text-align:left;height:15px;font-weight:bold;overflow:hidden;"></div>
+		</div>
+	
+	<% end %>
+	
+	<div id="top_3_skills ptop_10" style="overflow:hidden;">
+		
+		<% 5.times do |i| %>
+		
+			<div id="single_skill" skill_priority="<%= i %>" style="width:150px;height:15px;">
+				<div id="skill_name" style="width:130px;float:left;text-align:left;font-size:11px;overflow:hidden;"></div>
+				<div id="skill_yrs" style="width:20px;float:right;text-align:right;font-size:11px;overflow:hidden;"></div>
+			</div>
+		
+		<% end %>
+	</div>
+	
+	<% if 1 == 2 %>
+	
+		<div id="salary" style="margin-top:7px;padding-top:3px;height:20px;background-color:#6BAA73;width:150px;text-align:center;">
+			<div id="salary_from" style="float:left;margin-left:5px;color:white;width:60px;text-align:left;">15,000 nis</div>
+			<div id="salary_from" style="float:left;color:white;width:20px;text-align:center;">-></div>
+			<div id="salary_to" style="float:left;margin-right:5px;color:white;width:60px;text-align:right;">18,000 nis</div>
+		</div>
+	
+	<% end %>
+	
+	<div id="lnk_contact" style="height:25px;background-color:#4C9435;width:150px;text-align:center;margin-top:10px;">
+		<div style="color:white;font-size:18px;text-decoration:none;">Contact</div>
+	</div>
+	
+	<% if 1 == 2 %>
+	
+		<div id="lnk_linkedin_url" style="margin-top:1px;height:15px;;width:150px;text-align:center;">
+			<a href="" style="color:#2776B4;font-size:11px;">Open LinkedIn profile</a>
+		</div>
+		<div id="lnk_contact_us">
+			
+		</div>
+	
+	<% end %>
+</div>

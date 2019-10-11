@@ -1,0 +1,9 @@
+Start up actions
+----------------
+
+1. add_ajax_start_up_actions(action_name:String) / fs2_base_controller
+ - params[:ajax_start_up_actions] : Array -> Add actions as string attributes to an array
+ 
+2. ajax_it('start_up_actions'); : /js/onload/__framwork.html
+ - If params[:ajax_start_up_actions] is not null
+  - _REQ_start_up_actions -> _start_up_actions() : /js/ajax/__framework.html

@@ -1,0 +1,16 @@
+<% if @state == 4 %>
+			
+	<div id='primary_messages' style='direction:ltr;'>
+		Site already exists!
+		<input type='hidden' id='role_application_id' value='<%= @role_application.id %>'>
+	</div>
+	
+	<% if @role_application %>
+		&nbsp;&nbsp;<i>You can update its details below</i>
+	<% end %>
+	
+<% elsif @is_success %>
+
+	<div id='primary_messages' style='direction:ltr;'>Logged in successfully</div>
+	
+<% end %>

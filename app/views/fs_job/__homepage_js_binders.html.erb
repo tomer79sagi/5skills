@@ -1,0 +1,39 @@
+// --- HEADER ---
+$("#btn_logo").bind('click', function() {
+	document.location.href = '<%= home_url %>';
+});
+
+
+$("#lnk_learn_more").bind('click', function() {
+	//document.location.href = '<%= do_linkedin_login_url %>';
+	
+	$('html, body').animate({scrollTop:$(lnk_goto_whatis).offset().top}, 'slow');
+	
+	// Stop the link from acting like a normal anchor link
+	return false;
+});
+
+$("#lnk_goto_whatis").bind('click', function() {
+	//document.location.href = '<%= do_linkedin_login_url %>';
+});
+
+$("#lnk_goto_howworks").bind('click', function() {
+	//document.location.href = '<%= do_linkedin_login_url %>';
+});
+
+ 
+$("#lnk_find_talent").bind('click', function() {
+	//document.location.href = '<%= do_linkedin_login_url %>';
+});
+
+// --- CONNECT WITH LINKEDIN ---
+$(".homepage_5_login_button").bind('click', function() {
+	//modal_html = $("#templates div[id='template__recruiter__sign_up']").clone();
+	//modal_html.attr("id", "modal__recruiter__sign_up");
+	////modal_html.find("#frm_send_application").attr("id", "frm_send_application_o");
+	//modal_html.show().wrap('<p/>').parent().html();
+	
+	//$.nmData(modal_html, {modal: true});
+	
+	document.location.href = '<%= do_linkedin_login_url %>';
+});

@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  
+  
+  <title>People: <%= controller.action_name %></title>
+  
+  <%= stylesheet_link_tag 'scaffold' %>
+  <%= stylesheet_link_tag 'phase_1/main' %>	
+
+</head>
+<body>
+
+<div class="container">
+<div class="header">
+	<%= render :partial => '/main/header' %>
+</div> <!-- HEADER -->
+
+<div class="header_2">
+	<%= render :partial => '/main/candidate_header' %>
+</div> <!-- HEADER -->
+
+<div class="left">
+	<%= render :partial => '/main/left_side_bar' %>
+</div> <!-- LEFT -->
+
+<div class="content">
+	<%= yield %>
+</div>
+
+<div class="footer">
+	JOBBY 2009
+</div> <!-- HEADER -->
+
+</div> <!-- CONTAINER -->
+
+<!-- DEBUGGING -->
+<div style="">
+	<%= render :partial => '/main/debugging' %>
+</div>
+<!-- DEBUGGING -->
+
+</body>
+</html>

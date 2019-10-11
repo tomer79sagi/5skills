@@ -1,0 +1,60 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+	<%= render :partial => '/fs_mvp/mvp_s_header' %>
+	
+	<div class="middle">
+		<div class="middle_bg">
+			
+			<div class="title left" style="margin-top:17px;text-align:left;"><%= image_tag("mvp/candidates_sml_ENG.png") %></div>
+			<div class="title" style="text-align:right;"><%= image_tag("mvp/candidates_HEB.png") %></div>
+			
+			<div class="girl"><%= image_tag("mvp/girl_2.png") %></div>	
+			<div class="main_box">
+			
+				<%= render :partial => '/fs_mvp/mvp_slider' %>
+				
+				<div class="content text_rtl">
+					<div class="steps">
+					<div class="right"><%= image_tag("mvp/1.png") %></div>
+					<p class="right pright_10">בחר 5 כישורים שאתה צריך למשרה שלך!</p>
+					<span class="right pright_10">לדוגמא, מנהל פרויקטים - תוכנה</span>
+					</div>
+					
+					<div class="steps clear ptop_10">
+					<div class="right"><%= image_tag("mvp/2.png") %></div>
+					<p class="right pright_10">צפה במועמדים מתאימים</p>
+					<span class="right pright_10">מנוע ההתאמות שלנו מוצא לך מועמדים תפורים למשרה שלך!</span>
+					</div>
+					
+					<div class="steps clear ptop_10">
+					<div class="right"><%= image_tag("mvp/3.png") %></div>
+					<p style="padding-right:53px;">בקש קורות חיים</p>
+					<span class="pright_10">בלחיצת כפתור</span>
+					</div>
+					
+					<div class="arrow_he flip_he"><%= image_tag("mvp/arrow_2.png") %></div>
+					
+					<div class="tbl_su_form left text_ltr" style="padding-left:44px;">
+						<input id="field_3-email" name="user_login[email]" type="text" class="input_3 text_ltr" value="...כתובת האימייל שלך @" onkeyup="field_keyup(this, 'btn_i_want_in');" onblur="field_blur(this);" onclick="field_click(this);" />
+					</div>
+					<div id="btn_sign_up" class="sighup_but_he left text_ltr" onclick="fld_toggle(this, 4);" onmouseover="fld_toggle(this, 2);" onmouseout="fld_toggle(this, 3);"><span>!תרשמו אותי</span></div>
+					<div class="input_3_error left text_ltr" id="user_login-email_error"></div>
+				</div>
+				
+				<div class="footer">
+					<div id="likebox-frame" class="left">
+						<%= render :partial => '/fs_mvp/mvp_footer' %>
+					</div>
+					
+					<div class="right">
+						<%= render :partial => '/fs_mvp/mvp_social_share' %>
+					</div>					
+					
+				</div>			
+				
+			</div>
+		
+		</div>
+	</div>

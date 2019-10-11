@@ -1,0 +1,79 @@
+  <!--[form:role]-->
+  <%= javascript_include_tag "fckeditor/fckeditor" %>
+  
+  	<td valign="top">
+	  	<h3><u>Role Details</u></h3>
+	</td>
+	<td>
+		<table>
+		<tr>
+			<td valign="top">
+				<table>
+				<tr>
+					<td>Title:</td>
+					<td>*</td>
+					<td><%= text_field 'role', 'title' %></td>
+				</tr>					
+				<tr>
+					<td>Type:</td>
+					<td>*</td>
+					<td>					
+						<select name="role[type_id]">
+					     	 <option value="1" <%= 'selected="selected"' if @role.type_id == 1 %>>Permanent</option>
+						     <option value="2" <%= 'selected="selected"' if @role.type_id == 2 %>>Fixed Term</option>
+						     <option value="3" <%= 'selected="selected"' if @role.type_id == 3 %>>Contract</option>
+						     <option value="4" <%= 'selected="selected"' if @role.type_id == 4 %>>Part Time</option>
+							 <option value="5" <%= 'selected="selected"' if @role.type_id == 5 %>>Casual</option>						
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Salary:</td>
+					<td>From $</td>
+					<td><%= text_field 'role', 'salary_min' %></td>
+				</tr>
+				<tr>
+					<td></td>
+					<td>To $</td>
+					<td><%= text_field 'role', 'salary_max' %></td>
+				</tr>
+				<tr>
+					<td>Reference:</td>
+					<td></td>
+					<td><%= text_field 'role', 'reference' %></td>
+				</tr>
+				<tr>
+					<td>Close Date:</td>
+					<td></td>
+					<td><%= calendar_date_select_tag "role[close_date]", nil, 
+						:popup => :force, :month_year => 'label', 
+						:year_range => 1.years.ago..0.years.ago,
+						:value => @role.close_date %></td>
+				</tr>
+				<tr>
+					<td>Source:</td>
+					<td></td>
+					<td>
+						<select name="role[source_id]">
+							<option value="1" <%= 'selected="selected"' if @role.type_id == 1 %>>Seek</option>
+							<option value="2" <%= 'selected="selected"' if @role.type_id == 2 %>>TradeMe</option>						
+							<option value="3" <%= 'selected="selected"' if @role.type_id == 3 %>>Jobs.govt.nz</option>
+							<option value="4" <%= 'selected="selected"' if @role.type_id == 4 %>>Dominion Post</option>
+							<option value="0" <%= 'selected="selected"' if @role.type_id == 0 %>>Other</option>
+						</select>
+						e.g. Seek, TradeMe etc.
+					</td>
+				</tr>	
+				</table>
+			</td>
+		</tr>
+		</table>
+	</td>
+</tr>
+<tr>
+	<td colspan="2">
+		<%= fckeditor_textarea( "role", "description", {:width => '750', :height => '600'} ) %> 
+		<%# text_area 'role', 'description', 'cols' => 40, 'rows' => 20 %>
+	</td>
+		  
+  <!--[eoform:role]-->

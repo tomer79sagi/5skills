@@ -1,0 +1,45 @@
+<script type="text/javascript">
+
+function _REQ_apply_to_job_post(data){
+	
+	var json_arr = {};
+	
+	json_arr.job_id = $("#job").attr("job_id");
+	json_arr.skills_profile = extract_skills_from_flat_profile();
+	
+	if (!json_arr.skills_profile) {
+		// var prev_bgc = $("#fld_fs_profile").css("background-color");
+		$("#fld_fs_profile").animate({"background-color": "red"}, 5000);
+		add_error_message('Your 5skills profile must have at least 1 skill entered. Please select some skills! :-)');
+		return;
+	}
+	
+	$.nmData("<div style='text-align:center;padding:30px;'><span style='font-style:italic;color:green;font-size:30px;'>Matching!</span><br/><br/>Please wait...</div>", {modal: true, sizes: {minW: 300, minH: 200}});
+	
+	return {action: "ajax/job_post/" + $('#job').attr('job_id') + "/apply", data: json_arr};
+
+}
+
+function _RES_apply_to_job_post(data, status_i){
+	
+	
+	// -- X. Remove the temporary 'skills_profile' and 'form' object placeholders --> keep the 'session_ids' clean
+	
+	delete _session_ids['form'];
+	delete _session_ids['skills_profile'];
+	 
+	
+	// --- X. set the 'session_user_id' value in the client (overcoming the 'session-less' issue on the live server)
+	
+	switch_to("__w__a_recruiter__job_publishing_home");
+	
+	// alert('success');
+	
+
+}
+
+function _RES_ERR_apply_to_job_post(data, status_i){
+	// $.nmData("Error");
+}
+
+</script>

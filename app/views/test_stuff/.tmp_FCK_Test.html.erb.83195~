@@ -1,0 +1,25 @@
+<%= javascript_include_tag "fckeditor/fckeditor" %>
+
+<html>
+<head>
+<title>FCKeditor - Sample</title>
+
+</head>
+<body>
+<form method="post" action="process.php">
+
+<input type="submit" value="Post" />
+<div id="postText">
+</div>
+
+<% @person = Person.new %>
+
+<div id="<%= fckeditor_div_id('person', 'first_name') %>">
+        <%= fckeditor_textarea( "person", "first_name", {:width => '600', :height => '500'} ) %> 
+    </div>
+	
+	<%# fckeditor_textarea(:person,:first_name, {:toolbarSet => 'Basic', :width => '100%', :height => '100%'}) %> 
+
+</form>
+</body>
+</html>

@@ -1,0 +1,119 @@
+Timer
+-----
+
+DEFINITION - /js/ajax/__framework.html.erb
+------------------------------------------
+
+This file contains:
+* COMPONENTS / i.e. 'job_fs_profile' is the 5skills profile component used for the purposes of a job
+* ACTIONS / i.e. normally ajax actions, e.g. 'search_job_seekers'
+* MAPPING COMPONENTS to ACTIONS / i.e. 'dirty_actions' in the 'component_map' defines which actions are fired, when and how
+
+
+Component states / 'component_state'
+  0 = undefined
+  1 = empty
+  2 = ditry
+  3 = changed
+ 
+ 
+Dirty component map / 'dirty_comp_map'
+  e.g.
+    'fs_profile': 2 -> 2 = dirty
+	
+	
+Action timer map / 'action_timer_map'
+  [action_id]: {
+	[timer_obj]: [obj],
+	counter: [counter] 
+  }
+  e.g.
+	1: {
+		[timer_obj]: [obj],
+		counter: 1
+	}
+
+	
+Action map / 'action_map'
+  [action_id]: {
+	name: [action_name],
+	func: [[func_name], [func_parameters]],
+	timer: [timer in miliseconds],
+		5000 = run every 5 seconds
+	repeat: [repeat_times], 
+		-1 = run indefinitely,
+		0 = run once,
+		[d] = run X number of times
+	before_is_changed_func: [],
+	after_is_changed_func: []
+  }
+  
+  e.g.
+	1: {
+		name: "search_jobs_seekers",
+		func: [ajax_it, "search_job_seekers"],
+		timer: 10000,
+		repeat: 0,
+		
+	}
+	
+
+Component map / 'component_map'
+  * Add 'controller' and 'action' specific components
+  
+  [:controller == 'fs_job'] / if it's a recruiter or job controller
+	[:action == 'recruiter_home'] / if it's the main recruiter home
+		1: {
+			name: "job_fs_profile",
+			dirty_actions: [
+				{ action_id: 1, run_at_start: true },
+				{ action_id: 2, run_at_start: false }
+			]
+		}
+	
+
+FLOW - functions
+----------------
+
+1. _dirty(component_id)
+	[component_id exists]
+		- Iterate through {component}.dirty_actions
+			+ action_id
+			+ run_at_start
+		- Initialize the 'timer_obj'
+			+ See (2.) below
+		- Set the 'run_now' flag based on the dirty_action 'run_at_start' attribute in the 'component_map' component
+		- '_tick' is executed ('action_id', 'run_now')
+			
+2. _init_action_timer(action_id)
+	Create an 'action_timer_map[action_id] attribute with a 'timer_obj' = null & 'counter' = 0
+	
+3. _tick
+	[run_now == true]
+		- execute the function with the supplied paramters
+	reset the 'timer' object
+	[is_repeat]
+		- 'setTimeout' to invoke the '_tick' method within the 'timer' timeframe
+	
+
+FLOW - initialization
+---------------------
+
+Pre-configuration:
+- controller: 'fs_job'
+- action: 'recruiter_home'
+
+Steps:
+1. Initialize component 'job_fs_profile'
+ - attach 2 actions for when it becomes dirty
+ - (a) 'search_job_seekers' (id = 1, run at start of the _tick event)
+ - (b) 'save_job_fs_profile' (id = 2, run only after the initial timer delay)
+ 
+	component_map =>
+		1: {
+			name: "job_fs_profile",
+			dirty_actions: [
+				{ action_id: 1, run_at_start: true },
+				{ action_id: 2, run_at_start: false }
+			]
+		}

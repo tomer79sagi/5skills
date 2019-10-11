@@ -1,0 +1,67 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  
+  <title><%= yield :head %></title>
+  
+  <%= stylesheet_link_tag 'phase_1/main' %>
+  <%= stylesheet_link_tag 'phase_1/messages' %>
+  <%= stylesheet_link_tag 'jquery-ui/jquery-ui-1.8.20.custom' %>
+  <%= stylesheet_link_tag 'impromptu/examples' %>
+  
+  <style>
+	.ui-autocomplete {
+		max-height: 200px;
+		overflow-y: auto;
+		/* prevent horizontal scrollbar */
+		overflow-x: hidden;
+		/* add padding to account for vertical scrollbar */
+		padding-right: 20px;
+		text-align:left;
+	}
+	
+	/* IE 6 doesn't support max-height
+	 * we use height instead, but this forces the menu to always be this tall
+	 */
+	html .ui-autocomplete {
+		height: 200px;
+	}
+	
+	#results_table tr:not([id='results_row_titles']):hover td {
+		background-color: #FFFF80;
+		color: black;
+	}
+	
+	#sortable { list-style-type: none; margin: 0; padding: 0; width: 100%; }
+	#sortable li { margin: 0 0 0 0; padding: 0em; padding-left: 1.5em; font-size: 1.4em; height: 45px; }
+	#sortable li span { position: absolute; margin-left: -1.3em; }
+  </style>
+  
+  <script src="http://connect.facebook.net/en_US/all.js"></script>
+  
+  <%= javascript_include_tag 'jquery-1.7.2.min', 'jquery-ui/jquery-ui-1.8.20.custom.min', 'application' %>
+  <%= javascript_include_tag 'impromptu/jquery-impromptu.4.0.min' %>
+  <%= javascript_include_tag 'bxSlider/jquery.bxSlider.min' %>
+  
+  <%= render :partial => '/five_skills/js' %>
+  
+</head>
+<body>
+	
+<div id="fb-root"></div>
+<script>
+	FB.init({appId: '156127131075698', xfbml: true, cookie: true});
+</script>
+
+<div id="messages_pane" style="width:100%;">
+	<div id="message_notice" class="messages_area_good" style="display:none;"><%= flash[:notice].to_s %></div>
+	<div id="message_error" class="messages_area_bad" style="display:none;"><%= flash[:error].to_s %></div>
+</div>
+
+<%= yield %>
+
+</body>
+</html>

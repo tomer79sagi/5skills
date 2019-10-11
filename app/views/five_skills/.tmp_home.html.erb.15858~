@@ -1,0 +1,96 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+<% content_for :title do %>
+	Create job seeker profile
+<% end %>
+
+<% form_tag({:action => :save_job_seeker_profile}) do %>
+
+<table>
+	<tr>
+		<td>
+			<table>
+				<tr>
+					<td>Full Name:</td>
+					<td><input type="text"></td>
+				</tr>
+				<tr>
+					<td>Template:</td>
+					<td>
+						<select style="width:250px;">
+							<option value="1">Web project manager</option>
+							<option value="1">PHP developer</option>
+							<option value="1">Java developer</option>
+							<option value="1">Ballet dancer</option>
+							<option value="1">Program manager</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td style="border-top:2px solid blue;border-bottom:5px solid blue;">
+			<table>
+				<tr>
+					<td>Skill</td>
+					<td>Skill name</td>
+					<td>Years exp.</td>
+					<td>Self rate</td>
+					<td>Skill details</td>
+				</tr>
+				<tr>
+					<td style="text-align:center;vertical-align:middle;">1</td>
+					<td><textarea cols="30" rows="2"></textarea></td>
+					<td><input type="text" style="height:35px;width:30px;"></td>
+					<td><input type="text" style="height:35px;width:30px;"></td>
+					<td><textarea cols="60" rows="2"></textarea></td>
+				</tr>
+				<tr>
+					<td style="text-align:center;vertical-align:middle;">2</td>
+					<td><textarea cols="30" rows="2"></textarea></td>
+					<td><input type="text" style="height:35px;width:30px;"></td>
+					<td><input type="text" style="height:35px;width:30px;"></td>
+					<td><textarea cols="60" rows="2"></textarea></td>
+				</tr>
+				<tr>
+					<td style="text-align:center;vertical-align:middle;">3</td>
+					<td><textarea cols="30" rows="2"></textarea></td>
+					<td><input type="text" style="height:35px;width:30px;"></td>
+					<td><input type="text" style="height:35px;width:30px;"></td>
+					<td><textarea cols="60" rows="2"></textarea></td>
+				</tr>
+				<tr>
+					<td style="text-align:center;vertical-align:middle;">4</td>
+					<td><textarea cols="30" rows="2"></textarea></td>
+					<td><input type="text" style="height:35px;width:30px;"></td>
+					<td><input type="text" style="height:35px;width:30px;"></td>
+					<td><textarea cols="60" rows="2"></textarea></td>
+				</tr>
+				<tr>
+					<td style="text-align:center;vertical-align:middle;">5</td>
+					<td><textarea cols="30" rows="2"></textarea></td>
+					<td><input type="text" style="height:35px;width:30px;"></td>
+					<td><input type="text" style="height:35px;width:30px;"></td>
+					<td><textarea cols="60" rows="2"></textarea></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<table>
+				<tr>
+					<td>Template name:</td>
+					<td><input type="text"></td>
+					<td><%= submit_tag 'Save as Template', :name => "save_as_template" %></td>
+					<td style="width:550px;text-align:right;"><%= submit_tag 'Create Profile', :name => "create_profile" %></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+<% end %>

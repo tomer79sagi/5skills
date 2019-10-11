@@ -1,0 +1,87 @@
+<% if flash[:notice] %>
+	$("#message_notice").show('slow');
+<% end %>
+
+<% if flash[:error] %>
+	$("#message_error").show('slow');
+<% end %>
+
+$.ajaxSetup({
+    beforeSend: function (xhr) {
+            xhr.setRequestHeader("Accept", "application/json, text/javascript, text/html, application/xml, text/xml, */*");
+    }
+});
+
+
+// --------------------------------------------------------------------
+// Initialize FS profile - new design
+// --------------------------------------------------------------------
+<%#= render :partial => 'five_skills/js_populate_fs_profile' %>
+// -----------------------------------------------------------
+
+
+
+// ---------------------------- partial 'init_lists.html' equivalent ----------------------------
+
+$(".add_skill_container").bind('click', function(e) {
+	if ($(this).attr("skill_added") == "no") {
+		var skill_index = get_first_blank_skill();
+		add_skill_to_profile($(this).find(".add_skill_left").html().trim(), $(this).attr("skill_id"), skill_index);
+		
+		//$(this).find("div").css("color", "gray");
+		$(this).find("div").css("font-style", "italic");
+		$(this).find("div").css("font-weight", "bold");
+		$(this).attr("skill_added", "yes");
+		
+		ajax_it("search_job_seekers");
+	}
+});
+
+
+$( ".skills_profile_top_5" ).sortable({
+	connectWith: ".skills_profile_additional",
+    axis: "y",
+    tolerance: "pointer",
+    cursorAt: {top:10, left: 15},
+    update: function( event, ui ) {
+    	// console.log('update');
+    	
+    	ajax_it("search_job_seekers");
+		
+    }, over: function (event, ui) {
+    	
+    	
+    }
+}).disableSelection();
+
+
+$( ".skills_profile_additional" ).sortable({
+	connectWith: ".skills_profile_top_5",
+    axis: "y",
+    tolerance: "pointer",
+    cursorAt: {top:10, left: 15},
+    update: function( event, ui ) {
+    	// console.log('update');
+    	
+    	ajax_it("search_job_seekers");
+		
+    }, over: function (event, ui) {
+    	
+    	
+    }
+}).disableSelection();
+
+
+
+
+//attach_field_binders();
+
+
+<% if params[:ajax_start_up_actions] %>
+	ajax_it('start_up_actions');
+<% end %>
+
+
+<% if params[:action] == "edit_job_seeker_profile" %>
+	setTimeout(repeat_functions, 15000, {functionRef: ajax_it, repeatTimes: -1, repeatInterval: 15000}, "search_jobs");
+<% end %>

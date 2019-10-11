@@ -1,0 +1,38 @@
+try{
+
+	var current_action_o = document.createElement("meta");
+	current_action_o.setAttribute("name", "csrf-token");
+	current_action_o.setAttribute("content", "<%= form_authenticity_token.to_s %>");
+	
+	document.getElementsByTagName("head")[0].appendChild(current_action_o);
+	
+	alert('start: <%= form_authenticity_token.to_s %>');
+//	alert('ss: <%= @aaa %>');
+
+	// Capture the current action for dynamic form operations
+	if ($('#current_action').length) {
+		$('#current_action').replaceWith("\
+			<input type='hidden' id='current_action' value='<%= params[:action] %>'>");
+	} else {
+		var current_action_o = document.createElement("input");
+		current_action_o.setAttribute("type", "hidden");
+		current_action_o.setAttribute("id", "current_action");
+		current_action_o.setAttribute("value", "<%= params[:action] %>");
+		
+		document.body.appendChild(current_action_o);
+	}
+	
+	// Update 'reply' was received
+	if ($('#reply_received_flag').length) {
+		$('#reply_received_flag').replaceWith("\
+			<input type='hidden' id='reply_received_flag' value='received'>");
+	} else {
+		var reply_received_flag = document.createElement("input");
+		reply_received_flag.setAttribute("type", "hidden");
+		reply_received_flag.setAttribute("id", "reply_received_flag");
+		reply_received_flag.setAttribute("value", "received");
+		
+		document.body.appendChild(reply_received_flag);
+	}
+
+	$('#flyc_token').attr('value', '<%= session[:flyc_token] %>');

@@ -1,0 +1,9 @@
+Hey <%= @person_name %> !
+
+<br><br>
+
+You have a new <b>message</b>!!!
+
+<br><br>
+
+<a href="http://<%= @http_host %>/redirect/<%= @redirection_key %>">Click here to see it</a>

@@ -1,0 +1,51 @@
+<script type="text/javascript">
+
+var map_context_switches = [
+
+	// -- Workspace --
+	"__w__admin_home", 
+	"__w__admin_job_seekers", 
+	"__w__admin_recruiters", 
+	"__w__admin_jobs",
+	"__w__admin_skills",
+	"__w__admin_marketing",
+	
+	// -- Main content --
+	"__c__dashboard_main",
+	"__c__dashboard_1",
+	"__c__dashboard_2",
+	"__c__dashboard_3"
+	
+];
+
+var context = {
+	"workspace": {
+		"_default": "__w__admin_marketing",
+		"_selected": "__w__admin_marketing"
+	},
+	"main_content": {
+		"_default": "__c__dashboard_1",
+		"_selected": "__c__dashboard_1"
+	}
+};
+
+
+function __W__admin_marketing__SWITCHER__() {
+	$("#header_title").css("color", "#000");
+	$("#header_title").css("font-style", "normal");
+	$("#header_title").html("Marketing");
+
+	// Update the left nav
+	render('template__left_nav__admin__marketing', '#workspace__left_nav');
+	switch_to("__c__dashboard_1");
+}
+
+
+
+function __C__dashboard_1__SWITCHER__() {
+	$("#sub_menu__marketing__dashboards").slideDown('fast');
+	$("#sub_menu__marketing__measurements").slideDown('fast');
+	render('template__manage_marketing', '.bb');
+}
+
+</script>

@@ -1,0 +1,3 @@
+try{
+
+	$('#flyc_token').attr('value', '<%= session[:flyc_token] %>');

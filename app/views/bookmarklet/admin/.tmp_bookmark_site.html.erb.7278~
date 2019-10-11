@@ -1,0 +1,50 @@
+<div id='content_panel' style='direction:ltr;'>
+	
+	<div id='site_parsing_panel' style='padding:.5em 0em 0em 0em;'>
+		<table>
+			<tr>
+				<td style='text-align:left;height:20px;'>Site detected: </td>
+				<td id='site_detected' style='text-align:left;height:20px;vertical-aling:top;'>
+					<b><%= @site_detected["name"] %></b>
+				</td>
+			</tr>
+			<tr>
+				<td style='text-align:left;height:20px;vertical-align:top;'>Page type: </td>
+				<td id='page_detected' style='text-align:left;height:20px;vertical-align:bottom;'>
+					<select id="page_type" style="vertical-align:bottom;">
+						<% @page_type_options_arr.each_index do |option_index| %>
+							<option value="<%= @page_type_options_arr[option_index][1] %>"
+								<%= ' selected="true"' if option_index == @page_detected %>
+								><%= @page_type_options_arr[option_index][0] %></option>
+						<% end %>
+					</select>
+				</td>
+			</tr>
+		</table>
+	</div>
+	
+	<hr/>
+	
+	<div id='d_job_selection' style='position:relative;direction:ltr;'>
+		<b>Select jobs</b><br/>
+		<span style='font-size:9px;'>Please select one or more jobs to save in your flyc!</span>
+	</div>
+	
+	<div id='content_panel_messages'></div>
+	
+	<p>
+	<div id='content_panel_body' style='padding:.5em 0em 0em 0em;min-height:350px;'>
+		<hr/><br/>
+		Page parsing test<br/>
+		<textarea id='parse_text' rows='3' cols='20' style='width:170px;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;'></textarea><br/>
+		<input id='chk_collapsable' type='checkbox' style='width:170px;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;'>Is collapsable
+		<button id='btn_parse_text' style='width:50px;height:25px;z-index:1500;' onClick='testParsing(); return false;'>Parse</button>&nbsp;<br/>
+		<select id='parse_select' size='6' onClick='testScroll(this);' style='width:190px;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;'>
+		</select>
+	</div>
+	
+	<p><hr/></p>
+	
+	<div id='buttons_panel' style="padding:.5em 0em 0em 0em;"></div>
+	
+</div>

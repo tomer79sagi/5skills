@@ -1,0 +1,151 @@
+Hey <%= @person_name %> !
+
+<br><br>
+
+5skills found new jobs for you!
+
+Check them out below...
+
+<br/><br/>
+
+<hr/>
+
+<br/>
+
+<table style="border-collapse:collapse;">
+	<tr>
+
+		<td style="background-color:gray;">Company</td>
+		<td style="background-color:gray;">Contact</td>
+		<td style="background-color:gray;">Agency</td>
+		<td style="background-color:gray;">Contact</td>
+		
+		<td style="background-color:gray;">Match points</td>
+		<td style="background-color:gray;">Matched skills</td>
+		<td style="background-color:gray;">Matched skill details</td>
+		<td style="background-color:gray;">Matched skill additional requirements</td>
+		<td style="background-color:gray;">Actions</td>
+		
+	</tr>
+	
+	<% if @j_results_array %>
+	
+		<% @j_results_array.each do |job| %>
+			
+			<tr>
+				
+				<td>
+					
+					<% if job[1][:company_name] && !job[1][:company_name].blank? %>
+					
+						<% if job[1][:files] && job[1][:files][:company_logo] && job[1][:files][:company_logo][:id] && job[1][:files][:company_logo][:medium_dimensions] %>
+							
+							<a href="http://<%= @http_host %>/job/<%= job[0].to_s %>/view">
+							<img src="http://<%= @http_host %>/file/<%= job[1][:files][:company_logo][:id] %>/show"
+								width="<%= job[1][:files][:company_logo][:medium_dimensions] %>"
+								height="<%= job[1][:files][:company_logo][:medium_dimensions] %>"/>
+							</a>
+							
+						<% end %>
+						<br/>
+						<%= job[1][:company_name] %>
+						
+					<% end %>
+						
+				</td>
+				
+				<td>
+					
+					<% if job[1][:company_contact_full_name] && !job[1][:company_contact_full_name].blank? %>
+	
+							<%= job[1][:company_contact_full_name] %>	
+					
+					<% end %>
+				
+				</td>
+				
+				<td>				
+					
+					<% if job[1][:agency_name] && !job[1][:agency_name].blank? %>
+				
+					
+						<% if job[1][:files] && job[1][:files][:agency_logo] && job[1][:files][:agency_logo][:id] && job[1][:files][:agency_logo][:medium_dimensions] %>
+						
+							<a href="http://<%= @http_host %>/job/<%= job[0].to_s %>/view">
+							<img src="http://<%= @http_host %>/file/<%= job[1][:files][:agency_logo][:id] %>/show"
+								width="<%= job[1][:files][:agency_logo][:medium_dimensions] %>"
+								height="<%= job[1][:files][:agency_logo][:medium_dimensions] %>"/>
+							</a>
+							
+						<% end %>
+						
+						<br/>
+						<%= job[1][:agency_name] %>
+				
+					<% end %>
+					
+				</td>
+				
+				<td>
+					
+					<% if job[1][:agency_contact_full_name] && !job[1][:agency_contact_full_name].blank? %>
+		
+						<%= job[1][:agency_contact_full_name] %>
+					
+					<% end %>
+					
+				</td>
+				
+				<td>
+					<%= job[1][:match_points].to_s %>
+				</td>
+				<td>
+					<%= job[1][:matched_skills].to_s %>
+				</td>
+				<td>
+					<%= job[1][:matched_skill_details].to_s %>
+				</td>
+				<td>
+					<%= job[1][:matched_additional_requirements].to_s %>
+				</td>
+				<td>
+					
+					<% if job[1][:cv_trans_status_id] %>
+					
+						<b><%= job[1][:cv_trans_status_name] %></b>
+							
+						<% if job[1][:cv_trans_updated_at] %>
+							<br/>
+							<%= job[1][:cv_trans_updated_at_formatted] %>
+							<br/>
+							<i><%= job[1][:cv_trans_updated_at_time_ago] %></i>
+						<% end %>
+						
+						<% if job[1][:cv_trans_status_id].to_i == Fs2CvsToJobsTransaction::STATUS_TYPES[:cv_requested] %>
+							<br/></br/>
+						
+							<a href="http://<%= @http_host %>/job/<%= job[0].to_s %>/cv_request/approve">APPROVE!</a>
+							&nbsp;
+							<a href="http://<%= @http_host %>/job/<%= job[0].to_s %>/cv_request/reject">Reject</a>
+						<% end %>
+						
+					<% else %>
+						
+						<a href="http://<%= @http_host %>/job/<%= job[0].to_s %>/send_cv">Send CV</a>
+						
+					<% end %>
+					
+				</td>
+			</tr>
+			
+		<% end %>
+	
+	<% end %>
+	
+</table>
+
+<br/>
+
+<hr/>
+
+<a href="http://<%= @http_host %>/job/find">Find Jobs!</a>

@@ -1,0 +1,50 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+<% content_for :title do %>
+
+	<% if @job %>
+		<%= "-" + " (" + @job[:job_obj].id.to_s + ")" if !@job[:job_obj].title %>
+		<%= @job[:job_obj].title + " (" + @job[:job_obj].id.to_s + ")" if @job[:job_obj].title %>
+	<% end %>
+	
+	<% if session[:user].user_type_id == Fs2User::USER_TYPES[:hiring_manager] || session[:user].user_type_id == Fs2User::USER_TYPES[:recruitment_agent] %>
+		&nbsp; ( &nbsp; <%= link_to 'Edit profile', edit_job_profile_url(:job_id => @job[:job_obj].id.to_s) %> &nbsp; )
+	<% end %>
+	
+<% end %>
+
+
+	
+<div class="mid_left">
+	
+	<% if @job[:agency_files][:agency_logo] || @job[:company_files][:company_logo] %>
+	
+		<div class="profile">
+			
+			<% if @job[:agency_files][:agency_logo] %>
+				<%= fs_image_tag(@job[:agency_files][:agency_logo].id, @job[:agency_files][:agency_logo].large_dimensions) %>
+				<div>
+					<%= @job[:a_name] %>
+				</div>
+			<% elsif @job[:company_files][:company_logo] %>
+				<%= fs_image_tag(@job[:company_files][:company_logo].id, @job[:company_files][:company_logo].large_dimensions) %>
+				<div>
+					<%= @job[:c_name] %>
+				</div>	
+			<% end %>
+			
+		</div>
+		
+	<% end %>
+	
+	<div class="profile">
+		<img src="/images/profile_photos/alin_siris.png" alt="" width="130" />
+	</div>
+	<hr />
+	<div class="cv" style="text-align:center;"><input type="submit" value="Send CV" /></div>
+	
+</div>
+
+<%= render :partial => '/five_skills/fs_profile' %>

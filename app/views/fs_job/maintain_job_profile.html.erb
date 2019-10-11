@@ -1,0 +1,27 @@
+<% content_for :head do %>
+	5skills.me
+<% end %>
+
+<% content_for :title do %>
+
+	<% if @job %>
+		<%= "-" + " (" + @job[:job_obj].id.to_s + ")" if !@job[:job_obj].title || @job[:job_obj].blank? %>
+		<%= @job[:job_obj].title + " (" + @job[:job_obj].id.to_s + ")" if @job[:job_obj].title && !@job[:job_obj].blank? %>
+	<% else %>
+		&nbsp;
+	<% end %>
+	
+	<% if @job[:job_obj] %>
+	
+		<% if @job[:agency_files] && @job[:agency_files][:agency_logo] %>
+			<%= fs_image_tag(@job[:agency_files][:agency_logo].id, @job[:agency_files][:agency_logo].medium_dimensions) %>	
+		<% elsif @job[:company_files] && @job[:company_files][:company_logo] %>
+			<%= fs_image_tag(@job[:company_files][:company_logo].id, @job[:company_files][:company_logo].medium_dimensions) %>
+		<% end %>
+	
+	<% end %>
+	
+<% end %>
+
+
+<%= render :partial => '/five_skills/fs_profile' %>

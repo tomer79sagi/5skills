@@ -1,0 +1,85 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+<% content_for :title do %>
+	Job seeker
+<% end %>
+
+<div class="header" style="padding:0px;height:100px;">
+	<div style="padding:5px;height:30px;background-color:black;">
+		<div style="margin-top:6px;background-color:#fff;width:50px;">LOGO</div>
+	</div>
+	<div style="padding:5px;padding-left:10px;height:30px;">
+		<div style="margin-top:12px;width:400px;font-size:24px;float:left;">.NET development team leader</div>
+		<div style="margin-top:16px;margin-left:10px;width:100px;font-size:18px;float:left;text-align:right;">Published</div>
+		<div style="margin-top:22px;margin-left:5px;width:100px;font-size:12px;float:left;font-style:italic;text-align:left;color:gray;">2 days ago</div>
+	</div>
+</div>
+
+<!-- WEST -->
+
+<div class="col1" style="padding-right:0px;padding-left:0px;text-align:center;">
+	<div id="menu__fs_profile" style="margin-left:10px;font-size:30px;background-color:gray;cursor:pointer;">5skills</div>
+	<div style="margin-top:20px;">
+		<div id="menu_results" style="margin-top:20px;font-size:30px;background-color:yellow;cursor:pointer;">Results</div>
+		<div id="menu__social_posting" style="margin-top:5px;font-size:30px;background-color:yellow;cursor:pointer;">Social</div>
+	</div>
+	
+</div>
+
+<!-- CENTER --> 
+
+<div class="ui-layout-center col234" style="border:none;">
+	
+	<!-- WEST : Select skills from list -->
+	
+	<div class="col2" style="background-color:#00cccc;border:none;border-right:1px solid gray;">
+		
+		<div id="btn_close_skills_panel" style="width:20px;font-size:30px;cursor:pointer;float:left;text-align:center;">
+			<div style="font-size:30px;"><<</div>
+		</div>
+		<div class="" style="width:260px;float:left;">
+			
+			<%= render :partial => '/five_skills/_fs_profile_choose_skills' %>
+			
+		</div>
+	</div>
+	
+	<!-- CENTER -->
+	
+	<div class="ui-layout-center col3" style="width:300px;border:none;"> 
+		
+		<!-- WEST : 5skills profile -->
+		
+		<div class="aa" style="width:300px;border:none;border-right:1px solid gray;background-color:#39B54A;">
+			
+			<div id="btn_add_skills_panel" style="width:20px;font-size:30px;cursor:pointer;float:left;text-align:center;">
+				<div style="font-size:30px;">+</div>
+				<div style="font-size:30px;margin-top:5px;">C</div>
+			</div>
+			<div style="width:260px;float:left;">
+				
+				<%= render :partial => '/five_skills/_fs_profile' %>
+				
+			</div>
+			
+		</div>
+		
+		<!-- CENTER : Search results -->
+		
+		<div class="ui-layout-center bb" style="border:none;">
+			<div style="font-weight:bold;font-size:24px;">Matching job seekers</div>
+			<div class="fs_results mtop_5"></div>
+		</div>
+	</div>
+</div>
+
+<!-- EAST : Statistics -->
+
+<div class="col5">
+	col5 <p>panel__workspace.east</p>	<p>size = 20%</p> 
+</div>
+
+
+

@@ -1,0 +1,112 @@
+<script type="text/javascript">
+	$(document).ready(function() {
+		
+		$.ajaxSetup({
+		    beforeSend: function (xhr) {
+		    	// Add the 'json' header
+		        xhr.setRequestHeader("Accept", "application/json, text/javascript, text/html, application/xml, text/xml, */*");
+		        
+		        // Store the request
+		        //xhrPool[ajax_current_action] = xhr;
+		    }
+		});
+		
+		<%= render :partial => '/five_skills/_site_header_js_binders' %>
+		<%= render :partial => '/js/onload/_fs_profile' %>
+		<%= render :partial => '/js/framework/a_job_seeker__onload_pre_components' %>
+		<%= render :partial => '/js/framework/_onload_post_components' %>
+		
+		
+		// -- 1 - configure the 'add_sills' template
+		
+		$(".skills_profile_top_5:last").remove(); // Remove 'template' -> supporting new framework
+		$(".add_skill_panel_body div:first").hide(); // Hide 'add_skills' header
+		$("#btn_close_skills_panel").hide(); // Hide '<<' button
+		$("#_add_skills").show();
+		
+		
+		// -- 1 - !* TEMP: 'show()' the fs_profile template,
+		//  .. New framework dynamically adds the 'fs_profile' template
+		
+		$("#btn_add_skills_panel").hide(); // Hide '+' and 'C' buttons
+		$("#template__fs_profile:first").show();
+		
+		
+		// -- 2 - !* TEMP: Populate the 5skills template
+		
+		<% 5.times do |i| %>
+			
+			// --- IF FS_PROFILE EXISTS, USE IT
+			
+			<% if @active_fs_profile %>
+			
+				// --- Populate primary skills
+				
+				<% if @active_fs_profile[:skill_names_matrix][i] && !@active_fs_profile[:skill_names_matrix][i][0].blank? %>
+				
+					$(".skills_profile_top_5").append(create_primary_skill(
+							<%= (i + 1) %>, {
+								id: "<%= @active_fs_profile[:skill_ids_matrix][i][0] %>",
+								name: "<%= @active_fs_profile[:skill_names_matrix][i][0] %>",
+								years_exp: "<%= @active_fs_profile[:skill_names_matrix][i][1] %>"
+								
+								<% if @active_fs_profile[:skill_ids_matches_matrix] %>
+								
+									<% if @active_fs_profile[:skill_ids_matches_matrix][i][0] == -2 %>
+										, name_state: 2
+									<% end %>
+									
+									<% if @active_fs_profile[:skill_ids_matches_matrix][i][1] == -2 %>
+										, years_exp_state: 2
+									<% end %>
+									
+								<% end %>
+							},
+							true));
+							
+					attach_primary_field_binders(<%= (i + 1) %>);
+				
+				<% else %>
+				
+					$(".skills_profile_top_5").append(create_blank_primary_skill(<%= i + 1 %>));
+			
+					attach_primary_field_binders(<%= (i + 1) %>, true);
+				
+				<% end %>
+			
+			
+				// --- Populate secondary skills
+				
+				<% if @active_fs_profile[:skill_ids_matrix] && @active_fs_profile[:skill_ids_matrix][i] && @active_fs_profile[:skill_ids_matrix][i][2] %>
+					
+					<% @active_fs_profile[:skill_ids_matrix][i][2].each_index do |j| %>
+						add_sub_skill(
+							<%= @active_fs_profile[:skill_ids_matrix][i][2][j] %>, 
+							"<%= @active_fs_profile[:skill_names_matrix][i][2][j] %>", 
+							$("#sortable<%= i * 2 + 2 %>"));
+					<% end %>
+					
+				<% end %>
+			
+			
+			// --- IF FS_PROFILE DOES NOT EXIST, DISPLAY BLANK PRIMARY SKILLS
+			
+			<% else %>
+				
+				$(".skills_profile_top_5").append(create_blank_primary_skill(<%= i + 1 %>));
+				
+				attach_primary_field_binders(<%= (i + 1) %>, true);
+			
+			<% end %>
+			
+			
+			// --- Add 'add skill' field
+			
+			//add_add_sub_skill(<%= 0 - (i + 1) %>, $("#sortable<%= i * 2 + 2 %>"));
+			
+			<%# i = i + 2 %>
+			
+		<% end %>
+		
+	});
+</script>

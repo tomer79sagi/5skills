@@ -1,0 +1,134 @@
+<% content_for :head do %>
+  <title>FLYC: <%= session[:organisation_type_name_plural] %></title>
+<% end %>
+
+<% @quick_add_organisation = Organisation.new if !@quick_add_organisation %>
+<% @quick_add_contact = Person.new if !@quick_add_contact %>
+
+<% content_for :title do %>
+	<span class="content-title">My <%= session[:organisation_type_name_plural] %></span>
+<% end %>
+
+<% content_for :bread_crumbs do %>
+
+	<div style="width:100%;padding:0em 0em .5em 0em;float:right;text-align:left;">
+		<span class="content-title" style="font-size:12px;font-weight:bold;">My <%= session[:organisation_type_name_plural] %></span>
+	</div>
+	
+<% end %>
+
+<div style="text-align:left;padding:15px 0px 0px 0px;font-size:14px;font-weight:bold;border-bottom:1px solid gray;">
+
+	<% if session[:organisation_type_id] == "1" %>
+		<%= link_to 'New Agency', new_agency_url, :class => "content_link" %>	
+	<% elsif session[:organisation_type_id] == "2" %>
+		<%= link_to 'New Company', new_company_url, :class => "content_link" %>
+	<% end %>
+			
+</div>
+
+<%= render :partial => '/main/messages', :locals => {:action => "general"} %>
+
+<%= render :partial => '/organisations/header_3_organisations' %>
+
+<!-- APPLICATIONS -->
+
+<% if @organisations.nil? || @organisations.empty? %>
+
+	No <%= session[:organisation_type_name_plural] %> found!
+	
+<% else %>
+	
+	<% @prev_organisation = @current_organisation = @organisations.shift %>
+
+	<% loop do  %>
+
+		<div style="clear:left;text-align:left;">
+		
+		<div class="top_padding_1">	
+		<table style="width:100%;">
+			<tr style="vertical-align:top;">
+				
+				<td style="margin:0px 0px 0px 1px;">
+					<div style="width:864px;border:1px solid #00ffff;float:left;min-height:80px;background-color:<%= session[:organisation_color] %>;">
+					
+						<table style="width:100%;text-align:left;">
+							<tr>
+								<td class="template_cell_title_content" style="width:160px;font-size:20px;line-height:24px;vertical-align:top;">
+									<%= link_to @current_organisation.organisation_name, view_organisation_url(:organisation_id => @current_organisation.organisation_id) %>
+								</td>
+								
+								<td>
+							
+									<table style="width:100%;text-align:left;">
+									
+										<% until (!@current_organisation || @current_organisation.organisation_id != @prev_organisation.organisation_id) %>
+									
+											<tr style="vertical-align:top;">
+				
+												<td class="template_cell_title_content" style="width:110px;vertical-align:top;">
+													<b>
+														<% if @current_organisation.contact_first_name %>
+															<%= link_to @current_organisation.contact_first_name,  
+																:controller => :contacts,
+																:action => :view_organisation_contacts,
+																:organisation_id => @current_organisation.organisation_id,
+																:contact_id => @current_organisation.contact_id.to_s %>
+														<% end %>
+													</b>
+												</td>
+												<td class="template_cell_organisation_content" style="width:170px;vertical-align:top;">
+													<b>
+														<% if @current_organisation.contact_last_name %>
+															<%= link_to @current_organisation.contact_last_name,  
+																:controller => :contacts,
+																:action => :view_organisation_contacts,
+																:organisation_id => @current_organisation.organisation_id,
+																:contact_id => @current_organisation.contact_id.to_s %>
+														<% end %>
+													</b>
+												</td>
+												<td class="template_cell_company_content" style="width:170px;vertical-align:top;">
+													<%= @current_organisation.contact_work_phone if @current_organisation.contact_work_phone %>
+												</td>
+												<td class="template_cell_closing_date_content" style="vertical-align:top;">
+													<%= @current_organisation.contact_mobile_phone if @current_organisation.contact_mobile_phone %>
+												</td>
+												<td class="template_cell_last_updated_date_content" style="width:99px;text-align:left;vertical-align:top;">
+													<%= @current_organisation.contact_email if @current_organisation.contact_email %>
+												</td>
+												
+											</tr>
+										
+											<% @current_organisation = @organisations.shift %>
+											
+										<% end %>
+										
+									</table>
+									
+								</td>
+							</tr>
+						</table>
+					</div>
+					
+					<div style="padding:1em 0em 0em 0em;">
+						<div style="padding:.5em 0em .5em 0em;width:100px;border-top:1px solid gray;border-bottom:1px solid gray;border-right:1px solid gray;float:left;text-align:center;">
+							<%= link_to 'Contacts', view_organisation_contacts_url(:organisation_id => @prev_organisation.organisation_id) %>
+						</div>
+					</div>
+					
+				</td>	
+				
+			</tr>
+		</table>
+		</div>
+		
+		</div>
+		
+		<% break if !@current_organisation %>
+		
+		<% @prev_organisation = @current_organisation %>
+		
+	<% end %>
+	
+<% end %>

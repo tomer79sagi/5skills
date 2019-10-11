@@ -1,0 +1,26 @@
+<% if @state %>
+
+	<% if @is_success %>
+		<div id='d_logged_in_state' style='direction:ltr;'>Logged in successfully.</div>
+	<% end %>
+
+	<% if @state == 1 # Requires login %>
+	
+		<div id='primary_messages'>
+			You must log in to use Flyc's smart bookmarks. Please login or register below
+		</div>
+
+	<% elsif @state == 4 %>
+				
+		<div id='primary_messages' style='direction:ltr;'>
+			Page already exists, you can edit its details below.
+		</div>
+		
+		<input type="hidden" id="organisation_id" name="" value="<%= @organisation.id if !@is_new_site %>"/>
+		<input type="hidden" id="url_path" name="" value="<%= @url_o.path %>"/>
+		<input type="hidden" id="page_id" name="" value="<%= @page.id if @page %>"/>
+		<input type="hidden" id="i_page_type" name="" value="<%= @page_type if @page_type %>"/>
+			
+	<% end %>
+
+<% end %>

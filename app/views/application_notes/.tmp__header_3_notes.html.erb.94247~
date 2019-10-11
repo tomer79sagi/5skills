@@ -1,0 +1,42 @@
+<!-- Headings -->
+<div class="top_padding_1">
+	
+<% form_tag({:action => :create_application_note_quick, :application_id => @application_id}) do %>
+
+	<table class="template_h3t" style="border-collapse:collapse;">
+		<tr style="vertical-align:middle;">
+			
+			<td class="template_cell_title_heading">
+				<span style="font-weight:normal;">Note</span>
+			</td>
+			<td class="template_cell_last_updated_date_heading">
+				<%= link_to 'Updated At', :action => :view_application_notes, :application_id => @application_summary.application_id, :sort_by => "update_date", :sort_dir => @sort_dir %>
+				<span style="font-size:15px;color:black;background-color:yellow;"><%= @sort_dir_icon if @sort_by == "update_date" %></div>
+			</td>
+			<td class="template_cell_last_updated_date_heading">
+				&nbsp;
+			</td>
+			
+		</tr>
+		<tr style="vertical-align:top;background-color:#a0dc8f;">
+			
+			<td class="template_cell_closing_date_content" style="border-left:3px solid gray;border-top:3px solid gray;border-bottom:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+				<%= text_area 'quick_add_note', 'note_contents', :size => "80x2", :style => "width:500px;text-align:left;" %>
+				<%= error_message_on "quick_add_note", "note_contents", {:prepend_text => "Description ", :css_class => "error_message_field"} %>
+			</td>
+			<td class="template_cell_last_updated_date_content" style="border-top:3px solid gray;border-bottom:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+				&nbsp;
+			</td>
+			<td class="template_cell_last_updated_date_content" style="border-top:3px solid gray;border-bottom:3px solid gray;border-right:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+				<div style="padding: 2px 0px 0px 0px;">
+					<%= submit_tag 'Add', :name => "add", :style => "width:85px;" %>
+					<%= submit_tag 'Add & Edit', :name => "add_edit", :style => "width:85px;" %>
+				</div>
+			</td>
+			
+		</tr>
+	</table>
+
+<% end %>
+
+</div>

@@ -1,0 +1,51 @@
+<% content_for :head do %>
+	5skills.me
+<% end %>
+
+<% content_for :title do %>
+	Search job seekers
+<% end %>
+
+<% form_tag({:action => :search_job_seekers}) do %>
+
+	<table>
+		<tr>
+			<td>
+				<table>
+					<tr>
+						<td>Template:</td>
+						<td>
+							<select style="width:250px;">
+								<option value="1">Web project manager</option>
+								<option value="1">PHP developer</option>
+								<option value="1">Java developer</option>
+								<option value="1">Ballet dancer</option>
+								<option value="1">Program manager</option>
+							</select>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	
+	<%= render :partial => '/five_skills/fs2_job_seeker_five_skills' %>
+	
+	<table style="width:100%;text-align:right;">
+		<tr>
+			<td>
+				<table>
+					<tr>
+						<td style="width:650px;">&nbsp;</td>
+						<td style="text-align:right;"><%= submit_tag 'Reset to job requirements', :name => "reset_to_job_requirements" %></td>
+						<td style="text-align:right;"><%= submit_tag 'Ajax', :name => "display_all" %></td>
+						<td style="text-align:right;"><%= submit_tag 'Find matches', :name => "find_matches" %></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+
+<% end %>
+
+<%= render :partial => '/five_skills/job_seekers_search_results' %>

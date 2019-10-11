@@ -1,0 +1,72 @@
+<div id="template__social_posting" style="padding:2px 0px 2px 2px;overflow:hidden;display:none;">
+	
+	<div style="font-weight:bold;font-size:24px;">Publishing to LinkedIn</div>
+	
+	<div style="width:1000px;height:76px;padding-top:15px;">
+		<div id="suggested_groups" style="width:320px;float:left;padding-left:10px;background-color:#D3E8CC;text-align:center;border-bottom:0px solid #000;cursor:default;">
+			<div id="suggested_group_count" style="font-size:35px;padding:5px 0px 0px 0px;color:#64AE64;font-weight:bold;">?</div>
+			<div style="font-size:14px;padding:0px 0px 7px 0px;font-style:italic;">Required groups</div>
+		</div>
+		<div id="missing_groups" style="width:320px;float:left;padding-left:10px;margin-left:5px;background-color:#D3E8CC;text-align:center;border-bottom:0px solid #000;cursor:default;">
+			<div id="missing_group_count" style="font-size:35px;padding:5px 0px 0px 0px;color:red;">?</div>
+			<div style="font-size:14px;padding:0px 0px 7px 0px;font-style:italic;">Missing groups</div>
+		</div>
+		<div id="current_group_state" style="width:320px;float:left;padding-left:10px;margin-left:5px;background-color:#D3E8CC;text-align:center;border-bottom:0px solid #000;cursor:default;">
+			<div id="groups_count" style="font-size:35px;padding:5px 0px 0px 0px;color:#64AE64;">?</div>
+			<div style="font-size:14px;padding:0px 0px 7px 0px;font-style:italic;">Total LinkedIn groups</div>
+		</div>
+	</div>
+	<div style="width:1000px;height:60px;">
+		<div id="groups_list" style="float:left;margin:15px 0px 15px 5px;width:620px;font-size:12px;font-style:italic;">
+			The following is a list of LinkedIn groups you are a member of in addition to the ones you should be a member of to get the most for your talent reach needs.
+		</div>
+		<div id="actions" style="float:left;width:345px;margin:15px 0px 15px 30px;text-align:center;cursor:default;">
+			<div id="btn_join_groups" style="float:left;padding-left:15px;">
+				<button style="width:160px;height:30px;" onclick="alert('click');">Join missing groups</button>
+			</div>
+			<div id="btn_preview_group" style="float:left;padding-left:5px;">
+				<button style="width:160px;height:30px;" onclick="alert('click');">PREVIEW post</button>
+			</div>
+		</div>
+	</div>
+	
+	<div id="groups_list" style="margin-top:0px;width:1000px;">
+		<div id="groups_header" style="width:1000px;background-color:#90C590;height:30px;border-bottom:2px solid black;">
+			<div id="header_flg_recommended" class="groups_list_header_field" style="width:50px;">R</div>
+			<div id="header_flg_selected" class="groups_list_header_field" style="width:50px;">S</div>
+			<div id="header_group_logo" class="groups_list_header_field" style="width:100px;"></div>
+			<div id="header_group_name" class="groups_list_header_field" style="width:350px;text-align:left;">Group name</div>
+			<div id="header_group_members_count" class="groups_list_header_field" style="width:75px;">Members</div>
+			<div id="header_group_engagement" class="groups_list_header_field" style="width:75px;">Engagement</div>
+			<div id="header_group_member_status" class="groups_list_header_field" style="width:75px;">Status</div>
+			<div id="header_group_moderated" class="groups_list_header_field" style="width:75px;">Moderated</div>
+			<div id="header_group_job_post" class="groups_list_header_field" style="width:150px;text-align:left;">Job post</div>
+		</div>
+		<div id="groups_body">
+			<div id="wall_post" class="single_group" group_id="" style="background-color:#EEFFEE;text-align:center;height:30px;">
+				<div id="flg_recommended" class="groups_list_field" style="width:50px;"><input type="checkbox" disabled="disabled"/></div>
+				<div id="flg_selected" class="groups_list_field" style="width:50px;"><input type="checkbox"/></div>
+				<div id="group_logo" class="groups_list_field" style="width:100px;"></div>
+				<div id="group_name" class="groups_list_field" style="width:350px;text-align:left;">--> Wall post</div>
+				<div id="group_members_count" class="groups_list_field" style="width:75px;">233</div>
+				<div id="group_engagement" class="groups_list_field" style="width:75px;">Engagement</div>
+				<div id="group_member_status" class="groups_list_field" style="width:75px;"></div>
+				<div id="group_moderated" class="groups_list_field" style="width:75px;"></div>
+				<div id="group_job_post" class="groups_list_field" style="width:150px;text-align:left;">n/a</div>
+			</div>
+		</div>
+	</div>
+		
+</div>
+
+<div id="template__single_group" class="single_group" group_id="" style="display:none;background-color:#F4F4F4;text-align:center;">
+	<div id="flg_recommended" class="groups_list_field" style="width:50px;"><input type="checkbox"/></div>
+	<div id="flg_selected" class="groups_list_field" style="width:50px;"><input type="checkbox"/></div>
+	<div id="group_logo" class="groups_list_field" style="width:100px;padding-top:0px;"></div>
+	<div id="group_name" class="groups_list_field" style="width:350px;text-align:left;">--> Wall post</div>
+	<div id="group_members_count" class="groups_list_field" style="width:75px;"></div>
+	<div id="group_engagement" class="groups_list_field" style="width:75px;"></div>
+	<div id="group_member_status" class="groups_list_field" style="width:75px;"></div>
+	<div id="group_moderated" class="groups_list_field" style="width:75px;"></div>
+	<div id="group_job_post" class="groups_list_field" style="width:150px;text-align:left;">n/a</div>
+</div>

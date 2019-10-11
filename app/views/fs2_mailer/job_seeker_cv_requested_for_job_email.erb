@@ -1,0 +1,92 @@
+Hey <%= @person_name %> !
+
+<br><br>
+
+The following job REQUESTED your CV:
+
+<a href="http://<%= @http_host %>/job/<%= @job[:j_id].to_s %>/cv_request/approve">APPROVE!</a>
+<a href="http://<%= @http_host %>/job/<%= @job[:j_id].to_s %>/cv_request/reject">Reject!</a>
+
+<br/><br/>
+
+<hr/>
+
+<br/>
+
+<% if @job %>
+	<table>
+		<tr>
+			<td>
+			
+				<% if @job[:c_name] && !@job[:c_name].blank? %>
+				
+					<% if @job[:files] && @job[:files][:company_logo] && @job[:files][:company_logo][:file_id] && @job[:files][:company_logo][:medium_dimensions] %>
+						
+						<a href="http://<%= @http_host %>/job/<%= @job[:j_id].to_s %>/view">
+						<img src="http://<%= @http_host %>/file/<%= @job[:files][:company_logo][:file_id] %>/show"
+							width="<%= @job[:files][:company_logo][:medium_dimensions].split("x")[0] %>"
+							height="<%= @job[:files][:company_logo][:medium_dimensions].split("x")[1] %>"/>
+						</a>
+						
+					<% end %>
+					<br/>
+					<%= @job[:c_name] %>
+					
+				<% end %>
+					
+			</td>
+			
+			<td>
+				
+				<% if @job[:cc_full_name] && !@job[:cc_full_name].blank? %>
+	
+						<%= @job[:cc_full_name] %>	
+				
+				<% end %>
+			
+			</td>
+			
+			<td>
+			
+				<% if @job[:a_name] && !@job[:a_name].blank? %>
+				
+					<% if @job[:files] && @job[:files][:agency_logo] && @job[:files][:agency_logo][:file_id] && @job[:files][:agency_logo][:medium_dimensions] %>
+						
+						<a href="http://<%= @http_host %>/job/<%= @job[:j_id].to_s %>/view">
+						<img src="http://<%= @http_host %>/file/<%= @job[:files][:agency_logo][:file_id] %>/show"
+							width="<%= @job[:files][:agency_logo][:medium_dimensions].split("x")[0] %>"
+							height="<%= @job[:files][:agency_logo][:medium_dimensions].split("x")[1] %>"/>
+						</a>
+						
+					<% end %>
+					<br/>
+					<%= @job[:a_name] %>
+					
+				<% end %>
+					
+			</td>
+			
+			<td>
+				
+				<% if @job[:ac_full_name] && !@job[:ac_full_name].blank? %>
+	
+						<%= @job[:ac_full_name] %>	
+				
+				<% end %>
+			
+			</td>
+		</tr>
+	</table>	
+
+<% end %>
+
+<% @skills_profile_matrix = @job[:skills_profile] %>
+<% if @skills_profile_matrix %>
+	<%= render :partial => '/five_skills/view_job_seeker_five_skills' %>
+<% end %>
+
+<br/>
+
+<hr/>
+
+<a href="http://<%= @http_host %>/job/find">Find jobs!</a>

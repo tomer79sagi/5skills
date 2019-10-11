@@ -1,0 +1,30 @@
+<h1>Login</h1>
+
+<%= render :partial => '/main/candidate_header' %>	
+<%= render :partial => '/main/messages' %>
+  
+<p/>
+
+<% form_tag :action => :process_login do %>
+
+	<table border="1">
+	  <tr>
+	  	<td>Email:</td>
+		<td><%= text_field 'login', 'email'%></td>
+	  </tr>
+	  <tr>
+		<td>Password:</td>
+		<td><%= password_field 'login', 'password'%></td>
+		
+	  </tr>
+	  <tr>
+	  	<td></td>
+		<td><%= link_to 'Forgot your password?', forgot_password_url %></td>
+	  </tr>
+	</table>
+
+	<p/>
+	
+    <%= submit_tag 'Login' %>
+   
+<% end %>

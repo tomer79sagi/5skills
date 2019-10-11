@@ -1,0 +1,77 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  
+  <title><%= yield :head %></title>
+  
+  <%= stylesheet_link_tag 'phase_1/messages' %>
+  <%= stylesheet_link_tag 'jquery-ui/jquery-ui-1.8.20.custom' %>
+  <%= stylesheet_link_tag 'impromptu/examples' %>
+  
+  <%= stylesheet_link_tag 'styles' %>
+  
+  <%= javascript_include_tag 'jquery-1.7.2.min', 'jquery-ui/jquery-ui-1.8.20.custom.min', 'application' %>
+  <%= javascript_include_tag 'impromptu/jquery-impromptu.4.0.min' %>
+  <%= javascript_include_tag 'sideroad/jquery.floatingmessage' %>
+  <%= javascript_include_tag 'bxSlider/jquery.bxSlider.min' %>
+  
+  <%= render :partial => '/five_skills/js' %>
+  <%= render :partial => '/five_skills/js_ajax_functions' %>
+  
+  <script type="text/javascript">
+	$(document).ready(function() {
+  		<%= render :partial => '/five_skills/js_document_ready' %>
+	});
+  </script>
+    
+</head>
+<body>
+
+<%= render :partial => '/five_skills/header' %>
+
+<div id="messages_pane">
+	<div id="message_notice" class="messages_area_good" style="display:none;"><%= flash[:notice].to_s %></div>
+	<div id="message_error" class="messages_area_bad" style="display:none;"><%= flash[:error].to_s %></div>
+</div>
+
+<div class="middle">
+	<div class="main_left">
+		
+		<div class="title">
+			<h1><%= yield :title %></h1>	
+		<div class="date right">
+			<span>Today, 11:15</span>		
+			<img src="/images/star.png" alt="" />	
+		</div>
+		</div>
+
+		<%= yield %>
+
+	</div>
+	
+	<div class="main_right">
+		<h2>Looking for work?</h2>
+		<div class="box1">
+			<img src="/images/user_pic.png" alt="" />
+			<h3>Want a profile like this?</h3>
+			<div class="skill_but"><input type="submit" value="5skill yourself!" /></div>
+		</div>			
+					
+		<h2>Looking for candidates?</h2>
+		<div class="box2">
+			<img src="/images/logo_box.png" alt="" />
+			<img src="/images/user_pic.png" alt="" />
+			<h3>Want a job profile like this?</h3>
+			<div class="skill_but2"><input type="submit" value="5skill your Job!" /></div>
+		</div>	
+				
+	</div>
+</div>
+
+<%= render :partial => '/five_skills/footer' %>
+
+</body>
+</html>

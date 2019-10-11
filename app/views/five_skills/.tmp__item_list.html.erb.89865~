@@ -1,0 +1,35 @@
+<table>
+	<tr>
+		<td style="border-top:2px solid blue;border-bottom:5px solid blue;">
+			<table>
+				<tr>
+					<td><b>Skill</b></td>
+					<td><b>Skill name</b></td>
+					<td><b>Years exp.</b></td>
+					<td><b>Self rate</b></td>
+					<td><b>Skill details</b></td>
+					<td><b>Additional requirements</b></td>
+				</tr>
+				
+				<% 5.times do |i| %>
+				
+					<% @skill_key = "skill_" + (i + 1).to_s %>
+				
+					<tr>
+						<td style="text-align:center;vertical-align:middle;"><%= i + 1 %></td>
+						<td style="text-align:left;"><%= @skills_profile_matrix[@skill_key][:name] %></td>
+						<td style="text-align:left;"><%= @skills_profile_matrix[@skill_key][:years_experience] %></td>
+						<td style="text-align:left;"><%= @skills_profile_matrix[@skill_key][:self_rate] %></td>
+						<td style="text-align:left;"><%= @skills_profile_matrix[@skill_key][:details] %></td>
+						
+						<% if i == 0%>
+							<td rowspan="5" style="text-align:left;"><%= @skills_profile_matrix[:additional_requirements] %></td>
+						<% end %>
+					</tr>
+					
+				<% end %>
+				
+			</table>
+		</td>
+	</tr>
+</table>

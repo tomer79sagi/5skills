@@ -1,0 +1,386 @@
+<script type="text/javascript">
+
+// -- 'json' is used as the 'fs_base_controller'/'convert_json_to_hash' action looks for the 'json' params attribute
+var _html_json = "json";
+
+
+function _prep_client_session_ids() {
+	_session_ids = JSON.parse(decodeURI($("input[name='" + _html_json + "']").val()));
+}
+
+function _prep_server_session_ids() {
+	$("input[name='" + _html_json + "']").val(JSON.stringify(_session_ids));
+}
+
+function _print_client_session_ids() {
+	for (var session_id in _session_ids) {
+		alert(session_id + ' ; ' + _session_ids[session_id]);
+	}
+}
+
+
+//
+// This function does the AJAX post
+//
+// - It includes the no. of attempts before failing
+//
+function post_it(h_ajax_data, attempt_no) {
+	if (!attempt_no) { attempt_no = 1; }
+	
+	if (attempt_no == 4) {
+		console.log("FAIL (server communication) !!!");
+		return;
+	}
+	
+	// ----- Google analytics -----
+	ga('send', 'event', {
+	  'eventCategory': 'ajax',
+	  'eventAction': h_ajax_data.action
+	});
+	
+	// Set the current action
+	ajax_current_action = h_ajax_data.action;
+	
+	$.post(
+		g_server_url + h_ajax_data.action,
+		{ json: JSON.stringify(h_ajax_data.data) },
+		callbackSuccess,
+		"json")
+			.fail(function() {
+				console.log("Attempt " + attempt_no + ": Server error, probably code '500', trying again in 1 second");
+				setTimeout(post_it, 1000, h_ajax_data, ++attempt_no);
+			});
+			
+	// Reset the current action
+	ajax_current_action = null;
+}
+
+function fpost_it(h_ajax_data, attempt_no) {
+	if (!attempt_no) { attempt_no = 1; }
+	
+	// console.log('fajax post: ' + attempt_no + ' ; ' + g_fajax.response);
+	
+	if (attempt_no == 4) {
+		console.log("FAIL (server communication) !!!");
+		return;
+	}
+	
+	if (!g_fajax.response) {
+		$("#" + h_ajax_data.form_id).submit();
+		
+		setTimeout(fpost_it, 5000, h_ajax_data, ++attempt_no);
+	} else {
+		g_fajax.response = false;
+	}
+}
+
+
+//
+// Clear the bubble pop-ups from the screen (have a clean-slate before validating the current fields)
+//
+function clear_errors() {
+	
+	// alert(g__bubble_fields__selectors.length);
+
+	for (i=0 ; i<g__bubble_fields__selectors.length ; i++) {
+	// for (var css_selector in g__bubble_fields__selectors) {
+		// alert(g__bubble_fields__selectors[i]);
+		
+		$(g__bubble_fields__selectors[i]).removeClass("bpop");
+		$(g__bubble_fields__selectors[i]).RemoveBubblePopup();
+	}
+}
+
+//
+// action > 'string' containing the action name to call
+// data > key/value hash containing any data
+//  - The HTML/JS 'event' object is sometimes sent as well, mainly to prevent default propagation,
+//    specifically for 'submit' instances
+//
+function fajax_it(action, data) {
+	g_fajax.flag = true;
+	
+	clear_errors();
+	
+	// alert(JSON.stringify(_session_ids));
+	
+	// -- Prepare the 'json' / 'session_ids' attribute for server processing
+	_prep_server_session_ids();
+	
+	eval("_REQ_" + action + "(data);");
+	
+	// * Need to review the 'fpost_it' functionality
+	// fpost_it(data);
+}
+
+function ajax_it(action, data) {
+	g_fajax.flag = false;
+	var h_ajax_data;
+	
+	console.log('__ajax_it: ' + action);
+	if (!action) {
+		return;
+	}
+		
+	// Clear the UI errors, bubbles and red borders
+	clear_errors();
+	
+	// In case the 'data' attribute exists, invoke the relevant '_REQ_' function
+	if (data) {
+		h_ajax_data = eval("_REQ_" + action + "(data);");
+	} else {
+		h_ajax_data = eval("_REQ_" + action + "();");
+	}
+	
+	// 'h_ajax_data' is the 'hash' returned from invoking a '_REQ_' function
+	if (h_ajax_data) {
+		
+		if (h_ajax_data.action) {
+			
+			// alert('ajax_current_action: ' + ajax_current_action + ' ; ' + xhrPool[ajax_current_action]);
+			// If a previous 'request' is still being processed, send an 'abort' call first
+			// if (xhrPool[h_ajax_data.action]) {
+				// console.log('__post_it - ABORT previous: ' + h_ajax_data.action + ' ; ' + xhrPool.length);
+				// xhrPool[h_ajax_data.action].abort();
+			// }
+			
+			console.log('__post_it: ' + h_ajax_data.action);
+			
+			// *********************************
+			// 		Perform the AJAX call
+			// *********************************
+			post_it(h_ajax_data);
+			
+		} else if (h_ajax_data.ajax_actions) {
+			if (data) {
+				push_ajax_actions(h_ajax_data.ajax_actions, data);	
+			} else {
+				push_ajax_actions(h_ajax_data.ajax_actions);
+			}
+			
+			var next_action = pop_ajax_action();
+			console.log('__ajax_it x2: ' + next_action.action);
+			
+			ajax_it(next_action.action, next_action.data);
+			
+		} else if (h_ajax_data.form_submit) {
+			$("#" + h_ajax_data.form_submit).submit();
+			
+		} else {
+			alert('AJAX ERROR: No ajax ACTION defined!');
+		}
+		
+	}
+}
+
+function callbackSuccess(data, textStatus, jqXHR){
+	
+	// In case the resposne was invoked as a result of a 'fajax' request,
+	//  1. Flag a 'response' was received
+	//  2. Reset the 'fajax' request flag
+	if (g_fajax.flag) {
+		g_fajax.response = true;
+		g_fajax.flag = false;
+	}
+	
+	if (!data) {
+		alert('ERROR: No "data" object returned from server!');
+		return;
+	}
+	
+	var status_i = parseInt(data.status);
+	
+	if (status_i < 100) { // 0 - 100 are system-type error messages
+		
+		if (data.status == 50) { // Permission error, redirecto to the linkedin authorization screen to add permission
+			
+		    var popup = window.open(data.auth_url, '_blank', 'resizable=no,width=200,height=300');
+			popupBlockerChecker.check(popup);
+	
+		} else {
+			eval("_RES_ERR_" + data.action + "(data, status_i);");
+		}
+		
+	} else {
+		// --- Redirects, system calls and processing functionality (only if successful)
+		if (status_i >= 100 && status_i < 200) { // form OR data related errors
+			
+			// 2. Update the error messages for the appropriate form fields
+			switch (status_i) {
+				case 100: // Field validation error
+					for (var key in data.errors) {	
+//						$("#" + key + "_error").html("'" + key + "' " + data.errors[key]);
+						alert("'" + key + "' " + data.errors[key]);
+					}
+					
+					if (data.message) {
+						add_error_message("ERROR: " + data.message);
+					}
+					
+					break;
+				
+					
+				// -- MAIN error handling
+				
+				case 101: // Field validation error
+				
+					var parent_css_selector;
+					var fld_css_selector = null;
+					var fld_message_html = '';
+					var is_form = false;
+					g__bubble_fields__selectors = [];
+					
+					
+					// -- Feb 2014: Check if there was a form included in the request					
+					
+					if (data.errors && data.errors.form) {		
+						parent_css_selector = "form[id='" + data.errors.form.id + "'][instance_number='" + data.errors.form.instance_number + "']";
+						is_form = true;
+												
+					// -- NO FORM - assume the 'Modal' was selected
+					} else {
+						parent_css_selector = "#modal__apply__match";
+					}
+					
+					
+					// --- 1. Create pop-ups
+					// See plugin info: http://www.ymic3dworld.com/lightwindow2/jQueryBubblePopup/Documentation/index.html
+					
+					for (var field in data.errors) {
+						
+						if (data.errors[field]) {	
+							
+							fld_css_selector = parent_css_selector + " [name='" + field + "']";
+							$(fld_css_selector).addClass("bpop");
+							
+							// Store the bubble field selectors to later remove them before the ajax request is sent
+							g__bubble_fields__selectors.push(fld_css_selector);
+						}
+					}		
+					$(".bpop").CreateBubblePopup();
+					
+					
+					// --- 2. Set the pop-up options
+					
+					for (var field in data.errors) {
+						
+						// Iterate through specific fields and highlight them as well
+						if (data.errors[field]) {
+							
+							if (is_form) {
+								fld_message_html = data.errors[field];
+								
+							} else {
+								fld_message_html = '';
+								
+								for (var fld_attr in data.errors[field]) { // email
+									// alert(fld_attr + " ; " + field + " ; " + data.errors[field][fld_attr]);
+									
+									for (var fld_attr_error in data.errors[field][fld_attr]) { // email
+										if (fld_message_html != '') { fld_message_html += '<br/>'; }
+										fld_message_html += fld_attr + ' ' + data.errors[field][fld_attr][fld_attr_error];
+										
+										// Only display the 1st top error message for the field
+										break;
+									}
+								}
+							}
+							
+							
+							fld_css_selector = parent_css_selector + " [name='" + field + "']";
+							
+							$(fld_css_selector).SetBubblePopupOptions({
+								innerHtml: fld_message_html,
+								position: 'right',
+								align: 'middle',
+								distance: '5px',
+								themeName: 'all-black',
+								themePath: '/images/bubblepopup/themes'});
+						}
+					}
+					
+					
+					// --- 3. Show the pop-ups
+					
+					// $(".bpop").ShowAllBubblePopups();
+					
+					break;
+			}
+			
+			eval("_RES_ERR_" + data.action + "(data, status_i);");
+			
+		} else { // No error
+			
+			
+			// -- X. Add/remove session_ids, if needed
+			
+			if (data.session_ids) {
+				
+				for (var s_id in data.session_ids) {
+					if (_session_ids[s_id]) {
+						console.log('--- OVERRIDING session_id: "' + s_id + '", value = "' + _session_ids[s_id] + '" with value = "' + data.session_ids[s_id] + '".');
+					}
+					_session_ids[s_id] = data.session_ids[s_id];
+				}
+				
+			}
+			
+		
+			// Messages
+			if (data.message) {
+				add_notice_message(data.message);
+			}
+		
+			eval("_RES_" + data.action + "(data, status_i);");
+			
+			// Execute the other 'ajax_actions' if they exist in the queue
+			var next_action = pop_ajax_action();
+			
+			if (next_action) {
+				ajax_it(next_action.action, next_action.data);
+			}
+		}	
+	}	
+	
+}
+
+function push_ajax_action(s_action) {
+	ajax_action_queue.push(s_action);
+}
+
+function push_ajax_actions(a_actions, data) {
+	if (data) { ajax_action_queue_data = data; }
+	
+	ajax_action_queue = ajax_action_queue.concat(a_actions);
+}
+
+function pop_ajax_action() {
+	var next_action = ajax_action_queue.shift();
+	
+	if (!next_action) {
+		ajax_action_queue_data = null;
+		return null;
+	}
+	
+	return {action: next_action, data: ajax_action_queue_data};
+}
+
+function add_error_message(message) {
+	$("#message_error").html(message);
+	$("#messages").show('slow');
+	
+	setTimeout(remove_messages, 3000);
+}
+
+function add_notice_message(message) {
+	$("#message_notice").html(message);
+	$("#messages").show('slow');
+	
+	setTimeout(remove_messages, 3000);
+}
+
+function remove_messages() {
+	$("#messages").hide('slow');
+}
+
+</script>

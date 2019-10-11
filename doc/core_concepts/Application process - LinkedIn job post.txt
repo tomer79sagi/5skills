@@ -1,0 +1,32 @@
+Pseudo code of the application process for LinkedIn job posts
+--------------------------
+
+1. view_job_post
+
+ - 'fetch_job_profile' based on the job_id
+ - add_start_up_actions('first_time')
+
+1. ajax_apply_to_job_post
+
+ - ['session' user exists]
+  + run the match
+  + Display screen with match, enable 'apply now'
+ - ['cookie' user exists]
+  + Promote to session and use
+ - [else]
+  + Create new user object
+  
+ - ['session' job seeker exists]
+  + use that
+ - [else] - find by 'user_id' above
+ - [else]
+    + Create new 'Job seeker' object
+ - save_skills_profile (using 'job_seeker_id')
+ - _match_job_seeker (job_seeker_id, job_id)
+ - set the 'above_threshold' flag
+ 
+2. fajax_send_job_post_application
+ - 'upload_files' -> validate and upload a file (job_seeker_id)
+ - if 'session[:user]' then either
+  (1) User is new without an email address yet -> check
+  (2) User is returning with an email address

@@ -1,0 +1,36 @@
+<div class="slider">
+	<div class="subtite">
+		<div class="pleft_10 ptop_15 left"><!-- <a href="" ><img src="images/mvp/arrow_left.png" alt="" /></a> --></div>
+		
+		<% if session[:user_type_id] && session[:user_type_id] == 1 %>
+		
+			<% if session[:language] && session[:language] == 1 %>
+				<span>5skills.me matches your skills with the perfect jobs!</span>
+			<% elsif session[:language] && session[:language] == 2 %>
+				<span>האתר מוצא לך משרות תפורות עליך</span>
+			<% end %>
+			
+		<% elsif session[:user_type_id] && session[:user_type_id] == 4 %>
+			
+			<% if session[:language] && session[:language] == 1 %>
+				<span>5skills.me matches your jobs with the perfect candidates!</span>
+			<% elsif session[:language] && session[:language] == 2 %>
+				<span>האתר מוצא לך מועמדים מתאימים למשרה שלך</span>
+			<% end %>
+			 
+		<% end %>
+		
+		<div class="pright_10 ptop_15 right"><!-- <a href="" ><img src="images/mvp/arrow_right.png" alt="" /></a> --></div>
+	</div>
+	
+	<% if session[:user_type_id] && session[:user_type_id] == 1 %>
+		
+		<div class="slisder_img"><%= image_tag("mvp/jobs_laptop_screen-382x238.jpg") %></div>
+		
+	<% elsif session[:user_type_id] && session[:user_type_id] == 4 %>
+		
+		<div class="slisder_img"><%= image_tag("mvp/candidates_laptop_screen-382x238.jpg") %></div>
+		 
+	<% end %>
+	
+</div>

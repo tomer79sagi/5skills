@@ -1,0 +1,46 @@
+	<table id='results_table'>
+		
+		<tr id='results_row_titles'>
+			<td style="text-align:left;width:100px;background-color:grey"><b>Organisation</b></td>
+			<td style="text-align:left;width:100px;background-color:grey"><b>Full name</b></td>
+			<td style="text-align:left;width:200px;background-color:grey"><b>Skill</b></td>
+			<td style="text-align:left;width:50px;background-color:grey"><b>Yrs exp</b></td>
+			<td style="text-align:left;width:300px;background-color:grey"><b>Skill details</b></td>
+			<td style="text-align:left;width:80px;background-color:grey"><b>% match</b></td>
+			<td style="text-align:left;width:150px;background-color:grey"><b>Status/Action</b></td>
+		</tr>
+		
+		<tr id='-1'>
+			<td colspan="5">Please enter 5 skills to get results!</td>
+		</tr>
+			
+
+		<% if @js_results_array %>
+		
+			<% @js_results_array.each do |job_seeker| %>
+			
+				<tr>
+					<td style="text-align:left;">
+						<% if job_seeker[1][:files] && job_seeker[1][:files][:profile_photo] %>
+							<%= fs_image_tag(job_seeker[1][:files][:profile_photo][:id], job_seeker[1][:files][:profile_photo][:small_dimensions]) %>
+						<% end %>
+					</td>
+					<td style="text-align:left;">
+						<%= link_to job_seeker[1][:full_name], view_job_seeker_profile_url(:job_seeker_id => job_seeker[0]) %>
+					</td>
+					<td style="text-align:left;"><%= job_seeker[1][:matched_skills] %></td>
+					<td style="text-align:left;"><%= job_seeker[1][:matched_skill_details] %></td>
+					<td style="text-align:left;"><%= job_seeker[1][:matched_additional_requirements] %></td>
+					<td style="text-align:left;"><%= job_seeker[1][:match_points] %></td>
+					<td style="text-align:left;">
+						<% if job_seeker[1][:files] && job_seeker[1][:files][:profile_photo] %>
+							<%= link_to download_file_url(:file_id => job_seeker[1][:files][:cv][:id]) %>
+						<% end %>
+					</td>
+				</tr>
+				
+			<% end %>
+		
+		<% end %>
+			
+	</table>

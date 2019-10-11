@@ -1,0 +1,89 @@
+<% content_for :head do %>
+	5skills.me
+<% end %>
+
+<% content_for :title do %>
+	Admin - God [clone access]
+<% end %>
+
+
+<div class="clear"></div>
+
+<div class="middle">
+	
+	<h1><%= yield :title %></h1>
+	
+	<div class="main_left_edit">
+		
+		<div style="font-weight:bold;padding:.5em .5em 1em .5em;font-size:16px;">JOB SEEKERS</div>
+		
+		<div class="db_entities_header" style="width:550px;">
+			<div class="left" style="width:50px;">ID</div>
+			<div class="left" style="width:200px;">Full name</div>
+			<div class="left" style="width:100px;">User ID</div>
+			<div class="left" style="width:150px;">Updated at</div>
+		</div>
+		
+		<% @job_seekers.each do |job_seeker| %>
+			<div class="db_entity_row clear" style="width:550px;">
+				<div id="entity_id" class="left" style="width:50px;"><%= job_seeker.id %></div>
+				<div class="left" style="width:200px;font-weight:bold;"><%= job_seeker.full_name_secret %>&nbsp;</div>
+				<div id="user_id" class="left" style="width:100px;">
+					<% if job_seeker.user_id && job_seeker['email'] %>
+						<%= job_seeker.user_id %>
+					<% else %>
+						-
+					<% end %>
+				</div>
+				<div class="left" style="width:200px;"><%= job_seeker.updated_at.strftime("%d %b, %Y - %I:%M %p") %></div>
+			</div>
+		<% end %>
+
+	</div>
+	
+	<div class="main_right_edit">
+		
+		<div style="font-weight:bold;padding:.5em .5em 1em .5em;font-size:16px;">JOBS</div>
+		
+		<div class="db_entities_header" style="width:550px;">
+			<div class="left" style="width:50px;">Job ID</div>
+			<div class="left" style="width:150px;">Job title</div>
+			<div class="left" style="width:50px;">ID</div>
+			<div class="left" style="width:50px;">User ID</div>
+			<div class="left" style="width:150px;">Updated at</div>
+		</div>
+		
+		<% @contacts.each do |contact| %>
+			<div class="db_entity_row clear" style="width:550px;">
+				<div id="job_id" class="job_id left" style="width:50px;">
+					<% if contact['agent_job_id'] %>
+						A <%= contact['agent_job_id'] %>
+					<% elsif contact['recruiter_job_id'] %>
+						C <%= contact['recruiter_job_id'] %>
+					<% else %>
+						-
+					<% end %>
+				</div>
+				<div class="job_title left" style="width:150px;font-weight:bold;">
+					<% if contact['agent_job_id'] && contact['agent_job_title']%>
+						<%= contact['agent_job_title'] %>
+					<% elsif contact['recruiter_job_id'] && contact['recruiter_job_title'] %>
+						<%= contact['recruiter_job_title'] %>
+					<% else %>
+						&nbsp;
+					<% end %>
+				</div>
+				<div id="entity_id" class="entity_id left" style="width:50px;"><%= contact.id %></div>
+				<div id="user_id" class="user_id left" style="width:50px;">
+					<% if contact.user_id  && contact['email'] %>
+						<%= contact.user_id %>
+					<% else %>
+						-
+					<% end %>
+				</div>
+				<div class="left" style="width:200px;"><%= contact.updated_at.strftime("%d %b, %Y - %I:%M %p") %></div>
+			</div>
+		<% end %>
+		
+	</div>
+</div>

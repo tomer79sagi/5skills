@@ -1,0 +1,139 @@
+<div id='content_panel_body' style='padding:.5em 0em 0em 0em;min-height:350px;'>
+	
+		<b><u>Job Details</u></b>
+		&nbsp;
+		<a id='btn_actions' href="/" onClick="ajax_it('actions'); return false;">Next action</a></i>
+	</p>
+	
+	<table style="padding:0em 0em 0em 0em;direction:ltr;">
+		<tr style="padding:0em 0em 0em 0em;">
+			<td colspan="3" style="padding:0em 0em 0em 0em;">
+				<table cellpadding="0" cellspacing="0">
+					<tr>
+						<td>&nbsp;</td>
+						<td><b>Title</b></td>
+						<td>&nbsp;<b>Status</b></td>
+					</tr>
+					<tr style="">
+						<td style=""><button id="btn_copy_title" style="width:20px;height:20px;vertical-align:middle;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;" onClick="ajax_it('copy_selection', $('#title')); return false;">></button></td>
+						<td style="">
+							<input id="title" type="text" size="30" style="direction:rtl;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;" value="<%= @role_application.role.title if @role_application && @role_application && @role_application.role %>">
+						</td>
+						<td style="">&nbsp;
+							<select id="status" style="width:126px;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;">
+								<% Role.application_statuses_for_select.each do |option| %>
+									<option value="<%= option[1] %>"
+										<%= ' selected="true"' if option[1] == 1 %>
+										><%= option[0] %></option>
+								<% end %>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td id='title_error' style='font-size:10pt;'></td>
+						<td id='status_error' style='font-size:10pt;'></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr style="">
+			<td colspan="3" style="padding:.75em 0em 0em 0em;">
+				<table style="">
+					<tr>
+						<td></td>
+						<td><b>Agency</b></td>
+						<td></td>
+						<td><b>Company</b></td>
+					</tr>
+					<tr>
+						<td style="vertical-align:top;"><button id="btn_copy_agency" style="width:20px;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;height:20px;vertical-align:middle;" onClick="ajax_it('copy_selection', $('#agency')); return false;">></button></td>
+						<td><input id="agency" type="text" value="" style="width:140px;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;"></td>
+						<td style="vertical-align:top;line-height:10px;">&nbsp;<button id="btn_copy_company" style="padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;width:20px;height:20px;vertical-align:middle;" onClick="ajax_it('copy_selection', $('#company')); return false;">></button></td>
+						<td><input id="company" type="text" value="" style="width:140px;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;"></td>
+					</tr>
+					<tr>
+						<td style=""></td>
+						<td style="">
+							or&nbsp;
+							<select id="agencies" style="width:126px;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;">
+								<% Organisation.agencies_for_select(session[:user].id).each do |option| %>
+									<option value="<%= option[1] %>"
+										><%= option[0] %></option>
+								<% end %>
+							</select>
+						</td>
+						<td style=""></td>
+						<td style="">
+							or&nbsp;
+							<select id="companies" style="width:126px;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;">
+								<% Organisation.companies_for_select(session[:user].id).each do |option| %>
+									<option value="<%= option[1] %>"
+										><%= option[0] %></option>
+								<% end %>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td id='agency_error' style='font-size:10pt;'></td>
+						<td></td>
+						<td id='company_error' style='font-size:10pt;'></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" style="vertical-align:top;padding:.75em 0em 0em 0em;">
+				<table style="cell-padding:0px;cell-spacing:0px;">
+					<tr>
+						<td>&nbsp;</td>
+						<td><b>Location</b></td>
+						<td>&nbsp;<b>Salary</b></td>
+					</tr>
+					<tr>
+						<td style="vertical-align:top;"><button id="btn_copy_location" style="padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;width:20px;height:20px;vertical-align:middle;" onClick="ajax_it('copy_selection', $('#location')); return false;">></button></td>
+						<td><input id="role_location" type="text" style="width:140px;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;"></td>
+						<td style="">&nbsp;<input id="salary_max" type="text" size="15" style="padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;" value="<%= @role_application.role.salary_max if @role_application && @role_application && @role_application.role %>" style="width:100px;"></td>
+					</tr>
+					<tr>
+						<td style=""></td>
+						<td style="">
+							or&nbsp;
+							<select id="page_type" style="width:126px;padding:0em 0em 0em 0em;margin:0em 0em 0em 0em;">
+								<% Role.locations_for_select.each do |option| %>
+									<option value="<%= option[1] %>"
+										><%= option[0] %></option>
+								<% end %>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td id='role_location_error' style='font-size:10pt;'></td>
+						<td id='salary_max_error' style='font-size:10pt;'></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="3" style="vertical-align:top;padding:.75em 0em 0em 0em;">
+				<table style="cell-padding:0px;cell-spacing:0px;">
+					<tr>
+						<td>&nbsp;</td>
+						<td><b>Description</b></td>
+					</tr>
+					<tr>
+						<td style="vertical-align:top;"><button id="btn_copy_description" style="width:20px;height:20px;vertical-align:middle;" onClick="ajax_it('copy_selection', $('#description')); return false;">></button></td>
+						<td><textarea id="description" rows="7" cols="50" value="" style="direction:rtl;"></textarea></td>
+					</tr>
+					<tr>
+						<td></td>
+						<td id='organisation_error' style='font-size:10pt;'></td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+	
+</div>

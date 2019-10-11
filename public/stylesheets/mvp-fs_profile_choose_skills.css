@@ -1,0 +1,43 @@
+/*=============================  ADD SKILL - PANEL =============================*/
+
+	.add_skill_panel_body{
+		/*background-image: url('../images/mvp-1/left_panel_background_tile.png');*/
+		/*background-color: transparent;*/
+		/*background-repeat: repeat;*/
+		/*height:750px;*/
+	}
+		.add_skill_container{
+			height:15px;
+			margin:3px 3px 3px 0px;
+		}
+		.add_skill_left{
+			width:180px;
+			height:15px;
+			text-align:left;
+			float:left;
+		}
+		.add_skill_right{
+			width:20px;
+			height:15px;
+			text-align:center;
+			float:right;
+		}
+		
+		.add_skill_container:hover{
+			height:15px;
+			margin:3px;
+			background-color:#B5D76B;
+			cursor:pointer;
+		}
+		
+.add_skills_list {
+	/*height:270px;*/
+	overflow-y:auto;
+	overflow-x:hidden;
+}	
+
+.left_panel{
+	margin-left:20px;
+	width:250px;
+	float:left;
+}			

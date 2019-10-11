@@ -1,0 +1,27 @@
+<% if @job_seekers %>
+
+	<table>
+		
+		<tr>
+			<td>Full name</td>
+			<td>Skills matched</td>
+			<td>Skills detail matched</td>
+			<td>Position requirements matched</td>
+			<td>% match</td>
+		</tr>
+
+			<% @job_seekers.each do |job_seeker| %>
+			
+			<tr>
+				<td><%= job_seeker.full_name %></td>
+				<td><%= job_seeker.full_name %></td>
+				<td><%= job_seeker.full_name %></td>
+				<td><%= job_seeker.full_name %></td>
+				<td><%= job_seeker.full_name %></td>
+			</tr>
+			
+		<% end %>
+		
+	</table>
+
+<% end %>

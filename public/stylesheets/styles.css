@@ -1,0 +1,1074 @@
+/* ------------------------- Css Reset -------------------------------*/
+
+html {margin:0;padding:0;border:0;}
+body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {margin:0;padding:0;border:0;font-weight:inherit;font-style:inherit;font-size:12px;font-bofamily:arial;vertical-align:baseline; color:#333333}
+h1, h2, h3, h4, h5, h6 {font-weight:normal;}
+article, aside, dialog, figure, footer, header, hgroup, nav, section {display:block;}
+body {line-height:1.3;background:white;}
+table {border-collapse:separate;border-spacing:0;}
+caption, th, td {text-align:left;font-weight:normal;float:none !important;}
+table, th, td {vertical-align:middle;}
+blockquote:before, blockquote:after, q:before, q:after {content:'';}
+blockquote, q {quotes:"" "";}
+a img {border:none;}
+:focus {outline:0;}
+
+/*=============================  General Styles =============================*/
+.clear{
+	clear:both;
+}
+
+.hidden{
+	display:none;
+}
+
+.right{
+	float:right;
+	text-align:left
+}
+
+.left{
+	float:left;
+	display:table;
+}
+
+.color{
+	color: #2252a5;	
+	}
+hr {
+    margin: 0;
+    width: 100%;
+    border: none;
+    /* middle */ background-color: #dcdcdc; color: #dcdcdc;
+    /* bottom */ border-bottom: 1px solid #fff;
+    height: 1px;
+    margin-left: 1px;
+
+}
+
+h1{ 
+	font-size: 22px;
+	line-height: 60px;
+	color: #393f42;	
+}
+
+h2{
+	font-size: 16px;
+	color: #393f42;	
+	font-weight: bold;
+	}
+
+h3 {
+	font-size: 14px;
+	color: #fff;
+	font-weight: bold;	
+	}
+h4 {
+	font-size: 24px;
+	color: #2d2d2d;	
+	}
+h5 {
+	font-size: 16px;
+	color: #d80f0f;	
+	}
+
+.border{		/* border class for debugging*/
+	border:1px solid black;	
+}
+/* common padding  top*/
+.ptop_3{ padding-top:3px; }
+.ptop_5{ padding-top:5px; }
+.ptop_10{ padding-top:10px; }
+.ptop_12{ padding-top:12px; }
+.ptop_15{ padding-top:15px; }
+.ptop_20{ padding-top:20px; }
+.ptop_25{ padding-top:25px; }
+.ptop_30{ padding-top:30px; }
+.ptop_50{ padding-top:50px; }
+
+/* common margin  top*/
+.mtop_5{ margin-top:5px; }
+.mtop_10{ margin-top:10px; }
+.mtop_15{ margin-top:15px; }
+.mtop_20{ margin-top:20px; }
+.mtop_25{ margin-top:25px; }
+.mtop_30{ margin-top:30px; }
+.mtop_50{ margin-top:50px; }
+
+.mbut_20{ margin-bottom: 20px;}
+.mleft_30{margin-left:30px; }
+
+/* common padding  left*/
+.pleft_5{ padding-left:5px; }
+.pleft_10{ padding-left:10px; }
+.pleft_15{ padding-left:15px; }
+.pleft_20{ padding-left:20px; }
+.pleft_30{ padding-left:30px; }
+.pleft_70{ padding-left:70px; }
+
+/* common padding  rigth*/
+.pright_5{ padding-right:5px; }
+.pright_10{ padding-right:10px; }
+.pright_20{ padding-right:20px; }
+
+
+/* columns */
+.one_half{ width:47%; }
+.one_third{ width:32.66%; }
+.two_third{ width:65.32%; }
+.one_fourth{ width:22%; }
+.one_fifth{ width:17%; }
+.three_fourth{width:74%;}
+.one_six{width:14.8%;}
+.three_six{width:43.4%;}
+.two_third{ width:30.66%; }
+.one_half,.one_third,.one_fourth, .three_fourth, .two_third, .one_six, .three_six, .one_fifth{
+	position:relative; margin-right:3%; float:left; text-align:left;
+}
+.last{ margin-right:0 !important; clear:right; }
+
+body{
+	color:#d8ecef;	/* regular */
+	font-family: Arial, Helvetica, sans-serif;
+	text-decoration: none;
+	background-color:#e8ebf0;
+}
+
+a{
+	color:#000;	/* regular */
+	font-family: Arial, Helvetica, sans-serif;
+	text-decoration: none;
+}
+
+
+
+/*=============================  Home Page =============================*/
+div.homepage_title_2 { /* DIV: content */
+	padding:0.5em 0em 0.5em 0em;
+	color:black;
+	/*background-color: #aFF5EE;*/
+	clear:left;
+	font-size: 18px;
+	font-weight: bold;
+}
+
+.input_3_text_entered
+{
+	/*border: none;*/
+	height:20px;
+	font-size:14px;
+	color: black;
+	line-height:20px;
+	font-style:normal;
+	width:180px;
+}
+
+.input_3
+{
+	/*border: none;*/
+	height:20px;
+	font-size:14px;
+	color: #8a8a8a;
+	line-height:20px;
+	font-style:italic;
+	width:180px;
+}
+
+.home_field
+{
+	height:30px;
+	width:230px;
+	font-style:italic;
+	color:#A6AAAE;
+}
+
+.home_left {
+	margin-left:5px;
+	width:250px;
+	background-color:#66EE66;
+	margin-top:110px;
+	border:3px solid #00923F;
+	padding:1em 1em 1em 1em;
+}
+
+.home_right {
+	width:250px;
+}
+
+/*=============================  Header =============================*/
+
+.header{
+	width:100%;
+	height: 70px;
+	background-image: url('../images/top_bg.png');	
+	}
+.header_contact{
+	width:100%;
+	height: 70px;
+	background-image: url('../images/top_bg_blue.png');	
+	}	
+		.header_main{
+			width:960px;
+			margin:0px auto;	
+		}
+			/* LOGO */
+			.logo{
+				padding-top: 7px;	
+			}
+			
+			/* MENU */
+			.header_menu {
+				padding-top:38px;
+				padding-left:170px;
+				width:800px;
+			}
+			/* menu item */
+			.header_menu div {
+				padding-left:10px;
+				width:120px;
+				float:left;
+				color:white;
+			}
+			.header_menu div a {
+				color:white;
+				text-align:center;
+			}
+			.header_menu div.disabled a {
+				color:gray;
+				text-align:center;
+			}
+			
+			/* USER INFO */
+			.header_user_info {
+				width:250px;
+				text-align:right;
+				color:#D8DFEA;
+			}
+			.header_user_info span {
+				color:#66EE66;
+			}
+			.header_user_info a {
+				color:white;
+			}
+			
+			.header_login_buttons {
+				padding-top:5px;
+			}
+
+
+.job_but{
+	background-image: url('../images/job_but_on.png');
+	background-color: transparent;
+	background-repeat: no-repeat;
+	height: 36px;
+	width: 105px;
+	margin-top: 12px;
+	}
+	
+.job_but input{
+	color: #fff;
+	border: none;
+	background-color: transparent;
+	padding-left: 18px;
+	line-height: 30px;
+	font-weight: bold;
+	text-transform: uppercase;	
+	font-size: 12px;
+	}
+	
+.cand_but{
+	background-image: none;
+	background-color: transparent;
+	background-repeat: no-repeat;
+	margin-top: 12px;
+	}
+	
+.cand_but input{
+	color: #b1b1b1;
+	border: none;
+	background-color: transparent;
+	text-transform: uppercase;
+	padding-left: 10px;
+	line-height: 30px;
+	font-weight: bold;	
+	font-size: 12px;
+	}
+	
+.middle{
+	width:960px;
+	margin:0px auto;	
+	color: #e8e8e8;
+	}
+
+.main_left{
+	width:769px;
+	float: left;
+	}
+	
+
+/* EDIT JOB or JOB SEEKER - header styles */
+
+.title_action_buttons {
+	padding-top:20px;
+}
+
+.title_action_buttons button {
+	width:80px;
+	height:25px;
+}
+
+
+	
+/* VIEW JOB or JOB SEEKER - header styles */
+
+
+div.header_match {
+	margin-top:10px;
+	/*border-bottom:2px solid #20B962;*/
+}	
+div.header_match_return_to_results {
+	float:left;
+	width:130px;
+	padding-top:27px;
+	text-align:right;
+	padding-right:5px;
+}
+div.header_match_pct {
+	/*padding-left:10px;*/
+	width: 182px;
+	background-color:#00FA9A;
+	padding-top:5px;
+	text-align:center;
+}
+div.header_match_pct div {
+	margin-right:10px;
+	/*padding-top:5px;*/
+	padding-left:20px;
+}
+	
+	
+	
+/* SEARCH RESULTS */
+
+div.results_header {
+	width:353px;
+	background-color: transparent;
+	height:30px;
+	vertical-align:middle;
+	margin-left:16px;
+	margin-top:15px;
+}
+
+div.results_header div {
+	width:117px;
+	float:left;
+	color:black;
+	text-align:center;
+	font-size:12px;
+	padding-top:11px;
+}
+div.results_header span {
+	font-weight:bold;
+}
+
+div.result_box {
+	margin-top:10px;
+	width:363px;
+	height:144px;
+	margin-left:16px;
+	border-bottom:2px solid #D4D4D4;
+}
+	div.result_header {
+		background-color:#99EB99;
+		height:35px;
+	}
+		div.result_header_logo {
+			padding-left:5px;
+			padding-top:2px;
+			float:left;
+		}	
+		div.result_header_title {
+			padding-left:5px;
+			padding-top:10px;
+			width:243px;
+			float:left;
+		}
+		div.result_header_title span {
+			color:black;
+			font-size:15px;
+		}
+		div.result_header_updated_at {
+			padding-right:7px;
+			padding-top:13px;
+			width:70px;
+			float:right;
+			text-align:right;
+		}
+		div.result_header_updated_at span {
+			color:#6C5B0C;
+			font-size:12px;
+			font-style:italic;
+		}
+	div.result_left {
+		text-align:center;
+		width:90px;
+		float:left;
+		background-color:#FFFFFF;
+	}
+		div.result_left_top {
+			height:60px;
+			padding-top:18px;
+			text-align:center;
+			padding-left:10px;
+			width:80px;
+		}
+		div.result_left_top span, div.header_match_pct span {
+			font-size:35px;
+		}
+		div.result_left_bottom {
+			height:22px;
+			padding-top:8px;
+			padding-left:5px;
+			background-color:#FFEBCD;
+			border-top:1px solid #F3F3F3;
+		}
+		div.result_left_bottom span {
+			font-style:italic;
+			font-size:12px;
+		}
+	div.result_right {
+		width:272px;
+		float:left;
+		border-left:1px solid #F5F5F5;
+	}
+		div.result_right_top {
+			height:78px;
+			background-color:#FBFBFB;
+		}
+			div.result_right_skill_row {
+				border-top:1px solid #F3F3F3;
+				width:100%;
+				float:left;
+			}
+			div.result_right_skill_name {
+				padding-left:5px;
+				padding-top:5px;
+				height:20px;
+				width:177px;
+				float:left;
+			}	
+			div.result_right_skill_name span {
+				font-size:12px;
+			}
+			div.result_right_skill_yrs {
+				float:left;
+				width:29px;
+				height:20px;
+				text-align:center;
+			}
+			div.result_right_skill_total_sub_skills {
+				background-color:#E6F1DB;
+				border-left:2px solid #D6E1CB;
+				float:left;
+				width:25px;
+				height:20px;
+				text-align:center;
+				padding-right:4px;
+			}
+			div.result_right_skill_total_matched_sub_skills {
+				background-color:#D3ECC4;
+				border-left:1px solid #C3E8B4;
+				float:left;
+				width:29px;
+				font-weight:bold;
+				height:20px;
+				text-align:center;
+			}
+		div.result_right_bottom_job_type {
+			height:22px;
+			padding-top:8px;
+			padding-left:5px;
+			background-color:#E8E8E8;
+			border-top:1px solid #F3F3F3;
+			float:left;
+			width:260px;
+		}
+		div.result_right_bottom_job_type span {
+			font-style:italic;
+			font-size:12px;
+		}
+		div.result_right_bottom_location {
+			height:22px;
+			padding-top:8px;
+			padding-right:7px;
+			background-color:#E8E8E8;
+			border-top:1px solid #F3F3F3;
+			text-align:right;
+			float:right;
+			width:130px;
+		}
+		div.result_right_bottom_location span {
+			font-style:italic;
+			font-size:12px;
+		}
+
+/* SEARCH RESULTS */
+
+
+
+/* ----- EDIT ----- */
+/* ---------------- */
+	
+.main_left_edit {
+	width:589px;
+	float: left;
+}
+
+.main_box_edit{
+	/*background-image: url('../images/main_box_top.png');*/
+	background-color: white;
+	/*background-repeat: no-repeat;*/
+	height: 5px;
+	width: 589px;
+	min-height: 750px;
+}
+
+.main_right_edit {
+	width: 369px;
+	float: left;
+}
+
+
+/* ----- VIEW ----- */
+/* ---------------- */
+
+.main_left {
+	width:769px;
+	float: left;
+}
+.main_box {
+	background-color: white;
+	height: auto;
+	width: 769px;
+	min-height: 750px;
+   }
+   
+.main_right {
+	width: 369px;
+	float: left;
+}
+	
+	
+.main_box_top{
+	background-image: url('../images/main_box_top.png');
+	background-color: transparent;
+	background-repeat: no-repeat;
+	height: 5px;
+	width: 769px;
+	}
+
+.main_box_mid{
+	background-image: url('../images/main_box_mid.png');
+	width: 769px;
+	min-height: 750px;
+	}
+	
+.main_box_but{
+	background-image: url('../images/main_box_but.png');
+	background-color: transparent;
+	background-repeat: no-repeat;
+	height: 6px;
+	width: 769px;	
+	padding-bottom: 20px;
+	}
+	
+.mid_left{
+	width: 182px;	
+	float:left;
+	padding-top:5px;
+	border-right:2px solid #D9D9D9;
+	background-color: #FBFBFB;
+	height:auto;
+	min-height: 750px;
+	}
+	
+.mid_center{
+	width: 401px;	
+	float: left;
+	padding-top:5px;
+	background-color: white;
+	}
+
+.mid_right{
+	width: 182px;	
+	float: right;
+	/*margin-right: 1px;*/
+	border-left:2px solid #D9D9D9;
+	min-height: 750px;
+	background-color: white;
+	}
+	
+	
+.date{
+	padding-top: 22px;	
+	padding-left:15px;
+	}
+	
+.date span{
+	color: #afafaf;
+	}
+	
+.date img{
+	padding-left: 5px;	
+	}
+
+.title {
+	width:769px;
+	}
+	
+.title_edit {
+	width:589px;
+	}
+	
+.logo_profile img{
+	padding-left: 10px;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	}
+
+.social{
+	position: absolute;
+	width: 20px;	
+	margin-left: 125px;
+	}	
+	
+.social img{
+	padding-bottom: 10px;
+	}		
+	
+.profile{
+	padding-bottom: 10px;
+	padding-top: 10px;
+	margin-left: 20px;	
+	margin-right: 20px;
+	text-align:center;
+	}
+.profile img {
+	width:130px;
+	}	
+.profile div {
+	text-align:center;	
+	}	
+
+.friends{
+	margin-left: 20px;	
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.friends span{
+	color: #868686;
+}
+
+.friends img{
+	clear: both;
+	margin-right: 5px;
+	padding-top: 5px;
+}
+
+.cv{
+	background-image: url('../images/job_but_on.png');
+	background-color: transparent;
+	background-repeat: no-repeat;
+	height: 36px;
+	width: 105px;
+	margin-top: 12px;
+	margin-left: 35px;
+	}
+	
+.cv input{
+	color: #fff;
+	border: none;
+	background-color: transparent;
+	padding-left: 10px;
+	line-height: 30px;
+	font-weight: bold;
+	text-transform: uppercase;	
+	font-size: 12px;
+	}
+	
+.title2{
+	background-color: #00923f;
+	margin: 0px 0px 0px 5px;
+	/*height: 27px;*/
+	width: 323px;	
+	position: absolute;
+	}
+	
+.title2 span{
+	text-transform: uppercase;
+	line-height: 30px;	
+	margin-left: 10px;
+	color: #fff;
+	}
+
+.title2_match {
+	background-color: #ADFF2F;
+}
+.title2_match span {
+	color: #000;
+	font-weight:bold;
+}
+
+.skills{
+	width: 352px;
+	padding-top: 15px;	
+	padding-left: 10px;
+	}
+	
+.position{
+	background-color: #55d355;
+	/*height: 27px;*/
+	width: 39px;	
+	margin: 0px 0px 0px 328px;
+	}
+
+.position span{
+	text-transform: uppercase;
+	line-height: 30px;	
+	margin-left: 12px;
+	}
+.position_match {
+	background-color: #FFFF00;
+}
+.position_match span {
+	color: #000;
+	font-weight:bold;
+}
+
+	
+div.ovalbutton{
+background: transparent url('../images/oval-gray-left.png') no-repeat top left;
+display: block;
+float: left;
+font: normal 12px ; /* Change 13px as desired */
+line-height: 14px; /* This value + 4px + 4px (top and bottom padding of SPAN) must equal height of button background (default is 24px) */
+height: 22px; /* Height of button background height */
+padding-left: 15px; /* Width of left menu image */
+text-decoration: none;
+margin-right: 10px;
+/*margin-top: 10px;*/
+}
+
+div.ovalbutton span{
+background: transparent url('../images/oval-gray-right.png') no-repeat top right;
+display: block;
+padding: 4px 11px 4px 0; /*Set 11px below to match value of 'padding-left' value above*/
+}
+
+div.add_sub_skill{
+width:50px;
+font-style:italic;
+border:0px;
+background:none;
+color:black;
+}
+
+div.add_sub_skill span{
+width:50px;
+font-style:italic;
+border:0px;
+background:none;
+color:black;
+}
+
+.default_panel {
+	padding-top:2px;
+}
+
+.buttonwrapper{ 
+	padding-left: 20px;
+	width: 352px;
+}
+
+.buttonwrapper_left{ 
+	padding-left: 10px;
+	width: 182px;
+}
+
+a.more span{
+	font-size: 11px;
+	color: #979797;
+	padding-right: 10px;
+	float: right;
+}
+
+.title3_first{
+	background-color: #f5f5f5;
+	height: 36px;
+	width: 182px;	
+	border-bottom: 1px solid #dcdcdc;
+	margin-top: -5px;
+	}
+	
+.title3_first span{
+	text-transform: uppercase;
+	line-height: 35px;	
+	margin-left: 10px;
+	}	
+.title3{
+	background-color: #f5f5f5;
+	height: 36px;
+	width: 182px;	
+	border-bottom: 1px solid #dcdcdc;
+	border-top: 1px solid #dcdcdc;
+	}
+	
+.title3 span{
+	text-transform: uppercase;
+	line-height: 35px;	
+	margin-left: 10px;	
+	}
+	
+.main_right{
+	width: 190px;
+	float: right;
+	}
+	
+.main_right h2{
+	padding-left: 10px;
+	padding-top: 23px;
+	}
+	
+.box1{
+	background-image: url('../images/box1_bg.png');
+	background-color: transparent;
+	background-repeat: no-repeat;
+	height: 161px;
+	width: 186px;
+	margin-top: 17px;
+	margin-left: 10px;
+	}
+	
+.box1 img{
+	float: left;
+	padding-left: 10px;
+	padding-top: 10px;	
+	padding-right: 5px;
+	}
+
+.box1 h3{
+	padding-top: 10px;	
+	}
+
+.skill_but{
+	background-image: url('../images/box_but.png');
+	background-color: transparent;
+	background-repeat: no-repeat;
+	height: 33px;
+	width: 167px;
+	margin-top: 47px;
+	margin-left: 10px;
+	}
+	
+.skill_but input{
+	color: #555d61;
+	border: none;
+	background-color: transparent;
+	padding-left: 30px;
+	line-height: 25px;
+	font-weight: bold;
+	text-transform: uppercase;	
+	font-size: 12px;
+	}
+
+.box2{
+	background-image: url('../images/box2_bg.png');
+	background-color: transparent;
+	background-repeat: no-repeat;
+	height: 186px;
+	width: 195px;
+	margin-top: 17px;
+	margin-left: 10px;
+	}
+	
+.box2 img{
+	float: left;
+	padding-left: 10px;
+	padding-top: 5px;	
+	padding-right: 5px;
+	}
+
+.box2 h3{
+	padding-top: 10px;	
+	}
+	
+.skill_but2{
+	background-image: url('../images/box_but_2.png');
+	background-color: transparent;
+	background-repeat: no-repeat;
+	height: 33px;
+	width: 167px;
+	margin-top: 82px;
+	margin-left: 10px;
+	}
+	
+.skill_but2 input{
+	color: #fff;
+	border: none;
+	background-color: transparent;
+	padding-left: 30px;
+	line-height: 25px;
+	font-weight: bold;
+	text-transform: uppercase;	
+	font-size: 12px;
+	}
+	
+.footer{
+	width:100%;
+	height: 70px;
+	background-color: #1b1b1b;	
+	}
+	
+.footer_mid{
+	width:960px;
+	margin:0px auto;	
+	}
+
+.menu1 {
+	padding-top: 10px;	
+	}	
+.menu1 a{
+	color: #fff;	
+	padding-right: 20px;
+	}
+	
+.footer_mid hr{
+
+    width: 100%;
+    border: none;
+    /* middle */ background-color: #383c3e; color: #383c3e;
+    height: 1px;
+    margin-top: 10px;
+	}
+	
+.menu2{
+	margin-top: 10px;	
+	}
+	
+.menu2 a{
+	color: #4c5256;	
+	padding-right: 20px;
+	}
+	
+.menu2 span{
+	color: #4c5256;	
+	}
+	
+
+	.ui-autocomplete {
+		max-height: 200px;
+		overflow-y: auto;
+		/* prevent horizontal scrollbar */
+		overflow-x: hidden;
+		/* add padding to account for vertical scrollbar */
+		padding-right: 20px;
+		text-align:left;
+	}
+	
+	/* IE 6 doesn't support max-height
+	 * we use height instead, but this forces the menu to always be this tall
+	 */
+	html .ui-autocomplete {
+		height: 200px;
+		background-color: #FFFF80;
+		color: black;
+	}
+	
+	
+/*=============================  Standard form fields =============================*/
+
+.form_field_title {
+	width:150px;
+}
+.form_field_html_element {
+	width:250px;
+}
+  
+  
+
+/*=============================  POWER tools =============================*/  
+.power_tools_link {
+	
+}
+  
+/*=============================  AUTO-COMPLETE and LIST styles =============================*/
+
+ 	/* Styles for the 5skills profile */
+    #sortable_skills { list-style-type: none; margin: 0; padding: 0;  width:395px; }
+    
+    /* Primary styles */
+   /* ----- 1st ----- */
+    /*#skill_1_container { margin: 0 0px 0px 0px; font-size: 1.4em; border:0px; }*/
+    /* ----- All the rest ----- */
+    .sortable_skills_li { margin: 0px 0px 0px 6px; padding: 10px 0px 0px 0px;font-size: 1.4em; border:0px; }
+    
+    
+    /* PRIMARY */
+    #sortable1, #sortable3, #sortable5, #sortable7, #sortable9 {
+    	list-style-type: none; margin: 0; padding: 0px 0px 0px 5px; float: left; margin-right: 0px; width:380px; border:0px solid green; min-height:30px;
+    }
+    #sortable1 li, #sortable3 li, #sortable5 li, #sortable7 li, #sortable9 li {
+    	margin: 0px 0px 0px 0px; float:left; padding: 0px; font-size: 1em; width: 120px; height: 18px; cursor: default;
+    }
+    div.ovalbutton>span {
+    	text-align:center;
+    	cursor:default;
+    }
+    
+    /* SECONDARY */
+   /* ----- LISTS ----- */
+    #sortable2, #sortable4, #sortable6, #sortable8, #sortable10 {
+    	list-style-type: none; margin: 0px 0px 0px 0px; padding: 5px 10px 10px 15px; float: left; margin-right: 0px; width:360px; border:0px solid green; min-height:30px;
+    }
+    
+    /* ----- SUB SKILLS ----- */
+    #sortable2 li, #sortable4 li, #sortable6 li, #sortable8 li, #sortable10 li {
+    	margin: 5px 5px 5px 5px; float:left; padding: 0px; font-size: 1em; width: 120px; height: 18px; cursor: default;
+    }
+    
+    /* ----- AVAILABLE SKILLS ----- */
+    #available_skills li, #general_keywords li, #job_type li, #location li {
+    	margin: 3px 4px 0px 0px; float:left;
+    }
+
+   
+    /* Hover states */
+    /* -------------------- */
+   
+    /* Skill block (containing both 'primary skill' and 'secondary skill') */
+    .sortable_skills_li:hover {
+   	  /*background-color:MediumSeaGreen;*/
+    }
+    /* Primary skill name title hover */
+    .title2:hover {
+    	background-color:LimeGreen;
+    }
+    /* Primary skill years experience hover */
+    .position:hover {
+    	background-color:MediumSpringGreen;
+    }
+    /* Sub skill hover */
+    div.ovalbutton>span:hover {
+    	/*color:#55d355;*/
+    	font-weight:bold;
+    }    
+	.result_header:hover {
+		background-color:#66EE5A;
+		cursor:default;
+	}
+	.result_left_bottom:hover {
+		background-color:black;
+		color:white;
+		cursor:default;
+	}

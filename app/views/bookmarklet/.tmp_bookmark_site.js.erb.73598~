@@ -1,0 +1,167 @@
+<%= render :partial => '/bookmarklet/bl_header' %>
+
+	<% # Load %>
+	
+	<% if @state && (@state == 1 || @state == 4) # Initial behavior %>
+	
+		<% if session[:user] %>
+			$('#logged_in_details').replaceWith("<b><%= session[:user].first_name %> <%= session[:user].last_name %></b>\
+				, <i><a id='btn_logout' href=\"/\" onClick=\"ajax_it('logout'); return false;\">Logout</a></i>");
+			$('#logged_in_bar').show();
+		<% end %>
+		
+		<% if @state == 4 %>
+		
+			$('#primary_messages').replaceWith("<div id='primary_messages'>Site already exists!\
+				<input type='hidden' id='role_application_id' value='<%= @role_application.id %>'></div>");
+			
+			<% if @role_application %>
+				$('#primary_messages').append("&nbsp;&nbsp;\
+					<i>You can update its details below</i>");
+			<% end %>
+			
+		<% elsif @is_success %>
+		
+			$('#primary_messages').replaceWith("<div id='primary_messages'>Logged in successfully</div>");
+			
+		<% end %>
+	
+		$('#content_panel').replaceWith("\
+			<div id='content_panel'>\
+				\
+				<div id='site_parsing_panel' style='padding:.5em 0em .5em 0em;'>\
+					<table>\
+						<tr>\
+							<td style='text-align:left;height:20px;'>Site detected: </td>\
+							<td id='site_detected' style='text-align:left;height:20px;vertical-aling:top;'>\
+								<b><%= @site_detected %></b>\
+							</td>\
+						</tr>\
+						<tr>\
+							<td style='text-align:left;height:20px;'>Site type: </td>\
+							<td id='site_detected' style='text-align:left;height:20px;vertical-aling:top;'>\
+								<b>Job ad</b>\
+							</td>\
+						</tr>\
+					</table>\
+				</div>\
+				\
+				<p><hr/></p>\
+				\
+				<div id='content_panel_messages'></div>\
+				\
+				<p><b><u>Job Details</u></b></p>\
+				\
+				<table>\
+					<tr>\
+						<td style=\"vertical-align:top;\"><b>Title</b>:</td>\
+						<td style=\"vertical-align:top;\"><button id=\"btn_copy_title\" style=\"width:20px;height:20px;vertical-align:middle;\" onClick=\"ajax_it('copy_selection', $('#title')); return false;\">></button>\</td>\
+						<td><input id=\"title\" type=\"text\" size=\"40\" value=\"<%= @role_application.role.title if @role_application && @role_application && @role_application.role %>\"></td>\
+					</tr>\
+					<tr>\
+						<td></td>\
+						<td></td>\
+						<td id='title_error' style='font-size:10pt;'></td>\
+					</tr>\
+					<tr>\
+						<td style=\"vertical-align:top;\">Salary:</td>\
+						<td style=\"vertical-align:top;\"><button id=\"btn_copy_salary\" style=\"width:20px;height:20px;vertical-align:middle;\" onClick=\"ajax_it('copy_selection', $('#salary_max')); return false;\">></button>\</td>\
+						<td><input id=\"salary_max\" type=\"text\" value=\"<%= @role_application.role.salary_max if @role_application && @role_application && @role_application.role %>\"></td>\
+					</tr>\
+					<tr>\
+						<td></td>\
+						<td></td>\
+						<td id='salary_max_error' style='font-size:10pt;'></td>\
+					</tr>\
+					<tr>\
+						<td style=\"vertical-align:top;\">Location:</td>\
+						<td style=\"vertical-align:top;\"><button id=\"btn_copy_role_location\" style=\"width:20px;height:20px;vertical-align:middle;\" onClick=\"ajax_it('copy_selection', $('#role_location')); return false;\">></button>\</td>\
+						<td><input id=\"role_location\" type=\"text\"></td>\
+					</tr>\
+					<tr>\
+						<td></td>\
+						<td></td>\
+						<td id='role_location_error' style='font-size:10pt;'></td>\
+					</tr>\
+				</table>\
+				\
+				<p><hr/></p>\
+				\
+				<div id='buttons_panel' style=\"padding:.5em 0em 0em 0em;\"></div>");
+		
+		$('#buttons_panel').replaceWith("\
+			<div id='buttons_panel' style=\"padding:.5em 0em 0em 0em;\">\
+				<button id=\"btn_save\" style=\"width:50px;height:25px;z-index:1500;\" onClick=\"ajax_it('save'); return false;\">Save</button>&nbsp;\
+				<button id=\"btn_save_and_close\" style=\"width:125px;height:25px;\" onClick=\"ajax_it('save_and_close'); return false;\">Save & Close</button>&nbsp;\
+				<button id=\"btn_close\" style=\"width:50px;height:25px;\" onClick=\"ajax_it('close'); return false;\">Close</button>&nbsp;\
+			</div>");
+			
+		<% if @role_application %>
+			$('#buttons_panel').append("<br/>\
+				<i><a id='btn_flyc_role' href=\"/\" onClick=\"ajax_it('flyc_role'); return false;\">See role in Flyc</a></i>");
+		<% end %>
+	
+	<% elsif @state && @state == 0 # Failed, stay on current screen %>
+		
+		$("#content_panel_messages").attr("display", "inline");
+		$("#content_panel_messages").replaceWith("<div id=\"content_panel_messages\">Errors found in this form!</div>");
+				
+		<% if @quick_add_role.errors %>
+			<% @quick_add_role.errors.each do |attr, msg| %>
+				$("#<%= attr %>_error").replaceWith("<td id='<%= attr %>_error' style='font-size:8pt;'>Error in this field.</td>");
+			<% end %>
+		<% end %>
+		
+	<% elsif @state && @state == 2 # Success and stay on current screen %>
+
+		$("#content_panel_messages").attr("display", "inline");
+		$("#content_panel_messages").replaceWith("<div id=\"content_panel_messages\">Form submitted successfully!</div>");
+		
+		// Clear all error messages
+		$("#title_error").replaceWith("<td id='title_error' style='font-size:8pt;'></td>");
+		$("#salary_max_error").replaceWith("<td id='salary_max_error' style='font-size:8pt;'></td>");
+		$("#role_location_error").replaceWith("<td id='role_location_error' style='font-size:8pt;'></td>");
+		
+		// Change the labels of the buttons to 'update' mode
+		$("#btn_save").text('Update');
+		$("#btn_save_and_close").text('Update & Close');
+		
+		<% if @role_application %>
+			if (!$('#buttons_panel')) {
+				$('#buttons_panel').append("<br/>\
+					<i><a id='btn_flyc_role' href=\"/\" onClick=\"ajax_it('flyc_role'); return false;\">See role in Flyc</a></i>");
+			}
+		<% end %>
+		
+	<% elsif @state && @state == 3 # Success and redirect %>
+	
+		$("#content_panel_messages").attr("display", "inline");
+		$("#content_panel_messages").replaceWith("<div id=\"content_panel_messages\">Form submitted successfully!</div>");
+		
+		setTimeout("ajax_it('close')", 1000);
+	
+	<% end %>
+	
+		
+	<% if @state && @state == 4 # Site already exists, allow update and delete options (perhaps duplicate in the future) %>
+	
+		$('#buttons_panel').replaceWith("\
+			<div id='buttons_panel' style=\"padding:.5em 0em 0em 0em;\">\
+				<button id=\"btn_save\" style=\"width:50px;height:25px;z-index:1500;\" onClick=\"ajax_it('update'); return false;\">Update</button>&nbsp;\
+				<button id=\"btn_save_and_close\" style=\"width:125px;height:25px;\" onClick=\"ajax_it('update_and_close'); return false;\">Update & Close</button>&nbsp;\
+				<button id=\"btn_close\" style=\"width:50px;height:25px;\" onClick=\"ajax_it('close'); return false;\">Close</button>&nbsp;\
+			</div>");
+			
+		<% if @role_application %>
+			$('#buttons_panel').append("<br/>\
+				<i><a id='btn_flyc_role' href=\"/\" onClick=\"ajax_it('flyc_role'); return false;\">See role in Flyc</a></i>");
+		<% end %>
+		
+	<% end %>
+	
+	// Enable the buttons
+	$("#btn_save").attr('disabled', '');
+	$("#btn_save_and_close").attr('disabled', '');
+	$("#btn_close").attr('disabled', '');
+
+<%= render :partial => '/bookmarklet/bl_footer' %>

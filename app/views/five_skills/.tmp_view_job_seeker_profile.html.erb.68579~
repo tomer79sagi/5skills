@@ -1,0 +1,56 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+<% content_for :title do %>
+	Create job seeker profile
+<% end %>
+
+<% form_tag({:action => :save_job_seeker_profile}) do %>
+
+<table>
+	<tr>
+		<td>
+			<table>
+				<tr>
+					<td>Full Name:</td>
+					<td>
+						<%= text_field 'job_seeker', 'full_name' %>
+						<%= error_message_on "job_seeker", "full_name", {:prepend_text => "Full name ", :css_class => "error_message_field"} %>
+					</td>
+				</tr>
+				<tr>
+					<td>Template:</td>
+					<td>
+						<select style="width:250px;">
+							<option value="1">Web project manager</option>
+							<option value="1">PHP developer</option>
+							<option value="1">Java developer</option>
+							<option value="1">Ballet dancer</option>
+							<option value="1">Program manager</option>
+						</select>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+	
+<%= render :partial => '/five_skills/fs2_job_seeker_five_skills' %>
+	
+<table>
+	<tr>
+		<td>
+			<table>
+				<tr>
+					<td>Template name:</td>
+					<td><input type="text"></td>
+					<td><%= submit_tag 'Save as Template', :name => "save_as_template" %></td>
+					<td style="width:550px;text-align:right;"><%= submit_tag 'Create Profile', :name => "create_profile" %></td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+</table>
+
+<% end %>

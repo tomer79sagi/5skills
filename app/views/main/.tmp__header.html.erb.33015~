@@ -1,0 +1,28 @@
+<!--[partial:header]-->
+
+	<table>
+
+		<tr>
+			<td style="width:170px;text-align:center;"><div style="font-size:30px;"><%= link_to 'JOBBY', home_url %></div></td>
+			<td></td>
+			<td style="width:20px;text-align:right;"> . </td>
+			<td>FAQ</td>
+			<td> . </td>
+			<td>About Us</td>
+			<td> . </td>
+			<td>Contact Us</td>
+			<td> . </td>
+			
+			<!--
+				<td> | </td>
+				<td><%= link_to 'AJAX Test', ajax_test_url %></td>
+				<td> | </td>
+				<td><%= link_to 'FCK Editor Test', fck_editor_url %></td>
+			-->				
+		</tr>
+						
+  	</table>
+
+
+		
+<!--[eopartial:header]-->

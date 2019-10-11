@@ -1,0 +1,23 @@
+<script type="text/javascript" src="http://localhost:3002/javascripts/bl/easyXDM/easyXDM.min.js"></script>
+<script type="text/javascript">
+	
+//	alert('reached server');
+
+	var socket = new easyXDM.Socket({
+	    onMessage: function(message, origin){
+			
+//			alert('message: ' + message);
+			
+			if (!message) {
+				alert("[SERVER] Received 'null' 'message' object from '" + origin + "' !!");
+				return;
+			} else if (message == "check_session" || message == "notify_login" || message == "notify_logout") {
+				socket.postMessage("<%= @server_response %>");
+			} else {
+				alert("[SERVER] Received an invalid 'action': action = '" + message + "' !!");
+				return;
+			}
+	    }
+	});
+
+</script>

@@ -1,0 +1,29 @@
+	<table>
+		
+		<tr>
+			<td><b>Full name</b></td>
+			<td><b>Skills matched</b></td>
+			<td><b>Skills detail matched</b></td>
+			<td><b>Position requirements matched</b></td>
+			<td><b>% match</b></td>
+		</tr>
+
+		<% if @js_results_array %>
+		
+			<% @js_results_array.each do |job_seeker| %>
+			
+				<tr>
+					<td style="text-align:left;">
+						<%= link_to job_seeker[1][:full_name], view_job_seeker_profile_url(:skills_profile_id => job_seeker[1][:skills_profile_id]) %>
+					</td>
+					<td style="text-align:left;"><%= job_seeker[1][:matched_skills] %></td>
+					<td style="text-align:left;"><%= job_seeker[1][:matched_skill_details] %></td>
+					<td style="text-align:left;"><%= job_seeker[1][:matched_additional_requirements] %></td>
+					<td style="text-align:left;"><%= job_seeker[1][:match_points] %></td>
+				</tr>
+				
+			<% end %>
+		
+		<% end %>
+			
+	</table>

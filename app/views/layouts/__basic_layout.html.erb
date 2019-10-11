@@ -1,0 +1,39 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  
+    <%= javascript_include_tag 'jquery-1.7.2.min' %>
+    
+  <script type="text/javascript">
+
+	$(document).ready(function() {
+		
+		
+		<% if @func_attrs %>
+		
+			opener.<%= @func_attrs[0] %>(<%= @func_attrs[1] %>);
+		
+		<% elsif params[:rk] %>
+		
+			opener.ajax_it("get_social_groups");
+		
+		<% end %>
+		
+		
+		window.close();
+ 	
+ 	});
+
+ 	
+  </script>
+    
+</head>
+<body>
+
+	<%= yield %>
+
+</body>
+</html>

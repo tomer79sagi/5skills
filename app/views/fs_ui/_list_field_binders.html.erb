@@ -1,0 +1,52 @@
+<script type="text/javascript">
+
+    // 'td_id' holds the 'div_id'
+  	function attach_yrs_field_binders(td_id, is_blank) {
+  		// Remove 'previous' event handlers
+  		$("#" + td_id).unbind('click');
+  		
+  		// Add 'new' event handlers
+  		if (!is_blank) {
+	  		$("#" + td_id).bind('click', function(e) {
+		    	convert_yrsexp_to_input($(this));
+	  		});
+  		}
+  	}
+  	
+  	// 'td_id' holds the 'div_id'
+  	function attach_name_field_binders(td_id, is_blank) {
+  		// Remove 'previous' event handlers
+  		$("#" + td_id).unbind('click');
+  		
+  		// Add 'new' event handlers
+  		$("#" + td_id).bind('click', function(e) {
+	    	convert_primary_skill_to_input($(this));
+  		});
+  		
+  		$("#" + td_id).bind('dblclick', function(e) {
+  			var skill_index = $(this).attr("id").split("_")[1];
+  			var li_obj = $("#skill_" + skill_index);
+
+			li_obj.parent().html(create_blank_primary_skill(skill_index));
+			attach_primary_field_binders(skill_index, true);
+			ajax_it("fs_profile_updated");
+  		});
+  	}
+  	
+  	function attach_primary_field_binders(skill_index, is_blank) {
+		attach_yrs_field_binders("skill_" + skill_index + "_yrs", is_blank);
+		attach_name_field_binders("skill_" + skill_index + "_name", is_blank);
+  	}
+  	
+  	function attach_sub_skill_field_binders(li_obj) {
+  		li_obj.bind('dblclick', function() {
+	    	$(this).remove();
+	    	ajax_it("fs_profile_updated");
+	    });
+	    
+	    li_obj.bind('click', function() {
+	    	convert_skill_to_input($(this), false);
+	    });
+  	}
+
+</script>

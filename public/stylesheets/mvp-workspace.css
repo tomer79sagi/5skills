@@ -1,0 +1,9 @@
+  
+/* set some minimum dimensions to the page/layout */
+html { overflow:	auto !important; }
+body { min-width:	500px; min-height: 300px; }
+/* add some colors to distinguish outer from inner layout */
+body									{ background:	#F6F6F6; }
+body>.ui-layout-pane 					{ background:	#EFE; }
+body>.ui-layout-pane>.ui-layout-pane	{ background:	#EEF; }
+/* outer-center pane is a 'container - remove padding & scrollbar */

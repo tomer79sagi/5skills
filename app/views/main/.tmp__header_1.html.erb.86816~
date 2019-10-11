@@ -1,0 +1,47 @@
+<!--[partial:header]-->
+
+<div style="text-align:center;">
+	<span class="template_h_link"><b><%= link_to 'Agent', agent_view_home_url %></b></span>
+	|
+	<span class="template_h_link"><b><%= link_to 'Company Contact', company_contact_view_home_url %></b></span>
+	|
+	<span class="template_h_link"><b><%= link_to 'Candidate', view_applications_url %></b></span>
+</div>
+
+<div class="header">
+
+<table class="template_h1t">
+	<tr class="template_h1r">
+		
+		<td class="template_h1c1">
+			<table class="template_h1t">
+				<tr class="template_h1r">
+					<td class="template_h1c11"><%= link_to 'FLYC', home_url %></td>
+					<td class="template_h1c12">For launching your career</td>
+				</tr>
+			</table>
+		</td>
+		
+		<td class="template_h1c2">
+			<table class="template_h1t">
+				<tr class="template_h1r">
+					<td class="template_h1c21">
+						<span class="template_h_link"><b><%= link_to 'Contact Us', contact_us_url %></b></span>
+						|
+						<span class="template_h_link"><b><%= link_to 'About Us', about_us_url %></b></span>
+					</td>
+				</tr>
+				<!--
+					<tr class="template_h1r">	
+						<td class="template_h1c20"><span class="text_highlight_1">87</span> registered Flycers!</td>
+					</tr>
+				-->				
+			</table>
+		</td>
+		
+	</tr>
+</table>
+
+</div>
+		
+<!--[eopartial:header]-->

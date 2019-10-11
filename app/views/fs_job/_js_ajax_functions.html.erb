@@ -1,0 +1,71 @@
+<script type="text/javascript">
+
+function _REQ_apply_for_job(data) {
+	doRedirect("job/" + data.job_id + "/apply");
+}
+
+function _REQ_search_jobs(){
+	var json_arr = {};
+
+	json_arr.skills_profile = extract_skills_from_lists();
+	
+	// for (skill in json_arr.skills_profile) {
+		// alert(json_arr.skills_profile[skill].id);
+		// alert(json_arr.skills_profile[skill].sub_skills[0].id);
+	// }
+	
+	return {action: "job/search", data: json_arr};
+}
+
+function _RES_search_jobs(data, status_i) {
+	var curr_element;
+	
+	// Remove elements
+	$("#search_results_content").find(".result_box").each(function() {
+		$(this).slideUp("fast");
+	});
+	
+	// Update title
+	if (!data || !data.results || !data.results.length || data.results.length == 0) {
+		$("#total_matches span").html("0");
+		return;
+	} else {
+		$("#total_matches span").html(data.results.length);
+	}
+	
+	// Add new rows
+	for (job in data.results) {
+		curr_element = create_job_result_box(data.results[job]);
+		
+		$("#search_results_content").append(curr_element);
+		curr_element.slideDown('slow');
+	}
+}
+
+<% if params[:job_id] %>
+
+	function _REQ_save_job_fs_profile(data){
+		var json_arr = {};
+		
+		json_arr.skills_profile = extract_skills_from_lists();
+		json_arr.entity_ids_to_save = {
+			job_id: <%= params[:job_id] %>,
+			fs_profile_id: 12
+		};
+		// json_arr.send_emails = true;
+		
+		return {action: "ajax/job/save", data: json_arr};
+	}
+	
+	function _RES_save_job_fs_profile(data, status_i) {
+		$("#save_fs_button").html("Save");
+		$("#save_fs_button").removeAttr("disabled");
+	}
+	
+	function _RES_ERR_save_job_fs_profile(data, status_i) {
+		// alert('fail');
+	}
+	
+<% end %>
+
+</script>

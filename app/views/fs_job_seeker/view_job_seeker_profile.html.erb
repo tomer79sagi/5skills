@@ -1,0 +1,32 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+<% content_for :title do %>
+	Job seeker - <%= @job_seeker[:job_seeker_obj].id %>
+	
+	<% if session[:user].user_type_id  == Fs2User::USER_TYPES[:job_seeker] %>
+		&nbsp; ( &nbsp; <%= link_to 'Edit profile', edit_job_seeker_profile_url(:job_seeker_id => @job_seeker[:job_seeker_obj].id) %> &nbsp; )
+	<% end %>
+	
+<% end %>
+
+
+
+<div class="mid_left">
+	
+	<div class="profile">
+		
+		<% if @job_seeker[:files][:profile_photo] %>
+			<%= fs_image_tag(@job_seeker[:files][:profile_photo].id, @job_seeker[:files][:profile_photo].large_dimensions) %>
+		<% else %>
+			N/A
+		<% end %>
+		
+	</div>
+	<hr />
+	<div class="cv" style="text-align:center;"><input type="submit" value="Request CV" /></div>
+	
+</div>
+
+<%= render :partial => '/five_skills/fs_profile' %>

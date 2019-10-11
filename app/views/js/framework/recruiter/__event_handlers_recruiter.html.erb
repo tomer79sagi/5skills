@@ -1,0 +1,449 @@
+<script type="text/javascript">
+
+
+// --- MAP
+// This map holds the following syntax:
+//  {workspace_name} : {function_name / friendly_name: }
+var map_context_events = {
+	
+	"__w__core": {
+		"manage_company": "#lnk__menu_item__manage_company",
+		"manage_jobs": "#lnk__menu_item__jobs",
+		"manage_my_account": "#lnk__menu_item__manage_my_account"
+	},
+	
+	"__w__manage_job": {
+		"menu__fs_profile": "#menu__fs_profile",
+		"menu__job_contacts": "#menu__job_contacts",
+		"menu__job_details": "#menu__job_details",
+		"menu__job_publishing": "#menu__job_publishing",
+		"menu__job_publishing__LIVE": "#menu__publishing__LIVE",
+		"menu__job_publishing__new_job_publishing": "#menu__publishing__new_job_publishing",
+		"menu__job_publishing__configure_groups": "#menu__publishing__configure_groups",
+		"menu__job_publishing__statistics": "#menu__publishing__statistics",
+		"menu__job_publishing__history": "#menu__publishing__history",
+		"btn__publish_job": "#btn_publish"
+	},
+	
+	"__w__manage_company": {
+		"menu_general": "#menu__general",
+		"menu_media": "#menu__media"
+	},
+		
+	
+	"__c__a_recruiter__publish_job": {
+		"btn__a_recruiter__publish_job": "#btn__a_recruiter__publish_job",
+		"frm__a_recruiter__publish_job": "#frm__publish_job"
+	},
+	
+	
+	"__c__job__fs_profile": {
+		"open_add_skills_panel": ".btn_add_skills_panel div:first",
+		"clear_fs_profile": ".btn_add_skills_panel div:nth-child(2)",
+		"close_add_skills_panel": "#btn_close_skills_panel div:first",
+		"add_skill_to_fs_profile": ".add_skill_container"
+	},
+	
+	"__c__job__new_publishing": {
+		"btn__publish_final": "#btn__publish_final"
+	},
+	
+	"__c__publishing_job": {
+		
+	},
+	
+	"__c__linkedin_groups": {
+		"result__linkedin_group": ".row_1", // ROW
+		"btn__a_recruiter__publish_job": "#btn_publish" // PUBLISH BUTTON
+	},
+	
+	"__c__job__results": {
+		"result__job_seeker": ".job_seeker_result",
+		"result__job_seeker__contact": ".job_seeker_result #lnk_contact"
+	},
+	
+	"__c__job__job_seeker_match": {
+		"match__menu__fs_profile": "#match__menu__fs_profile"
+	}
+
+};
+
+
+// ----- CORE workspace -----
+
+function manage_company__CLICK__(event, this_obj) { switch_to("__w__manage_company"); }
+function manage_jobs__CLICK__(event, this_obj) {
+	switch_to("__w__manage_job");
+	sync();
+}
+function manage_my_account__CLICK__(event, this_obj) { switch_to("__w__my_account"); }
+
+
+
+// ----- A_RECRUITER - PUBLISH_JOB -----
+
+
+function btn__a_recruiter__publish_job__CLICK__(event, this_obj) {
+	
+	// document.location.href='/a/recruiter/job/publishing_home';
+			
+	// panel__fs_profile_choose_skills.close('west');
+	// $("#sub_menu__job_publishing").slideDown('fast');
+	
+	ajax_it("a_recruiter__publish_job");
+	
+	
+	
+	// switch_to("__w__a_recruiter__job_publishing_home");
+}
+function btn__a_recruiter__publish_job__MOUSEOVER__(event, this_obj) {		
+	$(this_obj).css("background-color", "#4C9435");
+	$(this_obj).css("color", "#FFFF33");
+}
+function btn__a_recruiter__publish_job__MOUSEOUT__(event, this_obj) {		
+	$(this_obj).css("background-color", "#186118");
+	$(this_obj).css("color", "#fff");
+}
+
+
+// --
+// 'this_obj' is the 'form' object
+//
+function frm__a_recruiter__publish_job__SUBMIT__(event, this_obj) {
+	
+	_session_ids.skills_profile = extract_skills_from_flat_profile();
+	_session_ids.form = {
+		id: $(this_obj).attr("id"),
+		instance_number: $(this_obj).attr("instance_number")
+	};
+	
+	
+	// -- CLIENT-SIDE validation support
+	
+	// If this is the second time calling Submit and the form had validated, perform the SUBMIT action
+	if ($(this_obj).attr("valid") == "true") {
+		$(this_obj).attr("valid", "false");
+		return true;
+	}
+	
+	
+	fajax_it("publish_job", {form_id: $(this_obj).attr("id")});
+	return false;
+}
+
+
+// ----- COMPANY workspace, LEFT NAV -----
+
+function menu_general__CLICK__(event, this_obj) { switch_to("__c__company__general"); }
+function menu_media__CLICK__(event, this_obj) { switch_to("__c__company__media"); }
+
+
+// ----- JOBS workspace, LEFT NAV -----
+
+function menu__fs_profile__CLICK__(event, this_obj) {		
+	$("#sub_menu__job_publishing").slideUp('fast');
+	
+	if (context["main_content"]["_selected"] == "__c__job__results") {
+		panel__fs_profile_choose_skills.close('west');
+		panel__fs_profile.toggle('west');
+		$("#btn_add_skills_panel").show();
+	} else {
+		switch_to("__c__job__results");
+		sync();
+	}
+}
+function menu__job_contacts__CLICK__(event, this_obj) {		
+	alert("'Contacts' - coming soon..");
+}
+
+function menu__job_publishing__CLICK__(event, this_obj) {		
+	$("#sub_menu__job_publishing").slideDown('fast');
+	switch_to("__c__job__social_publishing");
+}
+function menu__job_publishing__LIVE__CLICK__(event, this_obj) { alert("'LIVE' - coming soon.."); }
+function menu__job_publishing__new_job_publishing__CLICK__(event, this_obj) { switch_to("__c__job__new_publishing"); }
+function menu__job_publishing__configure_groups__CLICK__(event, this_obj) { switch_to("__c__job__social_publishing"); }
+function menu__job_publishing__statistics__CLICK__(event, this_obj) { alert("'Statistics' - coming soon.."); }
+function menu__job_publishing__history__CLICK__(event, this_obj) { alert("'History' - coming soon.."); }
+
+
+// -- BUTTON - publish_job
+
+function btn__publish_job__CLICK__(event, this_obj) {		
+	panel__fs_profile_choose_skills.close('west');
+	$("#sub_menu__job_publishing").slideDown('fast');
+	switch_to("__c__job__new_publishing");
+}
+function btn__publish_job__MOUSEOVER__(event, this_obj) {		
+	$(this_obj).css("background-color", "#4C9435");
+	$(this_obj).css("color", "#FFFF33");
+}
+function btn__publish_job__MOUSEOUT__(event, this_obj) {		
+	$(this_obj).css("background-color", "#186118");
+	$(this_obj).css("color", "#fff");
+}
+
+function btn__publish_final__CLICK__(event, this_obj) {		
+	switch_to("__c__publishing_job");
+}
+
+// ----- JOBS workspace, RESULTS -----  SINGLE RESULT
+
+// ********** TEST *********** : job_seeker_id == '300'
+function match_test__CLICK__(event, this_obj) {
+	switch_to("__c__job__job_seeker_match");
+}
+
+
+function result__job_seeker__MOUSEOVER__(event, this_obj) {	$(this_obj).css("background-color", "#B5D76B"); }
+function result__job_seeker__MOUSEOUT__(event, this_obj) { $(this_obj).css("background-color", "#fff"); }
+function result__job_seeker__CLICK__(event, this_obj) { switch_to("__c__job__job_seeker_match"); }
+
+
+
+function result__linkedin_group__MOUSEOVER__(event, this_obj) {	$(this_obj).addClass("row_1_hover"); }
+function result__linkedin_group__MOUSEOUT__(event, this_obj) { $(this_obj).removeClass("row_1_hover"); }
+function result__linkedin_group__CLICK__(event, this_obj) {
+	var is_checked = $(this_obj).find('input[type=checkbox]').prop('checked') == true;
+
+	
+	// -- Selected -> UNSELECT
+	if (is_checked) {
+		$(this_obj).removeClass("row_1_selected");
+	
+	// -- Unselected -> SELECT	
+	} else {
+		$(this_obj).addClass("row_1_selected");
+	}
+	
+	
+	// -- X. Change the checkbox flag
+	
+	$(this_obj).find('input[type=checkbox]').prop('checked', !is_checked);
+	
+	
+	// -- X. Update the total selected number
+	
+	$("#selected_linkedin_groups").html($(".row_1_selected").length);
+}
+
+
+
+// ----- JOBS workspace, RESULTS -----  SINGLE RESULT - 'CONTACT' BUTTON
+
+function result__job_seeker__contact__CLICK__(event, this_obj) {		
+	alert('Clicked "contact"');
+	event.stopPropagation();
+}
+function result__job_seeker__contact__MOUSEOVER__(event, this_obj) {		
+	$(this_obj).css("background-color", "#186118");
+	$(this_obj).find("div").css("color", "#FFFF33");
+}
+function result__job_seeker__contact__MOUSEOUT__(event, this_obj) {		
+	$(this_obj).css("background-color", "#4C9435");
+	$(this_obj).find("div").css("color", "#fff");
+}
+
+
+function open_add_skills_panel__CLICK__(event, this_obj) {
+	panel__fs_profile_choose_skills.toggle('west');
+	$("#btn_add_skills_panel").hide();
+	event.stopPropagation();
+}
+function clear_fs_profile__CLICK__(event, this_obj) {
+	alert('clearing');
+}
+function close_add_skills_panel__CLICK__(event, this_obj) {
+	panel__fs_profile_choose_skills.toggle('west');
+	$("#btn_add_skills_panel").show();
+}
+function add_skill_to_fs_profile__CLICK__(event, this_obj) {
+	if ($(this_obj).attr("skill_added") == "no") {
+		var skill_index = get_first_blank_skill(".skills_profile_top_5");
+		
+		if (skill_index) {
+			add_skill_to_profile($.trim($(this_obj).find(".add_skill_left").html()), $(this_obj).attr("skill_id"), skill_index);
+		
+			//$(this_obj).find("div").css("color", "gray");
+			$(this_obj).find("div").css("font-style", "italic");
+			$(this_obj).find("div").css("font-weight", "bold");
+			$(this_obj).find("div").css("color", "#fff");
+			$(this_obj).css("background-color", "#000");
+			$(this_obj).attr("skill_added", "yes");
+			
+			ajax_it("fs_profile_updated");
+			// _dirty('job_fs_profile');
+		}
+	}
+}
+
+// ----- JOBS workspace, RESULTS -----  MATCH
+
+function match__menu__fs_profile__CLICK__(event, this_obj) {
+	panel__fs_profile.toggle('east');
+}
+
+
+// ----- SYNC
+
+function __SYNC_LOADING__template__fs_profile(this_obj) {
+	
+}
+
+function __SYNC_READY__template__fs_profile(this_obj) {
+	
+}
+
+function __SYNC_LOADING__template__fs_profile__results(this_obj) { $(this_obj).show(); }
+function __SYNC_READY__template__fs_profile__results(this_obj) { $(this_obj).hide(); }
+
+function __SYNC_LOADING__template__publishing_job(this_obj) { $(this_obj).show(); }
+function __SYNC_READY__template__publishing_job(this_obj) { $(this_obj).hide(); }
+
+
+function __SYNC__template__fs_profile(this_obj, server_obj) {
+	
+	// alert(server_obj.skill_ids_matrix);
+	
+	var html_e = $(this_obj).find(".skills_profile_top_5");
+	var primary_s
+	var skill_data;
+	var dirty = false;
+	
+	html_e.empty();
+	
+	for (var i = 0 ; i < 5 ; ++i) {
+		
+		if (!server_obj.skill_ids_matrix || !server_obj.skill_ids_matrix[i]) {
+			primary_s = create_blank_primary_skill(i + 1);
+			html_e.append(primary_s);
+			
+			attach_primary_field_binders(i + 1, true);
+			continue;
+		} else {
+			dirty = true;
+		}
+		
+		// -- 1 - Construct the baseline skill 'data' object
+		//
+		skill_data = {
+			id: server_obj.skill_ids_matrix[i][0],
+			name: server_obj.skill_names_matrix[i][0],
+			years_exp: server_obj.skill_names_matrix[i][1]
+		}
+		
+		// -- 2 - Highlight the matched fields
+		//
+		if (server_obj.skill_ids_matches_matrix) {
+			if (server_obj.skill_ids_matches_matrix[i][0] == -2) {
+				skill_data[name_state] = 2;
+			}
+			
+			if (server_obj.skill_ids_matches_matrix[i][1] == -2) {
+				skill_data[years_exp_state] = 2;
+			} 
+		}
+		
+		// -- 3 - Add the HTML elements to the view
+		//
+		primary_s = create_primary_skill(i + 1, skill_data, true);
+		html_e.append(primary_s);
+		
+		// -- 4 - Attached the binders
+		//
+		attach_primary_field_binders(i + 1);
+	}
+	
+	// if (dirty) { _dirty('job_fs_profile'); }
+}
+
+function __SYNC__template__results(this_obj, server_obj) {
+	var curr_element;
+	
+	// Remove the 'loading' spinning thing
+	_ready("template__fs_profile__results", $(".bb ._loading"));
+	
+	// Update the total number of job seekers
+	$("#panel__stats div[id='total_job_seekers']").html(server_obj._results.length);
+	
+	// Clear the deck
+    $(".bb .fs_results").empty();
+	
+	if (!server_obj || !server_obj._results || !server_obj._results.length || server_obj._results.length == 0) {
+		
+		// $("#total_matches span").html("0");
+		var no_results = $('<div></div>');
+		
+		$(no_results).css("font-size", "24px");
+		$(no_results).css("color", "#228B22");
+		$(no_results).css("margin-top", "10px");
+		$(no_results).html("No results found");
+		
+		no_results.appendTo(".bb .fs_results").show();
+		return;
+	} else {
+		
+    	// Add new rows
+		var i = 0;
+		var job_seeker = null;
+		
+		for (var i = 0 ; i < server_obj._results.length ; ++i) {
+			job_seeker = ___create_job_seeker_result_div(server_obj._results[i]);
+			job_seeker.appendTo(".bb .fs_results").show();
+		}
+		
+		// Fade them in
+		$(".bb .fs_results").fadeTo("fast", 1);
+		
+		// -- 1 - Unbind the current click handlers
+		bind_fields("__c__job__results");
+	}
+	
+}
+
+
+function __SYNC__template__notifications_bar(this_obj, server_obj) {
+	
+	var html_e = $(this_obj).find("#nb_notify");
+	
+	// -- 1 - If the notification element is disabled, enable it
+	_set_notifications_alerts(this_obj, "#nb_notify", server_obj.job_applications._total);
+}
+
+function _set_notifications_alerts(parent_html_obj, notify_alerts_css_selector, no_of_alerts) {
+	
+	var notify_obj = $(parent_html_obj).find(notify_alerts_css_selector);
+	var notify_no_of_alerts = notify_obj.find("div");
+	
+	// -- 1 - Set the no of alerts in the notify <div> object
+	notify_obj.attr("alerts", no_of_alerts);
+	
+	var title_split = document.title.split(') ');
+	var title = title_split.length == 1 ? title_split[0] : title_split.slice(1);
+	
+	// -- 2 - Enabled / Disable
+	// DISABLED - No alerts
+	if (no_of_alerts == 0) {
+		notify_obj.css("background-image", "url(" + notify_alerts_images[notify_alerts_css_selector][0] + ")");
+		notify_no_of_alerts.hide();
+		document.title = title;
+		
+	// ENABLED - 1 or more alerts 
+	} else {
+		notify_obj.css("background-image", "url(" + notify_alerts_images[notify_alerts_css_selector][1] + ")");
+		notify_no_of_alerts.html(no_of_alerts);
+		notify_no_of_alerts.show();
+		document.title = '(' + no_of_alerts + ') ' + title;
+	}
+}
+
+// A Hash for all notification images and styles
+// - Key -> local css_selector for the notification <div>
+// - Value -> An Array of [{disabled_state_image_url}, {enabled_state_image_url}]
+var notify_alerts_images = {
+	'#nb_contacts': ['../images/_notifications_bar/mail.png', '../images/_notifications_bar/mail-read.png'],
+	'#nb_todo': ['../images/_notifications_bar/checkbox-empty.png', '../images/_notifications_bar/checkbox.png'],
+	'#nb_notify': ['../images/_notifications_bar/connection-error.png', '../images/_notifications_bar/connect.png']
+};
+
+</script>

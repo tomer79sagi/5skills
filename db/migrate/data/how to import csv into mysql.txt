@@ -1,0 +1,5 @@
+load data local infile 'C:/Applications/ruby/projects/flyc/db/migrate/data/Skills.txt' 
+into table testdb1_development.fs2_skill_keywords fields terminated by ','
+enclosed by '"'
+lines terminated by '\n'
+(en_US)

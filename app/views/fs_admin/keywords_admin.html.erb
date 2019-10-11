@@ -1,0 +1,29 @@
+<% content_for :head do %>
+	5skills.me
+<% end %>
+
+<% content_for :title do %>
+	Search jobs
+<% end %>
+
+<% form_tag({:action => :search_keywords}) do %>
+
+	<table>
+		<tr>
+			<td>
+				<table>
+					<tr>
+						<td>Keyword:</td>
+						<td>
+							<input type="text" id="search_keyword-name" name="search_keyword-name">
+							<input type="hidden" id="search_keyword-id"/>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+
+<% end %>
+
+<%= render :partial => '/fs_admin/keywords_search_results' %>

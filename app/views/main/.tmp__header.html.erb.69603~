@@ -1,0 +1,29 @@
+  <!--[partial:header]-->
+
+	<table>
+
+		<tr>
+			<td><%= link_to 'Home', home_url %></td>
+			<td> | </td>
+			<td>FAQ</td>
+			<td> | </td>
+			
+			<% if session[:person_id] %>
+				<td>Hi <b><%= session[:person_name] %></b>!</td>
+				<td> | </td>
+				<td><%= link_to 'Logout', logout_url %></td>
+			<% else %>
+				<td><%= link_to 'Login', login_url %></td>
+				<td> | </td>
+				<td><%= link_to 'Register', register_candidate_url %></td>
+			<% end %>
+			
+			<td> | </td>
+			<td><%= link_to 'AJAX Test', ajax_test_url %></td>
+			<td> | </td>
+			<td><%= link_to 'FCK Editor Test', fck_editor_url %></td>				
+		</tr>
+						
+  	</table>
+		
+  <!--[eopartial:header]-->

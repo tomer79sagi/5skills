@@ -1,0 +1,141 @@
+<!--[form:company]-->
+  
+<div style="width:750px;float:left;min-height:80px;padding:1em 0em 0em 0em;">
+	
+	<!-- Job Application Details -->
+	<table style="width:100%;text-align:left;border-collapse:collapse;">
+		<tr style="vertical-align:top;">
+			<td class="template_cell_title_content" 
+					style="text-align:center;width:148;padding:0em .5em 0em 1em;">
+				<div style="background-color:#e1e1e1;padding:.7em 0em .7em 0em;margin:0em 0em 0em .5em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					Job
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em .5em 0em .5em;">
+				<div style="background-color:#e1e1e1;padding:.7em 0em .7em 0em;margin:0em 0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					Agency
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em 1em 0em .5em;">
+				<div style="background-color:#dfefff;padding:.7em 0em .7em 0em;margin:0em 0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<b>Company</b>
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em .5em 0em .5em;">
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:148;padding:0em 1em 0em .5em;">
+					<div style="background-color:#e1e1e1;padding:.7em 0em .7em 0em;margin:0em .0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+						Notes (<%= @application_summary.notes_total %>)
+					</div>
+			</td>
+		</tr>
+	</table>
+	
+	  <div style="background-color:#dfefff;width:100%;text-align:left;border:1px solid #dfefff;padding:1em 0em 0em 1em;margin:-1px 0px 20px 0px;">
+	  
+	  	<div style="padding:0em 1em .5em 0em;margin:0em 1em 0em 0em;text-align:right;border-bottom:1px gray solid;">
+			<%= submit_tag 'Save & View', :name => "update" %>
+			<%= submit_tag 'Save & Close', :name => "update_close" %>
+			<%= submit_tag 'Cancel', :name => "cancel" %>
+		</div>  
+
+		<table>
+			<tr>
+				<td style="padding:1em 0em 0em 0em;vertical-align:top;text-align:right;">
+					Company:
+				</td>
+				<td style="padding:1em 0em 0em 0em;">
+					<% if @companies %>
+						<%= select_tag "companies[company_id]", 
+							options_for_select(@companies.collect {|company| [ company.name, company.id ]},
+							@company.id), 
+							"onChange" => "form.action = '#{:company}?pa=company'; form.submit();",
+							:size => 9, "name" => "companies", "id" => "companies", "style" => "width:217px;"  %>
+					<% else %>
+						<%= select_tag "companies[company_id]", 
+							options_for_select([]), 
+							:size => 9, "style" => "width:217px;" %>
+					<% end %>	
+				</td>
+				<td style="padding:1em 0em 0em 0em;vertical-align:top;text-align:right;">
+					Primary Contact:					
+				</td>
+				<td style="padding:1em 0em 0em 0em;">
+					<% if @company_contacts %>
+						<%= select_tag "company_contacts[company_contact_id]", 
+							options_for_select(@company_contacts.collect {|company_contact| [ company_contact.first_name + " " + company_contact.last_name, company_contact.id ]},
+							@company_contact.id), 
+							"onChange" => "form.action = '#{:company}?pa=company_contact'; form.submit();",
+							:size => 9, "name" => "company_contacts", "id" => "company_contacts", "style" => "width:217px;" %>
+					<% else %>
+						<%= select_tag "company_contacts[company_contact_id]", 
+							options_for_select([]), 
+							:size => 9, "style" => "width:217px;" %>
+					<% end %>					
+				</td>
+			</tr>
+			<tr>
+				<td colspan="4">&nbsp;</td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">Name:</td>
+				<td><b><%= @company.name %></b></td>
+				
+				<td style="text-align:right;">First Name:</td>
+				<td><b><%= @company_contact.first_name %></b></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">Phone Number:</td>
+				<td><b><%= @company.phone %></b></td>
+				
+				<td style="text-align:right;">Last Name:</td>
+				<td><b><%= @company_contact.last_name %></b></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">Email Address:</td>
+				<td><b><%= @company.email %></b></td>
+				
+				<td style="text-align:right;">Mobile Number:</td>
+				<td><b><%= @company_contact.mobile %></b></td>		
+			</tr>		
+			<tr>
+				<td style="text-align:right;">Fax Number:</td>
+				<td><b><%= @company.fax %></b></td>
+				
+				<td style="text-align:right;">Email Address:</td>
+				<td><b><%= @company_contact.primary_email %></b></td>
+			</tr>
+			<tr>
+				<td style="text-align:right;">Website:</td>
+				<td><b><%= @company.website %></b></td>
+				
+				<td style="text-align:right;">Phone Number:</td>
+				<td><b><%= @company_contact.phone_work %></b></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td style="text-align:right;">Fax Number:</td>
+				<td><b><%= @company_contact.fax %></b></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td></td>
+				<td style="padding:0em 0em 1em 0em;text-align:right;">Website:</td>
+				<td style="padding:0em 0em 1em 0em;"><b><%= @company_contact.website %></b></td>
+			</tr>
+		</table>
+
+		<div style="padding:.5em 1em 1em 0em;margin:0em 1em 0em 0em;text-align:right;border-top:1px gray solid;">
+			<%= submit_tag 'Save & View', :name => "update" %>
+			<%= submit_tag 'Save & Close', :name => "update_close" %>
+			<%= submit_tag 'Cancel', :name => "cancel" %>
+		</div>
+	</div>
+</div>
+	  
+  <!--[eoform:company]-->

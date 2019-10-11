@@ -1,0 +1,68 @@
+<% content_for :head do %>
+	5skills.me
+<% end %>
+
+<% content_for :title do %>
+	Admin - Manage Jobs
+<% end %>
+
+
+<div class="clear"></div>
+
+<div class="middle">
+	
+	<%= render :partial => '/fs_admin/header' %>
+	
+	<div style="width:100%;float:left;">
+		
+		<h1><%= yield :title %></h1>
+		
+		<div class="db_entities_header" style="width:100%;">
+			<div class="left" style="width:50px;">Job ID</div>
+			<div class="left" style="width:50px;">Contact ID</div>
+			<div class="left" style="width:50px;">User ID</div>
+			<div class="left" style="width:150px;">Title</div>
+			<div class="left" style="width:150px;">Organisation</div>
+			<div class="left" style="width:150px;">Created at</div>
+			<div class="left" style="width:150px;">Updated at</div>
+			<div class="left" style="width:200px;">Actions</div>
+		</div>
+		
+		<% @jobs.each do |job| %>
+		
+			<% organization_contact_id = nil %>
+			<% organization_contact_user_id = nil %>
+			<% organization_name = nil %>
+		
+			<div class="db_entity_row clear" style="width:100%;border-top:1px solid gray;">
+				<div id="entity_id" class="left" style="width:50px;">
+					<span><%= job[:id] %></span>
+					<% if job[:agency_id] %>
+						(A)
+						<% organization_contact_id = job[:agency_contact_id] %>
+						<% organization_contact_user_id = job[:agency_contact_user_id] %>
+						<% organization_name = job[:agency_name] %>
+					<% else %>
+						(C)
+						<% organization_contact_id = job[:company_contact_id] %>
+						<% organization_contact_user_id = job[:company_contact_user_id] %>
+						<% organization_name = job[:company_name] %>
+					<% end %>
+					&nbsp;
+				</div>
+				<div id="entity_contact_ids" class="left" style="width:50px;"><%= organization_contact_id %>&nbsp;</div>
+				<div id="entity_user_ids" class="left" style="width:50px;"><%= organization_contact_user_id %>&nbsp;</div>
+				<div id="entity_title" class="adm_entity_title left" style="width:150px;"><%= job[:title] %>&nbsp;</div>
+				<div id="entity_names" class="left" style="width:150px;"><%= organization_name %>&nbsp;</div>
+				<div id="entity_created_at" class="left" style="width:150px;"><%= job[:created_at].strftime("%d %b, %Y - %I:%M %p") if job[:created_at] %>&nbsp;</div>
+				<div id="entity_updated_at" class="left" style="width:150px;"><%= job[:updated_at].strftime("%d %b, %Y - %I:%M %p") if job[:updated_at] %>&nbsp;</div>
+				<div class="adm_actions_col">
+					<span>Login as...</span>
+				</div>
+			</div>
+			
+		<% end %>
+
+	</div>
+	
+</div>

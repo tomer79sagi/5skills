@@ -1,0 +1,53 @@
+<h1>Register Candidate</h1>
+
+<%= render :partial => '/main/candidate_header' %>
+<%= render :partial => '/main/messages' %>
+
+<!--[form:register_candidate]-->
+
+<% form_tag :action => :process_registration, :controller => :login do %>
+  
+	<table>
+		<tr>
+			<td>First Name:</td>
+			<td><%= text_field 'person', 'first_name' %></td>
+			<td>*</td>
+			<td><%= error_message_on @person, "first_name", "First Name " %></td>
+		</tr>  	
+		<tr>
+			<td>Last Name:</td>
+			<td><%= text_field 'person', 'last_name' %></td>
+			<td>*</td>
+			<td><%= error_message_on @person, "last_name", "Last Name " %></td>
+		</tr>
+		<tr>
+			<td>Email:</td>
+			<td><%= text_field 'person', 'primary_email' %></td>
+			<td>*</td>
+			<td><%= error_message_on @person, "primary_email", "Email " %></td>
+		</tr>
+		<tr>
+			<td>Password:</td>
+			<td><%= password_field 'person', 'password', :size => 30 %></td>
+			<td>*</td>
+			<td><%= error_message_on @person, "password", "Password " %></td>
+		</tr>
+		<tr>
+			<td>Confirm Password:</td>
+			<td><%= password_field 'person', 'password_confirmation' %></td>
+			<td>*</td>
+			<td><%= error_message_on @person, "password_confirmation", "Confirm Password " %></td>
+		</tr>
+  	</table>
+	
+	<p/>
+	
+	* = Mandatory fields
+	
+	<p/>
+  
+    <%= submit_tag 'Register' %>
+   
+<% end %>
+
+<!--[eoform:register_candidate]-->

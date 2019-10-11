@@ -1,0 +1,46 @@
+<% @rendering_start = Time.now %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  
+  <%= yield :head %>
+  
+  <%= stylesheet_link_tag 'phase_1/bookmarklet' %>
+  <%= stylesheet_link_tag 'phase_1/table' %>
+  <%= stylesheet_link_tag 'phase_1/messages' %>
+  
+  <%# javascript_include_tag :defaults %>
+  <%# calendar_date_select_includes "red"%>
+  
+	<% if protect_against_forgery? %>
+  		<script type='text/javascript'>
+	    //<![CDATA[
+	        window._auth_token_name = "#{request_forgery_protection_token}";
+	        window._auth_token = "#{form_authenticity_token}";
+	    //]]>
+	    </script>
+	<% end %>
+	<%= javascript_include_tag "jquery-1.5.1.min", "application" %>
+  
+</head>
+<body>
+
+<table style="width:95%;" width="95%">
+	<tr>
+		<td style="width:80px;text-align:left;padding:1em 0em .5em 0em;margin:0em 0em 0em 0em;">
+			<%= yield :title %>
+		</td>
+		<td style="width:80px;text-align:right;padding:0em 0em 0em 0em;">
+			<%= link_to 'Feedback for this page', provide_feedback_url %>
+		</td>
+	</tr>
+</table>
+
+<%= yield %>
+
+</body>
+</html>

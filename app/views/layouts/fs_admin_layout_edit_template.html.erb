@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  
+  <title><%= yield :head %></title>
+  
+  <%= render :partial => '/layouts/fs_layout_core_js_and_styles' %>
+  
+  <%= stylesheet_link_tag 'styles_admin' %>
+
+  <%= render :partial => '/fs_admin/js' %>
+  <%= render :partial => '/fs_admin/js_admin_edit_template' %>
+  <%= render :partial => '/fs_admin/js_ajax_functions' %>
+  
+  <script type="text/javascript">
+	$(document).ready(function() {
+  		<%= render :partial => '/five_skills/js_document_ready' %>
+  		<%= render :partial => '/fs_admin/js_' + params[:action] + '_document_ready' %>
+	});
+  </script>
+    
+</head>
+<body>
+
+<%= render :partial => '/five_skills/header' %>
+
+<div id="messages_pane" style="width:100%;">
+	<div id="message_notice" class="messages_area_good" style="display:none;"><%= flash[:notice].to_s %></div>
+	<div id="message_error" class="messages_area_bad" style="display:none;"><%= flash[:error].to_s %></div>
+</div>
+
+<div class="middle">
+	<div class="main_left_edit">
+		
+		<div class="title_edit">
+			<div class="left">
+				<h1><%= yield :title %></h1>
+			</div>
+			
+			<div class="title_action_buttons right">
+				<button id="btn_cancel">Cancel</button>
+			</div>
+			<div class="title_action_buttons right pright_10">
+				<button id="btn_save_fs_profile">Save</button>
+			</div>
+		</div>
+
+		<div class="clear"></div>
+		<div class="main_box_edit">
+			
+			<%= yield %>
+			
+		</div>
+
+	</div>
+	
+	<div class="main_right_edit">
+		
+		<div class="adm_search_by_toggle" style="text-align:center;padding-top:23px;">
+			<div id="search_templates_by_job_seekers" style="border:1px solid gray;float:left;width:100px;margin-left:80px;">Job seekers</div>
+			<div id="search_templates_by_job"style="border:1px solid gray;float:left;width:100px;margin-left:15px;">Jobs</div>
+		</div>
+		
+		<div id="search_results_header" class="results_header clear" style="padding-bottom:5px;">
+			<div id="total_matches"><span>?</span> matches found</div>
+			<div id="stats_above_80_pct" style="width:119px"><span>?</span> above 80%</div>
+			<div id="showing_top_x">Showing first <span>10</span> jobs</div>
+		</div>
+		
+		<div id="search_results_content">
+		
+		
+		
+		</div>
+
+		<%= render :partial => '/fs_job/template_job_result_box' %>
+		
+	</div>
+</div>
+
+<%= render :partial => '/five_skills/footer' %>
+
+</body>
+</html>

@@ -1,0 +1,38 @@
+try{
+	<% if @error %>
+	
+		$("#messages_panel").attr("display", "inline");
+		$("#messages_panel").replaceWith("<div id=\"field_error\">Errors found in this form!</div>");
+		
+	<% elsif @success %>
+	
+		$("#messages_panel").attr("display", "inline");
+		$("#messages_panel").replaceWith("<div id=\"field_success\">Form submitted successfully!</div>");
+		
+	<% end %>
+
+	<% if @quick_add_role.errors %>
+	
+		<% @quick_add_role.errors.each do |attr, msg| %>
+			
+			$("#<%= attr %>").after("<div id=\"field_error\">Error in this field</div>");
+			
+		<% end %>
+		
+	<% end %>
+
+	$('#site_detected').replaceWith("Site detected: <b><%= @site_detected %></b>");
+	$('#session_token').attr('value', '<%= @session_token %>');
+
+} catch(e){ var ee = e.message || 0; alert('Error: \n\n'+e+'\n'+ee); }
+
+// THIS BIT WORKS!!!
+// *****************
+//
+//$('#xxx').append("\
+//	<div style=\"color:#ffffff;\">TOMER TOMER TOMER</div>\
+//	");
+//
+//$('#flycframe_veil').fadeOut(750);
+//$('#flycframe iframe').slideUp(500);
+//setTimeout("$('#flycframe').remove()", 750);

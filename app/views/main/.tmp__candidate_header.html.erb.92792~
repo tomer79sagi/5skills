@@ -1,0 +1,17 @@
+  <!--[partial:header]-->
+
+	<% if session[:person_id] %>
+			
+	<table>
+
+		<tr>
+				<td><%= link_to 'View Applications', view_applications_url %> </td>
+				<td> | </td>
+				<td><%= link_to 'New Application', add_application_url %> </td>
+		</tr>
+						
+  	</table>
+	
+	<% end %>
+		
+  <!--[eopartial:header]-->

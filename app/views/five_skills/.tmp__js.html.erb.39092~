@@ -1,0 +1,95 @@
+<script type="text/javascript">
+	
+$(document).ready(function() {
+	// 5 skills
+	for (i=1 ; i <= 5 ; ++i) {
+		bind_field("skill_" + i + "-name");
+		bind_field("skill_" + i + "-details", true);
+	}
+	
+	// Additional requirements
+	bind_field("additional_requirements");
+});
+
+function bind_field(field_name, with_suffix) {
+	$( "#" + field_name )
+			// don't navigate away from the field on tab when selecting an item
+			.bind( "keydown", function( event ) {
+				if ( event.keyCode === $.ui.keyCode.TAB &&
+						$( this ).data( "autocomplete" ).menu.active ) {
+					event.preventDefault();
+				}
+			})
+			.autocomplete({
+				minLength: 0,
+				source: function( request, response ) {
+					// delegate back to autocomplete, but extract the last term
+					response( $.ui.autocomplete.filter(
+						availableTags, extractLast( request.term ) ) );
+				},
+				focus: function() {
+					// prevent value inserted on focus
+					return false;
+				},
+				select: function( event, ui ) {
+					var terms = split( this.value );
+					// remove the current input
+					terms.pop();
+					// add the selected item
+					terms.push( ui.item.value );
+					// add placeholder to get the comma-and-space at the end
+					if (with_suffix) { terms.push( "" ); }
+					this.value = terms.join( ", " );
+					return false;
+				}
+			});
+}
+
+var availableTags = [ <%= @all_keywords %> ];
+		
+function split( val ) {
+	return val.split( /,\s*/ );
+}
+
+function extractLast( term ) {
+	return split( term ).pop();
+}
+
+function _REQ_search(){
+	var skill_prefix = "skill_";
+	var json_arr = {};
+	
+	json_arr.skills_profile = {};
+	
+	for (i=1 ; i<=5 ; ++i) {
+		json_arr.skills_profile[skill_prefix + i] = {};
+		json_arr.skills_profile[skill_prefix + i].name = $("#" + skill_prefix + i + "-name").value;
+		json_arr.skills_profile[skill_prefix + i].years_experience = $("#" + skill_prefix + i + "-years_experience").value;
+		json_arr.skills_profile[skill_prefix + i].self_rate = $("#" + skill_prefix + i + "-self_rate").value;
+		json_arr.skills_profile[skill_prefix + i].details = $("#" + skill_prefix + i + "-details").value;
+	}
+	
+	$.post(g_server_url + "job_seeker/search", {
+		json: JSON.stringify(json_arr)}, callbackSuccess, "json");
+}
+
+function _RES_save_job(data, status_i) {
+	alert('cool response!');
+	
+//	$("#role_id").val(data.role_id);
+}
+
+function ajax_it(action, target_field_o) {
+	eval("_REQ_" + action + "();");	
+}
+
+function callbackSuccess(data, textStatus, jqXHR){
+	if (!data) {
+		alert('ERROR: No "data" object returned from server!');
+		return;
+	}
+	
+	eval("_RES_" + data.action + "(data, status_i);");
+}
+
+</script>

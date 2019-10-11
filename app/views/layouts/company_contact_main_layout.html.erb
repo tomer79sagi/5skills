@@ -1,0 +1,96 @@
+<% @rendering_start = Time.now %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  
+  <%= yield :head %>
+  
+  <%= stylesheet_link_tag 'phase_1/main' %>
+  <%= stylesheet_link_tag 'phase_1/table' %>
+  <%= stylesheet_link_tag 'phase_1/messages' %>
+  
+  <%= javascript_include_tag :defaults %>  
+  <%= calendar_date_select_includes "red"%>
+  <%= javascript_include_tag "fckeditor/fckeditor" %>
+  
+   
+  
+</head>
+<body>
+
+<div class="container">
+
+<%= render :partial => '/company_contact/header_1' %>
+<%= render :partial => '/company_contact/header_2' %>
+
+<table style="width:100%">
+	<tr>
+		<td>
+			<table>
+				<tr>
+					<td style="width:540px;text-align:left;padding:0em 0em .5em 0em;margin:0em 0em 0em 0em;">
+						<%= yield :bread_crumbs %>
+					</td>
+					<td style="text-align:right;padding:0em 0em 0em 0em;">
+						<span class="content_link"><%= link_to 'Feedback for this page', provide_feedback_url %></span>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align:left;padding:0em 0em .5em 0em;margin:0em 0em 0em 0em;">
+						<%= yield :title %>
+					</td>
+					<td style="text-align:right;padding:0em 0em .5em 0em;margin:0em 0em 0em 0em;">
+						<%= yield :entity_actions %>
+					</td>
+				</tr>
+				<tr>
+					<td style="text-align:left;padding:0em 0em .5em 0em;margin:0em 0em 0em 0em;">
+						Filters: <%= yield :filters %>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="width:840px;text-align:left;margin:0em 0em 0em 0em;">
+						<%= yield :summary %>
+					</td>
+				</tr>
+			</table>
+		</td>
+		<td>
+			<table style="width:150px;height:120px;" border="1">
+				<tr style="height:20px;">
+					<td style="background:#77cccc;text-align:left;font-size:14px;font-weight:bold;color:black;">
+						Last entities
+					</td>
+				</tr>
+				<tr>
+					<td style="vertical-align:top;text-align:left;">
+						'<%= link_to 'PHP Developer', company_contact_view_role_url %>'
+						<br/><div style="text-align:right;">(role) <u>filter</u></div>
+					</td>
+				</tr>
+				<tr>
+					<td style="vertical-align:top;text-align:left;">
+						'<%= link_to 'Dana James', company_contact_view_role_url %>'
+						<br/><div style="text-align:right;">(agent) <u>filter</u></div>
+					</td>
+				</tr>
+			</table>
+		</td>
+	</tr>
+	
+</table>
+
+<%= yield %>
+
+<%= render :partial => '/company_contact/footer' %>
+
+</div> <!-- CONTAINER -->
+
+<%# render :partial => '/main/debugging' %>
+
+</body>
+</html>

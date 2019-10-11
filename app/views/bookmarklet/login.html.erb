@@ -1,0 +1,92 @@
+<div id='content_panel'>
+	
+	<div id='login_panel' style="direction:ltr;">
+	
+	<button onClick="ajax_it('social_login'); return false;">Facebook Login!</button>
+		
+		<table>
+			<tr>
+				<td>
+					<span style='font-size: 15pt; padding: .25em 0em .5em 0em;width:200px;font-weight:bold;'>Login</span>
+				</td>
+			</tr>
+			<tr>
+				<td id='login_messages' style='font-size:10pt;'></td>
+			</tr>
+		</table>
+		
+		<table>
+			<tr>
+				<td style='font-size:10pt;'>Email:</td>
+				<td style='font-size:10pt;'><input id="email" type="text" size="30"></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td id='email_error' style='font-size:10pt;'></td>
+			</tr>
+			<tr>
+				<td style='font-size:10pt;'>Password:</td>
+				<td style='font-size:10pt;'><input id="password" type="password" size="30"></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td id='password_error' style='font-size:10pt;'></td>
+			</tr>
+			<tr>
+				<td style='font-size:10pt;'>&nbsp;</td>
+				<td style='font-size:10pt;'>
+					<input name="save_login[checked]" type="hidden" value="no" />
+					<input id='remember_me' type="checkbox" value="yes" name="save_login[checked]"/> Remember me
+				</td>
+			</tr>
+			<tr>
+				<td style='font-size:10pt;'>&nbsp;</td>
+				<td style='font-size:10pt;'><button id="btn_login" style="width:50px;height:25px;" onClick="ajax_it('process_login');return false;">Login</button></td>
+			</tr>
+			<tr>
+				<td style='font-size:10pt;'>&nbsp;</td>
+				<td style='text-align:right;font-size:10pt;'><a href=''>Forgot your password?</a></td>
+			</tr>
+		</table>
+		
+		<p><hr/></p>
+		
+	</div>
+	
+	<div id='registration_panel' style="direction:ltr;">
+		
+		<span style='font-size: 15pt; padding: .25em 0em .5em 0em;width:200px;font-weight:bold;'>Register</span>
+		
+		<div id='registration_messages'></div>
+		
+		<table>
+			<tr>
+				<td style='font-size:10pt;'>First Name:</td>
+				<td style='font-size:10pt;'><input id="email" type="text" size="30"></td>
+			</tr>
+			<tr>
+				<td style='font-size:10pt;'>Last Name:</td>
+				<td style='font-size:10pt;'><input id="email" type="text" size="30"></td>
+			</tr>
+			<tr>
+				<td style='font-size:10pt;'>Email:</td>
+				<td style='text-align:right;font-size:10pt;'><input id="email" type="text" size="30"></td>
+			</tr>
+			<tr>
+				<td style='font-size:10pt;'>Password</td>
+				<td style='font-size:10pt;'><input id="email" type="text" size="30"></td>
+			</tr>
+			<tr>
+				<td style='font-size:10pt;'>Password Repeat</td>
+				<td style='font-size:10pt;'><input id="email" type="text" size="30"></td>
+			</tr>
+			<tr>
+				<td style='font-size:10pt;'>&nbsp;</td>
+				<td style='font-size:10pt;'><button id="btn_register" style="width:50px;height:25px;" onClick="ajax_it('register');">Register</button></td>
+			</tr>
+		</table>
+		
+		<p><hr/></p>
+	
+	</div>
+</div>

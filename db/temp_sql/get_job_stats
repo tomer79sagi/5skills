@@ -1,0 +1,75 @@
+
+-- 17 Oct, 2014
+
+
+
+--- PUBLISHING STATUS
+
+select * from fs2_job_publishing_posts 
+order by publishing_channel_id asc, created_at desc
+
+select * from fs2_publishing_channels where id in (15, 16, 17)
+
+--- TOTLAS: The unique channels for a job
+
+select *  
+from fs2_job_publishing_posts 
+where job_id = 269
+group by publishing_channel_id, status
+
+
+select a.id, a.user_id, a.job_id, a.publishing_channel_id, a.post_type, a.status, a.title, max(a.created_at) latest_change 
+from
+(
+select * 
+from fs2_job_publishing_posts 
+where job_id = 269
+group by publishing_channel_id, status
+) a
+group by a.publishing_channel_id
+
+
+--- TOTLAS: The SQL for the totals
+
+select sum(case when b.status="Failed" THEN 1 ELSE 0 END) failed_or_pending, 
+	sum(case when b.status="Modified" THEN 1 ELSE 0 END) job_discussion,
+	sum(case when b.status="Published" THEN 1 ELSE 0 END) published
+from
+(
+	select a.id, a.user_id, a.job_id, a.publishing_channel_id, a.post_type, a.status, a.title, max(a.created_at) latest_change 
+	from
+	(
+	select * 
+	from fs2_job_publishing_posts 
+	where job_id = 269
+	group by publishing_channel_id, status
+	) a
+	group by a.publishing_channel_id
+) b
+
+
+select * from fs2_job_publishing_post_visitors order by created_at desc
+select * from fs2_job_publishing_posts where id = 469
+select * from fs2_visitors order by created_at desc
+
+--- VIEW AND APPLICATION STATUS
+
+-- Total unique visitors to the job page
+
+select a.id, a.agent, a.ip, b.id publishing_post_visitor_id, b.job_publishing_post_id, b.created_at, c.publishing_channel_id
+from fs2_job_publishing_post_visitors b
+	join fs2_visitors a on (a.id = b.visitor_id)
+	left join fs2_job_publishing_posts c on (c.id = b.job_publishing_post_id)
+where a.new_visitor = 1 
+	and job_publishing_post_id in 
+(
+select id from fs2_job_publishing_posts 
+where job_id = 269
+	and status in ("Published", "Modified")
+)
+group by b.visitor_id
+order by b.visitor_id desc, b.created_at desc
+
+-- Total unique applications for the job 
+
+- Implemented in the application

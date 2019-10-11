@@ -1,0 +1,201 @@
+/*============================= Individual skill =============================*/
+
+
+/* --------------- skill name --------------- */
+
+.title2{
+	/*background-color: #00923f;*/
+	width: 160px;	
+	margin-top:3px;
+	float:left;
+	cursor:default;
+	}
+	
+.title2 span{
+	/*text-transform: uppercase;*/
+	color: #000;
+	}
+
+.title2_match {
+	background-color: #ADFF2F;
+}
+.title2_match span {
+	color: #000;
+	font-weight:bold;
+}
+
+
+/* --------------- years --------------- */ 
+
+.position{
+	/*background-color: #55d355;*/
+	width: 20px;
+	margin-top:3px;	
+	float:left;
+	margin-left:5px;
+	cursor:default;
+	}
+
+.position span{
+	/*margin-left: 12px;*/
+	}
+.position_match {
+	background-color: #FFFF00;
+}
+.position_match span {
+	color: #000;
+	font-weight:bold;
+}
+
+.skill_separator{
+	background-image: url('../images/mvp-2/fs_profile/skill_separator.png');
+	background-color: transparent;
+	background-repeat: no-repeat;
+	width:1px;
+	float:left;
+	height:22px;
+	margin-top:1px;
+}
+
+
+/*=============================  SKILLS PANEL =============================*/
+		
+.left_panel{
+	margin-left:20px;
+	width:250px;
+	float:left;
+}
+	
+	.left_panel_h2{
+		font-size:15px;
+		font-weight:bold;
+		color:black;
+	}
+	.left_panel_body{
+		//background-image: url('../images/mvp-1/left_panel_background_tile.png');
+		//background-color: transparent;
+		//background-repeat: repeat;
+		height:220px;
+		width:225px;
+	}
+		.single_top_skill{
+			height:33px;
+			margin:5px;
+			padding:0px;
+			width:205px;
+		}
+		.single_top_skill_container_left{
+			background-image: url('../images/mvp-2/fs_profile/top_skill_container_left.png');
+			background-color: transparent;
+			background-repeat: no-repeat;
+			width:5px;
+			height:33px;
+			float:left;
+		}
+		.single_top_skill_name{
+			background-image: url('../images/mvp-2/fs_profile/top_skill_container_body.png');
+			background-color: transparent;
+			background-repeat: repeat-x;
+			width:190px;
+			height:26px;
+			float:left;
+			font-size:15px;
+			color:black;
+			padding-left:5px;
+			padding-top:7px;
+		}
+		.single_top_skill_container_right{
+			background-image: url('../images/mvp-2/fs_profile/top_skill_container_right.png');
+			background-color: transparent;
+			background-repeat: no-repeat;
+			width:5px;
+			height:33px;
+			float:right;
+		}
+		
+		
+		/* -------------- hover -------------- */
+
+		.hover-single_top_skill_container_right{
+			background-image: url('../images/mvp-2/fs_profile/hover-top_skill_container_right.png');
+			background-color: transparent;
+			background-repeat: no-repeat;
+			width:5px;
+			height:33px;
+			float:left;
+		}
+		.hover-single_top_skill_name{
+			background-image: url('../images/mvp-2/fs_profile/hover-top_skill_container_body.png');
+			background-color: transparent;
+			background-repeat: repeat-x;
+			width:190px;
+			height:26px;
+			float:left;
+			font-size:15px;
+			color:black;
+			padding-left:5px;
+			padding-top:7px;
+		}
+		.hover-single_top_skill_container_left{
+			background-image: url('../images/mvp-2/fs_profile/hover-top_skill_container_left.png');
+			background-color: transparent;
+			background-repeat: no-repeat;
+			width:5px;
+			height:33px;
+			float:left;
+		}
+		
+		.single_additional_skill{
+			height:26px;
+			margin:2px 5px 2px 5px;
+		}
+			.additional_skill_container_left{
+				background-image: url('../images/mvp-2/fs_profile/additional_skill_container_left.png');
+				background-color: transparent;
+				background-repeat: no-repeat;
+				width:3px;
+				height:26px;
+				float:left;
+			}
+			.single_additional_skill_name{
+				background-image: url('../images/mvp-2/fs_profile/additional_skill_container_body.png');
+				background-color: transparent;
+				background-repeat: repeat-x;
+				height:21px;
+				font-size:13px;
+				color:black;
+				text-align:center;
+				padding-left:2px;
+				padding-top:5px;
+				float:left;
+			}
+			.additional_skill_container_right{
+				background-image: url('../images/mvp-2/fs_profile/additional_skill_container_right.png');
+				background-color: transparent;
+				background-repeat: no-repeat;
+				width:3px;
+				height:26px;
+				float:left;
+			}
+			
+		.additional_req_title{
+			margin-left:10px;
+			font-size:11px;
+			color:#AB9999;
+		}
+		.additional_req_name{
+			margin-left:10px;
+			font-size:13px;
+			color:#160000;
+		}
+		
+.skills_profile_top_5 {
+	list-style-type: none;
+}
+
+.skills_profile_additional {
+	list-style-type: none;
+	overflow-y:auto;
+	height:100px;
+	min-height:100px;
+}

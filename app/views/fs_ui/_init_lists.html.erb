@@ -1,0 +1,217 @@
+<script type="text/javascript">
+
+    $(function() {    
+    	
+    	// AVAILABLE SKILLS
+    	$( "#available_skills" ).sortable({
+            connectWith: ".connectedSortable, #general_keywords",
+            tolerance: "pointer",
+            cursorAt: {top:10, left: 15},
+            over: function(event, ui) {
+            	
+            	init_s_over($(this));
+            	
+            	if (g_cache.curr_target_list_id == "available_skills") {
+            		// alert('yeah');
+            	}
+            	
+            	// alert(g_cache.prev_target_list_id);
+            	// alert($(ui.item).attr("id"));
+            	
+            	extract_skills_from_lists($(ui.item));
+            	
+            	convert_item_to_skill($(this), $(ui.item), 1);
+            	
+            	if (g_primaries.indexOf(g_cache.prev_target_list_id) != -1) {
+            		replace_prev_primary_skill();
+            	}
+            	
+            }
+        }).disableSelection();
+        
+        
+        // GENERAL KEYWORDS
+        $( "#general_keywords" ).sortable({
+        	connectWith: ".connectedSortable, #available_skills",
+        	tolerance: "pointer",
+            cursorAt: {top:10, left: 15},
+            over: function(event, ui) {
+            }, out: function(event, ui) {
+            	
+            }
+        }).disableSelection();
+        
+        
+        // JOB TYPE
+        $( "#job_type" ).sortable({
+        	cancel: "li",
+        	tolerance: "pointer",
+            cursorAt: {top:10, left: 15},
+            over: function(event, ui) {
+            }, out: function(event, ui) {
+            	
+            }
+        }).disableSelection();
+        
+        
+        // LOCATION
+        $( "#location" ).sortable({
+        	cancel: "li",
+        	tolerance: "pointer",
+            cursorAt: {top:10, left: 15},
+            over: function(event, ui) {
+            }, out: function(event, ui) {
+            	
+            }
+        }).disableSelection();
+    
+    	
+    	// 5-SKILLS PROFILE
+    	$("#sortable_skills").sortable({
+    		connectWith: "#available_skills, #general_keywords",
+    		axis: "y",
+    		tolerance: "pointer",
+            cursorAt: {top:30, left: 45},
+    		start: function(event, ui) {
+    			
+    			init_s_start($(this), $(ui.item));
+    			
+    		}, over: function(event, ui) {
+    			
+    		}, update: function (event, ui) {
+    			var i = 1;
+    			var j = 1;
+    			$("ul.connectedSortable").each(function() {
+    				$(this).attr("id", "sortable" + i++);
+    				
+    				if (is_primary($(this).attr("id"))) {
+    					$(this).find("[id^=skill_]").each(function() {
+    						$(this).attr("id", $(this).attr("id").replace(/skill_[1-5]/g, "skill_" + j));
+    					});
+    					
+    					++j;
+    				}
+    			});
+    			
+    			i = 1; // zero 'i' for next iteration
+    			$("[id$=_name]>span").each(function() {
+    				$(this).html(i++ + ". " + $(this).html().substring(3));
+    			});
+    			
+    			// And finally perform another search
+            	ajax_it("search_jobs");
+    		}
+    	}).disableSelection();
+    	
+    	// EVENTS' order
+    	// ------------
+    	// When starting drag and continued dragging
+    	// - start
+    	// - change
+    	// - over
+    	// - out
+    	//
+    	// When dropped
+    	// - update
+    	// - out
+    	// - stop
+        $( ".connectedSortable" ).sortable({
+            connectWith: ".connectedSortable, #available_skills, #general_keywords",
+            axis: "y",
+            tolerance: "pointer",
+            cursorAt: {top:10, left: 15},
+            update: function( event, ui ) {
+            	// console.log('update');
+            	
+            	ajax_it("search_jobs");
+    			
+            }, start: function(event, ui) {
+            	
+        		init_s_start($(this), $(ui.item));
+        		
+            }, over: function (event, ui) {
+            	
+            	init_s_over($(this));
+            	
+            	// IF arrived from secondary and into primary AND start is PRIMARY or SECONDARY = cache existing primary, change helper into primary
+            	if (g_primaries.indexOf(g_cache.curr_target_list_id) != -1) {
+            		
+            		convert_item_to_skill($(this), $(ui.item), 3);
+            		
+            	// IF arrived from primary and into secondary AND start is PRIMARY or SECONDARY = CHANGE to secondary
+            	} else if (g_primaries.indexOf(g_cache.prev_target_list_id) != -1 && g_secondaries.indexOf(g_cache.curr_target_list_id) != -1) {
+            		
+            		convert_item_to_skill($(this), $(ui.item), 2);
+            		
+            	}
+            	
+            }, out: function (event, ui) {
+            	// console.log('out');
+            	$(this).css("border", "0px");
+            	
+            }, receive: function (event, ui) {
+            	// console.log("receive");
+            }, sort: function(event, ui) {
+            	// console.log("sort");
+            	
+            	if ($(ui.item).attr("prevent")) {
+            		// console.log('preventing: ' + $(ui.item).attr("prevent"));
+            		// event.preventDefault();
+            		// event.stopPropagation();
+            		
+            		$(ui.item).removeAttr("prevent");
+            		$(this).sortable('cancel');
+            	}
+            	
+        	}, change: function (event, ui) {
+            	// console.log('change');
+            	
+            	
+            }, stop: function(event, ui) {
+            	
+            	// In case the previous sortable was primary, attach the appropriate binders
+            	if (g_primaries.indexOf(g_cache.prev_target_list_id) != -1) {
+            		var skill_index = g_primaries.indexOf(g_cache.prev_target_list_id) + 1;
+            		
+            		if (g_cache.start_list_id != g_cache.prev_target_list_id) {
+            			attach_primary_field_binders(skill_index);
+            		} else if (g_cache.start_list_id == g_cache.prev_target_list_id) {
+            			attach_primary_field_binders(skill_index, true);
+            		}
+            		
+            	} else if (g_primaries.indexOf(g_cache.start_list_id) != -1) {
+            		if (g_cache.start_list_id != g_cache.prev_target_list_id) {
+            			attach_primary_field_binders(g_primaries.indexOf(g_cache.start_list_id) + 1, true);
+            		}
+            	}         	
+            	
+            	// Attach the appropriate 'event binders' to the fields (if current sortable is primary))
+            	if (g_primaries.indexOf(g_cache.curr_target_list_id) != -1) {
+            		
+            		// Remove the previous 'click' event handler
+            		$(ui.item).unbind('click');
+            		
+            		// Add the primary event handlers
+            		attach_primary_field_binders(g_primaries.indexOf(g_cache.curr_target_list_id) + 1);
+            		
+            	// If the current sortable is secondary, attach the subskill binders 
+            	} else if (g_secondaries.indexOf(g_cache.curr_target_list_id) != -1) {
+            		// console.log("start [secondary]: " + $(ui.item).html());
+            		attach_sub_skill_field_binders($(ui.item));
+            	}
+            	
+            	if ($(ui.item) && $(ui.item) != undefined && g_cache.curr_target_html_content) {
+	            	$(ui.item).css("width", g_cache.curr_target_html_content.css("width"));
+	            	$(ui.item).attr("id", "skill_" + parseInt(g_primaries.indexOf(g_cache.curr_target_list_id) + 1));
+            	}
+            	
+            	g_cache.curr_target_list_id = null;
+            	g_cache.curr_target_html_content = null;
+            	
+            }, beforeStop: function(event, ui) {
+            	
+            }
+        }).disableSelection();
+    });
+
+</script>

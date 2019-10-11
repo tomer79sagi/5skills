@@ -1,0 +1,39 @@
+Hey <%= @person_name %> !
+
+<br><br>
+
+Your CV request was REJECTED! sorry.... :-)
+
+<br/><br/>
+
+<hr/>
+
+<br/>
+
+<% if @job_seeker %>
+		
+	<% if @job_seeker[:profile_photo] && @job_seeker[:profile_photo][:file_id] && @job_seeker[:profile_photo][:medium_dimensions] %>
+			
+		<a href="http://<%= @http_host %>/job_seeker/<%= @job_seeker[:id].to_s %>/view">
+		<img src="http://<%= @http_host %>/file/<%= @job_seeker[:profile_photo][:file_id] %>/show"
+			width="<%= @job_seeker[:profile_photo][:medium_dimensions].split("x")[0] %>"
+			height="<%= @job_seeker[:profile_photo][:medium_dimensions].split("x")[1] %>"/>
+		</a>
+		
+	<% end %>
+	
+	<br/>
+	<%= @job_seeker[:full_name] %>		
+
+<% end %>
+
+<% @skills_profile_matrix = @job_seeker[:skills_profile] %>
+<% if @skills_profile_matrix %>
+	<%= render :partial => '/five_skills/view_job_seeker_five_skills' %>
+<% end %>
+
+<br/>
+
+<hr/>
+
+<a href="http://<%= @http_host %>/job_seeker/find">Find job seekers!</a>

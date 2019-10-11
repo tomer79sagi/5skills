@@ -1,0 +1,73 @@
+<!-- Headings -->
+<div class="top_padding_1">
+	
+<% form_tag({:action => :create_organisation_quick}) do %>
+
+	<table class="template_h3t" style="border-collapse:collapse;">
+		<tr style="vertical-align:middle;">
+			
+			<td class="template_cell_title_heading">
+				<%= link_to 'Name', :action => :view_organisations, :sort_by => "organisation_name", :sort_dir => @sort_dir %>
+				<span style="font-size:15px;color:black;background-color:yellow;"><%= @sort_dir_icon if @sort_by == "organisation_name" %></div>
+			</td>
+			<td class="template_cell_status_heading">
+				<%= link_to 'First Name', :action => :view_organisations, :sort_by => "contact_first_name", :sort_dir => @sort_dir %>
+				<span style="font-size:15px;color:black;background-color:yellow;"><%= @sort_dir_icon if @sort_by == "contact_first_name" %></div>
+			</td>
+			<td class="template_cell_organisation_heading">
+				<%= link_to 'Last Name', :action => :view_organisations, :sort_by => "contact_last_name", :sort_dir => @sort_dir %>
+				<span style="font-size:15px;color:black;background-color:yellow;"><%= @sort_dir_icon if @sort_by == "contact_last_name" %></div>
+			</td>
+			<td class="template_cell_company_heading">
+				<span style="font-weight:normal;">Work No.</span>
+			</td>
+			<td class="template_cell_closing_date_heading">
+				<span style="font-weight:normal;">Mobile</span>
+			</td>
+			<td class="template_cell_last_updated_date_heading">
+				<span style="font-weight:normal;">Email</span>
+			</td>
+			<td class="template_cell_last_updated_date_heading">
+				&nbsp;
+			</td>
+			
+		</tr>
+		<tr style="vertical-align:top;background-color:#a0dc8f;">
+			
+			<td class="template_cell_title_content" style="border-top:3px solid gray;border-bottom:3px solid gray;border-left:3px solid gray;padding:4px 0px 4px 4px;margin:0px 0px 0px 0px;">
+				<%= text_field 'quick_add_organisation', 'name', :style => "width:150px;text-align:left;" %>
+				<%= error_message_on "quick_add_organisation", "name", {:prepend_text => "Name ", :css_class => "error_message_field"} %>
+			</td>
+			<td class="template_cell_status_content" style="border-top:3px solid gray;border-bottom:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+				<%= text_field 'quick_add_contact', 'first_name', :style => "width:120px;text-align:left;" %>
+				<%= error_message_on "quick_add_contact", "first_name", {:prepend_text => "First Name ", :css_class => "error_message_field"} %>
+			</td>
+			<td class="template_cell_organisation_content" style="border-top:3px solid gray;border-bottom:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+				<%= text_field 'quick_add_contact', 'last_name', :style => "width:120px;text-align:left;" %>
+				<%= error_message_on "quick_add_contact", "last_name", {:prepend_text => "Last Name ", :css_class => "error_message_field"} %>
+			</td>
+			<td class="template_cell_company_content" style="border-top:3px solid gray;border-bottom:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+				<%= text_field 'quick_add_contact', 'phone_work', :style => "width:100px;text-align:left;" %>
+				<%= error_message_on "quick_add_contact", "phone_work", {:prepend_text => "Work Phone ", :css_class => "error_message_field"} %>
+			</td>
+			<td class="template_cell_closing_date_content" style="border-top:3px solid gray;border-bottom:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+				<%= text_field 'quick_add_contact', 'mobile', :style => "width:100px;text-align:left;" %>
+				<%= error_message_on "quick_add_contact", "mobile", {:prepend_text => "Mobile ", :css_class => "error_message_field"} %>
+			</td>
+			<td class="template_cell_last_updated_date_content" style="border-top:3px solid gray;border-bottom:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+				<%= text_field 'quick_add_contact', 'primary_email', :style => "width:150px;text-align:left;" %>
+				<%= error_message_on "quick_add_contact", "primary_email", {:prepend_text => "Email ", :css_class => "error_message_field"} %>
+			</td>
+			<td class="template_cell_last_updated_date_content" style="border-top:3px solid gray;border-bottom:3px solid gray;border-right:3px solid gray;padding:4px 0px 4px 0px;margin:0px 0px 0px 0px;">
+				<div style="padding: 2px 0px 0px 0px;">
+					<%= submit_tag 'Add', :name => "add", :style => "width:85px;" %>
+					<%= submit_tag 'Add & Edit', :name => "add_edit", :style => "width:85px;" %>
+				</div>
+			</td>
+			
+		</tr>
+	</table>
+
+<% end %>
+
+</div>

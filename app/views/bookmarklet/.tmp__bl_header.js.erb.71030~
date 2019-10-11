@@ -1,0 +1,16 @@
+try{
+
+	// Capture the current action for dynamic form operations
+	if ($('#current_action').length) {
+		$('#current_action').replaceWith("\
+			<input type='hidden' id='current_action' value='<%= params[:action] %>'>");
+	} else {
+		var current_action_o = document.createElement("input");
+		current_action_o.setAttribute("type", "hidden");
+		current_action_o.setAttribute("id", "current_action");
+		current_action_o.setAttribute("value", "<%= params[:action] %>");
+		
+		document.body.appendChild(current_action_o);
+	}
+
+	$('#flyc_token').attr('value', '<%= session[:flyc_token] %>');

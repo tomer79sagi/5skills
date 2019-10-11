@@ -1,0 +1,37 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+	<%= render :partial => '/fs_mvp/mvp_s_header' %>
+
+	<div class="middle">
+		<div class="middle_bg">
+			
+			<div class="title clear"><%= image_tag("mvp/jobs_lrg_ENG.png") %></div>
+			
+			<div class="girl"><%= image_tag("mvp/girl_1.png") %></div>	
+			<div class="main_box_tnx">
+			
+				<%= render :partial => '/fs_mvp/mvp_slider' %>	
+				
+				<div class="content">
+					<h1>Hey! We're almost ready.</h1>
+					<div class="word"><p>We are working very hard to launch our first <span style="font-weight:bold;">BETA</span> as soon as possible! Please check your email to find out what you get for signing up before we launch and what you should do next. Also, the more sign-ups, the earlier we launch! so, spread the word...</p></div>
+					<div class="ptop_50 pleft_50 left"><%= image_tag("mvp/arrow.png") %></div>
+				</div>	
+				
+				<div class="footer_thanks">
+					<div id="likebox-frame" class="left">
+						<%= render :partial => '/fs_mvp/mvp_footer' %>
+					</div>
+					
+					<div class="right">
+						<%= render :partial => '/fs_mvp/mvp_social_share' %>
+					</div>					
+					
+				</div>			
+				
+			</div>
+		
+		</div>
+	</div>

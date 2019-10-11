@@ -1,0 +1,23 @@
+<div class="pright_10 left" style="margin-top:17px;">
+	
+	<div class="language_title">
+		Language
+	</div>
+	
+	<div class="left mtop_5">
+		<% if session[:user_type_id] && session[:user_type_id] == 1 %>
+			<%= link_to image_tag("mvp/israel.png"), mvp_job_seeker_HE_url %>
+		<% elsif session[:user_type_id] && session[:user_type_id] == 4 %>
+			<%= link_to image_tag("mvp/israel.png"), mvp_recruiter_HE_url %> 
+		<% end %>
+	</div>
+	
+	<div class="left mtop_5 pleft_5">
+		<% if session[:user_type_id] && session[:user_type_id] == 1 %>
+			<%= link_to image_tag("mvp/uk.png"), mvp_job_seeker_EN_url %>
+		<% elsif session[:user_type_id] && session[:user_type_id] == 4 %>
+			<%= link_to image_tag("mvp/uk.png"), mvp_recruiter_EN_url %> 
+		<% end %>
+	</div>
+	
+</div>

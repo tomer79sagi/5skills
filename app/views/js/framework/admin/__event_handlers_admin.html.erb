@@ -1,0 +1,40 @@
+<script type="text/javascript">
+
+// --- MAP
+// This map holds the following syntax:
+//  {workspace_name} : {function_name / friendly_name: }
+var map_context_events = {
+	
+	"__w__core": {
+		"manage_marketing": "#lnk__menu_item__marketing"
+	},
+	
+	"__w__manage_marketing": {
+		"menu__fs_profile": "#menu__fs_profile",
+		"menu__job_contacts": "#menu__job_contacts",
+		"menu__job_details": "#menu__job_details",
+		"menu__job_publishing": "#menu__job_publishing",
+		"menu__job_statistics": "#menu__job_statistics",
+		"menu__job_activity": "#menu__job_activity",
+		"btn_publish": "#btn_publish"
+	},
+	
+	"__w__manage_company": {
+		"menu_general": "#menu__general",
+		"menu_media": "#menu__media"
+	}
+
+};
+
+
+// ----- CORE workspace -----
+
+function manage_marketing__CLICK__(event, this_obj) { switch_to("__w__manage_marketing"); }
+
+
+// ----- COMPANY workspace, LEFT NAV -----
+
+function menu_general__CLICK__(event, this_obj) { switch_to("__c__company__general"); }
+function menu_media__CLICK__(event, this_obj) { switch_to("__c__company__media"); }
+
+</script>

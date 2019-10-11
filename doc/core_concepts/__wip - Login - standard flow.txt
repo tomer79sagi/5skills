@@ -1,0 +1,18 @@
+Login - standard flow
+
+
+PAGE PERMISSION MAPPING
+------------------------
+- ACTIONS_USER_PERMISSIONS / mapping of user type to 'actions'
+ [:job_seeker => ["search_jobs"],
+  :contact => []}
+
+
+PROCESS
+-------------
+
+1. before_filter :login_required
+ - 
+ 
+2. before_filter :check_permissions
+ - 

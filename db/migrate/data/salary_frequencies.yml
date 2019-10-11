@@ -1,0 +1,6 @@
+hourly:
+  name: Hourly
+daily: 
+  name: Daily
+yearly:
+  name: Yearly

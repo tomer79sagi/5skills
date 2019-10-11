@@ -1,0 +1,38 @@
+<input type="hidden" id="organisation_id" name="" value="<%= @organisation.id if @organisation %>"/>
+<input type="hidden" id="page_id" name="" value="<%= @page.id if @page %>"/>
+<input type="hidden" id="i_page_type" name="" value="<%= @page_type if @page_type %>"/>
+<input type="hidden" id="url_path" name="" value="<%= @url_path if @url_path %>"/>
+<input type="hidden" id="role_id" name="" value="<%= @role_id if @role_id %>"/>
+<input type='hidden' id='role_application_id' value='<%= @role_application.id if @role_application %>'>
+
+<% if @state %>
+
+	<% if @state == 1 # Requires login %>
+	
+		<div id='primary_messages'>
+			You must log in to use Flyc's smart bookmarks. Please login or register below
+		</div>
+
+	<% elsif @state == 4 %>
+				
+		<div id='primary_messages' style='direction:ltr;'>
+			Site already exists!
+			
+		</div>
+		
+		<% if @role_application %>
+			&nbsp;&nbsp;<i>You can update its details below</i>
+		<% end %>
+		
+	<% elsif @is_success %>
+	
+		<div id='primary_messages' style='direction:ltr;'>Logged in successfully</div>
+		
+	
+	<% else %>
+	
+		<div id='primary_messages' style='direction:ltr;'></div>
+		
+	<% end %>
+
+<% end %>

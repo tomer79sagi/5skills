@@ -1,0 +1,145 @@
+<%= render :partial => '/bookmarklet/bl_header' %>
+	
+	<% # Login screen %>
+	<% if @state && @state == 1 %>
+	
+		//$('#flyc_panel').animate({
+		//	width: '350px',
+		//	height: '500px'
+		//});
+		
+		$('#primary_messages').replaceWith("\
+			<div id='primary_messages'>\
+				You must log in to use Flyc's smart bookmarks. Please login or register below\
+			</div>\
+		");
+		
+		$('#content_panel').replaceWith("\
+			<div id='content_panel'>\
+				\
+				<div id='login_panel'>\
+					\
+					<table>\
+						<tr>\
+							<td>\
+								<span style='font-size: 15pt; padding: .25em 0em .5em 0em;width:200px;font-weight:bold;'>Login</span>\
+							</td>\
+						</tr>\
+						<tr>\
+							<td id='login_messages' style='font-size:10pt;'></td>\
+						</tr>\
+					</table>\
+					\
+					<table>\
+						<tr>\
+							<td style='font-size:10pt;'>Email:</td>\
+							<td style='font-size:10pt;'><input id=\"email\" type=\"text\" size=\"30\"></td>\
+						</tr>\
+						<tr>\
+							<td></td>\
+							<td id='email_error' style='font-size:10pt;'></td>\
+						</tr>\
+						<tr>\
+							<td style='font-size:10pt;'>Password:</td>\
+							<td style='font-size:10pt;'><input id=\"password\" type=\"password\" size=\"30\"></td>\
+						</tr>\
+						<tr>\
+							<td></td>\
+							<td id='password_error' style='font-size:10pt;'></td>\
+						</tr>\
+						<tr>\
+							<td style='font-size:10pt;'>&nbsp;</td>\
+							<td style='font-size:10pt;'>\
+								<input name=\"save_login[checked]\" type=\"hidden\" value=\"no\" />\
+								<input id='remember_me' type=\"checkbox\" value=\"yes\" name=\"save_login[checked]\"/> Remember me\
+							</td>\
+						</tr>\
+						<tr>\
+							<td style='font-size:10pt;'>&nbsp;</td>\
+							<td style='font-size:10pt;'><button id=\"btn_login\" style=\"width:50px;height:25px;\" onClick=\"ajax_it('process_login');return false;\">Login</button></td>\
+						</tr>\
+						<tr>\
+							<td style='font-size:10pt;'>&nbsp;</td>\
+							<td style='text-align:right;font-size:10pt;'><a href=''>Forgot your password?</a></td>\
+						</tr>\
+					</table>\
+					\
+					<p><hr/></p>\
+					\
+				</div>\
+				\
+				<div id='registration_panel'>\
+					\
+					<span style='font-size: 15pt; padding: .25em 0em .5em 0em;width:200px;font-weight:bold;'>Register</span>\
+					\
+					<div id='registration_messages'></div>\
+					\
+					<table>\
+						<tr>\
+							<td style='font-size:10pt;'>First Name:</td>\
+							<td style='font-size:10pt;'><input id=\"email\" type=\"text\" size=\"30\"></td>\
+						</tr>\
+						<tr>\
+							<td style='font-size:10pt;'>Last Name:</td>\
+							<td style='font-size:10pt;'><input id=\"email\" type=\"text\" size=\"30\"></td>\
+						</tr>\
+						<tr>\
+							<td style='font-size:10pt;'>Email:</td>\
+							<td style='text-align:right;font-size:10pt;'><input id=\"email\" type=\"text\" size=\"30\"></td>\
+						</tr>\
+						<tr>\
+							<td style='font-size:10pt;'>Password</td>\
+							<td style='font-size:10pt;'><input id=\"email\" type=\"text\" size=\"30\"></td>\
+						</tr>\
+						<tr>\
+							<td style='font-size:10pt;'>Password Repeat</td>\
+							<td style='font-size:10pt;'><input id=\"email\" type=\"text\" size=\"30\"></td>\
+						</tr>\
+						<tr>\
+							<td style='font-size:10pt;'>&nbsp;</td>\
+							<td style='font-size:10pt;'><button id=\"btn_register\" style=\"width:50px;height:25px;\" onClick=\"ajax_it('register');\">Register</button></td>\
+						</tr>\
+					</table>\
+					\
+					<p><hr/></p>\
+				\
+				</div>\
+				\
+				<div id='buttons_panel' style=\"padding:.5em 0em 0em 0em;\">\
+					<button id=\"btn_close\" style=\"width:50px;height:25px;\" onClick=\"ajax_it('close'); return false;\">Close</button>\
+					<button id=\"btn_post\" style=\"width:90px;height:25px;\" onClick=\"doY(); return false;\">Post It</button>\
+					<button id=\"btn_flyc\" style=\"width:90px;height:25px;\" onClick=\"document.location.href='http://localhost:3002/applications'; return false;\">Flyc It</button>\
+				</div>\
+			</div>");
+			
+		//alert( $.cookie("auth_token") );
+		
+		//var cookies = get_cookies_array();
+		//var str = "";
+		//for(var name in cookies) {
+		//  str += ( name + " : " + cookies[name] + "/n/r" );
+		//}		
+		
+		//alert(str);
+		
+		//$.cookie('the_cookie', 'the_value', { path: '/', domain: 'example.com' });
+				
+		//$.throbberShow({parent: $("#site_detected"), image: "http://localhost:3002/images/ajax-loader.gif"});
+		
+		//$("#btn_login").throbber("click", {parent: $("#processing_indicator"), image: "http://localhost:3002/images/ajax-loader.gif"});
+		
+	<% # Errors - remain on page, update portions %>
+		
+	<% elsif @state && @state == 0 %>
+	
+		$("#login_messages").replaceWith("<td id='login_messages' style='font-size:8pt;'>Errors found in fields!!</td>");
+	
+		<% if @person_login && @person_login.errors %>
+			<% @person_login.errors.each do |attr, msg| %>
+				$("#<%= attr %>_error").replaceWith("<td id='<%= attr %>_error' style='font-size:8pt;'>Error in this field.</td>");
+			<% end %>
+		<% end %>
+		
+	<% end %>
+
+<%= render :partial => '/bookmarklet/bl_footer' %>

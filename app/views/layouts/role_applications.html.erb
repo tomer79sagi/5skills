@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  
+  <%= yield :head %>
+  
+  <%= stylesheet_link_tag 'phase_1/main' %>
+  <%= stylesheet_link_tag 'phase_1/table' %>
+  <%= stylesheet_link_tag 'phase_1/messages' %>
+  
+  <%# javascript_include_tag :defaults %>  
+  <%# calendar_date_select_includes "red"%>
+  <%# javascript_include_tag "fckeditor/fckeditor" %>
+  
+</head>
+<body>
+
+<div class="container">
+
+<%= render :partial => '/main/header_1' %>
+<%= render :partial => '/main/header_2' %>
+
+<%= yield :title %>
+<%= yield :bread_crumbs %>
+	
+<div class="wln_content">
+	<%= yield %>
+</div>
+
+<%= render :partial => '/main/footer' %>
+
+</div> <!-- CONTAINER -->
+
+<%# render :partial => '/main/debugging' %>
+
+</body>
+</html>

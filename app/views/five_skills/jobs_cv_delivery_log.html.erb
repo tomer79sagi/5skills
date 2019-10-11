@@ -1,0 +1,138 @@
+<% content_for :head do %>
+	5skills.me
+<% end %>
+
+<% content_for :title do %>
+	Job seekers CV delivery log
+<% end %>
+
+	<table id='results_table'>
+		
+		<tr id='results_row_titles'>
+			<td><b>Company</b></td>
+			<td><b>Contact</b></td>
+			<td><b>Agency</b></td>
+			<td><b>Contact</b></td>
+			<td><b>Skills profile</b></td>
+			<td><b>Status / Actions</b></td>
+		</tr>		
+
+		<% if @jobs_h.nil? %>
+		
+			<tr id='-1'>
+				<td colspan="6">Please enter 5 skills to get results!</td>
+			</tr>
+		
+		<% else %>
+		
+			<% @jobs_h.each do |job_id, job_obj| %>
+			
+				<tr>
+					<td>
+				
+						<% if job_obj[:c_name] && !job_obj[:c_name].blank? %>
+						
+							<% if job_obj[:files] && job_obj[:files][:company_logo] && job_obj[:files][:company_logo][:file_id] && job_obj[:files][:company_logo][:medium_dimensions] %>
+								
+								<% link_to({:controller => "five_skills", :action => "view_job_profile", :job_id => job_id}) do %>
+									<%= fs_image_tag(job_obj[:files][:company_logo][:file_id], job_obj[:files][:company_logo][:medium_dimensions]) %>
+								<% end %>
+								
+							<% end %>
+							
+							<br/>
+							<%= job_obj[:c_name] %>
+							
+						<% end %>
+							
+					</td>
+					
+					<td>
+						
+						<% if job_obj[:cc_full_name] && !job_obj[:cc_full_name].blank? %>
+		
+								<%= job_obj[:cc_full_name] %>	
+						
+						<% end %>
+					
+					</td>
+					
+					<td>				
+						
+						<% if job_obj[:a_name] && !job_obj[:a_name].blank? %>
+					
+						
+							<% if job_obj[:files] && job_obj[:files][:agency_logo] && job_obj[:files][:agency_logo][:file_id] && job_obj[:files][:company_logo][:medium_dimensions] %>
+								
+								<% link_to({:controller => "five_skills", :action => "view_job_profile", :job_id => job_id}) do %>
+									<%= fs_image_tag(job_obj[:files][:agency_logo][:file_id], job_obj[:files][:agency_logo][:medium_dimensions]) %>
+								<% end %>
+								
+							<% end %>
+							
+							<br/>
+							<%= job_obj[:a_name] %>
+					
+						<% end %>
+						
+					</td>
+					
+					<td>
+						
+						<% if job_obj[:ac_full_name] && !job_obj[:ac_full_name].blank? %>
+			
+							<%= job_obj[:ac_full_name] %>
+						
+						<% end %>
+						
+					</td>
+					<td style="text-align:left;">
+						
+						<table>
+							
+							<% 5.times do |i| %>
+					
+								<% @skill_key = "skill_" + (i + 1).to_s %>
+							
+								<tr>
+									<td style="text-align:center;vertical-align:middle;"><%= i + 1 %></td>
+									<td style="text-align:left;"><%= job_obj[:skills_profile][@skill_key][:name] %></td>
+									<td style="text-align:left;"><%= job_obj[:skills_profile][@skill_key][:years_experience] %></td>
+									<td style="text-align:left;"><%= job_obj[:skills_profile][@skill_key][:self_rate] %></td>
+									<td style="text-align:left;"><%= job_obj[:skills_profile][@skill_key][:details] %></td>
+									
+									<% if i == 0%>
+										<td rowspan="5" style="text-align:left;"><%= job_obj[:skills_profile][:additional_requirements] %></td>
+									<% end %>
+								</tr>
+								
+							<% end %>
+						
+						</table>
+					</td>
+					<td style="text-align:left;">
+						<b><%= job_obj[:cv_trans_status_name] %></b>
+						<br/>
+						<%= job_obj[:cv_trans_updated_at_formatted] %>
+						<br/>
+						<i><%= job_obj[:cv_trans_updated_at_time_ago] %></i>
+						
+						<% if job_obj[:cv_trans_status_id] == Fs2CvsToJobsTransaction::STATUS_TYPES[:cv_requested] %>
+							<br/></br/>
+						
+							<% link_to({:controller => "five_skills", :action => "cv_request_approve", :job_id => job_id}) do %>
+								APPROVE!
+							<% end %>
+							&nbsp;
+							<% link_to({:controller => "five_skills", :action => "cv_request_reject", :job_id => job_id}) do %>
+								Reject
+							<% end %>
+						<% end %>
+					</td>
+				</tr>
+				
+			<% end %>
+		
+		<% end %>
+			
+	</table>

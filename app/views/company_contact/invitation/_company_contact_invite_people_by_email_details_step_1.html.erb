@@ -1,0 +1,67 @@
+<div style="width:100%;float:left;min-height:80px;padding:1em 0em 0em 0em;">
+	
+	<!-- Job Application Details -->
+	<table style="width:750px;text-align:left;border-collapse:collapse;margin:0em 0em 1em 0em;">
+		<tr style="vertical-align:top;">
+			<td class="template_cell_title_content" 
+					style="text-align:center;width:78px;padding:0em .5em 0em 1em;">
+				<div style="background-color:#cef5c2;padding:.7em 0em .7em 0em;margin:0em 0em 0em .5em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<b>Email addresses</b>
+				</div>
+			</td>
+			<td class="template_cell_title_content"
+					style="text-align:center;width:95px;padding:0em 1em 0em .5em;">
+				<div style="background-color:#ceecc2;padding:.7em 0em .7em 0em;margin:0em 0em 0em 0em;border-top:1px solid #00ffff;border-left:1px solid #00ffff;border-right:1px solid #00ffff;">
+					<%= link_to 'Search agencies / agents', invite_company_contact_agents_by_search_step_1_agents_url %>
+				</div>
+			</td>
+			<td class="template_cell_title_content" style="text-align:center;width:148px;padding:0em .5em 0em .5em;">
+			</td>
+		</tr>
+	</table>
+	
+	<table style="border-collapse:collapse;width:100%;text-align:left;padding:0em 0em 0em 0em;">
+		<tr>
+			<td style="background-color:#cef5c2;width:500px;text-align:left;padding:0em 0em 0em 1em;margin:0px 0px 20px 0px;">
+		  		<b>Step 1: Enter email addresses</b>
+				&nbsp;|&nbsp;
+				Step 2: Map email addresses
+				&nbsp;|&nbsp;
+				Step 3: Confirm invitations
+			</td>
+			<td style="background-color:#cef5c2;width:250px;text-align:right;padding:0em 0em 0em 1em;margin:0px 0px 20px 0px;">
+		  		<button><< Previous</button>
+				<button onClick="document.location.href='<%= invite_company_contact_agents_by_email_step_2_url %>'";>Next >></button>
+				&nbsp;<button>Cancel</button>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="background-color:#cef5c2;border-top:1px solid black;">
+		  		&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="background-color:#cef5c2;width:800px;text-align:left;border:1px solid #cef5c2;padding:0em 0em 0em 1em;margin:0px 0px 20px 0px;">
+		  		Please enter a comma-seperated list of email addresses of agencies or agents you wish to join flyc and link up with you!
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="background-color:#cef5c2;width:800px;text-align:left;border:1px solid #cef5c2;padding:0em 0em 0em 1em;margin:0px 0px 20px 0px;">
+		  		<textarea rows="10" cols="80"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="background-color:#cef5c2;border-bottom:1px solid black;">
+		  		&nbsp;
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2" style="background-color:#cef5c2;width:800px;text-align:right;border:1px solid #cef5c2;padding:0em 0em 0em 1em;margin:0px 0px 20px 0px;">
+		  		<button><< Previous</button>
+				<button onClick="document.location.href='<%= invite_company_contact_agents_by_email_step_2_url %>'";>Next >></button>
+				&nbsp;<button>Cancel</button>
+			</td>
+		</tr>
+	</table>
+	
+</div>

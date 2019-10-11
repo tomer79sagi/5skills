@@ -1,0 +1,53 @@
+<div class="header" style="background-color:#E9F3E9;">
+	<div class="header_content" style="background-color:#E9F3E9;margin:0;width:100%;">
+		
+		<div id="btn_logo" class="header_logo_black" style="margin-left:10px;float:left;width:100px;"></div>
+		
+		<div class="header_menu" style="margin-left:0px;float:left;width:500px;">
+
+			<div id="lnk__menu_item__home" class="header_menu_item" style="margin-left:50px;color:black;">Home</div>
+			<div id="lnk__menu_item__jobs" class="header_menu_item" style="margin-left:50px;color:black;">Jobs</div>
+			<div id="lnk__menu_item__manage_company" class="header_menu_item" style="margin-left:50px;color:black;">Company</div>
+			<div id="lnk__menu_item__manage_my_account" class="header_menu_item" style="margin-left:50px;color:black;">Account</div>
+		
+		</div>
+		
+		<div class="header_menu" style="width:400px;float:right;margin-left:0px;text-align:center;">
+			
+			<%# if session[:user].nil? || session[:user].email.nil? %>
+			<% if 1 == 2 %>
+			
+				<div id="lnk_login" class="header_menu_item" style="margin-top:11px;font-weight:bold;float:right;padding-right:35px;color:black;">Login</div>
+			
+			<% else %>
+				
+				<div style="padding:0px 10px 0px 0px;color:black;float:right;font-size:14px;margin:5px 0px 0px 10px;font-weight:bold;text-align:center;">
+					<div class="logged_in_anonymous_icon" style="width:65px;text-align:left;color:black;background-image: url('../images/mvp-1/anonymous_icon_black.png');">
+						Recruiter
+						<br/>
+						<span style="font-weight:normal;font-size:10px;font-style:italic;">
+							<%= link_to "Admin", :controller => "fs_admin", :action => "admin_home" %>
+						</span>
+					</div>
+				</div>
+				
+				
+				<div id="_notifications_bar"></div>
+				
+				
+				<% if !session[:user].nil? && !session[:user].email.nil? %>
+				
+					<div style="display:none;">
+						<%= session[:user].email %>
+						<div class="log_out_link"><%= link_to "Log out", :action => :do_logout, :controller => :fs_login %></div>
+					</div>
+					
+				<% end %>
+				
+			
+			<% end %>
+			
+		</div>
+		
+	</div>
+</div>

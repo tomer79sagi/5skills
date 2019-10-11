@@ -1,0 +1,40 @@
+<% if @state %>
+
+	<% if @state == 1 # Requires login %>
+
+		<div id='buttons_panel' style="padding:.5em 0em 0em 0em;">
+			<button id="btn_close" style="width:50px;height:25px;" onClick="ajax_it('close'); return false;">Close</button>
+			<button id="btn_post" style="width:90px;height:25px;" onClick="doY(); return false;">Post It</button>
+			<button id="btn_flyc" style="width:90px;height:25px;" onClick="document.location.href='http://localhost:3002/applications'; return false;">Flyc It</button>
+		</div>
+	
+	<% elsif @state == 2 %>
+	
+		<div id='buttons_panel' style="padding:.5em 0em 0em 0em;text-align:right;">
+			<button id="btn_save" style="width:100px;height:25px;z-index:1500;" onClick="ajax_it('save_job'); return false;">Save Job</button>
+			&nbsp;
+			<button id="btn_save" style="width:150px;height:25px;z-index:1500;" onClick="ajax_it('save_and_close'); return false;">Save Job & Close</button>
+				<br/>
+			<button id="btn_move_widget" style="width:100px;height:25px;" onClick="ajax_it('move_widget'); return false;">Move widget</button>
+			&nbsp;
+			<button id="btn_close" style="width:50px;height:25px;" onClick="ajax_it('close'); return false;">Close</button>
+		</div>
+	
+	<% else %>
+
+		<div id='buttons_panel' style="padding:.5em 0em 0em 0em;">
+			<button id="btn_json" style="width:50px;height:25px;z-index:1500;" onClick="ajax_it('json_test'); return false;">JSON</button>&nbsp;
+			<button id="btn_save" style="width:50px;height:25px;z-index:1500;" onClick="ajax_it('save'); return false;">Save</button>&nbsp;
+			<button id="btn_save_and_close" style="width:125px;height:25px;" onClick="ajax_it('save_and_close'); return false;">Save & Close</button>&nbsp;
+			<button id="btn_close" style="width:50px;height:25px;" onClick="ajax_it('close'); return false;">Close</button>&nbsp;
+			<br/>
+			<button id="btn_parse_page" style="width:50px;height:25px;" onClick="ajax_it('parse_page'); return false;">Parse</button>&nbsp;
+			<button id="btn_populate_apply_fields" style="width:100px;height:25px;" onClick="ajax_it('populate_apply_fields'); return false;">Populate</button>&nbsp;
+			<button id="btn_move_widget" style="width:100px;height:25px;" onClick="ajax_it('move_widget'); return false;">Move widget</button>&nbsp;
+			<br/>
+			<button id="btn_grab_job_fields" style="width:125px;height:25px;" onClick="ajax_it('grab_job_fields'); return false;">Grab job fields</button>&nbsp;
+		</div>
+		
+	<% end %>
+
+<% end %>

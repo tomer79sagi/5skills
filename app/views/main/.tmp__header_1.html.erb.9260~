@@ -1,0 +1,37 @@
+<!--[partial:header]-->
+
+<div class="header">
+
+<table class="template_h1t">
+	<tr class="template_h1r">
+		
+		<td class="template_h1c1">
+			<table class="template_h1t">
+				<tr class="template_h1r">
+					<td class="template_h1c11"><%= link_to 'FLYC', home_url %></td>
+					<td class="template_h1c12">For launching your career</td>
+				</tr>
+			</table>
+		</td>
+		
+		<td class="template_h1c2">
+			<table class="template_h1t">
+				<tr class="template_h1r">
+					<td class="template_h1c21">
+						<%= link_to 'Contact Us', home_url, :class => "template_h_link"%>
+						|
+						<%= link_to 'About Us', home_url, :class => "template_h_link"%>
+					</td>
+				</tr>
+				<tr class="template_h1r">	
+					<td class="template_h1c20"><span class="text_highlight_1">87</span> registered Flycers!</td>
+				</tr>				
+			</table>
+		</td>
+		
+	</tr>
+</table>
+
+</div>
+		
+<!--[eopartial:header]-->

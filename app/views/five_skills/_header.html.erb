@@ -1,0 +1,50 @@
+<% if !session[:user] || session[:user].user_type_id == Fs2User::USER_TYPES[:job_seeker] %>
+  <div class="header">
+<% else %>
+  <div class="header_contact">
+<% end %>	
+	
+	<div class="header_main">
+		
+		<div class="logo left">
+			<%= link_to(image_tag("/images/logo.png", :alt => "5skills.me", :id => 'fs_logo'),
+			    { :controller => :five_skills, :action => :home }) %>
+		</div>
+		
+		<% if session[:user] && session[:person] %>
+		
+			<div class="header_user_info right">
+					
+				Hi <span style="font-weight:bold;"><%= session[:person].full_name %></span>,
+				
+				<% if session[:user].user_type_id == Fs2User::USER_TYPES[:job_seeker] %>
+					JOB SEEKER
+				<% elsif session[:user].user_type_id == Fs2User::USER_TYPES[:recruitment_agent] %>
+					RECRUITMENT AGENT
+				<% elsif session[:user].user_type_id == Fs2User::USER_TYPES[:hiring_manager] %>
+					HIRING MANAGER
+				<% end %>
+				
+				<% if session[:user].user_type_id == Fs2User::USER_TYPES[:recruitment_agent] && session[:agency] %>
+					[<%= session[:agency].name %>]
+				<% elsif session[:user].user_type_id == Fs2User::USER_TYPES[:hiring_manager] && session[:company] %>
+					[<%= session[:company].name %>]
+				<% end %>
+				
+				<br/>
+				
+				<%= link_to 'Logout', do_logout_url, :class => "content_link" %>, 
+				<a href="/" onClick="help(); return false;" style="color:white;">Help</a>
+				
+			</div>
+		
+		<% end %>
+			
+	</div>
+	
+</div>
+
+<div id="messages_pane" style="width:100%;">
+	<div id="message_notice" class="messages_area_good" style="display:none;"><%= flash[:notice].to_s %></div>
+	<div id="message_error" class="messages_area_bad" style="display:none;"><%= flash[:error].to_s %></div>
+</div>

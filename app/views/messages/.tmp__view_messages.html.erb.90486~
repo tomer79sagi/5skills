@@ -1,0 +1,128 @@
+<div style="width:750px;float:left;min-height:80px;padding:1em 0em 0em 0em;">
+
+	<%= render :partial => 'messages/header' %>
+	
+	<div style="background-color:#cef5c2;width:100%;text-align:left;border:1px solid #cef5c2;padding:1em 1em 1em 1em;margin:-1px 0px 20px 0px;">
+	  		
+		<% if !@messages or @messages.blank? %>
+		
+			<div style="padding:2em 0em 2em 0em;">
+				No Messages found!
+			</div>
+			
+		<% else %>
+		
+			<%= paginate %>
+		
+			<% @local_counter = @pagination_info[:starting_point].to_i + 1 %>
+		
+			<% @messages.each do |message| %>
+		
+				<div style="clear:left;text-align:left;">
+				
+				<div class="top_padding_1">
+				
+				<table style="width:100%;">
+					<tr style="vertical-align:top;">
+						
+						<td style="padding:0em 0em 1em 0em;margin:0px 0px 0px 1px;">
+						
+							<div style="width:30px;text-align:center;font-size:18px;float:left;min-height:80px;">
+								<b><%= @local_counter %></b>
+							</div>
+							
+							<% if message.message_status_id == 1 # Unread %>
+								<div style="width:705px;border:1px solid #ceffc2;float:right;min-height:80px;background-color:#ceffc2;">
+							<% elsif message.message_status_id == 2 # Read %>
+								<div style="width:705px;border:1px solid #ceffc2;float:right;min-height:80px;background-color:#ceffd6;">
+							<% end %>
+							
+								<!-- Job Application Details -->
+								<table style="width:100%;text-align:left;">
+									<tr style="vertical-align:top;">
+										
+										<td class="template_cell_title_content" style="width:150px;font-size:14px;line-height:24px;vertical-align:top;">
+										
+											(<%= message.count.to_i %>)&nbsp;
+											
+											<% if session[:page] == "inbox" %>
+												<% if message.sender_id == 0 # Flyc System %>
+													Flyc System
+												<% else %>
+													<%= message.sender_first_name %> <%= message.sender_last_name %>
+												<% end %>
+											<% elsif session[:page] == "sent_messages" %>
+												<% if message.recipient_id == 0 # Flyc System %>
+													Flyc System
+												<% else %>
+													<%= message.recipient_first_name %> <%= message.recipient_last_name %>
+												<% end %>
+											<% end %>
+											
+										</td>
+										<td class="template_cell_title_content" style="width:305px;font-size:14px;line-height:24px;vertical-align:top;">
+										
+											<% if session[:page] == "inbox" %>
+												<b><%= link_to message.subject, view_inbox_message_url(:message_id => message.id) %></b>
+											<% elsif session[:page] == "sent_messages" %>
+												<b><%= link_to message.subject, view_sent_message_url(:message_id => message.id) %></b>
+											<% end %>
+											
+										</td>
+										<td class="template_cell_title_content" style="width:100px;font-size:14px;line-height:24px;vertical-align:top;">
+											(<%= type_value(MyMailerMetadata.message_types, message.message_type_id) %>)
+										</td>
+										<td class="template_cell_title_content" style="width:100px;font-size:14px;line-height:24px;vertical-align:top;">
+											<%= type_value(MyMailerMetadata.message_statuses, message.message_status_id) %>
+										</td>
+										<td class="template_cell_last_updated_date_content" style="width:100px;text-align:left;">
+											<b><%= message.created_at.to_datetime.strftime '%d %b %y' %></b><br/>
+											<%= message.created_at.to_datetime.strftime '%I:%M%p' %><br/>
+											<%= message.created_at.to_datetime.strftime '%A' %>
+										</td>
+										
+									</tr>
+									<tr style="vertical-align:top;">
+									
+										<td colspan="4" class="template_cell_title_content" style="padding:0em 0em 0em 2em;width:150px;font-size:12px;line-height:24px;vertical-align:top;">
+											<i><%= message.message_summary %></i>
+										</td>
+										
+									</tr>
+									
+									<tr style="vertical-align:top;">
+									
+										<td colspan="4" class="template_cell_title_content" style="padding:0em 0em 0em 2em;width:150px;font-size:12px;line-height:24px;vertical-align:top;">
+											<i>
+												
+											<% if message.l_message_sender_id.to_i == 0 # Flyc System %>
+												Flyc System
+											<% else %>
+												<%= message.l_message_sender_first_name %> <%= message.l_message_sender_last_name %>
+											<% end %>
+											
+											</i>&nbsp;
+											<i><%= message.l_message_updated_at %></i>&nbsp;
+											<%= message.l_message_summary %>
+										</td>
+										
+									</tr>
+								</table>
+							</div>
+						</td>	
+						
+					</tr>
+				</table>
+				</div>
+				
+				</div>
+				
+			<% @local_counter = @local_counter + 1 %>
+		
+			<% end %>
+			
+		<% end %>
+		
+	</div>
+	
+</div>

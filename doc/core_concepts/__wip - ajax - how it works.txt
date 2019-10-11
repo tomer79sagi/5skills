@@ -1,0 +1,106 @@
+AJAX - how it works?
+--------------------
+
+To illustrate the AJAX call framework, first I'll explain the UI event handling. Later this needs to be placed in a separate file
+
++ UI event handling
+
+	1) Render the page LAYOUT
+
+		HEAD
+	
+		1.1) Load the SWITCHERS definition
+		
+			- /views/js/framework/recruiter/__switchers_recruiter -->
+			Context switches --> '__w__recruiter_home'
+			Contexts --> 'a_recruiter_workspace' / '__w__a_recruiter__publish_job_home'
+		 
+		1.2) Load the EVENT HANDLERS definition
+		 
+			- /views/js/framework/recruiter/__event_handlers_recruiter -->
+			Workspace / Content  >>  '__w__manage_job' / '__c__job__new_publishing'
+			js_function_name / component_css_selector  >>  'menu__job_publishing__new_job_publishing' / '#menu__publishing__new_job_publishing'
+			
+		1.3) Load the AJAX functions
+		
+			- /js/ajax/a_recruiter__job_publishing_home -->
+			Declare the AJAX functions:
+				_REQ_get_linkedin_groups
+				_REQ_get_linkedin_groups functions
+				
+			Ensure the following path is defined in 'routes.rb'
+			- map.with_options(:controller => 'fs_job') do |fs_job|
+				..
+				fs_job.social_groups 'ajax/get/linkedin/groups', :action => 'ajax__a_recruiter__get_linkedin_groups'
+				..
+				
+			Ensure the 'action' is defined in the 'fs_job' controller
+			- class FsJobController < FsOrganisationController
+				..
+				def ajax__a_recruiter__get_linkedin_groups  
+				..
+	 
+		DOCUMENT READY
+		
+**		1.4) Load the ONLOAD PRE COMPONENTS file
+		
+			- /views/js/framework/__onload_pre_components -->
+		
+		1.3.1) Configure AJAX
+		
+			Set headers
+			
+**		1.3.2) SYNC
+	
+			Initialize the SYNC process
+		
+		1.3.3) Set the screen's layout
+		
+			Basic configuration of the grid layout
+		
+		1.3.4) Bind the '__w__core' fields -->
+		
+			bind 'default' handlers to -> bind_fields('__w__core')  >>  'bind_fields' function : /views/js/framework/__event_handlers
+		 
+				--- CODE 
+				"__w__core": {
+					"manage_company": "#lnk__menu_item__manage_company",
+					"manage_jobs": "#lnk__menu_item__jobs",
+					"manage_my_account": "#lnk__menu_item__manage_my_account"
+					
+		1.3.5) switch to the '__w__core' workspace -->
+		
+			switch to the '__w__core' workspace  >>  'switch_to' function : /views/js/framework/__switchers
+				Render the 'notifications_bar' : function '__W__core__SWITCHER()'
+		 
+		1.3.6) Switch to the '[_default]' workspace -->
+
+			--- CODE 
+			var context = {
+				..
+				"a_recruiter_workspace": {
+					"_default": "__w__a_recruiter__publish_job_home",
+					"_selected": "__w__a_recruiter__publish_job_home"
+				},
+				
+			switch_to('__w__a_recruiter__publish_job_home');
+			
+		1.3.7) Initialize the '__w__a_recruiter__publish_job_home' workspace
+			
+			- /views/js/framework/recruiter/__switchers_recruiter --> __C__a_recruiter__publish_job_groups__SWITCHER__ -->
+		
+			1.3.7.1) Render the page
+			
+				Render hooter
+				Render footer
+				Render top-nav
+			
+			1.3.7.2) Open the panels
+			
+				Open Header (North)
+				Open Footer (South)
+			
+			1.3.7.3) Make the AJAX call (one time call to get the groups
+			
+			
+

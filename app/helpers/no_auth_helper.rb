@@ -1,0 +1,2 @@
+module NoAuthHelper
+end

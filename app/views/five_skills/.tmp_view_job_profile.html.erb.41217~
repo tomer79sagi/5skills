@@ -1,0 +1,133 @@
+<% content_for :head do %>
+	5skills.me 
+<% end %>
+
+<% content_for :title do %>
+	View job profile &nbsp; ( &nbsp; <%= link_to 'Edit profile', edit_job_profile_url(:job_id => @job[:j_id]) %> &nbsp; )
+<% end %>
+
+	<table style="width:100%;">
+		<tr>
+			<td style="text-align:right;width:20%;">
+				Company:
+			</td>
+			<td style="text-align:left;`">
+				<%= @job[:c_name] %>
+			</td>
+			<td style="text-align:center;width:100px;">	
+				<% if @upload_files[:company_logo] %>
+					<%= fs_image_tag(@upload_files[:company_logo].id, @upload_files[:company_logo].large_dimensions) %>
+				<% end %>
+			</td>
+			<td style="text-align:right;width:20%;">
+				Agency:
+			</td>
+			<td style="text-align:left;width:30%;">
+				<%= @job[:a_name] %>
+			</td>
+			<td style="text-align:center;width:100px;">	
+				<% if @upload_files[:agency_logo] %>
+					<%= fs_image_tag(@upload_files[:agency_logo].id, @upload_files[:agency_logo].large_dimensions) %>
+				<% end %>
+			</td>
+		</tr>
+	</table>
+	
+	<div id="accordion">
+		<h3><a href="#" style="text-align:left;">Company and agency details</a></h3>
+		<div>
+			<p>
+				<table style="width:100%;">
+					<tr>
+						<td style="width:50%;">
+							<table>
+								<tr>
+									<td colspan="2" style="text-align:left;font-weight:bold;padding-bottom:.5em;">Company details</td>
+								</tr>
+								<tr>
+									<td style="text-align:right;">Company logo:</td>
+									<td style="text-align:left;">
+										<% if @upload_files[:company_logo] %>
+											<%= link_to squeeze_c(@upload_files[:company_logo].name, 35), download_file_url(:file_id => @upload_files[:company_logo].id) %>
+										<% end %>
+									</td>
+								</tr>
+								<tr>	
+									<td style="text-align:right;">Company website:</td>
+									<td style="text-align:left;">
+									
+									</td>
+								</tr>
+								<tr>
+									<td style="text-align:right;">Contact full name:</td>
+									<td style="text-align:left;">
+										<%= @job[:cc_full_name] %>
+									</td>
+								</tr>
+								<tr>
+									<td style="text-align:right;">Contact mobile:</td>
+									<td style="text-align:left;">
+									
+									</td>
+								</tr>
+								<tr>
+									<td style="text-align:right;">Contact email:</td>
+									<td style="text-align:left;">
+									
+									</td>
+								</tr>
+							</table>
+						</td>
+						<td style="width:50%;">
+							<table>
+								<tr>
+									<td colspan="2" style="text-align:left;font-weight:bold;padding-bottom:.5em;">Agency details</td>
+								</tr>
+								<tr>
+									<td style="text-align:right;">Agency logo:</td>
+									<td style="text-align:left;">
+										<% if @upload_files[:agency_logo] %>
+											<%= link_to squeeze_c(@upload_files[:agency_logo].name, 35), download_file_url(:file_id => @upload_files[:agency_logo].id) %>
+										<% end %>
+									</td>
+								</tr>
+								<tr>	
+									<td style="text-align:right;">Agency website:</td>
+									<td style="text-align:left;">
+									
+									</td>
+								</tr>
+								<tr>
+									<td style="text-align:right;">Contact full name:</td>
+									<td style="text-align:left;">
+										<%= @job[:ac_full_name] %>
+									</td>
+								</tr>
+								<tr>
+									<td style="text-align:right;">Contact mobile:</td>
+									<td style="text-align:left;">
+										
+									</td>
+								</tr>
+								<tr>
+									<td style="text-align:right;">Contact email:</td>
+									<td style="text-align:left;">
+										
+									</td>
+								</tr>
+							</table>
+						</td>
+					</tr>
+				</table>
+			</p>
+		</div>
+	</div>
+	
+<%= render :partial => '/five_skills/view_job_seeker_five_skills' %>
+	
+<table>
+	<tr>
+		<td>
+		</td>
+	</tr>
+</table>

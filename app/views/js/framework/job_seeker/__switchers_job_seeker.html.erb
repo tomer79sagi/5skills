@@ -1,0 +1,71 @@
+<script type="text/javascript">
+
+var map_context_switches = [
+
+	// -- Core --
+	"__w__core",
+	
+	// -- Workspace --
+	"__w__a_job_seeker__apply_to_job_post",
+	
+	// -- Main content --
+	"__c__a_job_seeker__apply_to_job_post"
+	
+];
+
+var context = {
+	"a_job_seeker_workspace": {
+		"_default": "__w__a_job_seeker__apply_to_job_post",
+		"_selected": "__w__a_job_seeker__apply_to_job_post"
+	},
+};
+
+
+
+// ALPHA LAUNCH section
+// ------------------------------------------
+
+function __W__a_job_seeker__apply_to_job_post__SWITCHER__() {
+	
+	render('template__a_job_seeker__header__1_line', '.header');
+	panel__workspace.open('north');
+	
+	panel__workspace.sizePane('north', 41);
+	
+	// Create the main content area
+	switch_to("__c__a_job_seeker__apply_to_job_post");
+}
+
+function __C__a_job_seeker__apply_to_job_post__SWITCHER__() {
+	
+	render('template__a_recruiter__publish_job', '.bb');
+	
+	for (var i = 0 ; i<5 ; ++i) {
+		$(".skills_profile_top_5").append(create_blank_primary_skill((i + 1).toString()));
+		attach_primary_field_binders((i + 1).toString(), true);
+	}
+	
+	$(".bb #btn_add_skills_panel").hide(); // Hide '+' and 'C' buttons
+	$(".bb #template__fs_profile:first #header_info").hide();
+	$(".bb #template__fs_profile:first #fld_fs_profile").css("padding-left", "0px");
+	$(".bb #template__fs_profile:first").show();
+	
+	$(".bb #template__fs_profile").show();
+	
+		
+	// -- 3 - Run the 'search'
+	// if (is_dirty('job_fs_profile') || extract_skills_from_flat_profile()) {
+		// ajax_it("search_job_seekers");
+	// }
+}
+
+// ------------------------------------------
+
+
+
+function __W__core__SWITCHER__() {
+	render('template__notifications_bar', '#_notifications_bar', 'notification-job_applications', true);
+}
+
+
+</script>

@@ -1,0 +1,244 @@
+<script type="text/javascript">
+
+var g_group_id_selected;
+
+function _REQ_get_linkedin_groups(){
+	var json_arr = _session_ids;
+	
+	return {action: "ajax/linkedin/groups", data: json_arr};
+}
+
+function _RES_get_linkedin_groups(data, status_i) {
+
+	if (data.groups && data.groups.length > 0) {
+		
+		var single_group_div;
+
+		
+		// -- X. Sort the group list
+	
+		var sorted_groups = data.groups.sort(function(a,b) { return a.channel_members_count - b.channel_members_count; });
+		
+		
+		// -- X. Populate the groups
+		
+		for (var group in sorted_groups) {
+			// alert(sorted_groups[group].channel_id);
+			
+			single_group_div = __create_channel_entry(group, sorted_groups[group]);
+			
+			
+			// -- X. Check: To be used as default for users
+			
+			// single_group_div.find('input[type=checkbox]').prop('checked', true);
+			
+			
+			// -- X. Create the separator
+			
+			separator_div = $("#template__a_recruiter__group .separator").clone();
+			
+			single_group_div.appendTo("div[template_id='template__a_recruiter__publish_to_groups']").show();
+			separator_div.appendTo("div[template_id='template__a_recruiter__publish_to_groups']").show();
+		}
+		
+		
+		// -- X. Bind the events
+		
+		bind_fields("__c__linkedin_groups");
+		
+		
+		// -- X. Update the counters
+		
+		$("#group_posts #total_linkedin_groups").html(data.groups.length);
+		$("#selected_linkedin_groups").html(Math.max(0, $(".row_1_selected").length));
+	}
+	
+	// -- X. Update the counter
+	
+	// $("#current_group_state div[id='groups_count']").html(data.groups_obj._total);
+	
+	
+	// -- X. Sort the group list
+	
+	// var sorted_group = data.groups_obj.values.sort(
+		// firstBy(function(a,b) { return b.group.id - a.group.id; } ).
+		// thenBy(function(a,b) { return b.group.numMembers - a.group.numMembers; } )
+	// );
+	
+}
+
+function _REQ_get_job_status(){
+	var json_arr = _session_ids;
+	
+	return {action: "ajax/job/status", data: json_arr};
+}
+
+//
+// -- 
+// Expecting the following information:
+//  1 - Job views (based on Unique visitors)
+//  2 - Job applications
+//  3 - %conversion
+//  4 - Total number of successful group posts made
+//  5 - Total number of pending group posts made
+//  6 - Total number of failed group posts
+//
+function _RES_get_job_status(data, status_i) {
+	
+	// -- 1 - PUBLISHING STATS
+	
+	var job_discussions = parseInt(data.publishing_stats['job_discussions']);
+	var published = parseInt(data.publishing_stats['published']);
+	var failed_or_pending = parseInt(data.publishing_stats['failed_or_pending']);
+	
+	$("#group_posts #posts_made #count").html(job_discussions + published);
+	$("#group_posts #posts_pending #count").html(failed_or_pending);
+	
+	
+	// -- 2 - APPLICATION STATS
+	
+	var total_unique_views = parseInt(data.application_stats['total_unique_views']);
+	var total_unique_applications = parseInt(data.application_stats['total_unique_applications']);
+	
+	// -- BUG - To avoid data issues, when we have more applications than visitors
+	//          If there are more applications than visitors, match the number of visitors to the number of applications
+	if (total_unique_applications > total_unique_views) { total_unique_views = total_unique_applications; }
+	
+	var total_conversion_rate = (total_unique_views / total_unique_applications * 100).toFixed(1);
+	
+	$("#total_unique_views").html(total_unique_views);
+	$("#total_unique_applications").html(total_unique_applications);
+	$("#total_conversion_rate").html(total_conversion_rate);
+	
+}
+
+function _RES_ERR_get_job_status(data, status_i){
+	alert('error');
+}
+
+
+function __create_channel_entry(group_id, channel_obj) {
+	single_group_div = $("#template__a_recruiter__group .row_1").clone();
+	
+	single_group_div.attr("id", group_id);
+	single_group_div.attr("channel_id", channel_obj.channel_id);
+	single_group_div.find("#channel_logo").html("<span style='display:inline-block;height:100%;vertical-align:middle;'></span><img src='" + channel_obj.channel_logo_url + "' style='width:100px;border:1px solid gray;vertical-align:middle;max-height:50px;'/>");
+	single_group_div.find("#channel_name").html(channel_obj.channel_name, 55);
+	single_group_div.find("#channel_members_count").html(addCommas(channel_obj.channel_members_count));
+	
+	return single_group_div;	
+}
+
+
+function _REQ_a_recruiter__publish_job(data){
+	
+	var json_arr = _session_ids;
+
+
+	// -- X - Make the 'Publish' button disabled
+	$("#btn_publish").css("background-color", "#000");
+	$("#btn_publish").html("Publishing...");
+	
+	
+	// -- X - Get the group IDs
+	
+	json_arr.selected_groups = [];
+	
+	$("div[template_id='template__a_recruiter__publish_to_groups'] .row_1_selected").each(function() {
+		
+		// -- 1 - Add the selected channel to the 'selected_groups'
+		json_arr.selected_groups.push($(this).attr("channel_id"));
+		
+		// -- 2 - Mark the selected rows as disabled so the user can't change them
+		
+		
+		// -- 3 - Remove the selected group
+		$("#selected_linkedin_groups").html(parseInt($("#selected_linkedin_groups").html()) - 1);
+		
+	});
+	
+	
+	// -- 3 - Update the count of selected groups to be published
+	$("#posts_pending #count").html(json_arr.selected_groups.length);
+	
+	
+	return {action: "ajax/a/recruiter/job/publish", data: json_arr};
+
+}
+
+function _RES_a_recruiter__publish_job(data, status_i) {
+	
+	
+	// -- X - Revert the 'Publish' button back to its original state
+	$("#btn_publish").css("background-color", "#186118");
+	$("#btn_publish").html("Publish Job!");
+	
+	
+	var published_img = "/images/icons/check18.png";
+	var processing_img = "/images/icons/time2.png";
+	var total_linkedin_groups = $("#total_linkedin_groups");
+	var published_counter = $("#group_posts #posts_made #count");
+	var pending_counter = $("#group_posts #posts_pending #count"); 
+
+	
+	if (data && data.post_channels && data.post_channels.linkedin) {
+		
+		var channel_row = null;
+		var status_id = null;
+		
+		for (var group in data.post_channels.linkedin) {
+			
+			// -- 1 - First, remove the count of group posts that are being processed from the total available groups
+			total_linkedin_groups.html(parseInt(total_linkedin_groups.html()) - 1);
+			
+			channel_row = $(".bb .row_1[channel_id='" + group + "']");
+			status_id = parseInt(data.post_channels.linkedin[group].status_id);
+			
+			// alert('success: ' + data.post_channels.linkedin[group].status_id);
+			
+			
+			// -- SUCCESS
+			
+			if (status_id == 1) {
+				channel_row.addClass("row_1_live");
+				
+				// --- X - Update the 'Group Posts' counter & add the symbols at the appropriate places
+				published_counter.html(parseInt(published_counter.html()) + 1);
+				pending_counter.html(parseInt(pending_counter.html()) - 1);
+				
+				channel_row.find("#publish_status img").attr("src", published_img);
+				channel_row.find("#publish_status img").show("slow");
+			}
+
+
+			// -- PENDING
+			
+			if (status_id == 2) {
+				channel_row.addClass("row_1_processing");
+				pending_counter.html(parseInt(pending_counter.html()) + 1);
+				
+				channel_row.find("#publish_status img").attr("src", pending_img);
+				channel_row.find("#publish_status img").show();
+			}
+			
+			
+			// -- FAILED
+			
+			if (status_id == 3) {
+				channel_row.addClass("row_1_error");
+			}
+
+			
+			// alert(group + ' ; ' + data.post_channels.linkedin[group].status_id);
+		}
+	}
+	
+
+}
+
+function _RES_ERR_a_recruiter__publish_job(data, status_i){
+	alert('error');
+}
+
+
+</script>

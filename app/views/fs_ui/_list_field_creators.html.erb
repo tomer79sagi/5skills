@@ -1,0 +1,143 @@
+<script type="text/javascript">
+
+	function create_blank_primary_skill(skill_index) {
+  		var li_obj = create_primary_skill(skill_index, {
+  			id: -1,
+  			name: "ADD PRIMARY SKILL",
+  			years_exp: 1
+  		});
+  		var name_td = li_obj.find("[id$='_name']");
+  		var yrs_td = li_obj.find("[id$='_yrs']");
+  		
+  		li_obj.attr("blank", "true");
+  		name_td.attr("orig_value", "ADD PRIMARY SKILL");
+  		name_td.css("background-color", "DarkSeaGreen");
+  		name_td.css("font-style", "italic");
+  		yrs_td.css("background-color", "PaleGreen");
+  		yrs_td.css("font-style", "italic");
+  		yrs_td.css("color", "gray");
+  		
+  		return li_obj;
+  	}
+  	
+  	// Input parameters: skill info Hash is made out of:
+  	// skill_info_hash: {}
+  	// - id:
+  	// - name:
+  	// - years_exp:
+  	// - states: {}
+  	//  - name:
+  	//	- years_exp:
+  	//
+  	// States are: 
+  	// - 1 normal
+  	// - 2 match
+  	// - 3 disabled
+  	//
+  	function create_primary_skill(skill_index, skill_info_hash, return_li_obj) {  		
+  		var d = $( document.createElement('li') );
+  		var c = $( document.createElement('div') );
+  		var e = $( document.createElement('div') );
+  		var span_name = $( document.createElement('span') );
+  		var span_yrs = $( document.createElement('span') );
+  		
+  		// --- Create the right attributes
+  		// - ID and skill id
+  		d.attr("id", "skill_" + skill_index);
+  		d.attr("skill_id", skill_info_hash.id);
+  		// - Primary skill name
+  		d.attr("orig_value", skill_info_hash.name);
+  		c.attr("id", "skill_" + skill_index + "_name");
+  		// - Years experience
+  		d.attr("skill_yrsexp", skill_info_hash.years_exp);
+  		e.attr("id", "skill_" + skill_index + "_yrs");
+  		
+  		// --- Assign the right CSS classes
+  		// - skill name
+  		c.attr("class", "title2");
+  		
+  		switch (skill_info_hash.name_state) {
+  			case 1:
+  				break;
+  			case 2:
+  				c.addClass("title2_match");
+  				break;
+  			case 3:
+  				break;
+  		}
+  		
+  		// - years experience
+  		e.attr("class", "position");
+  		
+  		switch (skill_info_hash.years_exp_state) {
+  			case 1:
+  				break;
+  			case 2:
+  				e.addClass("position_match");
+  				break;
+  			case 3:
+  				break;
+  		}
+  		
+  		// --- Change the HTML
+  		// - Skill name
+  		if (skill_info_hash.name != null) {
+  			span_name.html(skill_index + ". " + skill_info_hash.name.toUpperCase());
+  		} else {
+  			span_name.html(skill_index + ". " + skill_info_hash.name);
+  		}
+  		c.append(span_name);
+  		// - Skill years
+  		span_yrs.html(skill_info_hash.years_exp + "y");
+  		e.append(span_yrs);
+  		
+  		// --- Add the 'DIV' elements to the 'li' object
+  		d.append(c);
+  		d.append(e);
+  		
+  		if (return_li_obj) { d = d.clone().wrap('<p/>').parent(); }
+  		
+  		return d;
+  	}
+
+  	function create_sub_skill(skill_id, skill_name, skill_yrs_exp) {
+  		var m = measureText(skill_name, 16);
+  		var a = $( document.createElement('li') );
+  		var div = $( document.createElement('div') );
+  		var span = $( document.createElement('span') );
+  		
+  		if (!skill_yrs_exp) { skill_yrs_exp = 1; }
+  		
+  		a.attr("orig_value", skill_name);
+		a.attr("id", skill_id);
+		a.attr("skill_id", skill_id);
+		a.attr("skill_yrsexp", skill_yrs_exp);
+		a.css("width", m.width + 25 + "px");
+	    
+	    div.attr("class", "ovalbutton");
+	    span.css("width", m.width + "px");
+	    span.css("height", m.height + "px;");
+	    
+	    span.html(skill_name);
+	    div.append(span);
+	    a.append(div);
+	    
+	    return a;
+  	}
+  	
+  	function create_add_sub_skill(skill_id) {
+  		var a = $( document.createElement('li') );
+  		var div = $( document.createElement('div') );
+  		var span = $( document.createElement('span') );
+  		
+		a.attr("id", skill_id);
+	    div.attr("class", "ovalbutton add_sub_skill");
+	    
+	    span.html("Add skill");
+	    div.append(span);
+	    a.append(div);
+	    
+	    return a;
+  	}
+
+</script>

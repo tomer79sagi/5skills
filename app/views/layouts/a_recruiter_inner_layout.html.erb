@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  
+  <title><%= yield :head %></title>
+  
+    
+  <!-- ----------------- CSS ----------------- -->
+  
+  <%= stylesheet_link_tag 'ui_layout/layout-default-latest' %>
+  <%= stylesheet_link_tag 'jquery-ui/jquery-ui-1.8.20.custom' %>
+  
+  <%= stylesheet_link_tag 'mvp-2' %>
+  <%= stylesheet_link_tag 'mvp-fs_profile' %>
+  <%= stylesheet_link_tag 'mvp-fs_profile_choose_skills' %>
+  
+  
+  <!-- ----------------- JAVASCRIPT ----------------- -->
+  
+  <%= javascript_include_tag 'jquery-1.7.2.min' %>
+  <%= javascript_include_tag 'jquery-ui/jquery-ui-1.8.20.custom.min' %>
+  <%= javascript_include_tag 'ui_layout/jquery.layout-latest.min.js' %>
+  
+  
+  <!-- ----------------- COMPONENTS ----------------- -->
+
+	  
+	  <!-- --------- Google Analytics --------- -->
+
+	  <%= render :partial => '/js/framework/_google_analytics' %>
+	  
+	  
+	  <!-- --------- Show loading & spin plugins --------- -->
+  
+  	  <%#= stylesheet_link_tag 'spin/spin.min' %>
+  	  
+  	  <script type="text/javascript">
+  	  
+  	  	var opts = {
+		  lines: 13, // The number of lines to draw
+		  length: 1, // The length of each line
+		  width: 10, // The line thickness
+		  radius: 29, // The radius of the inner circle
+		  corners: 1, // Corner roundness (0..1)
+		  rotate: 17, // The rotation offset
+		  direction: 1, // 1: clockwise, -1: counterclockwise
+		  color: '#000', // #rgb or #rrggbb or array of colors
+		  speed: 1, // Rounds per second
+		  trail: 65, // Afterglow percentage
+		  shadow: false, // Whether to render a shadow
+		  hwaccel: false, // Whether to use hardware acceleration
+		  className: 'spinner', // The CSS class to assign to the spinner
+		  zIndex: 2e9, // The z-index (defaults to 2000000000)
+		  top: 'auto', // Top position relative to parent in px
+		  left: 'auto' // Left position relative to parent in px
+		};
+		
+  	  </script>
+  	  
+	  <%= stylesheet_link_tag 'showLoading/showLoading' %>
+	  <%# javascript_include_tag 'showLoading/jquery.showLoading.min' %>
+	  
+
+	  <!-- --------- Nyro-Modal --------- -->
+	  
+	  <%= stylesheet_link_tag 'nyroModal/nyroModal' %>
+	  <%= javascript_include_tag 'nyroModal/jquery.nyroModal.custom.min' %>
+	  
+	  <!--[if IE 6]>
+	  	<%= javascript_include_tag 'nyroModal/jquery.nyroModal-ie6.min' %>
+	  <![endif]-->
+
+
+	  <!-- --------- BubbleTip --------- -->  
+	  
+	  <%= stylesheet_link_tag 'bubblepopup/jquery-bubble-popup-v3' %>
+	  <%= javascript_include_tag 'bubblepopup/jquery-bubble-popup-v3.min' %>
+	  
+	  
+	  <!-- --------- Impromptu --------- -->  
+	  
+	  <%= stylesheet_link_tag 'impromptu/jquery-impromptu' %>
+	  <%= javascript_include_tag 'impromptu/jquery-impromptu' %>
+
+	  
+		  <!-- Impromptu instructions -->
+		  
+		  <script type="text/javascript">
+		  	
+		  	var tourSubmitFunc = function(e,v,m,f){
+						if(v === -1){
+							$.prompt.prevState();
+							return false;
+						}
+						else if(v === 1){
+							$.prompt.nextState();
+							return false;
+						}
+			},
+			tourStates = [
+				{
+					title: 'What is 5skills?',
+					html: '5skills is your simplest and anonymous reverse job seeking platform based on your skills.' + 
+						'<br/><br/>You only need to do 2 things.' + 
+						'<br/>(1) Create a simple job seeking profile based on your skills' +
+						'<br/>(2) Wait while Employers find you and offer you jobs you really want :-)' +
+						'<br/><br/><span style="font-style:italic;">Let\'s get started! Let\'s create my profile.</span>',  
+					buttons: { Skip: 2, Next: 1 },
+					focus: 1,
+					submit: tourSubmitFunc
+				},
+				{
+					title: 'Step 1. Add skills',
+					html: 'Look to find skills you might have from the \'Common skills\' list.' + 
+						'<br/><br/>Click on a skill and get it into your profile.',
+					buttons: { Next: 1 },
+					focus: 1,
+					position: { container: '.add_skill_panel_body', x: 230, y: 0, width: 300, arrow: 'lt' },
+					submit: tourSubmitFunc
+				},
+				{
+					title: 'Step 2. Add years experience',
+					html: 'Type in the number of years experience you have for each skill you added.',
+					buttons: { Prev: -1, Next: 1 },
+					focus: 1,
+					position: { container: '#skill_1_yrs', x: 40, y: -15, width: 300, arrow: 'lt' },
+					submit: tourSubmitFunc
+				},
+				{
+					title: 'Step 3. Add additional skills',
+					html: 'In case you have skills that don\'t appear in the \'Common skills\' list, manually add skills to your profile.' +
+						'<br/><br/>Click on a skill and start typing your skill. We will suggest skills as you start typing.',
+					buttons: { Prev: -1, Next: 1 },
+					focus: 1,
+					position: { container: '#skill_2_yrs', x: 40, y: -15, width: 300, arrow: 'lt' },
+					submit: tourSubmitFunc
+				},
+				{
+					title: 'Step 4. Hit \'Apply\'',
+					html: 'Once you\'re done, hit the \'Apply\' button',
+					buttons: { Prev: -1, Done: 2 },
+					focus: 1,
+					position: { container: '#btn_check_match', x: 180, y: 10, width: 300, arrow: 'lt' },
+					submit: tourSubmitFunc
+				}
+			];
+			
+		   </script>
+	  
+	  
+	  <!-- --------- AutoComplete --------- -->
+	  
+	   <style>
+		  .ui-autocomplete {
+		    max-height: 200px;
+		    overflow-y: auto;
+		    /* prevent horizontal scrollbar */
+		    overflow-x: hidden;
+		  }
+		  /* IE 6 doesn't support max-height
+		   * we use height instead, but this forces the menu to always be this tall
+		   */
+		  * html .ui-autocomplete {
+		    height: 200px;
+		  }
+	  </style>
+  
+  
+  <!-- ----------------- FRAMEWORK ----------------- -->
+
+  <%= render :partial => '/js/framework/_ajax' %>
+  <%= render :partial => '/js/framework/_ajax_functions' %>
+  <%= render :partial => '/js/framework/_render' %>
+  <%= render :partial => '/js/framework/_sync' %>
+  <%= render :partial => '/js/framework/_event_handlers' %>
+  <%= render :partial => '/js/framework/_global_variables' %>
+  <%= render :partial => '/js/framework/_util' %>
+  <%= render :partial => '/js/framework/_switchers' %>
+  
+  <%= render :partial => '/js/framework/recruiter/_event_handlers_recruiter' %>
+  <%= render :partial => '/js/framework/recruiter/_switchers_recruiter' %>  
+  
+  
+  <!-- ----------------- ajax functions ----------------- -->
+  
+  <%= render :partial => '/js/ajax/_fs_profile' %>
+  <%= render :partial => '/js/ajax/a_recruiter__publish_job' %>
+  <%= render :partial => '/js/ajax/a_recruiter__job_publishing_home' %>
+  
+  
+  <!-- ----------------- utilities functions ----------------- -->
+  
+  <!-- Includes the 'bind_field' method which does the 'autocomplete' functionality -->
+  <%= render :partial => '/js/util/_fs_profile' %>
+  
+  
+  <!-- ----------------- binders functions ----------------- -->
+  
+  <%= render :partial => '/js/binders/_fs_profile' %>
+  
+  
+	<script type="text/javascript">
+	
+		var panel__workspace, panel__fs_profile_choose_skills, panel__fs_profile;
+	
+		$(document).ready(function() {
+			
+			<%= render :partial => '/js/onload/_fs_profile' %>
+			
+			<%= render :partial => '/js/framework/a_recruiter__onload_pre_components' %>
+			<%= render :partial => '/js/framework/_onload_post_components' %>
+			
+		});
+	</script>
+    
+</head>
+
+<body style="background-color:#E5F9EE;">
+			
+	<%= yield %>
+
+</body>
+</html>
+
+
+<!-- IFrame -->
+
+<iframe id='upload_frame' name="upload_frame" style="width:1px;height:1px;border:0px;" src="about:blank"></iframe>
+
+
+<!-- HTML Templates -->
+	
+<%= render :partial => '/js/framework/a_recruiter__templates' %>
+

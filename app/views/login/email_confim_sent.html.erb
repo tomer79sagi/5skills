@@ -1,0 +1,21 @@
+<% content_for :head do %>
+  <title>FLYC - Confirmation Email Sent</title>
+<% end %>
+
+<% content_for :title do %>
+	<span class="content-title">Confirmation Email Sent</span>
+<% end %>
+
+<%= render :partial => '/main/messages', :locals => {:action => "general"} %>
+
+<div class="content-body" style="padding:5em 0em 5em 0em;">
+	
+	<p/>
+	
+	You have succesfully registered with Jobby.co.nz. An email has been sent to your email address.
+	Please check your email and click on the link inside it to confirm your registration.
+	Once you have confirmed, you can login and use the site.
+	
+	<p/>
+
+</div>

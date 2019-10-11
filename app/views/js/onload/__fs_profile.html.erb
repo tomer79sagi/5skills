@@ -1,0 +1,106 @@
+bind__fs_profile();
+
+
+$( ".skills_profile_top_5" ).sortable({
+	connectWith: ".skills_profile_additional",
+    axis: "y",
+    cancel: "li[blank=true]",
+    tolerance: "pointer",
+    cursorAt: {top:10, left: 15},
+    
+    start: function(event, ui) {
+    	
+		init_s_start($(this), $(ui.item));
+		
+    }, update: function( event, ui ) {
+    	
+    	console.log('list update');
+    	
+    	ajax_it("fs_profile_updated");
+    	if (_st) { console.log('in_clear: '); clearTimeout(_st); }
+    	//_dirty('job_fs_profile');
+		
+    }, over: function (event, ui) {
+    	
+    	init_s_over($(this));
+    	
+    	if (g_primaries.indexOf(g_cache.prev_target_list_id) != -1) {
+    		replace_prev_primary_skill();
+    	}
+    	
+    	// IF arrived from secondary and into primary AND start is PRIMARY or SECONDARY = cache existing primary, change helper into primary
+    	// console.log('xxxxxxx: ' + g_primaries.indexOf(g_cache.curr_target_list_id) + ' ; ' + g_primaries.indexOf(g_cache.prev_target_list_id)+ ' ; ' + g_secondaries.indexOf(g_cache.prev_target_list_id));
+    	if (g_primaries.indexOf(g_cache.curr_target_list_id) != -1) {
+    		
+    		convert_item_to_skill($(this), $(ui.item), 3);
+    		
+    	// IF arrived from primary and into secondary AND start is PRIMARY or SECONDARY = CHANGE to secondary
+    	} else if (g_secondaries.indexOf(g_cache.curr_target_list_id) != -1) {
+    		
+    		convert_item_to_skill($(this), $(ui.item), 2);
+    		
+    	}    
+    		
+    }, sort: function(event, ui) {
+    	// console.log("sort");
+    	
+	}, stop: function(event, ui) {
+    	
+    	// In case the previous sortable was primary, attach the appropriate binders
+    	if (g_primaries.indexOf(g_cache.prev_target_list_id) != -1) {
+    		var skill_index = g_primaries.indexOf(g_cache.prev_target_list_id) + 1;
+    		
+    		if (g_cache.start_list_id != g_cache.prev_target_list_id) {
+    			attach_primary_field_binders(skill_index);
+    		} else if (g_cache.start_list_id == g_cache.prev_target_list_id) {
+    			attach_primary_field_binders(skill_index, true);
+    		}
+    		
+    	} else if (g_primaries.indexOf(g_cache.start_list_id) != -1) {
+    		if (g_cache.start_list_id != g_cache.prev_target_list_id) {
+    			attach_primary_field_binders(g_primaries.indexOf(g_cache.start_list_id) + 1, true);
+    		}
+    	}         	
+    	
+    	// Attach the appropriate 'event binders' to the fields (if current sortable is primary))
+    	if (g_primaries.indexOf(g_cache.curr_target_list_id) != -1) {
+    		
+    		// Remove the previous 'click' event handler
+    		$(ui.item).unbind('click');
+    		
+    		// Add the primary event handlers
+    		attach_primary_field_binders(g_primaries.indexOf(g_cache.curr_target_list_id) + 1);
+    		
+    	// If the current sortable is secondary, attach the subskill binders 
+    	} else if (g_secondaries.indexOf(g_cache.curr_target_list_id) != -1) {
+    		// console.log("start [secondary]: " + $(ui.item).html());
+    		attach_sub_skill_field_binders($(ui.item));
+    	}
+    	
+    	if ($(ui.item) && $(ui.item) != undefined && g_cache.curr_target_html_content) {
+        	$(ui.item).css("width", g_cache.curr_target_html_content.css("width"));
+        	$(ui.item).attr("id", "skill_" + parseInt(g_primaries.indexOf(g_cache.curr_target_list_id) + 1));
+    	}
+    	
+    	g_cache.curr_target_list_id = null;
+    	g_cache.curr_target_html_content = null;
+    	
+    }
+}).disableSelection();
+
+
+$( ".skills_profile_additional" ).sortable({
+	connectWith: ".skills_profile_top_5",
+    axis: "y",
+    tolerance: "pointer",
+    cursorAt: {top:10, left: 15},
+    update: function( event, ui ) {
+    	// console.log('update');
+    	
+    	ajax_it("fs_profile_updated");
+		
+    }, over: function (event, ui) {
+    	
+    	
+    }
+}).disableSelection();

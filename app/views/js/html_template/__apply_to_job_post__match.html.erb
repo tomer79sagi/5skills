@@ -1,0 +1,92 @@
+<div id="template__job_post_apply__match" style="width:600px;padding:15px;display:none;">
+	
+	<div style="font-size:16px;">
+		<span style="color:green;font-size:26px;font-weight:bold;">You're a MATCH! :-)</span>
+	</div>
+	
+	<div style="margin-top:5px;padding:5px 5px 5px 0px;width:585px;font-size:14px;">
+		<span style="color:green;font-size:14px;">
+			To complete the application, please provide us with your email, phone number and CV so the recruiter can get in touch with you.
+		</span>
+	</div>
+	
+	
+	<% if 1 == 2 %>
+	
+		<div style="margin-top:5px;padding:5px 5px 5px 10px;width:585px;background-color:yellow;font-size:14px;border:1px solid #DCDCDC;">
+			<span style="color:green;font-size:14px;">
+				<span style="font-style:underline;font-size:14px;font-weight:bold;">Reminder:</span>
+				5skills is an anonymous platform for 'passive' job seekers.
+				Your contact details will only be visible for this job. You will remain anonymous for other jobs.
+			</span>
+		</div>
+	
+	<% end %>
+		
+	<% form_tag({:action => :fajax_send_job_post_application, :controller => :fs_job_seeker}, :id => 'frm_send_application', :remote => true, :multipart => true, :target => 'upload_frame') do %>
+	
+	
+		<!-- Session IDs -->
+		<%= render :partial => '/js/html_template/_framework__session_ids' %>
+			
+		
+		<div style="height:70px;padding-top:15px;">
+			<div style="width:50px;height:50px;background-color:#F8F8FF;border:1px solid #DCDCDC;float:left;text-align:center;font-size:30px;padding-top:15px;">
+				1
+			</div>
+			<div style="width:300px;float:left;padding-left:15px;">
+				<div style="font-size:14px;color:gray;padding-top:5px;font-weight:bold;">
+					Your email.
+				</div>
+				<div id="ff" style="height:20px;margin-top:10px;">
+					<div id="x" style="float:left;"><%= text_field_tag "register__job_seeker__email", "", :style => "width:150px;height:25px;" %></div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="personal_details" style="height:70px;padding-top:15px;">
+			<div style="width:50px;height:50px;background-color:#F8F8FF;border:1px solid #DCDCDC;float:left;text-align:center;font-size:30px;padding-top:15px;">
+				2
+			</div>
+			<div style="width:300px;float:left;padding-left:15px;">
+				<div style="font-size:14px;color:gray;padding-top:5px;font-weight:bold;">
+					Your phone number.
+				</div>
+				<div id="ff" style="height:20px;margin-top:10px;">
+					<div id="x" style="float:left;"><%= text_field_tag "register__job_seeker__phone", "", :style => "width:150px;height:25px;" %></div>
+				</div>
+			</div>
+		</div>
+		
+		<div id="personal_details" style="height:70px;padding-top:15px;">
+			<div style="width:50px;height:50px;background-color:#F8F8FF;border:1px solid #DCDCDC;float:left;text-align:center;font-size:30px;padding-top:15px;">
+				3
+			</div>
+			<div id="file" style="float:left;padding-left:12px;">
+				<div style="font-size:14px;color:gray;padding-top:5px;font-weight:bold;padding-left:3px;">
+					Your CV.
+				</div>
+				<div style="padding-top:10px;">
+					<%= file_field 'upload_cv', 'fs2_file', :style => "height:30px;" %>
+				</div>
+			</div>
+		</div>
+		
+		<div style="margin-left:120px;margin-top:40px;height:40px;padding-bottom:15px;">
+			<button class="btn__match_cancel" style="margin-left:15px;background-color:red;width:220px;height:50px;">
+				<span style="font-weight:bold;font-size:20px;color:white;">Cancel</span>
+			</button>
+			<input type="submit" class="btn__send_application" style="margin-left:15px;background-color:green;width:220px;height:50px;font-weight:bold;font-size:20px;color:white;" value="Send application >>">
+			
+			<% if 1 == 2 %>
+			
+				<button class="btn__send_application" submit_form_id="frm_send_application" style="margin-left:15px;background-color:green;width:220px;height:50px;">
+					<span style="font-weight:bold;font-size:20px;color:white;">Send application >></span>
+				</button>
+			
+			<% end %>
+		</div>
+		
+	<% end %>
+	
+</div>

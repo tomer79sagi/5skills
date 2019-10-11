@@ -1,0 +1,19 @@
+<!-- 'Session' IDs -->
+	
+<div id="session_ids" style="display:none;">
+	
+	
+	<!-- Tracking 'active user' - based on the FsBaseController::ENTITY_TYPES {:job => 1, :job_seeker => 2} (TEMPORARY) -->
+	<input type="hidden=" name="active_user" value="">
+	
+	<input type="hidden=" name="user_id" value="">
+	<input type="hidden=" name="job_seeker_id" value="">
+	<input id="job" job_id="<%= params[:job_ref_key] %>" type="hidden=" name="job_id" value="<%= params[:job_ref_key] %>">
+	
+	
+	<!-- 'fs_profile_ids' -->
+	
+	<input type="hidden=" name="job_seeker__fs_profile_id" value="">
+	<input type="hidden=" name="job__fs_profile_id" value="">	
+	
+</div>

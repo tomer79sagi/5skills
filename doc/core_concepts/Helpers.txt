@@ -1,0 +1,15 @@
+Helpers
+-----------
+
+TIME FORMATTING
+-------------------------
+
+'five_skills_helper'
+---------------------------
+
+- Displaying 'time_ago'
+
+	def format_time(time_as_string, format_type = TIME_FORMAT_TYPES[:default])
+
+	(calls the 'time_ago_in_words' date_helper method)
+	('format' is defined in the TIME_FORMAT_TYPES Hash / fs_base_controller

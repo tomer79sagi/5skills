@@ -1,0 +1,72 @@
+
+<script type="text/javascript">
+
+var g_editing = false;
+
+function attach_field_binders(field_id) {
+	
+	// Call common functions
+	attach_common_field_binders(field_id);
+	
+	// --- Bind all fields (if no 'field_id' is provided)
+	
+	if (!field_id) {
+		attach_field_binders("btn_save_fs_profile");
+		attach_field_binders("btn_cancel");
+		attach_field_binders("search_templates_by_job_seekers");
+		attach_field_binders("search_templates_by_job");
+		attach_field_binders("template_title");
+		attach_field_binders("action_delete_template");
+		attach_field_binders("action_clone_template");
+		
+		return;
+	}
+	
+	
+	// --- Bind the field
+	
+	switch (field_id) {
+		case "btn_save_fs_profile":
+		
+			$("#btn_save_fs_profile").bind('click', function(e) {
+				$(this).html("Saving...");
+				$(this).attr("disabled", "disabled");
+				
+				$("#btn_cancel").attr("disabled", "disabled");
+				
+				ajax_it("save_template_fs_profile", {template_title: $("#template_title").html()});
+			});	
+			break;
+			
+		case "btn_cancel":
+		
+			$("#btn_cancel").bind('click', function(e) {
+				doRedirect('admin/template/all/manage');
+			});
+			break;
+			
+		case "search_templates_by_job_seekers":
+			
+			$("#search_templates_by_job_seekers").bind('click', function(e) {
+				toggle_search_by(2);
+			});
+			break;
+			
+		case "search_templates_by_job":
+			
+			$("#search_templates_by_job").bind('click', function(e) {
+				toggle_search_by(1);
+			});
+			break;
+			
+		case "template_title":
+			
+			$("#template_title").bind('click', function(e) {
+				convert_div_label_to_input_field($(this), {class: "convert_main_title"});
+			});	
+			break;		
+	}
+			
+}
+
+</script>

@@ -1,0 +1,20 @@
+<script type="text/javascript">
+
+function _REQ_save_job_seeker_fs_profile(data){
+	var json_arr = {};
+	
+	json_arr.status_id = <%= Fs2User::USER_STATUSES[:completed_3_skills] %>;
+	json_arr.skills_profile = extract_skills_from_lists();
+	
+	return {action: "ajax/job_seeker/save", data: json_arr};
+}
+
+function _RES_save_job_seeker_fs_profile(data, status_i) {
+	doRedirect("job_seeker/" + data.data.job_seeker_id + "/edit");
+}
+
+function _RES_ERR_save_job_seeker_fs_profile(data, status_i) {
+	alert('fail');
+}
+
+</script>

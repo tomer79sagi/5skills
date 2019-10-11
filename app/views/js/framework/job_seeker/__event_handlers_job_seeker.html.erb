@@ -1,0 +1,23 @@
+<script type="text/javascript">
+
+
+// --- MAP
+// This map holds the following syntax:
+//  {workspace_name} : {function_name / friendly_name: }
+var map_context_events = {
+	
+	"__w__apply_to_job": {
+		"btn__apply_to_job": "#btn__apply_to_job"
+	}
+
+};
+
+
+// ----- CORE workspace -----
+
+function btn__apply_to_job__CLICK__(event, this_obj) {		
+	// alert('tomer');
+	ajax_it("apply_to_job_post");
+}
+
+</script>

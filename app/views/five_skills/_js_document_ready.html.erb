@@ -1,0 +1,88 @@
+<% if flash[:notice] %>
+	$("#message_notice").show('slow');
+<% end %>
+
+<% if flash[:error] %>
+	$("#message_error").show('slow');
+<% end %>
+
+<% if is_binders %>
+	
+	<% params[:field_binders].each do |field_binder_key, field_binder_value| %>
+	
+		bind_field_text("<%= field_binder_value[:field_name] %>",
+			"<%= field_binder_value[:ajax_call] %>",
+			
+			<% if field_binder_value[:onsearch] %>
+				null
+			<% else %>
+				source_options.<%= field_binder_value[:data_type] %>
+			<% end %>
+			,	
+			{
+				<% if field_binder_value[:field_id] %>
+					id_field: "<%= field_binder_value[:field_id] %>",
+				<% end %>
+				<% if field_binder_value[:autocomplete] %>
+					autocomplete: "<%= field_binder_value[:autocomplete] %>",
+				<% end %>
+				<% if field_binder_value[:onsearch] %>
+					onsearch: "<%= field_binder_value[:onsearch] %>",
+				<% end %>
+				comma_suffix: <%= field_binder_value[:comma_suffix] %>,
+				include_image: <%= field_binder_value[:include_image] %>
+			});
+				
+	<% end %>
+	
+	$( "#sortable" ).sortable();
+	$( "#sortable" ).bind("sortstop", function(event, ui) {
+			var a_skills_ids = $('[id^="skill_"]');
+			var current_skill, prev_skill = null;
+			var element;
+			var k = 1;
+			
+			for (j=0 ; j<a_skills_ids.length ; ++j) {
+				element = $("#" + a_skills_ids[j].id);
+				current_skill = element.attr("id").split("-")[0].split("_")[1];
+
+				if (prev_skill && current_skill != prev_skill) { k++; }
+				element.attr("name", element.attr("name").replace(/(\[skill_)([0-9]*)(\])/, "$1" + k + "$3"));
+				
+//				alert('prev, curr: ' + prev_skill + ", " + current_skill + " | " + k);
+
+				prev_skill = current_skill;
+			}
+			
+			ajax_it('<%= params[:default_search_ajax_call] %>');
+		});
+	$( "#sortable" ).disableSelection();
+
+<% end %>
+
+$( "#accordion" ).accordion({
+	<% if !params[:show_hidden_fields] %>
+		active: 1,
+	<% end %>
+	collapsible: true
+});
+
+$( "#user_type" ).buttonset();
+
+$.ajaxSetup({
+    beforeSend: function (xhr) {
+            xhr.setRequestHeader("Accept", "application/json, text/javascript, text/html, application/xml, text/xml, */*");
+    }
+});
+
+
+// --------------------------------------------------------------------
+// Initialize FS profile - new design
+// --------------------------------------------------------------------
+<%= render :partial => 'five_skills/js_populate_fs_profile' %>
+// -----------------------------------------------------------
+
+
+<% if params[:ajax_start_up_actions] %>
+	ajax_it('start_up_actions');
+<% end %>

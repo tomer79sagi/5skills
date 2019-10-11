@@ -1,0 +1,865 @@
+/* ------------------------- Css Reset -------------------------------*/
+
+html {margin:0;padding:0;border:0;}
+body, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, abbr, acronym, address, code, del, dfn, em, img, q, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, dialog, figure, footer, header, hgroup, nav, section {margin:0;padding:0;border:0;font-weight:inherit;font-style:inherit;font-size:12px;font-family:arial;vertical-align:baseline; color:#333333}
+h1, h2, h3, h4, h5, h6 {font-weight:normal;}
+article, aside, dialog, figure, footer, header, hgroup, nav, section {display:block;}
+body {
+	line-height:1.3;
+	background:white;
+}
+table {border-collapse:separate;border-spacing:0;}
+caption, th, td {text-align:left;font-weight:normal;float:none !important;}
+table, th, td {vertical-align:middle;}
+blockquote:before, blockquote:after, q:before, q:after {content:'';}
+blockquote, q {quotes:"" "";}
+a img {border:none;}
+:focus {outline:0;}
+
+/*=============================  PADDING  =============================*/
+/* common padding  top*/
+.ptop_3{ padding-top:3px; }
+.ptop_5{ padding-top:5px; }
+.ptop_10{ padding-top:10px; }
+.ptop_12{ padding-top:12px; }
+.ptop_15{ padding-top:15px; }
+.ptop_20{ padding-top:20px; }
+.ptop_25{ padding-top:25px; }
+.ptop_30{ padding-top:30px; }
+.ptop_50{ padding-top:50px; }
+
+.pbottom_10{ bottom-top:10px; }
+
+/* common margin  top*/
+.mtop_5{ margin-top:5px; }
+.mtop_10{ margin-top:10px; }
+.mtop_15{ margin-top:15px; }
+.mtop_20{ margin-top:20px; }
+.mtop_25{ margin-top:25px; }
+.mtop_30{ margin-top:30px; }
+.mtop_50{ margin-top:50px; }
+
+.mbottom_5{ margin-bottom: 5px;}
+.mbottom_10{ margin-bottom: 10px;}
+.mbottom_20{ margin-bottom: 20px;}
+
+.mleft_5{margin-left:5px; }
+.mleft_10{margin-left:10px; }
+.mleft_30{margin-left:30px; }
+
+/* common padding  left*/
+.pleft_5{ padding-left:5px; }
+.pleft_10{ padding-left:10px; }
+.pleft_15{ padding-left:15px; }
+.pleft_20{ padding-left:20px; }
+.pleft_30{ padding-left:30px; }
+.pleft_70{ padding-left:70px; }
+
+/* common padding  rigth*/
+.pright_5{ padding-right:5px; }
+.pright_10{ padding-right:10px; }
+.pright_20{ padding-right:20px; }
+
+
+/*=============================  General Styles =============================*/
+.clear{
+	clear:both;
+}
+
+.hidden{
+	display:none;
+}
+
+.right{
+	float:right;
+	text-align:left
+}
+
+.left{
+	float:left;
+	display:table;
+}
+
+/*==================== HEADER ====================*/
+.header{
+	width:100%;
+	height:57px;
+	background-color:black;
+} 
+	.header_content{
+		width:1024px;
+		height:57px;
+		background-color:black;
+		margin:0px auto;
+	}
+
+	.header_logo{
+		width:300px;
+		height:57px;
+		background-image: url('../images/mvp-1/mvp-logo.png');
+		background-color: transparent;
+		background-repeat: no-repeat;
+		background-position: 48px 12px;
+	}
+	.header_logo:hover{
+		cursor:pointer;
+	}
+		.header_logo_beta{
+			color:#FFFEFE;
+			padding-top:6px;
+			padding-left:132px;
+		}
+		.header_logo_slogan{
+			color:#CCCCCC;
+			padding-top:6px;
+			padding-left:147px;
+		}
+
+
+/*============================= Header =============================*/
+.header_menu{
+	margin-left:450px;
+	float:left;
+}
+.header_menu_item{
+	font-size:16px;
+	margin-left:20px;
+	float:left;
+	margin-top:21px;
+	color:#EEEEEE;
+}
+.header_menu_item:hover{
+	color:#92BFBF;
+	cursor:pointer;
+}
+.logged_in_anonymous_icon{
+	float:left;
+	width:50px;
+	height:24px;
+	margin-top:19px;
+	padding-top:1px;
+	padding-left:32px;
+	color:#EEEEEE;
+	background-image: url('../images/mvp-1/anonymous_login_icon.png');
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: 0px 0px;
+	line-height:10px;
+}
+.log_out_link{
+	padding-top:3px;
+}
+.log_out_link a{
+	text-decoration:underline;
+	color:#D6D6D6;
+	font-size:10px;
+}
+.log_out_link a:hover{
+	color:#92BFBF;
+	cursor:pointer;
+}
+
+/*=============================  Homepage 5 - normal person =============================*/
+
+.homepage5_header{
+	width:100%;
+	height:57px;
+}
+	.homepage5_header_content{
+		width:1024px;
+		height:57px;
+		margin:0px auto;
+	}
+	.homepage5_header_logo{
+		width:300px;
+		height:57px;
+		background-image: url('../images/mvp-1/5skills_logo_black.png');
+		background-color: transparent;
+		background-repeat: no-repeat;
+		background-position: 48px 12px;
+	}
+	.homepage5_header_logo:hover{
+		cursor:pointer;
+	}
+	
+		.homepage5_header_menu{
+			margin-left:280px;
+			float:left;
+		}
+		.homepage5_header_menu_item{
+			font-size:16px;
+			margin-left:145px;
+			float:left;
+			margin-top:21px;
+			color:#333333;
+		}
+		.homepage5_header_menu_item:hover{
+			color:#92BFBF;
+			cursor:pointer;
+		}
+		.homepage5_header_menu_item highlight{
+			font-size:16px;
+			font-weight:bold;
+			color:#333333;
+		}
+		.homepage5_header_menu_item highlight:hover{
+			color:#008f45;
+			cursor:pointer;
+		}
+		.homepage5_logged_in_anonymous_icon{
+			float:left;
+			margin-left:45px;
+			width:90px;
+			height:24px;
+			margin-top:19px;
+			color:#EEEEEE;
+			background-image: url('../images/mvp-1/anonymous_icon_black.png');
+			background-color: transparent;
+			background-repeat: no-repeat;
+			background-position: 0px 0px;
+			line-height:10px;
+		}
+		
+.homepage_5_body_top{
+	height:535px;
+	width:1024px;
+	background-image: url('../images/mvp-1/homepage5-person.png');
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: 0px 50px;
+}
+	.homepage_5_body_top_top{
+		height:235px;
+		width:600px;
+		padding-top:100px;
+		padding-left:450px;
+		line-height:1;
+	}
+		.homepage_5_headline_1{
+			font-size:21px;
+			font-style:italic;
+		}
+		.homepage_5_headline_2{
+			font-size:39px;
+			line-height:43px;
+		}
+		.homepage_5_headline_2 highlight{
+			color:#39b24a;
+		}
+		
+	.homepage_5_body_strip{
+		height:65px;
+		width:1024px;
+	}
+		.homepage_5_login_button{
+			background-image: url('../images/mvp-1/homepage5-login-button-state1.png');
+			background-color: transparent;
+			background-repeat: no-repeat;
+			color:white;
+			font-size:23px;
+			margin-left:550px;
+			width:401px;
+			height:73px;
+			cursor:default;
+		}
+		.homepage_5_login_button:hover{
+			background-image: url('../images/mvp-1/homepage5-login-button-state2.png');
+			background-color: transparent;
+			background-repeat: no-repeat;
+			color:white;
+			font-size:23px;
+			margin-left:550px;
+			width:401px;
+			height:73px;
+			cursor:pointer;
+		}
+	.homepage_5_mockups{
+		background-image: url('../images/mvp-1/homepage5-mockups.png');
+		background-color: transparent;
+		background-repeat: no-repeat;
+		margin-left:100px;
+		width:342px;
+		height:374px;
+		cursor:default;
+	}
+	
+	.homepage_bullet_point {
+		font-size:20px;
+	}
+	.homepage_bullet_point highlight {
+		font-size:30px;
+		color:#39B24A;
+	}
+	.homepage_bullet_point underline {
+		text-decoration:underline;
+	}
+	.homepage_bullet_point bold {
+		font-weight:bold;
+	}
+	
+	.seperator_horizontal {
+		background-image: url('../images/mvp-1/sep-horizontal.png');
+		background-color: transparent;
+		background-repeat: no-repeat;
+		background-position: 0px 0px;
+		width:879px;
+		height:1px;
+	}
+	
+	.homepage_howto_step {
+		background-color: transparent;
+		background-repeat: no-repeat;
+		background-position: 0px 0px;
+		padding-left:70px;
+		padding-top:50px;
+		width:150px;
+		height:50px;
+		float:left;
+		font-size:20px;
+		font-weight:bold;
+		margin-left:40px;
+	}
+	
+	.homepage_howto_step highlight {
+		color:#008f45;
+	}
+	
+	.homepage_howto_step_1 {
+		background-image: url('../images/mvp-1/how_works-1.png');	
+		padding-left:45px;
+	}
+	.homepage_howto_step_2 {
+		background-image: url('../images/mvp-1/how_works-2.png');
+	}
+	.homepage_howto_step_3 {
+		background-image: url('../images/mvp-1/how_works-3.png');
+	}
+	.homepage_howto_step_4 {
+		background-image: url('../images/mvp-1/how_works-4.png');
+	}
+	
+	.link_a a {
+		font-weight:normal;
+		font-style:normal;
+		text-decoration:underline;
+		font-size:15px;
+		color:#808080;
+	}
+	.link_a a:hover {
+		color:#006837;
+		cursor:pointer;
+	}
+	.link_a a:visited {
+		color:#008F45;
+		cursor:pointer;
+	}
+	
+	.link_a a:visited {
+		color:#008F45;
+		cursor:pointer;
+	}
+
+/*=============================  Homepage 4 - cartoon at desk =============================*/
+.homepage_4_body_top{
+	height:440px;
+	width:1024px;
+	background-image: url('../images/mvp-1/cartoon working at desk - strip.png');
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: 0px 50px;
+}
+	.homepage_4_login_button{
+		background-image: url('../images/mvp-1/homepage_4_login_button.png');
+		background-color: transparent;
+		background-repeat: no-repeat;
+		color:white;
+		font-size:23px;
+		margin-left:530px;
+		width:205px;
+		height:36px;
+		padding-left:50px;
+		padding-top:10px;
+		cursor:default;
+	}
+	.homepage_4_login_button:hover{
+		background-image: url('../images/mvp-1/homepage_4_login_button_hover.png');
+		background-color: transparent;
+		background-repeat: no-repeat;
+		color:white;
+		font-size:23px;
+		margin-left:530px;
+		width:205px;
+		height:36px;
+		padding-left:50px;
+		padding-top:10px;
+		cursor:pointer;
+	}	
+
+/*=============================  Homepage 1 - 3 =============================*/
+.homepage_body_top{
+	height:440px;
+	width:1024px;
+	background-image: url('../images/mvp-1/5skills_person-anonymize.png');
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: 0px 50px;
+}
+	.homepage_body_top_top{
+		height:255px;
+		width:600px;
+		padding-top:110px;
+		padding-left:360px;
+		line-height:1;
+	}
+		.homepage_headline_1{
+			font-size:21px;
+			font-style:italic;
+		}
+		.homepage_headline_2{
+			font-size:39px;
+		}
+	.homepage_body_strip{
+		height:65px;
+		width:1024px;
+	}
+	.homepage_login_button{
+		background-image: url('../images/mvp-1/linkedin_connect-state_0.png');
+		background-color: transparent;
+		background-repeat: no-repeat;
+		color:white;
+		font-size:23px;
+		margin-left:400px;
+		width:262px;
+		height:36px;
+		padding-left:50px;
+		padding-top:10px;
+		cursor:default;
+	}
+	.homepage_login_button:hover{
+		background-image: url('../images/mvp-1/linkedin_connect-state_1.png');
+		background-color: transparent;
+		background-repeat: no-repeat;
+		color:white;
+		font-size:23px;
+		margin-left:400px;
+		width:262px;
+		height:36px;
+		padding-left:50px;
+		padding-top:10px;
+		cursor:pointer;
+	}
+.homepage_body_bottom{
+	height:75px;
+	width:1024px;
+}
+	.homepage_notes{
+		height:50px;
+		font-size:13px;
+		font-style:italic;
+		color:#888180;
+		text-align:center;
+	}
+.footer{
+	height:25px;
+	font-size:15px;
+	color:#3C3E3D;
+	text-align:center;
+	padding-top:15px;
+}
+
+
+/*=============================  Profile Page =============================*/
+
+.body_container{
+	width:1024px;
+	margin:0px auto;
+}
+	.position_title_summary{
+		font-weight:bold;
+		font-size:16px;
+	}
+	.company_industry_summary{
+		color:#647548;
+		font-size:16px;
+	}
+	.company_size_summary{
+		font-style:italic;
+		font-size:16px;
+	}
+	.education_title_summary{
+		/*font-weight:bold;*/
+		font-size:14px;
+	}
+	.education_field_summary{
+		color:#647548;
+		font-size:14px;
+	}
+	.company_size{
+		font-style:italic;
+		font-size:17px;
+	}
+	.company_industry{
+		color:#647548;
+		font-size:17px;
+	}
+	
+	
+/*=============================  Message Page V1 =============================*/
+	
+	.message_main{
+		background-color:#6BAA73;
+		text-align:center;
+		color:white;
+		margin-left:18px;
+		margin-bottom:11px;
+	}
+		.message_main_container_left{
+			background-image: url('../images/mvp-1/message_main_bkg_left.png');
+			background-color: transparent;
+			background-repeat: no-repeat;
+			width:7px;
+			height:97px;
+			float:left;
+		}
+		.message_main_container_body{
+			background-image: url('../images/mvp-1/message_main_bkg_body.png');
+			background-color: transparent;
+			background-repeat: repeat-x;
+			width:945px;
+			height:97px;
+			float:left;
+		}
+		.message_main_container_right{
+			background-image: url('../images/mvp-1/message_main_bkg_right.png');
+			background-color: transparent;
+			background-repeat: no-repeat;
+			width:7px;
+			height:97px;
+			float:left;
+		}
+		.message_main_h1{
+			font-size:35px;
+			color:white;
+			padding:0em;
+		}
+		.message_main_h1 span{
+			font-size:25px;
+			color:white;
+			padding:0em;
+		}
+		.message_main_h2{
+			font-size:19px;
+			color:white;
+			font-style:italic;
+		}
+		.message_main_h2 span{
+			font-size:13px;
+			color:white;
+			font-style:italic;
+		}
+		
+	
+/*=============================  JOB PREFERENCES PANEL =============================*/
+
+.job_preferences_container{
+	margin-left:10px;
+	float:left;
+}
+.job_preferences_title{
+	text-align:left;
+	font-size:11px;
+	color:#6B6F74;
+}
+.job_preferences_name{
+	text-align:left;
+	font-size:13px;
+	color:#160000;
+}
+	
+/*=============================  PANELS =============================*/
+	
+	.panel_h1{
+		margin-left:10px;
+		font-size:22px;
+		font-weight:bold;
+		color:black;
+	}
+	.left_separator{
+		padding-top:10px;
+		padding-left:5px;
+		padding-bottom:3px;
+		width:200px;
+	}
+	.left_panel_h2{
+		font-size:15px;
+		font-weight:bold;
+		color:black;
+	}
+	
+	
+/*=============================  ADD SKILL - PANEL =============================*/
+		
+	.add_skill_panel{
+		margin-left:20px;
+		width:250px;
+		float:left;
+	}	
+		
+		.add_skill_panel_body{
+			background-image: url('../images/mvp-1/left_panel_background_tile.png');
+			background-color: transparent;
+			background-repeat: repeat;
+			height:750px;
+		}
+			.add_skill_container{
+				height:15px;
+				margin:3px;
+			}
+			.add_skill_left{
+				width:180px;
+				height:15px;
+				text-align:left;
+				float:left;
+			}
+			.add_skill_right{
+				width:20px;
+				height:15px;
+				text-align:center;
+				float:right;
+			}
+			
+			.add_skill_container:hover{
+				height:15px;
+				margin:3px;
+				background-color:#B5D76B;
+				cursor:pointer;
+			}
+			
+	.add_skills_list {
+		height:400px;
+		overflow-y:scroll;
+		overflow-x:hidden;
+	}			
+
+/*=============================  LEFT PANEL =============================*/
+		
+	.left_panel{
+		margin-left:20px;
+		width:250px;
+		float:left;
+	}
+		
+		.left_panel_h2{
+			font-size:15px;
+			font-weight:bold;
+			color:black;
+		}
+		.left_panel_body{
+			background-image: url('../images/mvp-1/left_panel_background_tile.png');
+			background-color: transparent;
+			background-repeat: repeat;
+			height:750px;
+		}
+			.single_top_skill{
+				height:33px;
+				margin:5px;
+			}
+			.single_top_skill_container_left{
+				background-image: url('../images/mvp-1/top_skill_container_left.png');
+				background-color: transparent;
+				background-repeat: no-repeat;
+				width:5px;
+				height:33px;
+				float:left;
+			}
+			.single_top_skill_name{
+				background-image: url('../images/mvp-1/top_skill_container_body.png');
+				background-color: transparent;
+				background-repeat: repeat-x;
+				width:190px;
+				height:26px;
+				float:left;
+				font-size:15px;
+				color:black;
+				padding-left:5px;
+				padding-top:7px;
+			}
+			.single_top_skill_container_right{
+				background-image: url('../images/mvp-1/top_skill_container_right.png');
+				background-color: transparent;
+				background-repeat: no-repeat;
+				width:5px;
+				height:33px;
+				float:left;
+			}
+			
+			.single_additional_skill{
+				height:26px;
+				margin:2px 5px 2px 5px;
+			}
+				.additional_skill_container_left{
+					background-image: url('../images/mvp-1/additional_skill_container_left.png');
+					background-color: transparent;
+					background-repeat: no-repeat;
+					width:3px;
+					height:26px;
+					float:left;
+				}
+				.single_additional_skill_name{
+					background-image: url('../images/mvp-1/additional_skill_container_body.png');
+					background-color: transparent;
+					background-repeat: repeat-x;
+					height:21px;
+					font-size:13px;
+					color:black;
+					text-align:center;
+					padding-left:2px;
+					padding-top:5px;
+					float:left;
+				}
+				.additional_skill_container_right{
+					background-image: url('../images/mvp-1/additional_skill_container_right.png');
+					background-color: transparent;
+					background-repeat: no-repeat;
+					width:3px;
+					height:26px;
+					float:left;
+				}
+				
+			.additional_req_title{
+				margin-left:10px;
+				font-size:11px;
+				color:#AB9999;
+			}
+			.additional_req_name{
+				margin-left:10px;
+				font-size:13px;
+				color:#160000;
+			}
+			
+	.skills_profile_top_5 {
+		list-style-type: none;
+	}
+	
+	.skills_profile_additional {
+		list-style-type: none;
+	}
+			
+/*=============================  RIGHT PANEL =============================*/
+			
+	.right_panel{
+		margin-left:20px;
+		width:685px;
+		float:left;
+	}
+		.right_panel_body{
+			min-height:550px;
+		}
+		.right_panel_header{
+			border:1px solid #CFE1D6;
+			background-color:#E0FCE8;
+			min-height:100px;
+			overflow:hidden;
+		}
+			.right_panel_header_top{
+				min-height:100px;
+			}
+			.right_panel_header_top_left{
+				float:left;
+			}
+			.right_panel_header_top_left_position{
+				min-height:25px;
+				overflow:hidden;
+				width:500px;
+				text-align:left;
+				font-size:17px;
+			}
+			.right_panel_header_top_right{
+				float:right;
+				margin-right:10px;
+				font-size:11px;
+			}
+			
+		.right_panel_header_2{
+			min-height:75px;
+			overflow:hidden;
+			border-left:1px solid #CFE1D6;
+			border-right:1px solid #CFE1D6;
+			border-bottom:1px solid #CFE1D6;
+		}
+			.right_panel_header_top{
+				height:50px;
+			}
+			.right_panel_header_top_left_education{
+				min-height:25px;
+				overflow:hidden;
+				width:685px;
+				text-align:left;
+				font-size:13px;
+			}
+			
+		.cv_body{
+			width:685px;
+			margin-top:15px;
+		}
+			.cv_body_title_container{
+				width:685px;
+				border-bottom:1px solid #79B088;
+			}
+			.cv_body_title_text{
+				margin-left:20px;
+				padding-top:3px;
+				width:100px;
+				text-align:center;
+				background-color:#79B088;
+				height:25px;
+				font-size:17px;
+				color:white;
+			}
+			.cv_rows{
+				
+			}
+			.cv_row{
+				padding-top:15px;
+				min-height:75px;
+				overflow:hidden;
+			}
+			.cv_row_left{
+				float:left;
+				width:250px;
+				text-align:left;
+				min-height:75px;
+				overflow:hidden;
+			}
+				.cv_row_title{
+					font-size:19px;
+					text-align:left;
+				}
+				.cv_row_duration{
+					font-size:15px;
+					text-align:left;
+				}
+			.cv_row_right{
+				float:right;
+				width:435px;
+				text-align:right;
+				min-height:75px;
+				overflow:hidden;
+			}
+				.cv_row_company{
+					float:right;
+					text-align:right;
+					font-size:17px;
+				}
+
+.more_label{
+	font-size:11px;
+	color:#AB9999;
+}
+
+
+/*=============================  TEMPLATES =============================*/
+#template_job_seeker_result:hover {
+	background-color:#B5D76B;
+	cursor:pointer;
+}

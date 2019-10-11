@@ -1,0 +1,40 @@
+$(".db_entity_row div").bind('click', function(e) {
+	var user_id = $(this).parent().find("[id=user_id]").html().replace(/[^\d]/g, '');
+	//var job_obj = $(this).parent().find("[id=job_id]");
+	//var job_id = null;
+	
+	//if (job_obj) { job_id = $.trim(job_obj.html()); }
+	
+	if (user_id == "-") {
+		alert("No 'user_id' exists, can't use this profile!");
+	} else {
+		window.open(g_server_url + 'admin/' + user_id + '/clone_login');
+	}
+});
+
+//$(".job_title").bind('click', function(e) {
+//	var b = $( document.createElement('input') );
+//  		
+//	b.attr("type", "text");
+//	b.attr("id", "job_title");
+//	b.attr("style", "padding-left:5px;height:18px;border:1px solid lightgray;");
+//	
+//	b.css("width", parseInt($(this).css("width")) - 5 + "px");
+//	b.attr("orig_value", $(this).html());
+//	b.attr("value", $(this).html());
+//	    
+//    $(this).html(b);
+//    
+//    b.bind('keyup', function(e) {
+//		if (e.which == 13) {
+//			convert_input_to_yrsexp($(this));
+//			ajax_it("fs_profile_updated");
+//		} else if (e.which == 27) {
+//			$(this).attr("value", $(this).parents("[skill_yrsexp]").attr("skill_yrsexp"));
+//			convert_input_to_yrsexp($(this));
+//		}
+//	});
+//   
+//    b.select();
+//});
+

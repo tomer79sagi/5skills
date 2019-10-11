@@ -1,0 +1,130 @@
+<% content_for :head do %>
+	Recruiter | 5skills.me
+<% end %>
+
+<% content_for :title do %>
+	Job seeker
+<% end %>
+
+<div class="header" style="padding:0px;border:none;">
+	
+	<%= render :partial => '/fs_job/_recruiter_site_header' %>
+
+	<div id="job" job_id="" is_published="false" style="padding:5px;padding-left:10px;height:40px;background-color:#64AE64;border:none;">
+		<div id="img_logo" style="float:left;width:100px;margin-top:7px;margin-left:10px;">
+			<img src="" style="border:none;display:none;"/>
+		</div>
+		<div style="width:500px;float:left;">
+			<div id="header_title" style="margin-left:7px;margin-top:7px;width:390px;font-size:24px;float:left;font-style:italic;color:#fff;"></div>
+		</div>
+		
+		<div style="margin-top:4px;margin-left:15px;width:140px;font-size:12px;float:left;font-style:italic;text-align:left;color:gray;">
+			<button id="btn_publish" style="font-size:16px;width:140px;height:34px;background-color:#186118;color:#fff;border:2px solid #90C590;">Publish Job!</button>
+		</div>
+		
+		<div id="job_published_status" style="margin-left:10px;margin-top:3px;width:100px;float:left;text-align:center;">
+			<div style="font-size:18px;color:#000;">Saved</div>
+			<div style="margin-top:-2px;font-size:11px;font-style:italic;color:#D3E8D3;">2 days ago</div>
+		</div>
+		
+		<div id="job_published_status" style="margin-top:3px;width:100px;float:left;text-align:center;">
+			<div style="font-size:18px;color:#fff;">Published</div>
+			<div style="margin-top:-2px;font-size:11px;font-style:italic;color:#D3E8D3;">2 days ago</div>
+		</div>
+		
+		<div id="job_update_status" style="background-color:yellow;display:none;text-align:center;padding-left:30px;padding-top:3px;margin-top:10px;margin-left:25px;height:20px;width:100px;font-size:12px;float:left;font-weight:bold;text-align:left;color:#000;"></div>
+	</div>
+</div>
+
+<!-- WEST - LEFT NAV -->
+
+<div id="workspace__left_nav" class="col1" style="padding:0px;text-align:center;border:none;border-right:1px solid #BDDCBD;"></div>
+
+
+<!-- CENTER --> 
+
+<div class="ui-layout-center col234" style="padding:0px;border:none;">
+	
+	<!-- WEST : Select skills from list -->
+	
+	<div class="col2" style="background-color:#D3E8D3;border:none;padding:0px 0px 0px 4px;">
+
+		<div class="" style="margin-left:0px;padding-left:0px;padding-top:9px;width:297px;float:left;">
+			
+			<%= render :partial => '/js/html_template/__fs_profile/_fs_profile_choose_skills' %>
+			
+		</div>
+	</div>
+	
+	
+	<!-- CENTER -->
+	
+	<div class="ui-layout-center col3" style="width:300px;border:none;padding:0px;"> 
+		
+		
+		<!-- WEST : 5skills profile -->
+		
+		<div id="workspace__left_fs_profile" class="aa" style="width:300px;border:none;background-color:#D3E8D3;"></div>
+		
+		
+		<!-- CENTER : Search results -->
+		
+		<div class="ui-layout-center bb" style="border:none;background-color:#E9F3E9;"></div>
+		
+		
+		<!-- EAST: MATCH - 5skills profile -->
+		
+		<div class="cc" style="width:300px;border:none;background-color:#D3E8D3;">
+			
+			<div style="width:260px;float:left;">
+				
+				<div style="width:270px;">
+	
+					<div style="margin-left:20px;margin-top:3px;">
+						
+						<% if @job_application %>
+						
+							<div style="font-size:24px;height:36px;">
+								<span style="font-size:24px;font-weight:bold;">Your</span> profile
+							</div>
+							<div style="font-size:12px;color:gray;font-style:italic;">
+								This is the profile you applied with to this job
+							</div>
+							
+						<% else %>
+						
+							<div style="font-size:24px;height:36px;">
+								<span style="font-size:24px;font-weight:bold;">Choose</span> your top skills
+							</div>
+							<div style="font-size:12px;color:gray;font-style:italic;">
+								Click and type in your skills, select number of years and re-order the list
+							</div>
+							
+						<% end %>
+						
+					</div>
+					
+					<%= render :partial => '/js/html_template/__fs_profile/_fs_profile' %>
+					
+				</div>
+				
+			</div>
+			
+		</div>
+		
+	</div>
+</div>
+
+<!-- EAST : Statistics -->
+
+<div id="panel__stats" class="col5" style="padding:0px;border:none;text-align:center;border-left:1px solid #BDDCBD;">
+	<div id="total_job_seekers" style="font-size:36px;font-weight:bold;">
+		?
+	</div>
+	<div style="font-size:16px;font-weight:normal;">
+		Job seekers found
+	</div>
+</div>
+
+
+

@@ -1,0 +1,105 @@
+<% content_for :head do %>
+	<title>FLYC: Magic</title>
+<% end %>
+
+<% content_for :title do %>
+	<span class="content-title">Parse Site</span>
+<% end %>
+
+<% content_for :bread_crumbs do %>
+	
+<% end %>
+
+<%= render :partial => '/main/messages', :locals => {:action => "general"} %>
+
+<div style="text-align:left;">
+
+<p style="font-size:10pt;">Welcome to Flyc's magic bookmarker!</p>
+
+Site deteceted: <b><%= @site_detected %></b><br/>
+
+<br/>
+
+Please ensure this page is a job ad page!
+
+<br/>
+<hr/>
+
+<b><u>Job Details</u></b>
+
+<br/>
+
+<% form_tag({:action => :dox, :controller => :bookmarklet}) do %>
+
+<table>
+	<tr>
+		<td>
+			<b>Title</b>:			
+		</td>
+		<td>
+			<input type="text" size="30">			
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Salary:
+		</td>
+		<td>
+			<input type="text">
+		</td>
+	</tr>
+	<tr>
+		<td>
+			Location:			
+		</td>
+		<td>
+			<input type="text">			
+		</td>
+	</tr>
+</table>
+
+<hr/>
+
+<b><u>Job Action</u></b><br/>
+
+Action: <input type="text"><br/>
+When: 
+<select>
+	<option value="0">- Specific Date -</option>
+	<option value="1">Today</option>
+	<option value="2">Tomorrow</option>
+	<option value="3">In 2 days</option>
+	<option value="3">Next week</option>
+	<option value="3">In 2 weeks</option>
+</select> OR
+Date: <input type="text" size="10"><br/>
+
+<br/>
+
+<hr/>
+
+<script type="text/javascript">
+	function test() {
+		try{
+	      alert('tomer');
+		  
+		  alert(document.frames.length);
+			//var iframe = parent.document.getElementById("flycframe");
+			//var iframe = document.parentWindow;
+			//var iframe = window;
+			//parent.blah();
+			
+			//alert(parent.location.href);
+			//window.document.location.href = 'http://www.gmail.com/';
+    	} catch(e){ var ee = e.message || 0; alert('Error: \n\n'+e+'\n'+ee); }
+
+	}
+</script>
+
+<a href="/" onClick="test();return false;">Test</a>
+	
+	<%= submit_tag 'Send Message', :name => "send_message" %>
+	
+<% end %>
+
+</div>
